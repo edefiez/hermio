@@ -119,7 +119,7 @@ As a developer, I need translation system configured with English and French loc
 
 ### Functional Requirements
 
-- **FR-001**: System MUST run Symfony 8 with PHP 8.2 or higher
+- **FR-001**: System MUST run Symfony 8 with PHP 8.4 or higher
 - **FR-002**: System MUST include Twig templating engine with base layout structure
 - **FR-003**: System MUST use Webpack Encore as the exclusive asset compilation tool
 - **FR-004**: System MUST provide standard Symfony directory structure (src/, config/, templates/, assets/, public/, var/)
@@ -161,7 +161,7 @@ No domain entities are involved in this infrastructure feature.
 
 ## Assumptions
 
-- PHP 8.2+ is available in the development environment
+- PHP 8.4+ is available in the development environment
 - Composer is globally installed
 - Node.js 18+ and npm are available
 - Developer has basic familiarity with Symfony conventions

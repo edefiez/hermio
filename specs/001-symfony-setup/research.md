@@ -12,19 +12,19 @@ This research document consolidates technology decisions for the Symfony 8 infra
 
 ### Decision 1: PHP Version
 
-**Decision**: PHP 8.2+
+**Decision**: PHP 8.4+
 
 **Rationale**:
-- Symfony 8 requires PHP 8.2 minimum
-- PHP 8.2 provides improved performance and type system enhancements
+- Symfony 8 requires PHP 8.4 minimum
+- PHP 8.4 provides improved performance and type system enhancements
 - Long-term support until December 2025
 - Better compatibility with modern Symfony features
 
 **Alternatives Considered**:
 - PHP 8.1: Not supported by Symfony 8
-- PHP 8.3+: Future versions, but 8.2 is stable baseline
+- PHP 8.4+: Future versions, but 8.2 is stable baseline
 
-**Constitutional Reference**: Mandated by constitution Section 1 (Symfony 8 requires PHP 8.2+)
+**Constitutional Reference**: Mandated by constitution Section 1 (Symfony 8 requires PHP 8.4+)
 
 ---
 
@@ -34,7 +34,7 @@ This research document consolidates technology decisions for the Symfony 8 infra
 
 **Rationale**:
 - Latest version with modern features
-- Full compatibility with PHP 8.2+
+- Full compatibility with PHP 8.4+
 - Best-in-class Doctrine ORM 3.x integration
 - Comprehensive security components
 

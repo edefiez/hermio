@@ -8,7 +8,7 @@
 
 Before starting, ensure you have:
 
-- **PHP 8.2+** installed
+- **PHP 8.4+** installed
 - **Composer 2.x** installed globally
 - **Node.js 18+** and npm
 - **Docker Desktop** (optional but recommended)

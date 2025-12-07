@@ -123,7 +123,7 @@ This setup enables all future business features to be built on a solid, standard
 ### Research Decisions (from research.md)
 
 ✅ **All technology choices align with constitution**:
-- PHP 8.2+ (Section 1 requirement)
+- PHP 8.4+ (Section 1 requirement)
 - Symfony 8.0 (Section 1 requirement)
 - Twig 3.x (Section 2 requirement)
 - Webpack Encore 5.x (Section 2 requirement)
