@@ -23,7 +23,7 @@ services:
       context: .
       dockerfile: devops/docker/nginx/Dockerfile
     volumes:
-      - ./:/app:cached
+      - ./app:/app:cached
     ports:
       - "8000:80"
     depends_on:
