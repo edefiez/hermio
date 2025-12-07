@@ -1,0 +1,81 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: devops/docker/app/Dockerfile
+    volumes:
+      - ./app:/app:cached
+      - app_var:/app/var
+    environment:
+      APP_ENV: dev
+      APP_DEBUG: 1
+      DATABASE_URL: mysql://symfony:symfony@db:3306/dashinvoice?serverVersion=mariadb-11.4.3
+      REDIS_DSN: redis://redis:6379/0
+      MESSENGER_TRANSPORT_DSN: redis://redis:6379/messages
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_started
+
+  nginx:
+    build:
+      context: .
+      dockerfile: devops/docker/nginx/Dockerfile
+    volumes:
+      - ./:/app:cached
+    ports:
+      - "8000:80"
+    depends_on:
+      - app
+
+  db:
+    image: mariadb:11.4
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: azerty
+      MYSQL_DATABASE: dashinvoice
+      MYSQL_USER: symfony
+      MYSQL_PASSWORD: symfony
+    volumes:
+      - mariadb_data:/var/lib/mysql
+    ports:
+      - "33061:3306"
+    healthcheck:
+      test: ["CMD", "mariadb-admin", "ping", "-h", "localhost", "-uroot", "-pazerty"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:alpine
+    command: ["redis-server", "--save", "", "--appendonly", "no"]
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+
+  phpmyadmin:
+    image: phpmyadmin:latest
+    depends_on:
+      - db
+    ports:
+      - "8081:80"
+    environment:
+      PMA_HOST: db
+      PMA_USER: root
+      PMA_PASSWORD: azerty
+      UPLOAD_LIMIT: 100M              # ✅ augmente la limite d’upload
+      MEMORY_LIMIT: 256M              # (optionnel)
+      POST_MAX_SIZE: 100M             # (optionnel)
+
+  mailcatcher:
+    image: dockage/mailcatcher
+    ports:
+      - "1080:1080"
+      - "1025:1025"
+
+volumes:
+  app_var:
+  mariadb_data:
+  redis_data:

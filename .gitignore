@@ -1,0 +1,11 @@
+/vendor/
+/var/
+/.phpunit.result.cache
+/.env.local
+/.env.*.local
+/node_modules/
+/public/build/
+/docker-compose.override.yml
+/.idea/
+/.vscode/
+.DS_Store
