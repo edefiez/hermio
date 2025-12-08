@@ -1,0 +1,81 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ 'admin.account.list'|trans }} - Hermio{% endblock %}
+
+{% block body %}
+<div class="profile-container">
+    <h1>{{ 'admin.account.list'|trans }}</h1>
+
+    <div class="profile-card">
+        <h2>{{ 'admin.account.statistics'|trans }}</h2>
+        <div class="profile-info">
+            <dl>
+                <dt>{{ 'admin.account.total_users'|trans }}</dt>
+                <dd><strong>{{ totalUsers }}</strong></dd>
+                
+                <dt>{{ 'admin.account.plan_counts'|trans }}</dt>
+                <dd>
+                    Free: <strong>{{ planCounts.free }}</strong> | 
+                    Pro: <strong>{{ planCounts.pro }}</strong> | 
+                    Enterprise: <strong>{{ planCounts.enterprise }}</strong>
+                </dd>
+            </dl>
+        </div>
+    </div>
+
+    <div class="profile-card">
+        <h2>{{ 'admin.account.filter'|trans }}</h2>
+        <div style="margin-bottom: 20px;">
+            <a href="{{ path('app_admin_account_index') }}" class="btn btn-{{ currentFilter is null ? 'primary' : 'secondary' }}">
+                {{ 'admin.account.all'|trans }}
+            </a>
+            <a href="{{ path('app_admin_account_index', {plan: 'free'}) }}" class="btn btn-{{ currentFilter == 'free' ? 'primary' : 'secondary' }}">
+                Free
+            </a>
+            <a href="{{ path('app_admin_account_index', {plan: 'pro'}) }}" class="btn btn-{{ currentFilter == 'pro' ? 'primary' : 'secondary' }}">
+                Pro
+            </a>
+            <a href="{{ path('app_admin_account_index', {plan: 'enterprise'}) }}" class="btn btn-{{ currentFilter == 'enterprise' ? 'primary' : 'secondary' }}">
+                Enterprise
+            </a>
+        </div>
+    </div>
+
+    <div class="profile-card">
+        <h2>{{ 'admin.account.accounts'|trans }}</h2>
+        {% if accounts|length > 0 %}
+        <table class="activity-table">
+            <thead>
+                <tr>
+                    <th>{{ 'admin.account.user_email'|trans }}</th>
+                    <th>{{ 'admin.account.plan'|trans }}</th>
+                    <th>{{ 'admin.account.created'|trans }}</th>
+                    <th>{{ 'admin.account.actions'|trans }}</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for account in accounts %}
+                <tr>
+                    <td>{{ account.user.email }}</td>
+                    <td>
+                        <span class="badge badge-{{ account.planType == constant('App\\Enum\\PlanType::FREE') ? 'warning' : (account.planType == constant('App\\Enum\\PlanType::PRO') ? 'success' : 'primary') }}">
+                            {{ account.planType.getDisplayName() }}
+                        </span>
+                    </td>
+                    <td>{{ account.createdAt|date('Y-m-d H:i') }}</td>
+                    <td>
+                        <a href="{{ path('app_admin_account_show', {id: account.id}) }}" class="btn btn-primary" style="padding: 5px 10px; font-size: 14px;">
+                            {{ 'admin.account.view'|trans }}
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <p>{{ 'admin.account.no_accounts'|trans }}</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
+
