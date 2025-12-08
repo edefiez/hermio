@@ -9,7 +9,7 @@ services:
     environment:
       APP_ENV: dev
       APP_DEBUG: 1
-      DATABASE_URL: mysql://symfony:symfony@db:3306/dashinvoice?serverVersion=mariadb-11.4.3
+      DATABASE_URL: mysql://root:azerty@db:3306/hermio?serverVersion=mariadb-11.4.3
       REDIS_DSN: redis://redis:6379/0
       MESSENGER_TRANSPORT_DSN: redis://redis:6379/messages
     depends_on:
