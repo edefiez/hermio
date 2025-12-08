@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Home - Hermio{% endblock %}
+
+{% block body %}
+<div class="home-container">
+    <div class="hero">
+        <h1>Welcome to Hermio</h1>
+        {% if user %}
+            <p>Hello, {{ user.email }}!</p>
+            <p>You are successfully logged in.</p>
+            <div class="cta-buttons">
+                <a href="{{ path('app_profile') }}" class="btn btn-primary">View Profile</a>
+            </div>
+        {% else %}
+            <p>Your authentication system is ready.</p>
+            <div class="cta-buttons">
+                <a href="{{ path('app_register') }}" class="btn btn-primary">Get Started</a>
+                <a href="{{ path('app_login') }}" class="btn btn-secondary">Login</a>
+            </div>
+        {% endif %}
+    </div>
+
+    <div class="features">
+        <h2>Features</h2>
+        <div class="feature-grid">
+            <div class="feature-card">
+                <h3>🔐 Secure Authentication</h3>
+                <p>Industry-standard password hashing and security</p>
+            </div>
+            <div class="feature-card">
+                <h3>✉️ Email Verification</h3>
+                <p>Confirm user emails with secure tokens</p>
+            </div>
+            <div class="feature-card">
+                <h3>🔑 Password Reset</h3>
+                <p>Secure password recovery via email</p>
+            </div>
+            <div class="feature-card">
+                <h3>📊 Activity Logs</h3>
+                <p>Track authentication events and security</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,78 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Profile - Hermio{% endblock %}
+
+{% block body %}
+<div class="profile-container">
+    <h1>Your Profile</h1>
+
+    <div class="profile-card">
+        <div class="profile-info">
+            <h2>Account Information</h2>
+            <dl>
+                <dt>Email:</dt>
+                <dd>{{ user.email }}</dd>
+
+                <dt>Status:</dt>
+                <dd>
+                    <span class="badge badge-{{ user.status == 'active' ? 'success' : 'warning' }}">
+                        {{ user.status|upper }}
+                    </span>
+                </dd>
+
+                <dt>Email Verified:</dt>
+                <dd>
+                    {% if user.isEmailVerified %}
+                        <span class="badge badge-success">✓ Verified</span>
+                    {% else %}
+                        <span class="badge badge-warning">✗ Not Verified</span>
+                    {% endif %}
+                </dd>
+
+                <dt>Member Since:</dt>
+                <dd>{{ user.createdAt|date('F j, Y') }}</dd>
+
+                {% if user.lastLoginAt %}
+                    <dt>Last Login:</dt>
+                    <dd>{{ user.lastLoginAt|date('F j, Y g:i A') }}</dd>
+                {% endif %}
+            </dl>
+        </div>
+    </div>
+
+    {% if activity_logs|length > 0 %}
+    <div class="activity-card">
+        <h2>Recent Activity</h2>
+        <table class="activity-table">
+            <thead>
+                <tr>
+                    <th>Event</th>
+                    <th>Date/Time</th>
+                    <th>IP Address</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for log in activity_logs %}
+                <tr>
+                    <td>{{ log.eventType|replace({'_': ' '})|title }}</td>
+                    <td>{{ log.timestamp|date('M j, Y g:i A') }}</td>
+                    <td>{{ log.ipAddress }}</td>
+                    <td>
+                        <span class="badge badge-{{ log.successful ? 'success' : 'danger' }}">
+                            {{ log.successful ? 'Success' : 'Failed' }}
+                        </span>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% endif %}
+
+    <div class="profile-actions">
+        <a href="#" class="btn btn-secondary">Change Password</a>
+        <a href="#" class="btn btn-secondary">Update Email</a>
+    </div>
+</div>
+{% endblock %}
