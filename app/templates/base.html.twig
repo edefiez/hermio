@@ -70,6 +70,11 @@
                 <a href="{{ path('app_home') }}" class="navbar-brand">Hermio</a>
                 <div class="navbar-menu">
                     {% if is_granted('ROLE_USER') %}
+                        <a href="{{ path('app_account_index') }}" class="nav-link">{{ 'account.management.title'|trans }}</a>
+                        <a href="{{ path('app_account_my_plan') }}" class="nav-link">{{ 'account.my_plan.title'|trans }}</a>
+                        {% if is_granted('ROLE_ADMIN') %}
+                            <a href="{{ path('app_admin_account_index') }}" class="nav-link">{{ 'admin.account.list'|trans }}</a>
+                        {% endif %}
                         <a href="{{ path('app_profile') }}" class="nav-link">Profile</a>
                         <a href="{{ path('app_logout') }}" class="nav-link">Logout</a>
                     {% else %}

@@ -13,7 +13,8 @@ class UserRegistrationService
         private EntityManagerInterface $entityManager,
         private UserRepository $userRepository,
         private UserPasswordHasherInterface $passwordHasher,
-        private EmailVerificationService $emailVerificationService
+        private EmailVerificationService $emailVerificationService,
+        private AccountService $accountService
     ) {
     }
 
@@ -35,6 +36,11 @@ class UserRegistrationService
         $user->setPassword($hashedPassword);
         
         $this->entityManager->persist($user);
+        $this->entityManager->flush();
+        
+        // Create default account with FREE plan
+        $account = $this->accountService->createDefaultAccount($user);
+        $user->setAccount($account);
         $this->entityManager->flush();
         
         return $user;
