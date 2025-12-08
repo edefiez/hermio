@@ -34,7 +34,7 @@ services:
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: azerty
-      MYSQL_DATABASE: dashinvoice
+      MYSQL_DATABASE: hermio
       MYSQL_USER: symfony
       MYSQL_PASSWORD: symfony
     volumes:
