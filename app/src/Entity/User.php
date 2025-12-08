@@ -55,6 +55,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(targetEntity: AuthenticationLog::class, mappedBy: 'user')]
     private Collection $authenticationLogs;
 
+    #[ORM\OneToOne(targetEntity: Account::class, mappedBy: 'user', cascade: ['persist', 'remove'])]
+    private ?Account $account = null;
+
     public function __construct()
     {
         $this->emailVerificationTokens = new ArrayCollection();
@@ -269,6 +272,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             }
         }
 
+        return $this;
+    }
+
+    public function getAccount(): ?Account
+    {
+        return $this->account;
+    }
+
+    public function setAccount(Account $account): static
+    {
+        $this->account = $account;
+        $account->setUser($this);
         return $this;
     }
 }

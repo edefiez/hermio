@@ -1,0 +1,59 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ 'account.my_plan.title'|trans }} - Hermio{% endblock %}
+
+{% block body %}
+<div class="profile-container">
+    <div class="profile-card">
+        <h1>{{ 'account.my_plan.title'|trans }}</h1>
+        
+        <div class="profile-info">
+            <dl>
+                <dt>{{ 'account.plan.type'|trans }}</dt>
+                <dd>
+                    <strong>{{ planType.getDisplayName() }}</strong>
+                    <span class="badge badge-{{ planType == constant('App\\Enum\\PlanType::FREE') ? 'warning' : (planType == constant('App\\Enum\\PlanType::PRO') ? 'success' : 'primary') }}">
+                        {{ planType.value }}
+                    </span>
+                </dd>
+                
+                <dt>{{ 'account.quota.limit'|trans }}</dt>
+                <dd>
+                    {% if isUnlimited %}
+                        <strong>{{ 'account.quota.unlimited'|trans }}</strong>
+                    {% else %}
+                        {{ quotaLimit }} {{ 'account.quota.cards'|trans }}
+                    {% endif %}
+                </dd>
+                
+                <dt>{{ 'account.quota.usage'|trans }}</dt>
+                <dd>
+                    <strong>{{ currentUsage }}</strong> {{ 'account.quota.cards'|trans }}
+                    {% if not isUnlimited and quotaLimit %}
+                        {% set percentage = (currentUsage / quotaLimit * 100)|round %}
+                        <div style="margin-top: 10px;">
+                            <div style="background-color: #e9ecef; border-radius: 4px; height: 20px; overflow: hidden;">
+                                <div style="background-color: {{ percentage >= 100 ? '#dc3545' : (percentage >= 80 ? '#ffc107' : '#28a745') }}; height: 100%; width: {{ percentage }}%; transition: width 0.3s;"></div>
+                            </div>
+                            <small style="color: #666;">{{ percentage }}% {{ 'account.quota.used'|trans }}</small>
+                        </div>
+                    {% endif %}
+                </dd>
+                
+                <dt>{{ 'account.plan.activated'|trans }}</dt>
+                <dd>{{ account.createdAt|date('Y-m-d H:i:s') }}</dd>
+                
+                {% if account.updatedAt %}
+                <dt>{{ 'account.plan.last_modified'|trans }}</dt>
+                <dd>{{ account.updatedAt|date('Y-m-d H:i:s') }}</dd>
+                {% endif %}
+            </dl>
+        </div>
+        
+        <div style="margin-top: 30px;">
+            <a href="{{ path('app_account_index') }}" class="btn btn-secondary">{{ 'account.back_to_account'|trans }}</a>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
