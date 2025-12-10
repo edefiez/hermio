@@ -1,3 +1,114 @@
+home:
+  meta:
+    title: "Hermio - Create and Share Your Digital Business Cards via QR Code"
+    description: "Hermio allows you to easily create professional digital business cards and share them via QR code. Perfect for professionals, teams, and businesses."
+  hero:
+    title: "Your Digital Business Card, Always with You"
+    subtitle: "Create, customize, and share your professional business card with a simple QR code. Simple, modern, and effective."
+    cta_primary: "Create my card"
+    cta_secondary: "Learn more"
+  how_it_works:
+    title: "How it works"
+    subtitle: "Create your professional card in 3 simple steps"
+    step1:
+      title: "Create your card"
+      description: "Fill in your professional information: name, email, phone, social networks, and more."
+    step2:
+      title: "Customize your style"
+      description: "Add your logo, choose your brand colors to reflect your professional identity."
+    step3:
+      title: "Share via QR code"
+      description: "Generate your unique QR code and share it on your materials: paper card, email, website, social media."
+  features:
+    title: "Everything you need"
+    subtitle: "Features designed for modern professionals"
+    digital_card:
+      title: "🎴 Digital business card"
+      description: "Create an elegant and responsive professional card, accessible from any device."
+    qr_code:
+      title: "📱 QR code generator"
+      description: "Get a unique QR code for each card, ready to be printed or shared digitally."
+    multilingual:
+      title: "🌍 Multilingual profiles"
+      description: "Your cards display in French and English based on your visitors' language."
+    branding:
+      title: "🎨 Custom branding"
+      description: "Add your logo and brand colors for a consistent image (Pro & Enterprise)."
+    analytics:
+      title: "📊 Scan statistics"
+      description: "Track how many times your QR code is scanned and measure your impact."
+    team:
+      title: "👥 Team management"
+      description: "Manage all your team's cards in one place (Enterprise only)."
+  pricing:
+    title: "Simple and transparent pricing"
+    subtitle: "Choose the plan that fits your needs"
+    cta: "See all pricing"
+    free:
+      name: "Free"
+      price: "$0"
+      period: "forever"
+      feature1: "1 digital business card"
+      feature2: "QR code included"
+      feature3: "Community support"
+      cta: "Start for free"
+    pro:
+      name: "Pro"
+      price: "$9"
+      period: "per month"
+      badge: "Popular"
+      feature1: "10 business cards"
+      feature2: "Custom branding"
+      feature3: "Advanced analytics"
+      feature4: "Priority support"
+      cta: "Try Pro"
+    enterprise:
+      name: "Enterprise"
+      price: "$29"
+      period: "per month"
+      feature1: "Unlimited cards"
+      feature2: "Team management"
+      feature3: "Custom templates"
+      feature4: "Dedicated support"
+      feature5: "API integration"
+      cta: "Contact sales"
+  faq:
+    title: "Frequently Asked Questions"
+    subtitle: "Everything you need to know about Hermio"
+    q1:
+      question: "Is my data secure?"
+      answer: "Absolutely. We use the latest security standards to protect your data. All connections are encrypted via HTTPS and your information is stored securely in certified data centers."
+    q2:
+      question: "How do I share my QR code?"
+      answer: "Once your card is created, you can download your QR code in high resolution. Print it on your paper business cards, add it to your email signature, or share it directly on social media."
+    q3:
+      question: "What's the difference between free and paid?"
+      answer: "The free plan allows you to create 1 card with basic features. Paid plans offer more cards, custom branding, advanced statistics, and for Enterprise, complete team management."
+    q4:
+      question: "What languages are supported?"
+      answer: "Your business cards are automatically available in French and English. The interface automatically adapts to your visitors' browser language for an optimal experience."
+    q5:
+      question: "Is it mobile compatible?"
+      answer: "Yes, completely! Your business cards are fully responsive and display perfectly on all devices: smartphones, tablets, and computers. QR code scanning works with any scanning app."
+    q6:
+      question: "Can I manage my team's cards?"
+      answer: "Yes, with the Enterprise plan. You can invite team members, manage their cards, and control access. Perfect for companies wanting to centralize their digital business card management."
+  footer:
+    about: "About"
+    about_description: "Hermio is the modern solution for creating and sharing your digital business cards via QR code. Ideal for professionals, teams, and businesses."
+    product: "Product"
+    features: "Features"
+    pricing: "Pricing"
+    enterprise: "Enterprise"
+    support: "Support"
+    help: "Help"
+    contact: "Contact"
+    legal: "Legal"
+    privacy: "Privacy"
+    terms: "Terms of Service"
+    copyright: "© %year% Hermio. All rights reserved."
+    social_title: "Follow us"
+
 account:
   my_plan:
     title: "My Subscription Plan"

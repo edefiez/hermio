@@ -1,46 +1,256 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Home - Hermio{% endblock %}
+{% set currentLocale = app.request.locale %}
+
+{% block title %}{{ 'home.meta.title'|trans }}{% endblock %}
+
+{% block head %}
+    <meta name="description" content="{{ 'home.meta.description'|trans }}">
+    
+    {# Open Graph tags #}
+    <meta property="og:title" content="{{ 'home.meta.title'|trans }}">
+    <meta property="og:description" content="{{ 'home.meta.description'|trans }}">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{{ url('app_home') }}">
+    <meta property="og:locale" content="{{ currentLocale == 'fr' ? 'fr_FR' : 'en_US' }}">
+    
+    {# JSON-LD Structured Data #}
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "name": "Hermio",
+        "url": "{{ url('app_home') }}",
+        "description": "{{ 'home.meta.description'|trans|e('js') }}",
+        "sameAs": []
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "name": "Hermio",
+        "url": "{{ url('app_home') }}",
+        "potentialAction": {
+            "@type": "SearchAction",
+            "target": "{{ url('app_home') }}?q={search_term_string}",
+            "query-input": "required name=search_term_string"
+        }
+    }
+    </script>
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('home') }}
+{% endblock %}
 
 {% block body %}
-<div class="home-container">
-    <div class="hero">
-        <h1>Welcome to Hermio</h1>
-        {% if user %}
-            <p>Hello, {{ user.email }}!</p>
-            <p>You are successfully logged in.</p>
-            <div class="cta-buttons">
-                <a href="{{ path('app_profile') }}" class="btn btn-primary">View Profile</a>
-            </div>
-        {% else %}
-            <p>Your authentication system is ready.</p>
-            <div class="cta-buttons">
-                <a href="{{ path('app_register') }}" class="btn btn-primary">Get Started</a>
-                <a href="{{ path('app_login') }}" class="btn btn-secondary">Login</a>
-            </div>
-        {% endif %}
-    </div>
-
-    <div class="features">
-        <h2>Features</h2>
-        <div class="feature-grid">
-            <div class="feature-card">
-                <h3>🔐 Secure Authentication</h3>
-                <p>Industry-standard password hashing and security</p>
-            </div>
-            <div class="feature-card">
-                <h3>✉️ Email Verification</h3>
-                <p>Confirm user emails with secure tokens</p>
-            </div>
-            <div class="feature-card">
-                <h3>🔑 Password Reset</h3>
-                <p>Secure password recovery via email</p>
-            </div>
-            <div class="feature-card">
-                <h3>📊 Activity Logs</h3>
-                <p>Track authentication events and security</p>
+<div class="home-page">
+    {# Hero Section #}
+    <section class="hero-section" id="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1>{{ 'home.hero.title'|trans }}</h1>
+                <p class="hero-subtitle">{{ 'home.hero.subtitle'|trans }}</p>
+                <div class="cta-buttons">
+                    <a href="{{ path('app_register') }}" class="btn btn-primary">{{ 'home.hero.cta_primary'|trans }}</a>
+                    <a href="#how-it-works" class="btn btn-secondary">{{ 'home.hero.cta_secondary'|trans }}</a>
+                </div>
             </div>
         </div>
-    </div>
+    </section>
+
+    {# How It Works Section #}
+    <section class="section" id="how-it-works">
+        <div class="container">
+            <h2 class="section-title">{{ 'home.how_it_works.title'|trans }}</h2>
+            <p class="section-subtitle">{{ 'home.how_it_works.subtitle'|trans }}</p>
+            <div class="steps-grid">
+                <div class="step-card">
+                    <div class="step-number">1</div>
+                    <h3>{{ 'home.how_it_works.step1.title'|trans }}</h3>
+                    <p>{{ 'home.how_it_works.step1.description'|trans }}</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-number">2</div>
+                    <h3>{{ 'home.how_it_works.step2.title'|trans }}</h3>
+                    <p>{{ 'home.how_it_works.step2.description'|trans }}</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-number">3</div>
+                    <h3>{{ 'home.how_it_works.step3.title'|trans }}</h3>
+                    <p>{{ 'home.how_it_works.step3.description'|trans }}</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    {# Features Section #}
+    <section class="section section-light" id="features">
+        <div class="container">
+            <h2 class="section-title">{{ 'home.features.title'|trans }}</h2>
+            <p class="section-subtitle">{{ 'home.features.subtitle'|trans }}</p>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <span class="feature-icon">🎴</span>
+                    <h3>{{ 'home.features.digital_card.title'|trans|raw }}</h3>
+                    <p>{{ 'home.features.digital_card.description'|trans }}</p>
+                </div>
+                <div class="feature-card">
+                    <span class="feature-icon">📱</span>
+                    <h3>{{ 'home.features.qr_code.title'|trans|raw }}</h3>
+                    <p>{{ 'home.features.qr_code.description'|trans }}</p>
+                </div>
+                <div class="feature-card">
+                    <span class="feature-icon">🌍</span>
+                    <h3>{{ 'home.features.multilingual.title'|trans|raw }}</h3>
+                    <p>{{ 'home.features.multilingual.description'|trans }}</p>
+                </div>
+                <div class="feature-card">
+                    <span class="feature-icon">🎨</span>
+                    <h3>{{ 'home.features.branding.title'|trans|raw }}</h3>
+                    <p>{{ 'home.features.branding.description'|trans }}</p>
+                </div>
+                <div class="feature-card">
+                    <span class="feature-icon">📊</span>
+                    <h3>{{ 'home.features.analytics.title'|trans|raw }}</h3>
+                    <p>{{ 'home.features.analytics.description'|trans }}</p>
+                </div>
+                <div class="feature-card">
+                    <span class="feature-icon">👥</span>
+                    <h3>{{ 'home.features.team.title'|trans|raw }}</h3>
+                    <p>{{ 'home.features.team.description'|trans }}</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    {# Pricing Section #}
+    <section class="section" id="pricing">
+        <div class="container">
+            <h2 class="section-title">{{ 'home.pricing.title'|trans }}</h2>
+            <p class="section-subtitle">{{ 'home.pricing.subtitle'|trans }}</p>
+            <div class="pricing-grid">
+                <div class="pricing-card">
+                    <div class="plan-name">{{ 'home.pricing.free.name'|trans }}</div>
+                    <div class="plan-price">{{ 'home.pricing.free.price'|trans }} <span>{{ 'home.pricing.free.period'|trans }}</span></div>
+                    <ul class="plan-features">
+                        <li>{{ 'home.pricing.free.feature1'|trans }}</li>
+                        <li>{{ 'home.pricing.free.feature2'|trans }}</li>
+                        <li>{{ 'home.pricing.free.feature3'|trans }}</li>
+                    </ul>
+                    <a href="{{ path('app_register') }}" class="btn btn-outline">{{ 'home.pricing.free.cta'|trans }}</a>
+                </div>
+                <div class="pricing-card featured">
+                    <span class="plan-badge">{{ 'home.pricing.pro.badge'|trans }}</span>
+                    <div class="plan-name">{{ 'home.pricing.pro.name'|trans }}</div>
+                    <div class="plan-price">{{ 'home.pricing.pro.price'|trans }} <span>{{ 'home.pricing.pro.period'|trans }}</span></div>
+                    <ul class="plan-features">
+                        <li>{{ 'home.pricing.pro.feature1'|trans }}</li>
+                        <li>{{ 'home.pricing.pro.feature2'|trans }}</li>
+                        <li>{{ 'home.pricing.pro.feature3'|trans }}</li>
+                        <li>{{ 'home.pricing.pro.feature4'|trans }}</li>
+                    </ul>
+                    <a href="{{ path('app_register') }}" class="btn btn-primary">{{ 'home.pricing.pro.cta'|trans }}</a>
+                </div>
+                <div class="pricing-card">
+                    <div class="plan-name">{{ 'home.pricing.enterprise.name'|trans }}</div>
+                    <div class="plan-price">{{ 'home.pricing.enterprise.price'|trans }} <span>{{ 'home.pricing.enterprise.period'|trans }}</span></div>
+                    <ul class="plan-features">
+                        <li>{{ 'home.pricing.enterprise.feature1'|trans }}</li>
+                        <li>{{ 'home.pricing.enterprise.feature2'|trans }}</li>
+                        <li>{{ 'home.pricing.enterprise.feature3'|trans }}</li>
+                        <li>{{ 'home.pricing.enterprise.feature4'|trans }}</li>
+                        <li>{{ 'home.pricing.enterprise.feature5'|trans }}</li>
+                    </ul>
+                    <a href="{{ path('app_register') }}" class="btn btn-outline">{{ 'home.pricing.enterprise.cta'|trans }}</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    {# FAQ Section #}
+    <section class="section section-light" id="faq">
+        <div class="container">
+            <h2 class="section-title">{{ 'home.faq.title'|trans }}</h2>
+            <p class="section-subtitle">{{ 'home.faq.subtitle'|trans }}</p>
+            <div class="faq-container">
+                <div class="faq-item">
+                    <div class="faq-question">{{ 'home.faq.q1.question'|trans }}</div>
+                    <div class="faq-answer">{{ 'home.faq.q1.answer'|trans }}</div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">{{ 'home.faq.q2.question'|trans }}</div>
+                    <div class="faq-answer">{{ 'home.faq.q2.answer'|trans }}</div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">{{ 'home.faq.q3.question'|trans }}</div>
+                    <div class="faq-answer">{{ 'home.faq.q3.answer'|trans }}</div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">{{ 'home.faq.q4.question'|trans }}</div>
+                    <div class="faq-answer">{{ 'home.faq.q4.answer'|trans }}</div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">{{ 'home.faq.q5.question'|trans }}</div>
+                    <div class="faq-answer">{{ 'home.faq.q5.answer'|trans }}</div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">{{ 'home.faq.q6.question'|trans }}</div>
+                    <div class="faq-answer">{{ 'home.faq.q6.answer'|trans }}</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    {# Footer Section #}
+    <footer class="footer-section" id="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h4>Hermio</h4>
+                    <p>{{ 'home.footer.about_description'|trans }}</p>
+                    <div class="social-links">
+                        <a href="#" aria-label="Facebook">📘</a>
+                        <a href="#" aria-label="Twitter">🐦</a>
+                        <a href="#" aria-label="LinkedIn">💼</a>
+                        <a href="#" aria-label="Instagram">📷</a>
+                    </div>
+                </div>
+                <div class="footer-column">
+                    <h4>{{ 'home.footer.product'|trans }}</h4>
+                    <ul>
+                        <li><a href="#features">{{ 'home.footer.features'|trans }}</a></li>
+                        <li><a href="#pricing">{{ 'home.footer.pricing'|trans }}</a></li>
+                        <li><a href="#faq">FAQ</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>{{ 'home.footer.support'|trans }}</h4>
+                    <ul>
+                        <li><a href="#">{{ 'home.footer.help'|trans }}</a></li>
+                        <li><a href="#">{{ 'home.footer.contact'|trans }}</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>{{ 'home.footer.legal'|trans }}</h4>
+                    <ul>
+                        <li><a href="#">{{ 'home.footer.privacy'|trans }}</a></li>
+                        <li><a href="#">{{ 'home.footer.terms'|trans }}</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>{{ 'home.footer.copyright'|trans({'%year%': 'now'|date('Y')}) }}</p>
+            </div>
+        </div>
+    </footer>
 </div>
 {% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('home') }}
+{% endblock %}
+
