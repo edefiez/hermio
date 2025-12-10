@@ -1,0 +1,70 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ 'subscription.payments.title'|trans }} - Hermio{% endblock %}
+
+{% block body %}
+<div class="profile-container">
+    <div class="profile-card">
+        <h1>{{ 'subscription.payments.title'|trans }}</h1>
+        
+        {% if payments is empty %}
+        <div class="alert alert-info">
+            {{ 'subscription.payments.empty'|trans }}
+        </div>
+        {% else %}
+        <div style="overflow-x: auto;">
+            <table style="width: 100%; border-collapse: collapse; margin-top: 20px;">
+                <thead>
+                    <tr style="background-color: #f8f9fa; border-bottom: 2px solid #dee2e6;">
+                        <th style="padding: 12px; text-align: left;">{{ 'subscription.payment.date'|trans }}</th>
+                        <th style="padding: 12px; text-align: left;">{{ 'subscription.payment.amount'|trans }}</th>
+                        <th style="padding: 12px; text-align: left;">{{ 'subscription.payment.plan'|trans }}</th>
+                        <th style="padding: 12px; text-align: left;">{{ 'subscription.payment.status'|trans }}</th>
+                        <th style="padding: 12px; text-align: left;">{{ 'subscription.payment.id'|trans }}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for payment in payments %}
+                    <tr style="border-bottom: 1px solid #dee2e6;">
+                        <td style="padding: 12px;">
+                            {{ payment.paidAt|date('Y-m-d H:i:s') }}
+                        </td>
+                        <td style="padding: 12px;">
+                            <strong>{{ (payment.amount / 100)|number_format(2, '.', ' ') }} {{ payment.currency|upper }}</strong>
+                        </td>
+                        <td style="padding: 12px;">
+                            {% if payment.planType %}
+                                <span class="badge badge-{{ payment.planType == constant('App\\Enum\\PlanType::PRO') ? 'success' : 'primary' }}">
+                                    {{ payment.planType.getDisplayName() }}
+                                </span>
+                            {% else %}
+                                <span class="badge badge-secondary">-</span>
+                            {% endif %}
+                        </td>
+                        <td style="padding: 12px;">
+                            <span class="badge badge-{{ payment.status == 'succeeded' ? 'success' : 'danger' }}">
+                                {{ ('subscription.payment.status.' ~ payment.status)|trans }}
+                            </span>
+                        </td>
+                        <td style="padding: 12px;">
+                            <code style="font-size: 0.85em;">{{ payment.stripePaymentIntentId|slice(0, 20) }}...</code>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% endif %}
+        
+        <div style="margin-top: 30px;">
+            <a href="{{ path('app_subscription_manage') }}" class="btn btn-secondary">
+                {{ 'subscription.back_to_management'|trans }}
+            </a>
+            <a href="{{ path('app_account_my_plan') }}" class="btn btn-secondary">
+                {{ 'subscription.back_to_plan'|trans }}
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}
+

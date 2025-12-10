@@ -1,0 +1,150 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ 'admin.webhook.title'|trans }} - Hermio{% endblock %}
+
+{% block body %}
+<div class="profile-container">
+    <div class="profile-card">
+        <h1>{{ 'admin.webhook.title'|trans }}</h1>
+
+        <!-- Statistics -->
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-bottom: 30px;">
+            <div style="background-color: #f8f9fa; padding: 20px; border-radius: 8px;">
+                <h3 style="margin: 0 0 10px 0; font-size: 1.2rem;">{{ 'admin.webhook.stats.total'|trans }}</h3>
+                <p style="font-size: 2rem; margin: 0; font-weight: bold; color: #333;">{{ stats.total }}</p>
+            </div>
+            <div style="background-color: #d4edda; padding: 20px; border-radius: 8px;">
+                <h3 style="margin: 0 0 10px 0; font-size: 1.2rem;">{{ 'admin.webhook.stats.successful'|trans }}</h3>
+                <p style="font-size: 2rem; margin: 0; font-weight: bold; color: #155724;">{{ stats.successful }}</p>
+            </div>
+            <div style="background-color: #f8d7da; padding: 20px; border-radius: 8px;">
+                <h3 style="margin: 0 0 10px 0; font-size: 1.2rem;">{{ 'admin.webhook.stats.failed'|trans }}</h3>
+                <p style="font-size: 2rem; margin: 0; font-weight: bold; color: #721c24;">{{ stats.failed }}</p>
+            </div>
+            <div style="background-color: #cfe2ff; padding: 20px; border-radius: 8px;">
+                <h3 style="margin: 0 0 10px 0; font-size: 1.2rem;">{{ 'admin.webhook.stats.success_rate'|trans }}</h3>
+                <p style="font-size: 2rem; margin: 0; font-weight: bold; color: #084298;">{{ stats.success_rate }}%</p>
+            </div>
+        </div>
+
+        <!-- Critical Failures Alert -->
+        {% if hasCriticalFailures %}
+        <div class="alert alert-danger" style="margin-bottom: 20px;">
+            <strong>🚨 {{ 'admin.webhook.alert.critical'|trans }}</strong>
+            {{ 'admin.webhook.alert.critical_message'|trans }}
+            <a href="{{ path('app_admin_webhook_failed') }}" style="margin-left: 10px;">{{ 'admin.webhook.view_failed'|trans }}</a>
+        </div>
+        {% endif %}
+
+        <!-- Recent Failures Alert -->
+        {% if stats.recent_failed > 0 %}
+        <div class="alert alert-warning" style="margin-bottom: 20px;">
+            <strong>{{ 'admin.webhook.alert.recent_failures'|trans }}</strong>
+            {{ 'admin.webhook.alert.recent_failures_message'|trans({'%count%': stats.recent_failed, '%rate%': stats.recent_success_rate}) }}
+            <a href="{{ path('app_admin_webhook_failed') }}" style="margin-left: 10px;">{{ 'admin.webhook.view_failed'|trans }}</a>
+        </div>
+        {% endif %}
+
+        <!-- Failure Rate Trend -->
+        {% if failureRateTrend|length > 0 %}
+        <div style="margin-bottom: 30px; padding: 15px; background-color: #f8f9fa; border-radius: 8px;">
+            <h3 style="margin-top: 0;">{{ 'admin.webhook.trend.title'|trans }}</h3>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); gap: 10px;">
+                {% for day in failureRateTrend %}
+                <div style="text-align: center; padding: 10px; background-color: white; border-radius: 4px;">
+                    <div style="font-size: 0.85em; color: #666;">{{ day.date }}</div>
+                    <div style="font-weight: bold; color: {{ day.success_rate < 95 ? '#dc3545' : '#28a745' }};">
+                        {{ day.success_rate }}%
+                    </div>
+                    <div style="font-size: 0.75em; color: #666;">{{ day.total }} events</div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Filters -->
+        <div style="margin-bottom: 20px; display: flex; gap: 15px; flex-wrap: wrap; align-items: center;">
+            <form method="get" style="display: flex; gap: 10px; align-items: center;">
+                <label>{{ 'admin.webhook.filter.status'|trans }}:</label>
+                <select name="status" class="form-control" style="width: auto;" onchange="this.form.submit()">
+                    <option value="">{{ 'admin.webhook.filter.all'|trans }}</option>
+                    <option value="success" {{ currentStatusFilter == 'success' ? 'selected' : '' }}>{{ 'admin.webhook.filter.success'|trans }}</option>
+                    <option value="failed" {{ currentStatusFilter == 'failed' ? 'selected' : '' }}>{{ 'admin.webhook.filter.failed'|trans }}</option>
+                </select>
+            </form>
+            <form method="get" style="display: flex; gap: 10px; align-items: center;">
+                <label>{{ 'admin.webhook.filter.event_type'|trans }}:</label>
+                <input type="text" name="event_type" value="{{ currentEventTypeFilter }}" placeholder="e.g. customer.subscription.created" class="form-control" style="width: 250px;">
+                <button type="submit" class="btn btn-secondary">{{ 'admin.webhook.filter.apply'|trans }}</button>
+                {% if currentEventTypeFilter %}
+                <a href="{{ path('app_admin_webhook_index') }}" class="btn btn-secondary">{{ 'admin.webhook.filter.clear'|trans }}</a>
+                {% endif %}
+            </form>
+        </div>
+
+        <!-- Event Type Distribution -->
+        {% if eventTypeDistribution|length > 0 %}
+        <div style="margin-bottom: 30px; padding: 15px; background-color: #f8f9fa; border-radius: 8px;">
+            <h3 style="margin-top: 0;">{{ 'admin.webhook.event_type_distribution'|trans }}</h3>
+            <div style="display: flex; flex-wrap: wrap; gap: 10px;">
+                {% for eventType, count in eventTypeDistribution %}
+                <span class="badge badge-info">{{ eventType }}: {{ count }}</span>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Events Table -->
+        <div style="overflow-x: auto;">
+            <table style="width: 100%; border-collapse: collapse;">
+                <thead>
+                    <tr style="background-color: #f8f9fa; border-bottom: 2px solid #dee2e6;">
+                        <th style="padding: 12px; text-align: left;">{{ 'admin.webhook.event.id'|trans }}</th>
+                        <th style="padding: 12px; text-align: left;">{{ 'admin.webhook.event.stripe_id'|trans }}</th>
+                        <th style="padding: 12px; text-align: left;">{{ 'admin.webhook.event.type'|trans }}</th>
+                        <th style="padding: 12px; text-align: left;">{{ 'admin.webhook.event.status'|trans }}</th>
+                        <th style="padding: 12px; text-align: left;">{{ 'admin.webhook.event.processed_at'|trans }}</th>
+                        <th style="padding: 12px; text-align: left;">{{ 'admin.webhook.event.actions'|trans }}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for event in events %}
+                    <tr style="border-bottom: 1px solid #dee2e6;">
+                        <td style="padding: 12px;">#{{ event.id }}</td>
+                        <td style="padding: 12px;">
+                            <code style="font-size: 0.85em;">{{ event.stripeEventId|slice(0, 20) }}...</code>
+                        </td>
+                        <td style="padding: 12px;">
+                            <span class="badge badge-secondary">{{ event.eventType }}</span>
+                        </td>
+                        <td style="padding: 12px;">
+                            {% if event.success %}
+                                <span class="badge badge-success">{{ 'admin.webhook.status.success'|trans }}</span>
+                            {% else %}
+                                <span class="badge badge-danger">{{ 'admin.webhook.status.failed'|trans }}</span>
+                            {% endif %}
+                        </td>
+                        <td style="padding: 12px;">{{ event.processedAt|date('Y-m-d H:i:s') }}</td>
+                        <td style="padding: 12px;">
+                            <a href="{{ path('app_admin_webhook_show', {id: event.id}) }}" class="btn btn-secondary" style="padding: 5px 10px; font-size: 0.9rem;">{{ 'admin.webhook.view_details'|trans }}</a>
+                        </td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="6" style="padding: 20px; text-align: center; color: #666;">
+                            {{ 'admin.webhook.no_events'|trans }}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <div style="margin-top: 30px;">
+            <a href="{{ path('app_admin_account_index') }}" class="btn btn-secondary">{{ 'admin.account.back_to_list'|trans }}</a>
+        </div>
+    </div>
+</div>
+{% endblock %}
+

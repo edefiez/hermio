@@ -1,0 +1,66 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ 'admin.webhook.failed.title'|trans }} - Hermio{% endblock %}
+
+{% block body %}
+<div class="profile-container">
+    <div class="profile-card">
+        <h1>{{ 'admin.webhook.failed.title'|trans }}</h1>
+
+        <div class="alert alert-danger">
+            <strong>{{ 'admin.webhook.failed.warning'|trans }}</strong>
+            {{ 'admin.webhook.failed.count'|trans({'%count%': failedEvents|length}) }}
+        </div>
+
+        <div style="overflow-x: auto; margin-top: 20px;">
+            <table style="width: 100%; border-collapse: collapse;">
+                <thead>
+                    <tr style="background-color: #f8f9fa; border-bottom: 2px solid #dee2e6;">
+                        <th style="padding: 12px; text-align: left;">{{ 'admin.webhook.event.id'|trans }}</th>
+                        <th style="padding: 12px; text-align: left;">{{ 'admin.webhook.event.stripe_id'|trans }}</th>
+                        <th style="padding: 12px; text-align: left;">{{ 'admin.webhook.event.type'|trans }}</th>
+                        <th style="padding: 12px; text-align: left;">{{ 'admin.webhook.event.processed_at'|trans }}</th>
+                        <th style="padding: 12px; text-align: left;">{{ 'admin.webhook.event.error'|trans }}</th>
+                        <th style="padding: 12px; text-align: left;">{{ 'admin.webhook.event.actions'|trans }}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for event in failedEvents %}
+                    <tr style="border-bottom: 1px solid #dee2e6;">
+                        <td style="padding: 12px;">#{{ event.id }}</td>
+                        <td style="padding: 12px;">
+                            <code style="font-size: 0.85em;">{{ event.stripeEventId|slice(0, 20) }}...</code>
+                        </td>
+                        <td style="padding: 12px;">
+                            <span class="badge badge-secondary">{{ event.eventType }}</span>
+                        </td>
+                        <td style="padding: 12px;">{{ event.processedAt|date('Y-m-d H:i:s') }}</td>
+                        <td style="padding: 12px;">
+                            {% if event.errorMessage %}
+                                <span style="color: #721c24; font-size: 0.9em;">{{ event.errorMessage|slice(0, 100) }}{% if event.errorMessage|length > 100 %}...{% endif %}</span>
+                            {% else %}
+                                <span style="color: #666;">-</span>
+                            {% endif %}
+                        </td>
+                        <td style="padding: 12px;">
+                            <a href="{{ path('app_admin_webhook_show', {id: event.id}) }}" class="btn btn-secondary" style="padding: 5px 10px; font-size: 0.9rem;">{{ 'admin.webhook.view_details'|trans }}</a>
+                        </td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="6" style="padding: 20px; text-align: center; color: #666;">
+                            {{ 'admin.webhook.failed.none'|trans }}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <div style="margin-top: 30px;">
+            <a href="{{ path('app_admin_webhook_index') }}" class="btn btn-secondary">{{ 'admin.webhook.back_to_list'|trans }}</a>
+        </div>
+    </div>
+</div>
+{% endblock %}
+

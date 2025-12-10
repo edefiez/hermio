@@ -40,6 +40,61 @@ account:
     confirmation_required: "You must confirm this downgrade as it will exceed the new plan's quota limit"
   save: "Save Changes"
 
+subscription:
+  upgrade:
+    title: "Upgrade Your Plan"
+    pro: "Upgrade to Pro"
+    enterprise: "Upgrade to Enterprise"
+  checkout:
+    success: "Payment successful! Your subscription will be activated shortly."
+    cancel: "Checkout was cancelled. Your plan remains unchanged."
+  pricing:
+    pro: "Pro Plan"
+    enterprise: "Enterprise Plan"
+  manage:
+    title: "Manage Subscription"
+  status:
+    label: "Status"
+    active: "Active"
+    inactive: "Inactive"
+    cancelled: "Cancelled"
+    trialing: "Trialing"
+    past_due: "Past Due"
+    canceled: "Canceled"
+    unpaid: "Unpaid"
+  plan:
+    type: "Plan Type"
+  current_period_start: "Current Period Start"
+  next_billing: "Next Billing Date"
+  canceled_at: "Canceled At"
+  created_at: "Created At"
+  cancelled:
+    message: "Your subscription will be cancelled on %date%"
+  management:
+    actions: "Management Actions"
+  portal:
+    button: "Manage Subscription & Payment"
+    info: "Customer Portal"
+    description: "Use the Customer Portal to update your payment method, view invoices, and manage your subscription settings."
+  view_payments: "View Payment History"
+  back_to_plan: "Back to Plan"
+  back_to_management: "Back to Management"
+  payments:
+    title: "Payment History"
+    empty: "You have no payment history yet."
+    date: "Date"
+    amount: "Amount"
+    plan: "Plan"
+    status: "Status"
+    id: "Payment ID"
+    status:
+      succeeded: "Succeeded"
+      failed: "Failed"
+      pending: "Pending"
+      canceled: "Canceled"
+  status:
+    info: "Info"
+
 admin:
   account:
     list: "Account Management"
@@ -65,3 +120,53 @@ admin:
     warning: "Warning"
     back_to_list: "Back to List"
     plan_changed: "Plan successfully changed to %planType%"
+  webhook:
+    title: "Webhook Logs"
+    stats:
+      total: "Total Events"
+      successful: "Successful"
+      failed: "Failed"
+      success_rate: "Success Rate"
+    alert:
+      critical: "Critical Alert"
+      critical_message: "Multiple webhook failures detected in the last hour. Immediate attention required."
+      recent_failures: "⚠️ Recent Failures Detected"
+      recent_failures_message: "%count% failures in the last 24 hours (Success rate: %rate%%)"
+    trend:
+      title: "Failure Rate Trend (Last 7 Days)"
+    filter:
+      status: "Status"
+      event_type: "Event Type"
+      all: "All"
+      success: "Success"
+      failed: "Failed"
+      apply: "Apply"
+      clear: "Clear"
+    event_type_distribution: "Event Type Distribution"
+    event:
+      id: "ID"
+      stripe_id: "Stripe Event ID"
+      type: "Event Type"
+      status: "Status"
+      processed_at: "Processed At"
+      error: "Error"
+      actions: "Actions"
+    status:
+      success: "Success"
+      failed: "Failed"
+    view_details: "View Details"
+    view_failed: "View Failed Events"
+    no_events: "No webhook events found"
+    back_to_list: "Back to List"
+    details:
+      title: "Webhook Event Details"
+      stripe_event_id: "Stripe Event ID"
+      event_type: "Event Type"
+      status: "Status"
+      processed_at: "Processed At"
+      error_message: "Error Message"
+    failed:
+      title: "Failed Webhook Events"
+      warning: "⚠️ Warning"
+      count: "Found %count% failed events"
+      none: "No failed events found"

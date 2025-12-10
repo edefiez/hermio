@@ -53,6 +53,10 @@
                 .badge-success { background-color: #d4edda; color: #155724; }
                 .badge-warning { background-color: #fff3cd; color: #856404; }
                 .badge-danger { background-color: #f8d7da; color: #721c24; }
+                .badge-primary { background-color: #cfe2ff; color: #084298; }
+                .badge-info { background-color: #cff4fc; color: #055160; }
+                .badge-secondary { background-color: #e2e3e5; color: #41464b; }
+                .alert-info { background-color: #d1ecf1; color: #0c5460; border: 1px solid #bee5eb; }
                 .activity-table { width: 100%; border-collapse: collapse; }
                 .activity-table th, .activity-table td { padding: 12px; text-align: left; border-bottom: 1px solid #ddd; }
                 .activity-table th { background-color: #f8f9fa; font-weight: bold; color: #555; }
@@ -72,8 +76,11 @@
                     {% if is_granted('ROLE_USER') %}
                         <a href="{{ path('app_account_index') }}" class="nav-link">{{ 'account.management.title'|trans }}</a>
                         <a href="{{ path('app_account_my_plan') }}" class="nav-link">{{ 'account.my_plan.title'|trans }}</a>
+                        <a href="{{ path('app_subscription_manage') }}" class="nav-link">{{ 'subscription.manage.title'|trans }}</a>
+                        <a href="{{ path('app_subscription_payments') }}" class="nav-link">{{ 'subscription.payments.title'|trans }}</a>
                         {% if is_granted('ROLE_ADMIN') %}
                             <a href="{{ path('app_admin_account_index') }}" class="nav-link">{{ 'admin.account.list'|trans }}</a>
+                            <a href="{{ path('app_admin_webhook_index') }}" class="nav-link">{{ 'admin.webhook.title'|trans }}</a>
                         {% endif %}
                         <a href="{{ path('app_profile') }}" class="nav-link">Profile</a>
                         <a href="{{ path('app_logout') }}" class="nav-link">Logout</a>
