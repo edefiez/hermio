@@ -50,6 +50,36 @@
             </dl>
         </div>
         
+        {% if planType == constant('App\\Enum\\PlanType::FREE') %}
+        <div style="margin-top: 30px;">
+            <h3>{{ 'subscription.upgrade.title'|trans }}</h3>
+            <div style="display: flex; gap: 15px; flex-wrap: wrap;">
+                <form method="post" action="{{ path('app_subscription_checkout_create') }}" style="display: inline;">
+                    <input type="hidden" name="planType" value="pro">
+                    <button type="submit" class="btn btn-success">
+                        {{ 'subscription.upgrade.pro'|trans }}
+                    </button>
+                </form>
+                <form method="post" action="{{ path('app_subscription_checkout_create') }}" style="display: inline;">
+                    <input type="hidden" name="planType" value="enterprise">
+                    <button type="submit" class="btn btn-primary">
+                        {{ 'subscription.upgrade.enterprise'|trans }}
+                    </button>
+                </form>
+            </div>
+        </div>
+        {% elseif planType == constant('App\\Enum\\PlanType::PRO') %}
+        <div style="margin-top: 30px;">
+            <h3>{{ 'subscription.upgrade.title'|trans }}</h3>
+            <form method="post" action="{{ path('app_subscription_checkout_create') }}" style="display: inline;">
+                <input type="hidden" name="planType" value="enterprise">
+                <button type="submit" class="btn btn-primary">
+                    {{ 'subscription.upgrade.enterprise'|trans }}
+                </button>
+            </form>
+        </div>
+        {% endif %}
+        
         <div style="margin-top: 30px;">
             <a href="{{ path('app_account_index') }}" class="btn btn-secondary">{{ 'account.back_to_account'|trans }}</a>
         </div>

@@ -1,0 +1,52 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ 'admin.webhook.details.title'|trans }} #{{ event.id }} - Hermio{% endblock %}
+
+{% block body %}
+<div class="profile-container">
+    <div class="profile-card">
+        <h1>{{ 'admin.webhook.details.title'|trans }} #{{ event.id }}</h1>
+
+        <div class="profile-info">
+            <dl>
+                <dt>{{ 'admin.webhook.details.stripe_event_id'|trans }}</dt>
+                <dd><code>{{ event.stripeEventId }}</code></dd>
+
+                <dt>{{ 'admin.webhook.details.event_type'|trans }}</dt>
+                <dd>
+                    <span class="badge badge-secondary">{{ event.eventType }}</span>
+                </dd>
+
+                <dt>{{ 'admin.webhook.details.status'|trans }}</dt>
+                <dd>
+                    {% if event.success %}
+                        <span class="badge badge-success">{{ 'admin.webhook.status.success'|trans }}</span>
+                    {% else %}
+                        <span class="badge badge-danger">{{ 'admin.webhook.status.failed'|trans }}</span>
+                    {% endif %}
+                </dd>
+
+                <dt>{{ 'admin.webhook.details.processed_at'|trans }}</dt>
+                <dd>{{ event.processedAt|date('Y-m-d H:i:s') }}</dd>
+
+                {% if event.errorMessage %}
+                <dt>{{ 'admin.webhook.details.error_message'|trans }}</dt>
+                <dd>
+                    <div style="background-color: #f8d7da; color: #721c24; padding: 15px; border-radius: 4px; margin-top: 10px;">
+                        <pre style="margin: 0; white-space: pre-wrap; word-wrap: break-word;">{{ event.errorMessage }}</pre>
+                    </div>
+                </dd>
+                {% endif %}
+            </dl>
+        </div>
+
+        <div style="margin-top: 30px;">
+            <a href="{{ path('app_admin_webhook_index') }}" class="btn btn-secondary">{{ 'admin.webhook.back_to_list'|trans }}</a>
+            {% if not event.success %}
+            <a href="{{ path('app_admin_webhook_failed') }}" class="btn btn-danger">{{ 'admin.webhook.view_failed'|trans }}</a>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}
+

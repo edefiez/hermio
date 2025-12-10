@@ -1,0 +1,83 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ 'subscription.manage.title'|trans }} - Hermio{% endblock %}
+
+{% block body %}
+<div class="profile-container">
+    <div class="profile-card">
+        <h1>{{ 'subscription.manage.title'|trans }}</h1>
+        
+        {% if not isActive %}
+        <div class="alert alert-warning">
+            {{ 'subscription.status.inactive'|trans }}
+        </div>
+        {% endif %}
+
+        {% if isCancelled %}
+        <div class="alert alert-info">
+            {{ 'subscription.cancelled.message'|trans({'%date%': subscription.cancelAtPeriodEnd|date('Y-m-d H:i:s')}) }}
+        </div>
+        {% endif %}
+        
+        <div class="profile-info">
+            <dl>
+                <dt>{{ 'subscription.plan.type'|trans }}</dt>
+                <dd>
+                    <strong>{{ planType.getDisplayName() }}</strong>
+                    <span class="badge badge-{{ planType == constant('App\\Enum\\PlanType::PRO') ? 'success' : 'primary' }}">
+                        {{ planType.value }}
+                    </span>
+                </dd>
+                
+                <dt>{{ 'subscription.status.label'|trans }}</dt>
+                <dd>
+                    <span class="badge badge-{{ subscription.status == 'active' ? 'success' : (subscription.status == 'trialing' ? 'info' : 'warning') }}">
+                        {{ ('subscription.status.' ~ subscription.status)|trans }}
+                    </span>
+                </dd>
+                
+                <dt>{{ 'subscription.current_period_start'|trans }}</dt>
+                <dd>{{ subscription.currentPeriodStart|date('Y-m-d H:i:s') }}</dd>
+                
+                <dt>{{ 'subscription.next_billing'|trans }}</dt>
+                <dd>
+                    <strong>{{ subscription.currentPeriodEnd|date('Y-m-d H:i:s') }}</strong>
+                </dd>
+                
+                {% if subscription.canceledAt %}
+                <dt>{{ 'subscription.canceled_at'|trans }}</dt>
+                <dd>{{ subscription.canceledAt|date('Y-m-d H:i:s') }}</dd>
+                {% endif %}
+                
+                <dt>{{ 'subscription.created_at'|trans }}</dt>
+                <dd>{{ subscription.createdAt|date('Y-m-d H:i:s') }}</dd>
+            </dl>
+        </div>
+        
+        <div style="margin-top: 30px;">
+            <h3>{{ 'subscription.management.actions'|trans }}</h3>
+            <div style="display: flex; gap: 15px; flex-wrap: wrap;">
+                <form method="post" action="{{ path('app_subscription_portal') }}" style="display: inline;">
+                    <button type="submit" class="btn btn-primary">
+                        {{ 'subscription.portal.button'|trans }}
+                    </button>
+                </form>
+                <a href="{{ path('app_subscription_payments') }}" class="btn btn-secondary">
+                    {{ 'subscription.view_payments'|trans }}
+                </a>
+                <a href="{{ path('app_account_my_plan') }}" class="btn btn-secondary">
+                    {{ 'subscription.back_to_plan'|trans }}
+                </a>
+            </div>
+        </div>
+        
+        <div style="margin-top: 20px; padding: 15px; background-color: #f8f9fa; border-radius: 4px;">
+            <p style="margin: 0; color: #666;">
+                <strong>{{ 'subscription.portal.info'|trans }}</strong><br>
+                {{ 'subscription.portal.description'|trans }}
+            </p>
+        </div>
+    </div>
+</div>
+{% endblock %}
+

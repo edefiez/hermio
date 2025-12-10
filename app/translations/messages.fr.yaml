@@ -40,6 +40,61 @@ account:
     confirmation_required: "Vous devez confirmer ce downgrade car il dépassera la limite de quota du nouveau plan"
   save: "Enregistrer les Modifications"
 
+subscription:
+  upgrade:
+    title: "Mettre à Niveau Votre Plan"
+    pro: "Passer à Pro"
+    enterprise: "Passer à Entreprise"
+  checkout:
+    success: "Paiement réussi ! Votre abonnement sera activé sous peu."
+    cancel: "Le checkout a été annulé. Votre plan reste inchangé."
+  pricing:
+    pro: "Plan Pro"
+    enterprise: "Plan Entreprise"
+  manage:
+    title: "Gérer l'Abonnement"
+  status:
+    label: "Statut"
+    active: "Actif"
+    inactive: "Inactif"
+    cancelled: "Annulé"
+    trialing: "Essai"
+    past_due: "En Retard"
+    canceled: "Annulé"
+    unpaid: "Impayé"
+  plan:
+    type: "Type de Plan"
+  current_period_start: "Début de la Période Actuelle"
+  next_billing: "Prochaine Date de Facturation"
+  canceled_at: "Annulé Le"
+  created_at: "Créé Le"
+  cancelled:
+    message: "Votre abonnement sera annulé le %date%"
+  management:
+    actions: "Actions de Gestion"
+  portal:
+    button: "Gérer l'Abonnement et le Paiement"
+    info: "Portail Client"
+    description: "Utilisez le Portail Client pour mettre à jour votre méthode de paiement, consulter vos factures et gérer les paramètres de votre abonnement."
+  view_payments: "Voir l'Historique des Paiements"
+  back_to_plan: "Retour au Plan"
+  back_to_management: "Retour à la Gestion"
+  payments:
+    title: "Historique des Paiements"
+    empty: "Vous n'avez pas encore d'historique de paiement."
+    date: "Date"
+    amount: "Montant"
+    plan: "Plan"
+    status: "Statut"
+    id: "ID de Paiement"
+    status:
+      succeeded: "Réussi"
+      failed: "Échoué"
+      pending: "En Attente"
+      canceled: "Annulé"
+  status:
+    info: "Info"
+
 admin:
   account:
     list: "Gestion des Comptes"
@@ -65,3 +120,53 @@ admin:
     warning: "Attention"
     back_to_list: "Retour à la Liste"
     plan_changed: "Plan modifié avec succès vers %planType%"
+  webhook:
+    title: "Logs des Webhooks"
+    stats:
+      total: "Total des Événements"
+      successful: "Réussis"
+      failed: "Échoués"
+      success_rate: "Taux de Réussite"
+    alert:
+      critical: "Alerte Critique"
+      critical_message: "Plusieurs échecs de webhook détectés dans la dernière heure. Attention immédiate requise."
+      recent_failures: "⚠️ Échecs Récents Détectés"
+      recent_failures_message: "%count% échecs dans les dernières 24 heures (Taux de réussite: %rate%%)"
+    trend:
+      title: "Tendance du Taux d'Échec (7 Derniers Jours)"
+    filter:
+      status: "Statut"
+      event_type: "Type d'Événement"
+      all: "Tous"
+      success: "Réussi"
+      failed: "Échoué"
+      apply: "Appliquer"
+      clear: "Effacer"
+    event_type_distribution: "Répartition par Type d'Événement"
+    event:
+      id: "ID"
+      stripe_id: "ID Événement Stripe"
+      type: "Type d'Événement"
+      status: "Statut"
+      processed_at: "Traité Le"
+      error: "Erreur"
+      actions: "Actions"
+    status:
+      success: "Réussi"
+      failed: "Échoué"
+    view_details: "Voir les Détails"
+    view_failed: "Voir les Événements Échoués"
+    no_events: "Aucun événement webhook trouvé"
+    back_to_list: "Retour à la Liste"
+    details:
+      title: "Détails de l'Événement Webhook"
+      stripe_event_id: "ID Événement Stripe"
+      event_type: "Type d'Événement"
+      status: "Statut"
+      processed_at: "Traité Le"
+      error_message: "Message d'Erreur"
+    failed:
+      title: "Événements Webhook Échoués"
+      warning: "⚠️ Attention"
+      count: "%count% événements échoués trouvés"
+      none: "Aucun événement échoué trouvé"
