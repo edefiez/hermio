@@ -1,3 +1,7 @@
+nav:
+  login: "Connexion"
+  register: "S'inscrire"
+
 home:
   meta:
     title: "Hermio - Créez et Partagez Vos Cartes de Visite Numériques par QR Code"
@@ -23,22 +27,22 @@ home:
     title: "Tout ce dont vous avez besoin"
     subtitle: "Des fonctionnalités pensées pour les professionnels modernes"
     digital_card:
-      title: "🎴 Carte de visite numérique"
+      title: "Carte de visite numérique"
       description: "Créez une carte professionnelle élégante et responsive, accessible depuis n'importe quel appareil."
     qr_code:
-      title: "📱 Générateur de QR code"
+      title: "Générateur de QR code"
       description: "Obtenez un QR code unique pour chaque carte, prêt à être imprimé ou partagé numériquement."
     multilingual:
-      title: "🌍 Profils multilingues"
+      title: "Profils multilingues"
       description: "Vos cartes s'affichent en français et anglais selon la langue de vos visiteurs."
     branding:
-      title: "🎨 Branding personnalisé"
+      title: "Branding personnalisé"
       description: "Ajoutez votre logo et vos couleurs de marque pour une image cohérente (Pro & Enterprise)."
     analytics:
-      title: "📊 Statistiques de scans"
+      title: "Statistiques de scans"
       description: "Suivez combien de fois votre QR code est scanné et mesurez votre impact."
     team:
-      title: "👥 Gestion d'équipe"
+      title: "Gestion d'équipe"
       description: "Gérez les cartes de toute votre équipe en un seul endroit (Enterprise uniquement)."
   pricing:
     title: "Tarifs simples et transparents"

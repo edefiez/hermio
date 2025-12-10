@@ -6,14 +6,14 @@
 
 {% block head %}
     <meta name="description" content="{{ 'home.meta.description'|trans }}">
-    
+
     {# Open Graph tags #}
     <meta property="og:title" content="{{ 'home.meta.title'|trans }}">
     <meta property="og:description" content="{{ 'home.meta.description'|trans }}">
     <meta property="og:type" content="website">
     <meta property="og:url" content="{{ url('app_home') }}">
     <meta property="og:locale" content="{{ currentLocale == 'fr' ? 'fr_FR' : 'en_US' }}">
-    
+
     {# JSON-LD Structured Data #}
     <script type="application/ld+json">
     {
@@ -45,7 +45,20 @@
     {{ encore_entry_link_tags('home') }}
 {% endblock %}
 
-{% block body %}
+{% block body_wrapper %}
+{# Page pleine largeur pour la home #}
+<main class="home-wrapper">
+    {% for label, messages in app.flashes %}
+        <div class="container">
+            {% for message in messages %}
+                <div class="alert alert-{{ label }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        </div>
+    {% endfor %}
+
+    {% block body %}
 <div class="home-page">
     {# Hero Section #}
     <section class="hero-section" id="hero">
@@ -63,142 +76,283 @@
 
     {# How It Works Section #}
     <section class="section" id="how-it-works">
-        <div class="container">
+        <div class="container-xxl">
             <h2 class="section-title">{{ 'home.how_it_works.title'|trans }}</h2>
             <p class="section-subtitle">{{ 'home.how_it_works.subtitle'|trans }}</p>
-            <div class="steps-grid">
-                <div class="step-card">
-                    <div class="step-number">1</div>
-                    <h3>{{ 'home.how_it_works.step1.title'|trans }}</h3>
-                    <p>{{ 'home.how_it_works.step1.description'|trans }}</p>
+            <div class="row g-4">
+                <div class="col-12 col-md-4">
+                    <div class="card h-100 text-center border-0 shadow">
+                        <div class="card-body p-4 p-md-5">
+                            <div class="step-number bg-primary text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-4" style="width: 80px; height: 80px; font-size: 2rem; font-weight: 700;">1</div>
+                            <h3 class="card-title h4 mb-3">{{ 'home.how_it_works.step1.title'|trans }}</h3>
+                            <p class="card-text text-muted fs-6">{{ 'home.how_it_works.step1.description'|trans }}</p>
+                        </div>
+                    </div>
                 </div>
-                <div class="step-card">
-                    <div class="step-number">2</div>
-                    <h3>{{ 'home.how_it_works.step2.title'|trans }}</h3>
-                    <p>{{ 'home.how_it_works.step2.description'|trans }}</p>
+                <div class="col-12 col-md-4">
+                    <div class="card h-100 text-center border-0 shadow">
+                        <div class="card-body p-4 p-md-5">
+                            <div class="step-number bg-primary text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-4" style="width: 80px; height: 80px; font-size: 2rem; font-weight: 700;">2</div>
+                            <h3 class="card-title h4 mb-3">{{ 'home.how_it_works.step2.title'|trans }}</h3>
+                            <p class="card-text text-muted fs-6">{{ 'home.how_it_works.step2.description'|trans }}</p>
+                        </div>
+                    </div>
                 </div>
-                <div class="step-card">
-                    <div class="step-number">3</div>
-                    <h3>{{ 'home.how_it_works.step3.title'|trans }}</h3>
-                    <p>{{ 'home.how_it_works.step3.description'|trans }}</p>
+                <div class="col-12 col-md-4">
+                    <div class="card h-100 text-center border-0 shadow">
+                        <div class="card-body p-4 p-md-5">
+                            <div class="step-number bg-primary text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-4" style="width: 80px; height: 80px; font-size: 2rem; font-weight: 700;">3</div>
+                            <h3 class="card-title h4 mb-3">{{ 'home.how_it_works.step3.title'|trans }}</h3>
+                            <p class="card-text text-muted fs-6">{{ 'home.how_it_works.step3.description'|trans }}</p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
     {# Features Section #}
-    <section class="section section-light" id="features">
-        <div class="container">
+    <section class="section section-light py-5" id="features">
+        <div class="container-xxl">
             <h2 class="section-title">{{ 'home.features.title'|trans }}</h2>
             <p class="section-subtitle">{{ 'home.features.subtitle'|trans }}</p>
-            <div class="features-grid">
-                <div class="feature-card">
-                    <span class="feature-icon">🎴</span>
-                    <h3>{{ 'home.features.digital_card.title'|trans|raw }}</h3>
-                    <p>{{ 'home.features.digital_card.description'|trans }}</p>
+            <div class="row g-4">
+                <div class="col-12 col-md-6 col-lg-4">
+                    <div class="card h-100 border-0 shadow">
+                        <div class="card-body p-5">
+                            <div class="text-primary mb-3">
+                                <h3 class="card-title h5 mb-3">
+                                    <i class="fas fa-id-card "></i>
+                                    <span class="text-dark">{{ 'home.features.digital_card.title'|trans|raw }}</span>
+                                </h3>
+                            </div>
+                            <p class="card-text text-muted">{{ 'home.features.digital_card.description'|trans }}</p>
+                        </div>
+                    </div>
                 </div>
-                <div class="feature-card">
-                    <span class="feature-icon">📱</span>
-                    <h3>{{ 'home.features.qr_code.title'|trans|raw }}</h3>
-                    <p>{{ 'home.features.qr_code.description'|trans }}</p>
+                <div class="col-12 col-md-6 col-lg-4">
+                    <div class="card h-100 border-0 shadow">
+                        <div class="card-body p-5">
+                            <div class="text-primary mb-3">
+                                <h3 class="card-title h5 mb-3">
+                                    <i class="fas fa-qrcode "></i>
+                                    <span class="text-dark">{{ 'home.features.qr_code.title'|trans|raw }}</span>
+                                </h3>
+                            </div>
+                            <p class="card-text text-muted">{{ 'home.features.qr_code.description'|trans }}</p>
+                        </div>
+                    </div>
                 </div>
-                <div class="feature-card">
-                    <span class="feature-icon">🌍</span>
-                    <h3>{{ 'home.features.multilingual.title'|trans|raw }}</h3>
-                    <p>{{ 'home.features.multilingual.description'|trans }}</p>
+                <div class="col-12 col-md-6 col-lg-4">
+                    <div class="card h-100 border-0 shadow">
+                        <div class="card-body p-5">
+                            <div class="feature-icon text-primary mb-3">
+                                <h3 class="card-title h5 mb-3">
+                                    <i class="fas fa-globe "></i>
+                                    <span class="text-dark">{{ 'home.features.multilingual.title'|trans|raw }}</span>
+                                </h3>
+                            </div>
+                            <p class="card-text text-muted">{{ 'home.features.multilingual.description'|trans }}</p>
+                        </div>
+                    </div>
                 </div>
-                <div class="feature-card">
-                    <span class="feature-icon">🎨</span>
-                    <h3>{{ 'home.features.branding.title'|trans|raw }}</h3>
-                    <p>{{ 'home.features.branding.description'|trans }}</p>
+                <div class="col-12 col-md-6 col-lg-4">
+                    <div class="card h-100 border-0 shadow">
+                        <div class="card-body p-5">
+                            <div class="feature-icon text-primary mb-3">
+                                <h3 class="card-title h5 mb-3">
+                                    <i class="fas fa-palette "></i>
+                                    <span class="text-dark">{{ 'home.features.branding.title'|trans|raw }}</span>
+                                </h3>
+                            </div>
+                            <p class="card-text text-muted">{{ 'home.features.branding.description'|trans }}</p>
+                        </div>
+                    </div>
                 </div>
-                <div class="feature-card">
-                    <span class="feature-icon">📊</span>
-                    <h3>{{ 'home.features.analytics.title'|trans|raw }}</h3>
-                    <p>{{ 'home.features.analytics.description'|trans }}</p>
+                <div class="col-12 col-md-6 col-lg-4">
+                    <div class="card h-100 border-0 shadow">
+                        <div class="card-body p-5">
+                            <div class="feature-icon text-primary mb-3">
+                                <h3 class="card-title h5 mb-3">
+                                    <i class="fas fa-chart-line "></i>
+                                    <span class="text-dark">{{ 'home.features.analytics.title'|trans|raw }}</span>
+                                </h3>
+                            </div>
+                            <p class="card-text text-muted">{{ 'home.features.analytics.description'|trans }}</p>
+                        </div>
+                    </div>
                 </div>
-                <div class="feature-card">
-                    <span class="feature-icon">👥</span>
-                    <h3>{{ 'home.features.team.title'|trans|raw }}</h3>
-                    <p>{{ 'home.features.team.description'|trans }}</p>
+                <div class="col-12 col-md-6 col-lg-4">
+                    <div class="card h-100 border-0 shadow">
+                        <div class="card-body p-5">
+                            <div class="feature-icon text-primary mb-3">
+                                <h3 class="card-title h5 mb-3">
+                                    <i class="fas fa-users "></i>
+                                    <span class="text-dark">{{ 'home.features.team.title'|trans|raw }}</span>
+                                </h3>
+                            </div>
+                            <p class="card-text text-muted">{{ 'home.features.team.description'|trans }}</p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
     {# Pricing Section #}
-    <section class="section" id="pricing">
-        <div class="container">
+    <section class="section py-5" id="pricing">
+        <div class="container-xxl">
             <h2 class="section-title">{{ 'home.pricing.title'|trans }}</h2>
             <p class="section-subtitle">{{ 'home.pricing.subtitle'|trans }}</p>
-            <div class="pricing-grid">
-                <div class="pricing-card">
-                    <div class="plan-name">{{ 'home.pricing.free.name'|trans }}</div>
-                    <div class="plan-price">{{ 'home.pricing.free.price'|trans }} <span>{{ 'home.pricing.free.period'|trans }}</span></div>
-                    <ul class="plan-features">
-                        <li>{{ 'home.pricing.free.feature1'|trans }}</li>
-                        <li>{{ 'home.pricing.free.feature2'|trans }}</li>
-                        <li>{{ 'home.pricing.free.feature3'|trans }}</li>
-                    </ul>
-                    <a href="{{ path('app_register') }}" class="btn btn-outline">{{ 'home.pricing.free.cta'|trans }}</a>
+            <div class="row g-4 justify-content-center align-items-stretch">
+                <div class="col-12 col-md-6 col-lg-4">
+                    <div class="card h-100 border-0 shadow d-flex flex-column">
+                        <div class="card-body text-center p-4 p-lg-5 d-flex flex-column">
+                            <div class="pricing-header mb-4">
+                                <h3 class="card-title h3 mb-3">{{ 'home.pricing.free.name'|trans }}</h3>
+                                <div class="display-3 fw-bold text-primary mb-2">{{ 'home.pricing.free.price'|trans }}</div>
+                                <p class="text-muted fs-5 mb-0">{{ 'home.pricing.free.period'|trans }}</p>
+                            </div>
+                            <ul class="list-unstyled text-start mb-4 flex-grow-1">
+                                <li class="mb-3 fs-6"><i class="fas fa-check-circle text-success me-2"></i> {{ 'home.pricing.free.feature1'|trans }}</li>
+                                <li class="mb-3 fs-6"><i class="fas fa-check-circle text-success me-2"></i> {{ 'home.pricing.free.feature2'|trans }}</li>
+                                <li class="mb-3 fs-6"><i class="fas fa-check-circle text-success me-2"></i> {{ 'home.pricing.free.feature3'|trans }}</li>
+                            </ul>
+                            <div class="mt-auto">
+                                <a href="{{ path('app_register') }}" class="btn btn-outline-primary btn-lg w-100 py-3">{{ 'home.pricing.free.cta'|trans }}</a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="pricing-card featured">
-                    <span class="plan-badge">{{ 'home.pricing.pro.badge'|trans }}</span>
-                    <div class="plan-name">{{ 'home.pricing.pro.name'|trans }}</div>
-                    <div class="plan-price">{{ 'home.pricing.pro.price'|trans }} <span>{{ 'home.pricing.pro.period'|trans }}</span></div>
-                    <ul class="plan-features">
-                        <li>{{ 'home.pricing.pro.feature1'|trans }}</li>
-                        <li>{{ 'home.pricing.pro.feature2'|trans }}</li>
-                        <li>{{ 'home.pricing.pro.feature3'|trans }}</li>
-                        <li>{{ 'home.pricing.pro.feature4'|trans }}</li>
-                    </ul>
-                    <a href="{{ path('app_register') }}" class="btn btn-primary">{{ 'home.pricing.pro.cta'|trans }}</a>
+                <div class="col-12 col-md-6 col-lg-4">
+                    <div class="card h-100 border-0 shadow-lg d-flex flex-column" style="transform: scale(1.05);">
+                        <div class="card-header text-white text-center py-3" style="background: linear-gradient(135deg, #4F46E5 0%, #EC4899 100%);">
+                            <span class="badge bg-white text-primary fs-6 px-3 py-2">{{ 'home.pricing.pro.badge'|trans }}</span>
+                        </div>
+                        <div class="card-body text-center p-4 p-lg-5 d-flex flex-column">
+                            <div class="pricing-header mb-4">
+                                <h3 class="card-title h3 mb-3">{{ 'home.pricing.pro.name'|trans }}</h3>
+                                <div class="display-3 fw-bold text-primary mb-2">{{ 'home.pricing.pro.price'|trans }}</div>
+                                <p class="text-muted fs-5 mb-0">{{ 'home.pricing.pro.period'|trans }}</p>
+                            </div>
+                            <ul class="list-unstyled text-start mb-4 flex-grow-1">
+                                <li class="mb-3 fs-6"><i class="fas fa-check-circle text-success me-2"></i> {{ 'home.pricing.pro.feature1'|trans }}</li>
+                                <li class="mb-3 fs-6"><i class="fas fa-check-circle text-success me-2"></i> {{ 'home.pricing.pro.feature2'|trans }}</li>
+                                <li class="mb-3 fs-6"><i class="fas fa-check-circle text-success me-2"></i> {{ 'home.pricing.pro.feature3'|trans }}</li>
+                                <li class="mb-3 fs-6"><i class="fas fa-check-circle text-success me-2"></i> {{ 'home.pricing.pro.feature4'|trans }}</li>
+                            </ul>
+                            <div class="mt-auto">
+                                <a href="{{ path('app_register') }}" class="btn btn-primary btn-lg w-100 py-3">{{ 'home.pricing.pro.cta'|trans }}</a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="pricing-card">
-                    <div class="plan-name">{{ 'home.pricing.enterprise.name'|trans }}</div>
-                    <div class="plan-price">{{ 'home.pricing.enterprise.price'|trans }} <span>{{ 'home.pricing.enterprise.period'|trans }}</span></div>
-                    <ul class="plan-features">
-                        <li>{{ 'home.pricing.enterprise.feature1'|trans }}</li>
-                        <li>{{ 'home.pricing.enterprise.feature2'|trans }}</li>
-                        <li>{{ 'home.pricing.enterprise.feature3'|trans }}</li>
-                        <li>{{ 'home.pricing.enterprise.feature4'|trans }}</li>
-                        <li>{{ 'home.pricing.enterprise.feature5'|trans }}</li>
-                    </ul>
-                    <a href="{{ path('app_register') }}" class="btn btn-outline">{{ 'home.pricing.enterprise.cta'|trans }}</a>
+                <div class="col-12 col-md-6 col-lg-4">
+                    <div class="card h-100 border-0 shadow d-flex flex-column">
+                        <div class="card-body text-center p-4 p-lg-5 d-flex flex-column">
+                            <div class="pricing-header mb-4">
+                                <h3 class="card-title h3 mb-3">{{ 'home.pricing.enterprise.name'|trans }}</h3>
+                                <div class="display-3 fw-bold text-primary mb-2">{{ 'home.pricing.enterprise.price'|trans }}</div>
+                                <p class="text-muted fs-5 mb-0">{{ 'home.pricing.enterprise.period'|trans }}</p>
+                            </div>
+                            <ul class="list-unstyled text-start mb-4 flex-grow-1">
+                                <li class="mb-3 fs-6"><i class="fas fa-check-circle text-success me-2"></i> {{ 'home.pricing.enterprise.feature1'|trans }}</li>
+                                <li class="mb-3 fs-6"><i class="fas fa-check-circle text-success me-2"></i> {{ 'home.pricing.enterprise.feature2'|trans }}</li>
+                                <li class="mb-3 fs-6"><i class="fas fa-check-circle text-success me-2"></i> {{ 'home.pricing.enterprise.feature3'|trans }}</li>
+                                <li class="mb-3 fs-6"><i class="fas fa-check-circle text-success me-2"></i> {{ 'home.pricing.enterprise.feature4'|trans }}</li>
+                                <li class="mb-3 fs-6"><i class="fas fa-check-circle text-success me-2"></i> {{ 'home.pricing.enterprise.feature5'|trans }}</li>
+                            </ul>
+                            <div class="mt-auto">
+                                <a href="{{ path('app_register') }}" class="btn btn-outline-primary btn-lg w-100 py-3">{{ 'home.pricing.enterprise.cta'|trans }}</a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
     {# FAQ Section #}
-    <section class="section section-light" id="faq">
-        <div class="container">
+    <section class="section section-light py-5" id="faq">
+        <div class="container-xxl">
             <h2 class="section-title">{{ 'home.faq.title'|trans }}</h2>
             <p class="section-subtitle">{{ 'home.faq.subtitle'|trans }}</p>
-            <div class="faq-container">
-                <div class="faq-item">
-                    <div class="faq-question">{{ 'home.faq.q1.question'|trans }}</div>
-                    <div class="faq-answer">{{ 'home.faq.q1.answer'|trans }}</div>
-                </div>
-                <div class="faq-item">
-                    <div class="faq-question">{{ 'home.faq.q2.question'|trans }}</div>
-                    <div class="faq-answer">{{ 'home.faq.q2.answer'|trans }}</div>
-                </div>
-                <div class="faq-item">
-                    <div class="faq-question">{{ 'home.faq.q3.question'|trans }}</div>
-                    <div class="faq-answer">{{ 'home.faq.q3.answer'|trans }}</div>
-                </div>
-                <div class="faq-item">
-                    <div class="faq-question">{{ 'home.faq.q4.question'|trans }}</div>
-                    <div class="faq-answer">{{ 'home.faq.q4.answer'|trans }}</div>
-                </div>
-                <div class="faq-item">
-                    <div class="faq-question">{{ 'home.faq.q5.question'|trans }}</div>
-                    <div class="faq-answer">{{ 'home.faq.q5.answer'|trans }}</div>
-                </div>
-                <div class="faq-item">
-                    <div class="faq-question">{{ 'home.faq.q6.question'|trans }}</div>
-                    <div class="faq-answer">{{ 'home.faq.q6.answer'|trans }}</div>
+            <div class="row justify-content-center">
+                <div class="col-12 col-lg-10">
+                    <div class="accordion" id="faqAccordion">
+                        <div class="accordion-item mb-3 border-0 shadow-sm">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed fs-5" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">
+                                    {{ 'home.faq.q1.question'|trans }}
+                                </button>
+                            </h2>
+                            <div id="faq1" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body fs-6">
+                                    {{ 'home.faq.q1.answer'|trans }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item mb-3 border-0 shadow-sm">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed fs-5" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">
+                                    {{ 'home.faq.q2.question'|trans }}
+                                </button>
+                            </h2>
+                            <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body fs-6">
+                                    {{ 'home.faq.q2.answer'|trans }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item mb-3 border-0 shadow-sm">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed fs-5" type="button" data-bs-toggle="collapse" data-bs-target="#faq3">
+                                    {{ 'home.faq.q3.question'|trans }}
+                                </button>
+                            </h2>
+                            <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body fs-6">
+                                    {{ 'home.faq.q3.answer'|trans }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item mb-3 border-0 shadow-sm">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed fs-5" type="button" data-bs-toggle="collapse" data-bs-target="#faq4">
+                                    {{ 'home.faq.q4.question'|trans }}
+                                </button>
+                            </h2>
+                            <div id="faq4" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body fs-6">
+                                    {{ 'home.faq.q4.answer'|trans }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item mb-3 border-0 shadow-sm">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed fs-5" type="button" data-bs-toggle="collapse" data-bs-target="#faq5">
+                                    {{ 'home.faq.q5.question'|trans }}
+                                </button>
+                            </h2>
+                            <div id="faq5" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body fs-6">
+                                    {{ 'home.faq.q5.answer'|trans }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item mb-3 border-0 shadow-sm">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed fs-5" type="button" data-bs-toggle="collapse" data-bs-target="#faq6">
+                                    {{ 'home.faq.q6.question'|trans }}
+                                </button>
+                            </h2>
+                            <div id="faq6" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body fs-6">
+                                    {{ 'home.faq.q6.answer'|trans }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -211,12 +365,12 @@
                 <div class="footer-column">
                     <h4>Hermio</h4>
                     <p>{{ 'home.footer.about_description'|trans }}</p>
-                    <div class="social-links">
-                        <a href="#" aria-label="Facebook">📘</a>
-                        <a href="#" aria-label="Twitter">🐦</a>
-                        <a href="#" aria-label="LinkedIn">💼</a>
-                        <a href="#" aria-label="Instagram">📷</a>
-                    </div>
+{#                    <div class="social-links">#}
+{#                        <a href="#" aria-label="Facebook">📘</a>#}
+{#                        <a href="#" aria-label="Twitter">🐦</a>#}
+{#                        <a href="#" aria-label="LinkedIn">💼</a>#}
+{#                        <a href="#" aria-label="Instagram">📷</a>#}
+{#                    </div>#}
                 </div>
                 <div class="footer-column">
                     <h4>{{ 'home.footer.product'|trans }}</h4>
@@ -247,6 +401,8 @@
         </div>
     </footer>
 </div>
+{% endblock %}
+</main>
 {% endblock %}
 
 {% block javascripts %}

@@ -6,7 +6,10 @@ ENV APP_ENV=dev \
 
 WORKDIR /app
 
-# Install system dependencies
+# Install Node.js 20.x
+RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash -
+
+# Install system dependencies + Node.js
 RUN apt-get update && apt-get install -y --no-install-recommends \
     git \
     libicu-dev \
@@ -17,8 +20,10 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libjpeg-dev \
     libfreetype6-dev \
     unzip \
+    nodejs \
  && docker-php-ext-configure gd --with-freetype --with-jpeg \
  && docker-php-ext-install -j"$(nproc)" intl opcache pdo pdo_mysql zip gd \
+ && npm install -g npm@latest \
  && rm -rf /var/lib/apt/lists/*
 
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer

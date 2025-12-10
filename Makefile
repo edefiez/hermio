@@ -42,12 +42,13 @@ help:
 	@echo "    \033[35mlint\033[0m        - Lance l'analyse statique avec PHPStan."
 	@echo "    \033[35mcs-fix\033[0m      - Corrige le style du code avec PHP-CS-Fixer."
 	@echo ""
-	@echo "  Frontend (Yarn):"
-	@echo "    \033[34myarn-install\033[0m- Installe les dépendances frontend."
-	@echo "    \033[34myarn-dev\033[0m    - Compile les assets pour le développement."
-	@echo "    \033[34myarn-watch\033[0m  - Compile et surveille les changements des assets."
-	@echo "    \033[34myarn-watch-stop\033[0m - Arrête la surveillance des assets."
-	@echo "    \033[34myarn-build\033[0m  - Compile les assets pour la production."
+	@echo "  Frontend (npm/webpack):"
+	@echo "    \033[34mnpm-install\033[0m - Installe les dépendances frontend."
+	@echo "    \033[34mnpm-dev\033[0m     - Compile les assets pour le développement."
+	@echo "    \033[34mnpm-watch\033[0m   - Compile et surveille les changements des assets."
+	@echo "    \033[34mnpm-watch-stop\033[0m - Arrête la surveillance des assets."
+	@echo "    \033[34mnpm-build\033[0m   - Compile les assets pour la production."
+	@echo "    \033[90m(yarn-* disponibles comme alias)\033[0m"
 	@echo ""
 
 # --- Commandes Docker ---------------------------------------------------------
@@ -166,30 +167,37 @@ lint:
 	docker compose exec app vendor/bin/phpstan analyse src
 
 
-# --- Commandes Frontend (Yarn) ------------------------------------------------
-yarn-install:
-	@echo "📦 Installation des dépendances Yarn..."
-	docker compose exec app bash -c "cd /var/www/symfony && yarn install"
+# --- Commandes Frontend (npm) ------------------------------------------------
+npm-install:
+	@echo "📦 Installation des dépendances npm..."
+	docker compose exec app npm install
 
-yarn-dev:
+npm-dev:
 	@echo "🎨 Compilation des assets en mode développement..."
-	docker compose exec app bash -c "cd /var/www/symfony && NODE_OPTIONS=--openssl-legacy-provider yarn dev"
+	docker compose exec app npm run dev
 
-yarn-watch:
+npm-watch:
 	@echo "👀 Surveillance des assets..."
-	docker compose exec app bash -c "cd /var/www/symfony && NODE_OPTIONS=--openssl-legacy-provider yarn watch"
+	docker compose exec app npm run watch
 
-yarn-watch-stop:
+npm-watch-stop:
 	@echo "🛑 Arrêt de la surveillance des assets..."
-	@docker compose exec app bash -c "pkill -f 'yarn watch' || true"
-	@echo "✅ Processus yarn watch arrêtés"
+	@docker compose exec app bash -c "pkill -f 'npm run watch' || true"
+	@echo "✅ Processus npm watch arrêtés"
 
-yarn-build:
+npm-build:
 	@echo "📦 Compilation des assets pour la production..."
-	docker compose exec app bash -c "cd /var/www/symfony && NODE_OPTIONS=--openssl-legacy-provider yarn build"
+	docker compose exec app npm run build
+
+# Alias pour compatibilité (yarn -> npm)
+yarn-install: npm-install
+yarn-dev: npm-dev
+yarn-watch: npm-watch
+yarn-watch-stop: npm-watch-stop
+yarn-build: npm-build
 
 # --- Sync des vendors ---------------------------------------------
 sync-vendors:
 	@echo "🔄 Synchronisation des vendors Composer..."
-	docker compose cp app:/var/www/symfony/vendor app/symfony
+	docker compose cp app:/app/vendor ./app/vendor
 # Fin du Makefile

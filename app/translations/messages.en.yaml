@@ -1,3 +1,7 @@
+nav:
+  login: "Login"
+  register: "Register"
+
 home:
   meta:
     title: "Hermio - Create and Share Your Digital Business Cards via QR Code"
@@ -23,22 +27,22 @@ home:
     title: "Everything you need"
     subtitle: "Features designed for modern professionals"
     digital_card:
-      title: "🎴 Digital business card"
+      title: "Digital business card"
       description: "Create an elegant and responsive professional card, accessible from any device."
     qr_code:
-      title: "📱 QR code generator"
+      title: "QR code generator"
       description: "Get a unique QR code for each card, ready to be printed or shared digitally."
     multilingual:
-      title: "🌍 Multilingual profiles"
+      title: "Multilingual profiles"
       description: "Your cards display in French and English based on your visitors' language."
     branding:
-      title: "🎨 Custom branding"
+      title: "Custom branding"
       description: "Add your logo and brand colors for a consistent image (Pro & Enterprise)."
     analytics:
-      title: "📊 Scan statistics"
+      title: "Scan statistics"
       description: "Track how many times your QR code is scanned and measure your impact."
     team:
-      title: "👥 Team management"
+      title: "Team management"
       description: "Manage all your team's cards in one place (Enterprise only)."
   pricing:
     title: "Simple and transparent pricing"

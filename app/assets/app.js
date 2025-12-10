@@ -5,8 +5,14 @@
  * (and its CSS file) in your base layout (base.html.twig).
  */
 
-// any CSS you import will output into a single css file (app.css in this case)
-import './styles/app.css';
+// Import Bootstrap CSS
+import './styles/bootstrap-custom.scss';
 
-console.log('Hermio app loaded');
+// Import Font Awesome
+import '@fortawesome/fontawesome-free/css/all.css';
+
+// Import Bootstrap JS
+import 'bootstrap';
+
+console.log('Hermio app loaded with Bootstrap 5');
 

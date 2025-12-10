@@ -55,10 +55,24 @@ h3 {
     overflow-x: hidden;
 }
 
+.home-wrapper {
+    width: 100%;
+    padding: 0;
+    margin: 0;
+}
+
 .container {
     max-width: 1200px;
     margin: 0 auto;
     padding: 0 1.5rem;
+
+    @media (max-width: 1024px) {
+        padding: 0 1.25rem;
+    }
+
+    @media (max-width: 768px) {
+        padding: 0 1rem;
+    }
 }
 
 // Hero Section
@@ -69,9 +83,14 @@ h3 {
     text-align: center;
     position: relative;
     overflow: hidden;
+    width: 100%;
 
     @media (max-width: 768px) {
-        padding: 4rem 0;
+        padding: 4rem 0 3rem;
+    }
+
+    @media (max-width: 480px) {
+        padding: 3rem 0 2rem;
     }
 
     &::before {
@@ -121,6 +140,16 @@ h3 {
         justify-content: center;
         flex-wrap: wrap;
         animation: fadeInUp 0.8s ease-out 0.4s backwards;
+
+        @media (max-width: 480px) {
+            flex-direction: column;
+            align-items: stretch;
+            gap: 0.75rem;
+
+            .btn {
+                width: 100%;
+            }
+        }
     }
 }
 
@@ -135,6 +164,12 @@ h3 {
     transition: all 0.3s ease;
     cursor: pointer;
     border: 2px solid transparent;
+    text-align: center;
+
+    @media (max-width: 480px) {
+        padding: 0.75rem 1.5rem;
+        font-size: 0.95rem;
+    }
 
     &-primary {
         background-color: $white;
@@ -172,9 +207,18 @@ h3 {
 // Section
 .section {
     padding: 5rem 0;
+    width: 100%;
+
+    @media (max-width: 1024px) {
+        padding: 4rem 0;
+    }
 
     @media (max-width: 768px) {
         padding: 3rem 0;
+    }
+
+    @media (max-width: 480px) {
+        padding: 2.5rem 0;
     }
 
     &-light {
@@ -185,6 +229,10 @@ h3 {
         text-align: center;
         margin-bottom: 3rem;
         color: $text-dark;
+
+        @media (max-width: 768px) {
+            margin-bottom: 2rem;
+        }
     }
 
     &-subtitle {
@@ -196,243 +244,19 @@ h3 {
         max-width: 700px;
         margin-left: auto;
         margin-right: auto;
-    }
-}
+        padding: 0 1rem;
 
-// How it works
-.steps-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 3rem;
-    margin-top: 3rem;
-}
-
-.step-card {
-    text-align: center;
-    padding: 2rem;
-    background: $white;
-    border-radius: 1rem;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-
-    &:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-    }
-
-    .step-number {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        width: 60px;
-        height: 60px;
-        background: linear-gradient(135deg, $primary-color, $secondary-color);
-        color: $white;
-        border-radius: 50%;
-        font-size: 1.5rem;
-        font-weight: 700;
-        margin-bottom: 1.5rem;
-    }
-
-    h3 {
-        color: $text-dark;
-        margin-bottom: 1rem;
-    }
-
-    p {
-        color: $text-light;
-        line-height: 1.6;
-    }
-}
-
-// Features
-.features-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 2rem;
-    margin-top: 3rem;
-}
-
-.feature-card {
-    background: $white;
-    padding: 2rem;
-    border-radius: 1rem;
-    border: 1px solid $border-color;
-    transition: all 0.3s ease;
-
-    &:hover {
-        border-color: $primary-color;
-        box-shadow: 0 10px 30px rgba(79, 70, 229, 0.1);
-        transform: translateY(-3px);
-    }
-
-    .feature-icon {
-        font-size: 2.5rem;
-        margin-bottom: 1rem;
-        display: block;
-    }
-
-    h3 {
-        color: $text-dark;
-        margin-bottom: 0.75rem;
-        font-size: 1.25rem;
-    }
-
-    p {
-        color: $text-light;
-        font-size: 0.95rem;
-        line-height: 1.6;
-    }
-}
-
-// Pricing
-.pricing-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 2rem;
-    margin-top: 3rem;
-    max-width: 1000px;
-    margin-left: auto;
-    margin-right: auto;
-}
-
-.pricing-card {
-    background: $white;
-    border: 2px solid $border-color;
-    border-radius: 1rem;
-    padding: 2.5rem 2rem;
-    text-align: center;
-    transition: all 0.3s ease;
-    position: relative;
-
-    &:hover {
-        border-color: $primary-color;
-        transform: translateY(-5px);
-        box-shadow: 0 15px 40px rgba(79, 70, 229, 0.15);
-    }
-
-    &.featured {
-        border-color: $primary-color;
-        box-shadow: 0 10px 30px rgba(79, 70, 229, 0.2);
-
-        .plan-badge {
-            display: inline-block;
-            background: linear-gradient(135deg, $primary-color, $secondary-color);
-            color: $white;
-            padding: 0.25rem 1rem;
-            border-radius: 2rem;
-            font-size: 0.75rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            margin-bottom: 1rem;
-        }
-    }
-
-    .plan-name {
-        font-size: 1.5rem;
-        font-weight: 700;
-        color: $text-dark;
-        margin-bottom: 0.5rem;
-    }
-
-    .plan-price {
-        font-size: 2.5rem;
-        font-weight: 700;
-        color: $primary-color;
-        margin-bottom: 0.5rem;
-
-        span {
+        @media (max-width: 768px) {
             font-size: 1rem;
-            color: $text-light;
-            font-weight: 400;
-        }
-    }
-
-    .plan-features {
-        list-style: none;
-        margin: 2rem 0;
-        text-align: left;
-
-        li {
-            padding: 0.5rem 0;
-            color: $text-light;
-            position: relative;
-            padding-left: 1.75rem;
-
-            &::before {
-                content: '✓';
-                position: absolute;
-                left: 0;
-                color: $primary-color;
-                font-weight: 700;
-            }
+            margin-top: -1.5rem;
+            margin-bottom: 2rem;
         }
     }
 }
 
-// FAQ
-.faq-container {
-    max-width: 800px;
-    margin: 0 auto;
-    margin-top: 3rem;
-}
 
-.faq-item {
-    background: $white;
-    border: 1px solid $border-color;
-    border-radius: 0.75rem;
-    margin-bottom: 1rem;
-    overflow: hidden;
-    transition: all 0.3s ease;
 
-    &:hover {
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-    }
 
-    &.active {
-        .faq-question::after {
-            transform: rotate(180deg);
-        }
-
-        .faq-answer {
-            max-height: 500px;
-            padding: 1rem 1.5rem 1.5rem;
-            opacity: 1;
-        }
-    }
-}
-
-.faq-question {
-    padding: 1.25rem 1.5rem;
-    cursor: pointer;
-    font-weight: 600;
-    color: $text-dark;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    user-select: none;
-
-    &::after {
-        content: '▼';
-        font-size: 0.875rem;
-        transition: transform 0.3s ease;
-        color: $primary-color;
-    }
-
-    &:hover {
-        background-color: $bg-light;
-    }
-}
-
-.faq-answer {
-    max-height: 0;
-    padding: 0 1.5rem;
-    overflow: hidden;
-    opacity: 0;
-    transition: all 0.3s ease;
-    color: $text-light;
-    line-height: 1.6;
-}
 
 // Footer
 .footer-section {
