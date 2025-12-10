@@ -1,3 +1,114 @@
+home:
+  meta:
+    title: "Hermio - Créez et Partagez Vos Cartes de Visite Numériques par QR Code"
+    description: "Hermio vous permet de créer facilement des cartes de visite numériques professionnelles et de les partager via QR code. Idéal pour professionnels, équipes et entreprises."
+  hero:
+    title: "Votre Carte de Visite Numérique, Partout avec Vous"
+    subtitle: "Créez, personnalisez et partagez votre carte de visite professionnelle grâce à un simple QR code. Simple, moderne et efficace."
+    cta_primary: "Créer ma carte"
+    cta_secondary: "En savoir plus"
+  how_it_works:
+    title: "Comment ça marche ?"
+    subtitle: "Créez votre carte professionnelle en 3 étapes simples"
+    step1:
+      title: "Créez votre carte"
+      description: "Renseignez vos informations professionnelles : nom, email, téléphone, réseaux sociaux et plus encore."
+    step2:
+      title: "Personnalisez votre style"
+      description: "Ajoutez votre logo, choisissez vos couleurs de marque pour refléter votre identité professionnelle."
+    step3:
+      title: "Partagez via QR code"
+      description: "Générez votre QR code unique et partagez-le sur vos supports : carte papier, email, site web, réseaux sociaux."
+  features:
+    title: "Tout ce dont vous avez besoin"
+    subtitle: "Des fonctionnalités pensées pour les professionnels modernes"
+    digital_card:
+      title: "🎴 Carte de visite numérique"
+      description: "Créez une carte professionnelle élégante et responsive, accessible depuis n'importe quel appareil."
+    qr_code:
+      title: "📱 Générateur de QR code"
+      description: "Obtenez un QR code unique pour chaque carte, prêt à être imprimé ou partagé numériquement."
+    multilingual:
+      title: "🌍 Profils multilingues"
+      description: "Vos cartes s'affichent en français et anglais selon la langue de vos visiteurs."
+    branding:
+      title: "🎨 Branding personnalisé"
+      description: "Ajoutez votre logo et vos couleurs de marque pour une image cohérente (Pro & Enterprise)."
+    analytics:
+      title: "📊 Statistiques de scans"
+      description: "Suivez combien de fois votre QR code est scanné et mesurez votre impact."
+    team:
+      title: "👥 Gestion d'équipe"
+      description: "Gérez les cartes de toute votre équipe en un seul endroit (Enterprise uniquement)."
+  pricing:
+    title: "Tarifs simples et transparents"
+    subtitle: "Choisissez le plan qui correspond à vos besoins"
+    cta: "Voir tous les tarifs"
+    free:
+      name: "Gratuit"
+      price: "0€"
+      period: "pour toujours"
+      feature1: "1 carte de visite numérique"
+      feature2: "QR code inclus"
+      feature3: "Support communautaire"
+      cta: "Commencer gratuitement"
+    pro:
+      name: "Pro"
+      price: "9€"
+      period: "par mois"
+      badge: "Populaire"
+      feature1: "10 cartes de visite"
+      feature2: "Branding personnalisé"
+      feature3: "Statistiques avancées"
+      feature4: "Support prioritaire"
+      cta: "Essayer Pro"
+    enterprise:
+      name: "Enterprise"
+      price: "29€"
+      period: "par mois"
+      feature1: "Cartes illimitées"
+      feature2: "Gestion d'équipe"
+      feature3: "Templates personnalisés"
+      feature4: "Support dédié"
+      feature5: "API d'intégration"
+      cta: "Contacter les ventes"
+  faq:
+    title: "Questions Fréquentes"
+    subtitle: "Tout ce que vous devez savoir sur Hermio"
+    q1:
+      question: "Mes données sont-elles sécurisées ?"
+      answer: "Absolument. Nous utilisons les dernières normes de sécurité pour protéger vos données. Toutes les connexions sont chiffrées via HTTPS et vos informations sont stockées de manière sécurisée dans des centres de données certifiés."
+    q2:
+      question: "Comment partager mon QR code ?"
+      answer: "Une fois votre carte créée, vous pouvez télécharger votre QR code en haute résolution. Imprimez-le sur vos cartes de visite papier, ajoutez-le à votre signature email, ou partagez-le directement sur les réseaux sociaux."
+    q3:
+      question: "Quelle est la différence entre gratuit et payant ?"
+      answer: "Le plan gratuit vous permet de créer 1 carte avec les fonctionnalités de base. Les plans payants offrent plus de cartes, le branding personnalisé, des statistiques avancées et pour Enterprise, la gestion d'équipe complète."
+    q4:
+      question: "Quelles langues sont supportées ?"
+      answer: "Vos cartes de visite sont automatiquement disponibles en français et en anglais. L'interface s'adapte automatiquement à la langue du navigateur de vos visiteurs pour une expérience optimale."
+    q5:
+      question: "Est-ce compatible mobile ?"
+      answer: "Oui, complètement ! Vos cartes de visite sont entièrement responsive et s'affichent parfaitement sur tous les appareils : smartphones, tablettes et ordinateurs. Le scan QR code fonctionne avec n'importe quelle application de scan."
+    q6:
+      question: "Puis-je gérer les cartes de mon équipe ?"
+      answer: "Oui, avec le plan Enterprise. Vous pouvez inviter des membres d'équipe, gérer leurs cartes, et contrôler les accès. Parfait pour les entreprises qui souhaitent centraliser la gestion de leurs cartes de visite numériques."
+  footer:
+    about: "À propos"
+    about_description: "Hermio est la solution moderne pour créer et partager vos cartes de visite numériques par QR code. Idéal pour les professionnels, équipes et entreprises."
+    product: "Produit"
+    features: "Fonctionnalités"
+    pricing: "Tarifs"
+    enterprise: "Entreprise"
+    support: "Support"
+    help: "Aide"
+    contact: "Contact"
+    legal: "Légal"
+    privacy: "Confidentialité"
+    terms: "Conditions d'utilisation"
+    copyright: "© %year% Hermio. Tous droits réservés."
+    social_title: "Suivez-nous"
+
 account:
   my_plan:
     title: "Mon Plan d'Abonnement"
