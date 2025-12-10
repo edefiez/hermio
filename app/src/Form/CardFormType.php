@@ -24,8 +24,8 @@ class CardFormType extends AbstractType
                 'mapped' => false,
                 'attr' => ['placeholder' => 'card.name.placeholder'],
                 'constraints' => [
-                    new NotBlank(['message' => 'card.name.required']),
-                    new Length(['max' => 255, 'maxMessage' => 'card.name.max_length']),
+                    new NotBlank(message: 'card.name.required'),
+                    new Length(max: 255, maxMessage: 'card.name.max_length'),
                 ],
             ])
             ->add('email', EmailType::class, [
@@ -40,7 +40,7 @@ class CardFormType extends AbstractType
                 'mapped' => false,
                 'attr' => ['placeholder' => 'card.phone.placeholder'],
                 'constraints' => [
-                    new Length(['max' => 50, 'maxMessage' => 'card.phone.max_length']),
+                    new Length(max: 50, maxMessage: 'card.phone.max_length'),
                 ],
             ])
             ->add('company', TextType::class, [
@@ -49,7 +49,7 @@ class CardFormType extends AbstractType
                 'mapped' => false,
                 'attr' => ['placeholder' => 'card.company.placeholder'],
                 'constraints' => [
-                    new Length(['max' => 255, 'maxMessage' => 'card.company.max_length']),
+                    new Length(max: 255, maxMessage: 'card.company.max_length'),
                 ],
             ])
             ->add('title', TextType::class, [
@@ -58,7 +58,7 @@ class CardFormType extends AbstractType
                 'mapped' => false,
                 'attr' => ['placeholder' => 'card.title.placeholder'],
                 'constraints' => [
-                    new Length(['max' => 255, 'maxMessage' => 'card.title.max_length']),
+                    new Length(max: 255, maxMessage: 'card.title.max_length'),
                 ],
             ])
             ->add('bio', TextareaType::class, [
@@ -70,7 +70,7 @@ class CardFormType extends AbstractType
                     'rows' => 5,
                 ],
                 'constraints' => [
-                    new Length(['max' => 1000, 'maxMessage' => 'card.bio.max_length']),
+                    new Length(max: 1000, maxMessage: 'card.bio.max_length'),
                 ],
             ])
             ->add('website', UrlType::class, [

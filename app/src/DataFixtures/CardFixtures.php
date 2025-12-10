@@ -17,7 +17,7 @@ class CardFixtures extends Fixture implements DependentFixtureInterface
         // Create cards for FREE users (max 1 per user)
         for ($i = 1; $i <= UserAccountFixtures::FREE_USERS_COUNT; $i++) {
             /** @var \App\Entity\User $user */
-            $user = $this->getReference("user_free_$i");
+            $user = $this->getReference("user_free_$i", \App\Entity\User::class);
             
             // FREE plan: max 1 card, but not all users have cards
             if ($faker->boolean(80)) {
@@ -30,28 +30,28 @@ class CardFixtures extends Fixture implements DependentFixtureInterface
         // Create cards for PRO users (max 10 per user)
         for ($i = 1; $i <= UserAccountFixtures::PRO_USERS_COUNT; $i++) {
             /** @var \App\Entity\User $user */
-            $user = $this->getReference("user_pro_$i");
+            $user = $this->getReference("user_pro_$i", \App\Entity\User::class);
             
             // PRO plan: max 10 cards, users have between 1-10 cards
             $cardCount = $faker->numberBetween(1, 10);
             for ($j = 1; $j <= $cardCount; $j++) {
                 $card = $this->createCard($user, $faker, "pro-card-$i-$j");
                 $manager->persist($card);
-                $this->addReference("card_pro_$i_$j", $card);
+                $this->addReference("card_pro_{$i}_{$j}", $card);
             }
         }
 
         // Create cards for ENTERPRISE users (unlimited)
         for ($i = 1; $i <= UserAccountFixtures::ENTERPRISE_USERS_COUNT; $i++) {
             /** @var \App\Entity\User $user */
-            $user = $this->getReference("user_enterprise_$i");
+            $user = $this->getReference("user_enterprise_$i", \App\Entity\User::class);
             
             // ENTERPRISE plan: unlimited cards, users have between 5-30 cards
             $cardCount = $faker->numberBetween(5, 30);
             for ($j = 1; $j <= $cardCount; $j++) {
                 $card = $this->createCard($user, $faker, "enterprise-card-$i-$j");
                 $manager->persist($card);
-                $this->addReference("card_enterprise_$i_$j", $card);
+                $this->addReference("card_enterprise_{$i}_{$j}", $card);
             }
         }
 

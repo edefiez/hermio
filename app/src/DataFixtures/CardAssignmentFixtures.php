@@ -18,7 +18,7 @@ class CardAssignmentFixtures extends Fixture implements DependentFixtureInterfac
         // Create card assignments only for ENTERPRISE accounts
         for ($i = 1; $i <= UserAccountFixtures::ENTERPRISE_USERS_COUNT; $i++) {
             /** @var \App\Entity\Account $account */
-            $account = $this->getReference("account_enterprise_$i");
+            $account = $this->getReference("account_enterprise_$i", \App\Entity\Account::class);
             /** @var \App\Entity\User $accountOwner */
             $accountOwner = $account->getUser();
             
@@ -27,7 +27,7 @@ class CardAssignmentFixtures extends Fixture implements DependentFixtureInterfac
             for ($j = 1; $j <= 8; $j++) {
                 try {
                     /** @var TeamMember $teamMember */
-                    $teamMember = $this->getReference("team_member_enterprise_$i_$j");
+                    $teamMember = $this->getReference("team_member_enterprise_{$i}_{$j}", TeamMember::class);
                     if ($teamMember->getInvitationStatus() === 'accepted') {
                         $teamMembers[] = $teamMember;
                     }
@@ -46,7 +46,7 @@ class CardAssignmentFixtures extends Fixture implements DependentFixtureInterfac
             for ($j = 1; $j <= 30; $j++) {
                 try {
                     /** @var Card $card */
-                    $card = $this->getReference("card_enterprise_$i_$j");
+                    $card = $this->getReference("card_enterprise_{$i}_{$j}", Card::class);
                     $cards[] = $card;
                 } catch (\OutOfBoundsException $e) {
                     // No more cards

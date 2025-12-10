@@ -18,7 +18,7 @@ class TeamMemberFixtures extends Fixture implements DependentFixtureInterface
         // Create team members only for ENTERPRISE accounts
         for ($i = 1; $i <= UserAccountFixtures::ENTERPRISE_USERS_COUNT; $i++) {
             /** @var \App\Entity\Account $account */
-            $account = $this->getReference("account_enterprise_$i");
+            $account = $this->getReference("account_enterprise_$i", \App\Entity\Account::class);
             
             // Each Enterprise account has 2-8 team members
             $teamMemberCount = $faker->numberBetween(2, 8);
@@ -26,7 +26,7 @@ class TeamMemberFixtures extends Fixture implements DependentFixtureInterface
             for ($j = 1; $j <= $teamMemberCount; $j++) {
                 $teamMember = $this->createTeamMember($account, $faker, $j);
                 $manager->persist($teamMember);
-                $this->addReference("team_member_enterprise_$i_$j", $teamMember);
+                $this->addReference("team_member_enterprise_{$i}_{$j}", $teamMember);
             }
         }
 
@@ -58,7 +58,7 @@ class TeamMemberFixtures extends Fixture implements DependentFixtureInterface
                     $randomUserRef = $this->getRandomUserReference();
                     if ($randomUserRef) {
                         /** @var User $randomUser */
-                        $randomUser = $this->getReference($randomUserRef);
+                        $randomUser = $this->getReference($randomUserRef, User::class);
                         $teamMember->setUser($randomUser);
                         $teamMember->setEmail($randomUser->getEmail());
                     }
