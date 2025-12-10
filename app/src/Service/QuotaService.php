@@ -4,13 +4,12 @@ namespace App\Service;
 
 use App\Entity\User;
 use App\Exception\QuotaExceededException;
+use App\Repository\CardRepository;
 
 class QuotaService
 {
     public function __construct(
-        // CardRepository will be injected when Card entity exists
-        // For now, we'll use a placeholder approach
-        private ?object $cardRepository = null
+        private CardRepository $cardRepository
     ) {
     }
 
@@ -62,23 +61,10 @@ class QuotaService
 
     /**
      * Get current usage count for user
-     * Returns 0 if Card entity doesn't exist yet
      */
     public function getCurrentUsage(User $user): int
     {
-        // If CardRepository is not available, return 0 (no cards created yet)
-        if (!$this->cardRepository || !method_exists($this->cardRepository, 'count')) {
-            return 0;
-        }
-
-        // When Card entity exists, this will count user's cards
-        // For now, return 0 as placeholder
-        try {
-            return $this->cardRepository->count(['user' => $user]);
-        } catch (\Exception $e) {
-            // Card entity doesn't exist yet, return 0
-            return 0;
-        }
+        return $this->cardRepository->count(['user' => $user, 'status' => 'active']);
     }
 
     /**

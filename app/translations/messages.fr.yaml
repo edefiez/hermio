@@ -62,6 +62,7 @@ subscription:
     past_due: "En Retard"
     canceled: "Annulé"
     unpaid: "Impayé"
+    info: "Info"
   plan:
     type: "Type de Plan"
   current_period_start: "Début de la Période Actuelle"
@@ -85,15 +86,13 @@ subscription:
     date: "Date"
     amount: "Montant"
     plan: "Plan"
-    status: "Statut"
+    status_label: "Statut"
     id: "ID de Paiement"
     status:
       succeeded: "Réussi"
       failed: "Échoué"
       pending: "En Attente"
       canceled: "Annulé"
-  status:
-    info: "Info"
 
 admin:
   account:
@@ -170,3 +169,76 @@ admin:
       warning: "⚠️ Attention"
       count: "%count% événements échoués trouvés"
       none: "Aucun événement échoué trouvé"
+
+card:
+  create:
+    title: "Créer une Carte Numérique"
+    button: "Créer une Carte"
+  edit:
+    title: "Modifier la Carte"
+  delete:
+    confirm: "Êtes-vous sûr de vouloir supprimer cette carte ?"
+  list:
+    title: "Mes Cartes"
+    empty: "Vous n'avez pas encore créé de cartes."
+  save: "Enregistrer"
+  cancel: "Annuler"
+  back_to_list: "Retour aux Cartes"
+  public_url: "URL Publique"
+  created_at: "Créé"
+  updated:
+    success: "Carte mise à jour avec succès"
+  deleted:
+    success: "Carte supprimée avec succès"
+  created:
+    success: "Carte créée avec succès. URL publique : /c/%slug%"
+  unnamed: "Carte Sans Nom"
+  quota:
+    exceeded: "Vous avez atteint votre limite de quota. Améliorez votre plan pour créer plus de cartes."
+    info: "Quota"
+  form:
+    name: "Nom"
+    email: "Email"
+    phone: "Téléphone"
+    company: "Entreprise"
+    title: "Titre du Poste"
+    bio: "Biographie"
+    website: "Site Web"
+  social:
+    title: "Réseaux Sociaux"
+  name:
+    placeholder: "Votre nom complet"
+    required: "Le nom est requis"
+    max_length: "Le nom ne peut pas dépasser 255 caractères"
+  email:
+    placeholder: "votre.email@exemple.com"
+    invalid: "Veuillez entrer une adresse email valide"
+  phone:
+    placeholder: "+33123456789"
+    max_length: "Le téléphone ne peut pas dépasser 50 caractères"
+  company:
+    placeholder: "Nom de l'Entreprise"
+    max_length: "Le nom de l'entreprise ne peut pas dépasser 255 caractères"
+  title:
+    placeholder: "Votre titre de poste"
+    max_length: "Le titre ne peut pas dépasser 255 caractères"
+  bio:
+    placeholder: "Parlez-nous de vous..."
+    max_length: "La biographie ne peut pas dépasser 1000 caractères"
+  website:
+    placeholder: "https://votresite.com"
+    invalid: "Veuillez entrer une URL valide"
+  linkedin:
+    placeholder: "https://linkedin.com/in/votreprofil"
+    invalid: "Veuillez entrer une URL LinkedIn valide"
+  twitter:
+    placeholder: "https://twitter.com/votrecompte"
+    invalid: "Veuillez entrer une URL Twitter valide"
+  slug:
+    invalid_format: "Le slug doit contenir uniquement des lettres minuscules, des chiffres et des tirets"
+  public:
+    title: "Carte Numérique"
+  qr_code:
+    title: "Code QR"
+    view: "Voir le Code QR"
+    instructions: "Scannez ce code QR avec votre appareil mobile pour voir cette carte"

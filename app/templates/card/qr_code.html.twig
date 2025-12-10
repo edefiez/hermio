@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ 'card.qr_code.title'|trans }} - Hermio{% endblock %}
+
+{% block body %}
+<div class="profile-container">
+    <div class="profile-card" style="text-align: center;">
+        <h1>{{ 'card.qr_code.title'|trans }}</h1>
+        
+        <p><strong>{{ card.content.name|default('card.unnamed'|trans) }}</strong></p>
+        
+        <div style="margin: 30px 0;">
+            <img src="{{ qrCodeData }}" alt="QR Code" style="max-width: 300px; border: 1px solid #ddd; padding: 10px; background: white;">
+        </div>
+        
+        <p>
+            <strong>{{ 'card.public_url'|trans }}:</strong><br>
+            <a href="{{ publicUrl }}" target="_blank">{{ publicUrl }}</a>
+        </p>
+        
+        <p style="color: #666; font-size: 0.9em;">
+            {{ 'card.qr_code.instructions'|trans }}
+        </p>
+        
+        <div style="margin-top: 30px;">
+            <a href="{{ path('app_card_index') }}" class="btn btn-secondary">{{ 'card.back_to_list'|trans }}</a>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
