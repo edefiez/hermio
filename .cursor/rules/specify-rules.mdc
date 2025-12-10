@@ -3,6 +3,7 @@
 Auto-generated from all feature plans. Last updated: 2025-12-08
 
 ## Active Technologies
+- Doctrine ORM with PostgreSQL/MySQL (007-multi-user)
 
 - PHP 8.4+ (003-account-subscription)
 
@@ -22,6 +23,7 @@ tests/
 PHP 8.4+: Follow standard conventions
 
 ## Recent Changes
+- 007-multi-user: Added PHP 8.4+
 
 - 003-account-subscription: Added PHP 8.4+
 

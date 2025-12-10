@@ -3,9 +3,14 @@
 namespace App\Service;
 
 use App\Entity\Card;
+use App\Entity\CardAssignment;
+use App\Entity\TeamMember;
 use App\Entity\User;
+use App\Enum\PlanType;
 use App\Exception\QuotaExceededException;
+use App\Repository\CardAssignmentRepository;
 use App\Repository\CardRepository;
+use App\Repository\TeamMemberRepository;
 use Doctrine\ORM\EntityManagerInterface;
 
 class CardService
@@ -13,7 +18,9 @@ class CardService
     public function __construct(
         private CardRepository $cardRepository,
         private QuotaService $quotaService,
-        private EntityManagerInterface $entityManager
+        private EntityManagerInterface $entityManager,
+        private TeamMemberRepository $teamMemberRepository,
+        private CardAssignmentRepository $cardAssignmentRepository
     ) {
     }
 
@@ -78,6 +85,145 @@ class CardService
     public function getUserCards(User $user): array
     {
         return $this->cardRepository->findByUser($user);
+    }
+
+    /**
+     * Check if user can access a card (ownership, team membership, or assignment)
+     */
+    public function canAccessCard(Card $card, User $user): bool
+    {
+        // Card owner always has access
+        if ($card->getUser() === $user) {
+            return true;
+        }
+
+        $account = $user->getAccount();
+        if (!$account) {
+            return false;
+        }
+
+        // Check if Enterprise plan
+        if ($account->getPlanType() !== PlanType::ENTERPRISE) {
+            return false;
+        }
+
+        // Check if user is team member
+        $teamMember = $this->teamMemberRepository->findByAccountAndUser($account, $user);
+        if (!$teamMember || $teamMember->getInvitationStatus() !== 'accepted') {
+            return false;
+        }
+
+        // ADMINs can view all cards in the account
+        if ($teamMember->getRole()->canViewAllCards()) {
+            // Verify card belongs to account owner
+            return $card->getUser() === $account->getUser();
+        }
+
+        // MEMBERs can only access assigned cards
+        return $this->cardAssignmentRepository->isAssignedTo($card, $teamMember);
+    }
+
+    /**
+     * Get cards assigned to a team member
+     *
+     * @return Card[]
+     */
+    public function getAssignedCardsForUser(User $user): array
+    {
+        $account = $user->getAccount();
+        if (!$account || $account->getPlanType() !== PlanType::ENTERPRISE) {
+            return [];
+        }
+
+        $teamMember = $this->teamMemberRepository->findByAccountAndUser($account, $user);
+        if (!$teamMember || $teamMember->getInvitationStatus() !== 'accepted') {
+            return [];
+        }
+
+        $assignments = $this->cardAssignmentRepository->findByTeamMember($teamMember);
+        return array_map(fn(CardAssignment $assignment) => $assignment->getCard(), $assignments);
+    }
+
+    /**
+     * Get all cards accessible to user (owned + assigned if MEMBER, or all account cards if ADMIN)
+     *
+     * @return Card[]
+     */
+    public function getAccessibleCardsForUser(User $user): array
+    {
+        $account = $user->getAccount();
+        if (!$account) {
+            return $this->getUserCards($user);
+        }
+
+        // Non-Enterprise: return owned cards only
+        if ($account->getPlanType() !== PlanType::ENTERPRISE) {
+            return $this->getUserCards($user);
+        }
+
+        // Check if team member
+        $teamMember = $this->teamMemberRepository->findByAccountAndUser($account, $user);
+        if (!$teamMember || $teamMember->getInvitationStatus() !== 'accepted') {
+            return $this->getUserCards($user);
+        }
+
+        // ADMINs can view all cards in the account
+        if ($teamMember->getRole()->canViewAllCards()) {
+            return $this->cardRepository->findByUser($account->getUser());
+        }
+
+        // MEMBERs: return assigned cards only
+        return $this->getAssignedCardsForUser($user);
+    }
+
+    /**
+     * Assign card to team members
+     *
+     * @param TeamMember[] $teamMembers
+     */
+    public function assignCardToTeamMembers(Card $card, array $teamMembers, User $assignedBy): void
+    {
+        foreach ($teamMembers as $teamMember) {
+            // Skip if already assigned
+            if ($this->cardAssignmentRepository->isAssignedTo($card, $teamMember)) {
+                continue;
+            }
+
+            $assignment = new CardAssignment();
+            $assignment->setCard($card);
+            $assignment->setTeamMember($teamMember);
+            $assignment->setAssignedBy($assignedBy);
+
+            $this->entityManager->persist($assignment);
+        }
+
+        $this->entityManager->flush();
+    }
+
+    /**
+     * Unassign card from team member
+     */
+    public function unassignCardFromTeamMember(Card $card, TeamMember $teamMember): void
+    {
+        $assignments = $this->cardAssignmentRepository->findByCard($card);
+        
+        foreach ($assignments as $assignment) {
+            if ($assignment->getTeamMember() === $teamMember) {
+                $this->entityManager->remove($assignment);
+            }
+        }
+
+        $this->entityManager->flush();
+    }
+
+    /**
+     * Get card assignments for a card
+     *
+     * @return CardAssignment[]
+     */
+    public function getCardAssignments(Card $card): array
+    {
+        return $this->cardAssignmentRepository->findByCard($card);
     }
 }
 

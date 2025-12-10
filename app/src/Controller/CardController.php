@@ -3,12 +3,18 @@
 namespace App\Controller;
 
 use App\Entity\Card;
+use App\Entity\TeamMember;
 use App\Exception\QuotaExceededException;
+use App\Form\CardAssignmentFormType;
 use App\Form\CardFormType;
+use App\Repository\CardAssignmentRepository;
 use App\Repository\CardRepository;
+use App\Repository\TeamMemberRepository;
 use App\Service\CardService;
 use App\Service\QrCodeService;
 use App\Service\QuotaService;
+use App\Service\TeamService;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -23,13 +29,18 @@ class CardController extends AbstractController
         private CardService $cardService,
         private QuotaService $quotaService,
         private QrCodeService $qrCodeService,
-        private CardRepository $cardRepository
+        private CardRepository $cardRepository,
+        private CardAssignmentRepository $cardAssignmentRepository,
+        private TeamService $teamService,
+        private TeamMemberRepository $teamMemberRepository,
+        private EntityManagerInterface $entityManager
     ) {
     }
 
     #[Route('', name: 'app_card_index', methods: ['GET'])]
     public function index(): Response
     {
+        /** @var \App\Entity\User $user */
         $user = $this->getUser();
         $account = $user->getAccount();
         
@@ -37,19 +48,51 @@ class CardController extends AbstractController
         $currentUsage = $this->quotaService->getCurrentUsage($user);
         $canCreateMore = $quotaLimit === null || $currentUsage < $quotaLimit;
 
-        $cards = $this->cardRepository->findByUser($user);
+        // Get accessible cards (owned + assigned if MEMBER, or all account cards if ADMIN)
+        $cards = $this->cardService->getAccessibleCardsForUser($user);
+        
+        // Get assignments for each card (for display) - optimized to avoid N+1
+        $cardAssignments = [];
+        if (!empty($cards)) {
+            $cardIds = array_map(fn($c) => $c->getId(), $cards);
+            
+            // Single query to get all assignments for all cards
+            $allAssignments = $this->cardAssignmentRepository->createQueryBuilder('ca')
+                ->where('ca.card IN (:cardIds)')
+                ->setParameter('cardIds', $cardIds)
+                ->getQuery()
+                ->getResult();
+            
+            // Group assignments by card ID
+            foreach ($allAssignments as $assignment) {
+                $cardId = $assignment->getCard()->getId();
+                if (!isset($cardAssignments[$cardId])) {
+                    $cardAssignments[$cardId] = [];
+                }
+                $cardAssignments[$cardId][] = $assignment;
+            }
+        }
+
+        $canManageAssignments = false;
+        if ($account && $account->getPlanType()->value === 'enterprise') {
+            $canManageAssignments = $this->teamService->canManageTeam($account, $user);
+        }
 
         return $this->render('card/index.html.twig', [
             'cards' => $cards,
+            'cardAssignments' => $cardAssignments,
             'quotaLimit' => $quotaLimit,
             'currentUsage' => $currentUsage,
             'canCreateMore' => $canCreateMore,
+            'canManageAssignments' => $canManageAssignments,
+            'isEnterprise' => $account && $account->getPlanType()->value === 'enterprise',
         ]);
     }
 
     #[Route('/create', name: 'app_card_create', methods: ['GET', 'POST'])]
     public function create(Request $request): Response
     {
+        /** @var \App\Entity\User $user */
         $user = $this->getUser();
         $account = $user->getAccount();
         
@@ -106,11 +149,27 @@ class CardController extends AbstractController
     #[Route('/{id}/edit', name: 'app_card_edit', methods: ['GET', 'POST'])]
     public function edit(int $id, Request $request): Response
     {
+        /** @var \App\Entity\User $user */
         $user = $this->getUser();
         $card = $this->cardRepository->find($id);
 
-        if (!$card || $card->getUser() !== $user) {
+        if (!$card) {
             throw $this->createNotFoundException('Card not found');
+        }
+
+        // Check access using CardService
+        if (!$this->cardService->canAccessCard($card, $user)) {
+            throw $this->createAccessDeniedException('card.access.denied');
+        }
+
+        // Update lastActivityAt for team members
+        $account = $user->getAccount();
+        if ($account && $account->getPlanType()->value === 'enterprise') {
+            $teamMember = $this->teamMemberRepository->findByAccountAndUser($account, $user);
+            if ($teamMember && $teamMember->getInvitationStatus() === 'accepted') {
+                $teamMember->setLastActivityAt(new \DateTime());
+                $this->entityManager->flush();
+            }
         }
 
         // Pre-populate form with card content
@@ -152,20 +211,80 @@ class CardController extends AbstractController
             return $this->redirectToRoute('app_card_index');
         }
 
+        $account = $user->getAccount();
+        $canManageAssignments = false;
+        $assignmentForm = null;
+        $currentAssignments = [];
+
+        if ($account && $account->getPlanType()->value === 'enterprise') {
+            $canManageAssignments = $this->teamService->canManageTeam($account, $user);
+            
+            if ($canManageAssignments) {
+                $currentAssignments = $this->cardAssignmentRepository->findByCard($card);
+                
+                $assignmentForm = $this->createForm(CardAssignmentFormType::class, null, [
+                    'account' => $account,
+                ]);
+                
+                // Pre-select current assignments
+                $currentTeamMemberIds = array_map(
+                    fn($assignment) => $assignment->getTeamMember()->getId(),
+                    $currentAssignments
+                );
+                $assignmentForm->get('teamMembers')->setData(
+                    $this->teamMemberRepository->findBy(['id' => $currentTeamMemberIds])
+                );
+                
+                $assignmentForm->handleRequest($request);
+                
+                if ($assignmentForm->isSubmitted() && $assignmentForm->isValid()) {
+                    $selectedTeamMembers = $assignmentForm->get('teamMembers')->getData();
+                    
+                    // Remove all existing assignments
+                    foreach ($currentAssignments as $assignment) {
+                        $this->cardService->unassignCardFromTeamMember($card, $assignment->getTeamMember());
+                    }
+                    
+                    // Add new assignments
+                    if (!empty($selectedTeamMembers)) {
+                        $this->cardService->assignCardToTeamMembers($card, $selectedTeamMembers, $user);
+                    }
+                    
+                    $this->addFlash('success', 'card.assignments.success');
+                    return $this->redirectToRoute('app_card_edit', ['id' => $card->getId()]);
+                }
+            }
+        }
+
         return $this->render('card/edit.html.twig', [
             'card' => $card,
             'form' => $form,
+            'assignmentForm' => $assignmentForm?->createView(),
+            'currentAssignments' => $currentAssignments,
+            'canManageAssignments' => $canManageAssignments,
+            'isEnterprise' => $account && $account->getPlanType()->value === 'enterprise',
         ]);
     }
 
     #[Route('/{id}/delete', name: 'app_card_delete', methods: ['POST'])]
     public function delete(int $id, Request $request): Response
     {
+        /** @var \App\Entity\User $user */
         $user = $this->getUser();
         $card = $this->cardRepository->find($id);
 
-        if (!$card || $card->getUser() !== $user) {
+        if (!$card) {
             throw $this->createNotFoundException('Card not found');
+        }
+
+        // Check access using CardService
+        if (!$this->cardService->canAccessCard($card, $user)) {
+            throw $this->createAccessDeniedException('card.access.denied');
+        }
+
+        // Only card owner can delete
+        if ($card->getUser() !== $user) {
+            throw $this->createAccessDeniedException('card.delete.denied');
         }
 
         if ($this->isCsrfTokenValid('delete' . $card->getId(), $request->request->get('_token'))) {
@@ -176,14 +295,89 @@ class CardController extends AbstractController
         return $this->redirectToRoute('app_card_index');
     }
 
+    #[Route('/{id}/assign', name: 'app_card_assign', methods: ['POST'])]
+    public function assign(int $id, Request $request): Response
+    {
+        /** @var \App\Entity\User $user */
+        $user = $this->getUser();
+        $card = $this->cardRepository->find($id);
+        $account = $user->getAccount();
+
+        if (!$card) {
+            throw $this->createNotFoundException('Card not found');
+        }
+
+        if (!$account || $account->getPlanType()->value !== 'enterprise') {
+            throw $this->createAccessDeniedException('card.assignments.access_denied');
+        }
+
+        if (!$this->teamService->canManageTeam($account, $user)) {
+            throw $this->createAccessDeniedException('card.assignments.access_denied');
+        }
+
+        $assignmentForm = $this->createForm(CardAssignmentFormType::class, null, [
+            'account' => $account,
+        ]);
+        $assignmentForm->handleRequest($request);
+
+        if ($assignmentForm->isSubmitted() && $assignmentForm->isValid()) {
+            $selectedTeamMembers = $assignmentForm->get('teamMembers')->getData();
+            
+            if (!empty($selectedTeamMembers)) {
+                $this->cardService->assignCardToTeamMembers($card, $selectedTeamMembers, $user);
+                $this->addFlash('success', 'card.assignments.success');
+            }
+        }
+
+        return $this->redirectToRoute('app_card_edit', ['id' => $card->getId()]);
+    }
+
+    #[Route('/{id}/unassign/{teamMemberId}', name: 'app_card_unassign', methods: ['POST'])]
+    public function unassign(int $id, int $teamMemberId, Request $request): Response
+    {
+        /** @var \App\Entity\User $user */
+        $user = $this->getUser();
+        $card = $this->cardRepository->find($id);
+        $account = $user->getAccount();
+
+        if (!$card) {
+            throw $this->createNotFoundException('Card not found');
+        }
+
+        if (!$account || $account->getPlanType()->value !== 'enterprise') {
+            throw $this->createAccessDeniedException('card.assignments.access_denied');
+        }
+
+        if (!$this->teamService->canManageTeam($account, $user)) {
+            throw $this->createAccessDeniedException('card.assignments.access_denied');
+        }
+
+        $teamMember = $this->teamMemberRepository->find($teamMemberId);
+        if (!$teamMember || $teamMember->getAccount() !== $account) {
+            throw $this->createNotFoundException('Team member not found');
+        }
+
+        if ($this->isCsrfTokenValid('unassign' . $card->getId() . $teamMemberId, $request->request->get('_token'))) {
+            $this->cardService->unassignCardFromTeamMember($card, $teamMember);
+            $this->addFlash('success', 'card.assignments.removed');
+        }
+
+        return $this->redirectToRoute('app_card_edit', ['id' => $card->getId()]);
+    }
+
     #[Route('/{id}/qr-code', name: 'app_card_qr_code', methods: ['GET'])]
     public function qrCode(int $id, Request $request): Response
     {
+        /** @var \App\Entity\User $user */
         $user = $this->getUser();
         $card = $this->cardRepository->find($id);
 
-        if (!$card || $card->getUser() !== $user) {
+        if (!$card) {
             throw $this->createNotFoundException('Card not found');
+        }
+
+        if (!$this->cardService->canAccessCard($card, $user)) {
+            throw $this->createAccessDeniedException('card.access.denied');
         }
 
         $publicUrl = $request->getSchemeAndHttpHost() . $card->getPublicUrl();

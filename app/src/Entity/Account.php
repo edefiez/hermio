@@ -4,6 +4,8 @@ namespace App\Entity;
 
 use App\Enum\PlanType;
 use App\Repository\AccountRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -38,6 +40,14 @@ class Account
 
     #[ORM\OneToOne(targetEntity: AccountBranding::class, mappedBy: 'account', cascade: ['persist', 'remove'])]
     private ?AccountBranding $branding = null;
+
+    #[ORM\OneToMany(targetEntity: TeamMember::class, mappedBy: 'account', cascade: ['remove'])]
+    private Collection $teamMembers;
+
+    public function __construct()
+    {
+        $this->teamMembers = new ArrayCollection();
+    }
 
     #[ORM\PrePersist]
     public function setCreatedAtValue(): void
@@ -126,6 +136,34 @@ class Account
         } else {
             $branding->setAccount($this);
             $this->branding = $branding;
+        }
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, TeamMember>
+     */
+    public function getTeamMembers(): Collection
+    {
+        return $this->teamMembers;
+    }
+
+    public function addTeamMember(TeamMember $teamMember): static
+    {
+        if (!$this->teamMembers->contains($teamMember)) {
+            $this->teamMembers->add($teamMember);
+            $teamMember->setAccount($this);
+        }
+        return $this;
+    }
+
+    public function removeTeamMember(TeamMember $teamMember): static
+    {
+        if ($this->teamMembers->removeElement($teamMember)) {
+            // set the owning side to null (unless already changed)
+            if ($teamMember->getAccount() === $this) {
+                $teamMember->setAccount(null);
+            }
         }
         return $this;
     }
