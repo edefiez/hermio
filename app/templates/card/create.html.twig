@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ 'card.create.title'|trans }} - Hermio{% endblock %}
+
+{% block body %}
+<div class="profile-container">
+    <div class="profile-card">
+        <h1>{{ 'card.create.title'|trans }}</h1>
+
+        {% if quotaLimit %}
+            <div class="alert alert-info">
+                <p>
+                    {{ 'card.quota.info'|trans }}: 
+                    {{ currentUsage }} / {{ quotaLimit }} {{ 'account.quota.cards'|trans }}
+                </p>
+            </div>
+        {% endif %}
+
+        {{ form_start(form, {'attr': {'class': 'card-form'}}) }}
+            {{ form_row(form.name) }}
+            {{ form_row(form.email) }}
+            {{ form_row(form.phone) }}
+            {{ form_row(form.company) }}
+            {{ form_row(form.title) }}
+            {{ form_row(form.bio) }}
+            {{ form_row(form.website) }}
+            
+            <h3 style="margin-top: 30px;">{{ 'card.social.title'|trans }}</h3>
+            {{ form_row(form.linkedin) }}
+            {{ form_row(form.twitter) }}
+            
+            <div style="margin-top: 30px; display: flex; gap: 15px;">
+                <button type="submit" class="btn btn-primary">{{ 'card.save'|trans }}</button>
+                <a href="{{ path('app_card_index') }}" class="btn btn-secondary">{{ 'card.cancel'|trans }}</a>
+            </div>
+        {{ form_end(form) }}
+    </div>
+</div>
+{% endblock %}
+

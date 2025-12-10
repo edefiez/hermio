@@ -1,0 +1,148 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ card.content.name|default('card.public.title'|trans) }} - Hermio{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+        .public-card-container {
+            max-width: 600px;
+            margin: 40px auto;
+            padding: 20px;
+        }
+        .public-card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            padding: 40px;
+            text-align: center;
+        }
+        .public-card h1 {
+            margin-top: 0;
+            color: #333;
+            font-size: 2rem;
+        }
+        .public-card .card-info {
+            margin: 30px 0;
+            text-align: left;
+        }
+        .public-card .card-info-item {
+            margin: 15px 0;
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+        }
+        .public-card .card-info-item:last-child {
+            border-bottom: none;
+        }
+        .public-card .card-info-label {
+            font-weight: bold;
+            color: #666;
+            display: block;
+            margin-bottom: 5px;
+        }
+        .public-card .card-info-value {
+            color: #333;
+            word-break: break-word;
+        }
+        .public-card .card-bio {
+            margin: 20px 0;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            text-align: left;
+        }
+        .public-card .social-links {
+            margin-top: 30px;
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .public-card .social-links a {
+            color: #007bff;
+            text-decoration: none;
+            padding: 8px 16px;
+            border: 1px solid #007bff;
+            border-radius: 4px;
+            transition: all 0.3s;
+        }
+        .public-card .social-links a:hover {
+            background-color: #007bff;
+            color: white;
+        }
+        @media (max-width: 768px) {
+            .public-card-container {
+                padding: 10px;
+            }
+            .public-card {
+                padding: 20px;
+            }
+            .public-card h1 {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+<div class="public-card-container">
+    <div class="public-card">
+        <h1>{{ card.content.name|default('card.public.title'|trans) }}</h1>
+        
+        {% if card.content.title %}
+            <p style="color: #666; font-size: 1.1em; margin-top: -10px;">{{ card.content.title }}</p>
+        {% endif %}
+        
+        {% if card.content.company %}
+            <p style="color: #888; margin-top: -5px;">{{ card.content.company }}</p>
+        {% endif %}
+
+        <div class="card-info">
+            {% if card.content.email %}
+                <div class="card-info-item">
+                    <span class="card-info-label">{{ 'card.email'|trans }}</span>
+                    <span class="card-info-value">
+                        <a href="mailto:{{ card.content.email }}">{{ card.content.email }}</a>
+                    </span>
+                </div>
+            {% endif %}
+
+            {% if card.content.phone %}
+                <div class="card-info-item">
+                    <span class="card-info-label">{{ 'card.phone'|trans }}</span>
+                    <span class="card-info-value">
+                        <a href="tel:{{ card.content.phone }}">{{ card.content.phone }}</a>
+                    </span>
+                </div>
+            {% endif %}
+
+            {% if card.content.website %}
+                <div class="card-info-item">
+                    <span class="card-info-label">{{ 'card.website'|trans }}</span>
+                    <span class="card-info-value">
+                        <a href="{{ card.content.website }}" target="_blank" rel="noopener">{{ card.content.website }}</a>
+                    </span>
+                </div>
+            {% endif %}
+        </div>
+
+        {% if card.content.bio %}
+            <div class="card-bio">
+                <p>{{ card.content.bio|nl2br }}</p>
+            </div>
+        {% endif %}
+
+        {% if card.content.social.linkedin or card.content.social.twitter %}
+            <div class="social-links">
+                {% if card.content.social.linkedin %}
+                    <a href="{{ card.content.social.linkedin }}" target="_blank" rel="noopener">LinkedIn</a>
+                {% endif %}
+                {% if card.content.social.twitter %}
+                    <a href="{{ card.content.social.twitter }}" target="_blank" rel="noopener">Twitter</a>
+                {% endif %}
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
+
