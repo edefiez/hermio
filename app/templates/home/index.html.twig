@@ -21,7 +21,6 @@
         "@type": "Organization",
         "name": "Hermio",
         "url": "{{ url('app_home') }}",
-        "logo": "{{ absolute_url(asset('build/images/logo.png', 'home')) }}",
         "description": "{{ 'home.meta.description'|trans|e('js') }}",
         "sameAs": []
     }
@@ -55,13 +54,8 @@
                 <h1>{{ 'home.hero.title'|trans }}</h1>
                 <p class="hero-subtitle">{{ 'home.hero.subtitle'|trans }}</p>
                 <div class="cta-buttons">
-                    {% if user %}
-                        <a href="{{ path('app_card_index') }}" class="btn btn-primary">{{ 'home.hero.cta_primary'|trans }}</a>
-                        <a href="#features" class="btn btn-secondary">{{ 'home.hero.cta_secondary'|trans }}</a>
-                    {% else %}
-                        <a href="{{ path('app_register') }}" class="btn btn-primary">{{ 'home.hero.cta_primary'|trans }}</a>
-                        <a href="#how-it-works" class="btn btn-secondary">{{ 'home.hero.cta_secondary'|trans }}</a>
-                    {% endif %}
+                    <a href="{{ path('app_register') }}" class="btn btn-primary">{{ 'home.hero.cta_primary'|trans }}</a>
+                    <a href="#how-it-works" class="btn btn-secondary">{{ 'home.hero.cta_secondary'|trans }}</a>
                 </div>
             </div>
         </div>

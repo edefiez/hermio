@@ -2,7 +2,7 @@ import './styles/home.scss';
 
 // Smooth scroll for anchor links
 document.addEventListener('DOMContentLoaded', () => {
-    const links = document.querySelectorAll('a[href^="#"]');
+    const links = document.querySelectorAll('a[href^="#"]:not([href="#"])');
     
     links.forEach(link => {
         link.addEventListener('click', function(e) {
