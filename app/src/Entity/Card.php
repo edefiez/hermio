@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\CardRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -43,6 +45,14 @@ class Card
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $deletedAt = null;
+
+    #[ORM\OneToMany(targetEntity: CardAssignment::class, mappedBy: 'card', cascade: ['remove'])]
+    private Collection $assignments;
+
+    public function __construct()
+    {
+        $this->assignments = new ArrayCollection();
+    }
 
     #[ORM\PrePersist]
     public function setCreatedAtValue(): void
@@ -147,6 +157,34 @@ class Card
     public function setDeletedAt(?\DateTimeInterface $deletedAt): static
     {
         $this->deletedAt = $deletedAt;
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, CardAssignment>
+     */
+    public function getAssignments(): Collection
+    {
+        return $this->assignments;
+    }
+
+    public function addAssignment(CardAssignment $assignment): static
+    {
+        if (!$this->assignments->contains($assignment)) {
+            $this->assignments->add($assignment);
+            $assignment->setCard($this);
+        }
+        return $this;
+    }
+
+    public function removeAssignment(CardAssignment $assignment): static
+    {
+        if ($this->assignments->removeElement($assignment)) {
+            // set the owning side to null (unless already changed)
+            if ($assignment->getCard() === $this) {
+                $assignment->setCard(null);
+            }
+        }
         return $this;
     }
 }

@@ -14,7 +14,8 @@ class AccountService
         private AccountRepository $accountRepository,
         private QuotaService $quotaService,
         private EntityManagerInterface $entityManager,
-        private ?BrandingService $brandingService = null
+        private ?BrandingService $brandingService = null,
+        private ?TeamService $teamService = null
     ) {
     }
 
@@ -64,6 +65,13 @@ class AccountService
         // Handle branding plan downgrade if applicable
         if ($this->brandingService && $this->isDowngrade($oldPlan, $newPlan)) {
             $this->brandingService->handlePlanDowngrade($account, $oldPlan, $newPlan);
+        }
+
+        // Handle team access revocation when downgrading from Enterprise
+        if ($oldPlan === PlanType::ENTERPRISE && $newPlan !== PlanType::ENTERPRISE) {
+            if ($this->teamService) {
+                $this->teamService->revokeTeamAccess($account);
+            }
         }
     }
 

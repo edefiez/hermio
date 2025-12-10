@@ -41,16 +41,33 @@
                             <strong>{{ 'card.public_url'|trans }}:</strong>
                             <a href="{{ card.publicUrl }}" target="_blank">{{ card.publicUrl }}</a>
                         </p>
+                        {% if isEnterprise and cardAssignments[card.id] is defined and cardAssignments[card.id]|length > 0 %}
+                            <p style="margin-top: 10px;">
+                                <strong>{{ 'card.assignments.current'|trans }}:</strong>
+                                {% for assignment in cardAssignments[card.id] %}
+                                    <span class="badge badge-info" style="margin-right: 5px;" title="{{ 'team.members.assigned_by'|trans }}: {{ assignment.assignedBy.email }}">
+                                        {{ assignment.teamMember.email }}
+                                        <small>({{ assignment.teamMember.role.getDisplayName()|trans }})</small>
+                                    </span>
+                                {% endfor %}
+                            </p>
+                        {% elseif isEnterprise and canManageAssignments %}
+                            <p style="margin-top: 10px; color: #6c757d; font-size: 14px;">
+                                {{ 'card.assignments.none'|trans }}
+                            </p>
+                        {% endif %}
                         <p>
                             <small>{{ 'card.created_at'|trans }}: {{ card.createdAt|date('Y-m-d H:i:s') }}</small>
                         </p>
                         <div style="display: flex; gap: 10px; margin-top: 15px;">
                             <a href="{{ path('app_card_edit', {id: card.id}) }}" class="btn btn-secondary">{{ 'card.edit'|trans }}</a>
                             <a href="{{ path('app_card_qr_code', {id: card.id}) }}" class="btn btn-info">{{ 'card.qr_code.view'|trans }}</a>
-                            <form method="post" action="{{ path('app_card_delete', {id: card.id}) }}" style="display: inline;" onsubmit="return confirm('{{ 'card.delete.confirm'|trans }}');">
-                                <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ card.id) }}">
-                                <button type="submit" class="btn btn-danger">{{ 'card.delete'|trans }}</button>
-                            </form>
+                            {% if card.user == app.user %}
+                                <form method="post" action="{{ path('app_card_delete', {id: card.id}) }}" style="display: inline;" onsubmit="return confirm('{{ 'card.delete.confirm'|trans }}');">
+                                    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ card.id) }}">
+                                    <button type="submit" class="btn btn-danger">{{ 'card.delete'|trans }}</button>
+                                </form>
+                            {% endif %}
                         </div>
                     </div>
                 {% endfor %}

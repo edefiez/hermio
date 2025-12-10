@@ -12,6 +12,15 @@
             <a href="{{ card.publicUrl }}" target="_blank">{{ card.publicUrl }}</a>
         </p>
 
+        {# Flash messages #}
+        {% for label, messages in app.flashes %}
+            {% for message in messages %}
+                <div class="alert alert-{{ label == 'error' ? 'danger' : label }}" role="alert">
+                    {{ message|trans }}
+                </div>
+            {% endfor %}
+        {% endfor %}
+
         {{ form_start(form, {'attr': {'class': 'card-form'}}) }}
             {{ form_row(form.name) }}
             {{ form_row(form.email) }}
@@ -24,6 +33,48 @@
             <h3 style="margin-top: 30px;">{{ 'card.social.title'|trans }}</h3>
             {{ form_row(form.linkedin) }}
             {{ form_row(form.twitter) }}
+            
+            {% if isEnterprise and canManageAssignments and assignmentForm %}
+                <div class="form-section" style="margin-top: 30px; padding-top: 30px; border-top: 2px solid #dee2e6;">
+                    <h3>{{ 'card.assignments.title'|trans }}</h3>
+                    <p style="color: #666; margin-bottom: 20px;">{{ 'card.assignments.description'|trans }}</p>
+                    
+                    {% if currentAssignments|length > 0 %}
+                        <div style="margin-bottom: 20px;">
+                            <strong>{{ 'card.assignments.current'|trans }}:</strong>
+                            <ul style="margin-top: 10px;">
+                                {% for assignment in currentAssignments %}
+                                    <li>
+                                        {{ assignment.teamMember.email }}
+                                        <span class="badge badge-info">{{ assignment.teamMember.role.getDisplayName()|trans }}</span>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    {% endif %}
+                    
+                    {{ form_start(assignmentForm, {'action': path('app_card_edit', {id: card.id}), 'method': 'POST'}) }}
+                        {{ form_row(assignmentForm.teamMembers) }}
+                        {{ form_row(assignmentForm._token) }}
+                        <button type="submit" class="btn btn-primary">{{ 'card.assignments.assign'|trans }}</button>
+                    {{ form_end(assignmentForm) }}
+                </div>
+            {% elseif isEnterprise and not canManageAssignments and currentAssignments|length > 0 %}
+                <div class="form-section" style="margin-top: 30px; padding-top: 30px; border-top: 2px solid #dee2e6;">
+                    <h3>{{ 'card.assignments.title'|trans }}</h3>
+                    <div style="margin-bottom: 20px;">
+                        <strong>{{ 'card.assignments.current'|trans }}:</strong>
+                        <ul style="margin-top: 10px;">
+                            {% for assignment in currentAssignments %}
+                                <li>
+                                    {{ assignment.teamMember.email }}
+                                    <span class="badge badge-info">{{ assignment.teamMember.role.getDisplayName()|trans }}</span>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            {% endif %}
             
             <div style="margin-top: 30px; display: flex; gap: 15px;">
                 <button type="submit" class="btn btn-primary">{{ 'card.save'|trans }}</button>

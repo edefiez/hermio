@@ -1,0 +1,61 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ 'team.invitation.title'|trans }} - Hermio{% endblock %}
+
+{% block body %}
+<div class="profile-container">
+    <div class="profile-card">
+        <h1>{{ 'team.invitation.title'|trans }}</h1>
+        
+        {# Flash messages #}
+        {% for label, messages in app.flashes %}
+            {% for message in messages %}
+                <div class="alert alert-{{ label == 'error' ? 'danger' : label }}" role="alert">
+                    {{ message|trans }}
+                </div>
+            {% endfor %}
+        {% endfor %}
+        
+        {% if isExpired %}
+            <div class="alert alert-danger">
+                {{ 'team.invitation.expired'|trans }}
+            </div>
+        {% elseif teamMember.invitationStatus != 'pending' %}
+            <div class="alert alert-warning">
+                {{ 'team.invitation.already_processed'|trans }}
+            </div>
+        {% else %}
+            <div style="margin-bottom: 30px;">
+                <p>{{ 'team.invitation.message'|trans({'%account%': account.user.email}) }}</p>
+                <p><strong>{{ 'team.invitation.role'|trans({'%role%': teamMember.role.getDisplayName()|trans}) }}</strong></p>
+            </div>
+            
+            {% if not isLoggedIn %}
+                <div class="alert alert-info">
+                    {{ 'team.invitation.login_required'|trans }}
+                    <a href="{{ path('app_login') }}" class="btn btn-primary" style="margin-left: 10px;">
+                        {{ 'team.invitation.login'|trans }}
+                    </a>
+                </div>
+            {% elseif userEmail != teamMember.email %}
+                <div class="alert alert-warning">
+                    {{ 'team.invitation.email_mismatch'|trans({'%expected%': teamMember.email, '%actual%': userEmail}) }}
+                </div>
+            {% else %}
+                <form method="post" action="{{ path('app_team_accept', {'token': teamMember.invitationToken}) }}">
+                    <input type="hidden" name="_token" value="{{ csrf_token('team_accept') }}">
+                    <div style="display: flex; gap: 10px;">
+                        <button type="submit" name="action" value="accept" class="btn btn-primary">
+                            {{ 'team.invitation.accept'|trans }}
+                        </button>
+                        <button type="submit" name="action" value="decline" class="btn btn-secondary">
+                            {{ 'team.invitation.decline'|trans }}
+                        </button>
+                    </div>
+                </form>
+            {% endif %}
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
+

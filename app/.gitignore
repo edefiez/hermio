@@ -20,3 +20,8 @@ yarn-error.log
 /public/uploads/branding/logos/*
 !/public/uploads/branding/logos/.gitkeep
 ###< branding uploads ###
+
+###> phpunit/phpunit ###
+/phpunit.xml
+/.phpunit.cache/
+###< phpunit/phpunit ###

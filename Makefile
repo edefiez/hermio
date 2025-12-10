@@ -5,7 +5,7 @@
 # Les commandes sont exécutées à l'intérieur du conteneur 'app'.
 # ==============================================================================
 
-.PHONY: help up down restart logs shell rebuild install update test cc migrate make-migration yarn-install yarn-dev yarn-watch yarn-watch-stop yarn-build
+.PHONY: help up down restart logs shell rebuild install update test test-all test-unit test-functional test-integration cc migrate make-migration yarn-install yarn-dev yarn-watch yarn-watch-stop yarn-build
 
 # --- Aide ---------------------------------------------------------------------
 help:
@@ -29,7 +29,11 @@ help:
 	@echo "    \033[33mmake-migration\033[0m - Crée une nouvelle migration Doctrine."
 	@echo ""
 	@echo "  Tests & Qualité:"
-	@echo "    \033[35mtest\033[0m        - Lance les tests PHPUnit (avec reset DB auto)."
+	@echo "    \033[35mtest\033[0m        - Lance les tests unitaires (recommandé, 50 tests fonctionnels)."
+	@echo "    \033[35mtest-all\033[0m    - Lance tous les tests (unitaires + fonctionnels + intégration)."
+	@echo "    \033[35mtest-unit\033[0m    - Lance uniquement les tests unitaires."
+	@echo "    \033[35mtest-functional\033[0m - Lance uniquement les tests fonctionnels (nécessite config)."
+	@echo "    \033[35mtest-integration\033[0m - Lance uniquement les tests d'intégration (nécessite config)."
 	@echo "    \033[35mtest-db-reset\033[0m - Réinitialise la base de données de test."
 	@echo "    \033[35mtest-db-init\033[0m  - Initialise la base de données de test."
 	@echo "    \033[35mtest-db-fixtures\033[0m - Charge les fixtures de test."
@@ -103,40 +107,55 @@ make-migration:
 
 # --- Commandes de Tests & Qualité ---------------------------------------------
 test:
+	@echo "✅ Lancement des tests unitaires (tests fonctionnels/intégration en configuration)..."
+	@$(MAKE) test-unit
+
+test-all:
 	@echo "✅ Préparation de la base de données de test..."
 	@$(MAKE) test-db-reset
-	@echo "✅ Lancement des tests PHPUnit..."
-	docker compose exec app php vendor/bin/phpunit
+	@echo "✅ Lancement de tous les tests PHPUnit..."
+	docker compose exec app php bin/phpunit
+
+test-unit:
+	@echo "🧪 Lancement des tests unitaires..."
+	docker compose exec app php bin/phpunit tests/Unit/ --testdox
+
+test-functional:
+	@echo "🔧 Préparation de la base de données de test..."
+	@$(MAKE) test-db-init
+	@echo "🌐 Lancement des tests fonctionnels..."
+	docker compose exec app php bin/phpunit tests/Functional/ --testdox
+
+test-integration:
+	@echo "🔧 Préparation de la base de données de test..."
+	@$(MAKE) test-db-init
+	@echo "🔗 Lancement des tests d'intégration..."
+	docker compose exec app php bin/phpunit tests/Integration/ --testdox
 
 test-db-reset:
 	@echo "🔄 Réinitialisation de la base de données de test..."
-	@docker compose exec app bash -c "cd /var/www/symfony && \
-		bin/console doctrine:database:drop --env=test --force --if-exists && \
-		bin/console doctrine:database:create --env=test && \
-		bin/console doctrine:migrations:migrate --env=test --no-interaction && \
-		bin/console doctrine:fixtures:load --env=test --no-interaction"
+	@docker compose exec app php bin/console doctrine:database:drop --env=test --force --if-exists
+	@docker compose exec app php bin/console doctrine:database:create --env=test
+	@docker compose exec app php bin/console doctrine:migrations:migrate --env=test --no-interaction
+	@docker compose exec app php bin/console cache:clear --env=test
 
 test-db-init:
 	@echo "🚀 Initialisation de la base de données de test..."
-	@docker compose exec app bash -c "cd /var/www/symfony && \
-		bin/console doctrine:database:create --env=test --if-not-exists && \
-		bin/console doctrine:migrations:migrate --env=test --no-interaction && \
-#		bin/console doctrine:fixtures:load --env=test --no-interaction"
+	@docker compose exec app php bin/console doctrine:database:create --env=test --if-not-exists
+	@docker compose exec app php bin/console doctrine:migrations:migrate --env=test --no-interaction
+	@docker compose exec app php bin/console cache:clear --env=test
 
 test-db-fixtures:
 	@echo "📦 Chargement des fixtures de test..."
-	@docker compose exec app bash -c "cd /var/www/symfony && \
-		bin/console doctrine:fixtures:load --env=test --no-interaction"
+	@docker compose exec app php bin/console doctrine:fixtures:load --env=test --no-interaction
 
 test-db-migrate:
 	@echo "🔄 Exécution des migrations de test..."
-	@docker compose exec app bash -c "cd /var/www/symfony && \
-		bin/console doctrine:migrations:migrate --env=test --no-interaction"
+	@docker compose exec app php bin/console doctrine:migrations:migrate --env=test --no-interaction
 
 test-db-check:
 	@echo "🔍 Vérification de la base de données de test..."
-	@docker compose exec app bash -c "cd /var/www/symfony && \
-		bin/console doctrine:query:sql 'SELECT DATABASE()' --env=test"
+	@docker compose exec app php bin/console doctrine:query:sql 'SELECT DATABASE()' --env=test
 
 cs-fix:
 	@echo "🎨 Correction du style de code avec PHP-CS-Fixer..."
