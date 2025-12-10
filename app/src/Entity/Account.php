@@ -36,6 +36,9 @@ class Account
     #[ORM\Column(type: Types::STRING, length: 180, nullable: true)]
     private ?string $updatedBy = null;
 
+    #[ORM\OneToOne(targetEntity: AccountBranding::class, mappedBy: 'account', cascade: ['persist', 'remove'])]
+    private ?AccountBranding $branding = null;
+
     #[ORM\PrePersist]
     public function setCreatedAtValue(): void
     {
@@ -105,6 +108,25 @@ class Account
     public function setUpdatedBy(?string $updatedBy): static
     {
         $this->updatedBy = $updatedBy;
+        return $this;
+    }
+
+    public function getBranding(): ?AccountBranding
+    {
+        return $this->branding;
+    }
+
+    public function setBranding(?AccountBranding $branding): static
+    {
+        if ($branding === null) {
+            if ($this->branding !== null) {
+                $this->branding->setAccount(null);
+            }
+            $this->branding = null;
+        } else {
+            $branding->setAccount($this);
+            $this->branding = $branding;
+        }
         return $this;
     }
 }

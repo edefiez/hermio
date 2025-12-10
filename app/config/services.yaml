@@ -39,3 +39,7 @@ services:
     App\Controller\SubscriptionController:
         arguments:
             $defaultUri: '%env(DEFAULT_URI)%'
+
+    App\Service\BrandingService:
+        arguments:
+            $projectDir: '%kernel.project_dir%'

@@ -13,7 +13,8 @@ class AccountService
     public function __construct(
         private AccountRepository $accountRepository,
         private QuotaService $quotaService,
-        private EntityManagerInterface $entityManager
+        private EntityManagerInterface $entityManager,
+        private ?BrandingService $brandingService = null
     ) {
     }
 
@@ -53,11 +54,17 @@ class AccountService
             }
         }
         
+        $oldPlan = $account->getPlanType();
         $account->setPlanType($newPlan);
         $account->setUpdatedAt(new \DateTime());
         $account->setUpdatedBy($updatedBy);
         
         $this->entityManager->flush();
+        
+        // Handle branding plan downgrade if applicable
+        if ($this->brandingService && $this->isDowngrade($oldPlan, $newPlan)) {
+            $this->brandingService->handlePlanDowngrade($account, $oldPlan, $newPlan);
+        }
     }
 
     /**

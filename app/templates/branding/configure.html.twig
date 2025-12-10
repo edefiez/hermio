@@ -1,0 +1,110 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ 'branding.title'|trans }} - Hermio{% endblock %}
+
+{% block body %}
+<div class="profile-container">
+    <div class="profile-card">
+        <h1>{{ 'branding.title'|trans }}</h1>
+        
+        {# Flash messages #}
+        {% for label, messages in app.flashes %}
+            {% for message in messages %}
+                <div class="alert alert-{{ label == 'error' ? 'danger' : label }}" role="alert">
+                    {{ message|trans }}
+                </div>
+            {% endfor %}
+        {% endfor %}
+        
+        {% if account.planType.value == 'free' %}
+            <div class="alert alert-warning">
+                {{ 'branding.access_denied'|trans }}
+                <a href="{{ path('app_subscription_manage') }}" class="btn btn-primary" style="margin-left: 10px;">
+                    {{ 'branding.upgrade'|trans }}
+                </a>
+            </div>
+        {% else %}
+            {{ form_start(form, {'attr': {'enctype': 'multipart/form-data'}}) }}
+                {# Display form errors #}
+                {% if not form.vars.valid %}
+                    <div class="alert alert-danger" role="alert">
+                        {{ 'branding.validation.error'|trans }}
+                        <ul style="margin-top: 10px; margin-bottom: 0;">
+                            {% for error in form.vars.errors %}
+                                <li>{{ error.message }}</li>
+                            {% endfor %}
+                            {% for child in form.children %}
+                                {% for error in child.vars.errors %}
+                                    <li>{{ error.message }}</li>
+                                {% endfor %}
+                            {% endfor %}
+                        </ul>
+                    </div>
+                {% endif %}
+                
+                <div class="form-section" style="margin-bottom: 30px;">
+                    <h2>{{ 'branding.colors.title'|trans }}</h2>
+                    {{ form_row(form.primaryColor) }}
+                    {{ form_row(form.secondaryColor) }}
+                </div>
+                
+                <div class="form-section" style="margin-bottom: 30px;">
+                    <h2>{{ 'branding.logo.title'|trans }}</h2>
+                    {% if branding and branding.logoFilename %}
+                        <div style="margin-bottom: 20px;">
+                            <img src="{{ asset('uploads/branding/logos/' ~ branding.logoFilename) }}" alt="Logo" style="max-width: 200px; margin-bottom: 10px; display: block;">
+                            <form method="post" action="{{ path('app_branding_remove_logo') }}" style="display: inline-block;">
+                                <input type="hidden" name="_token" value="{{ csrf_token('remove_logo') }}">
+                                <button type="submit" class="btn btn-danger" onclick="return confirm('{{ 'branding.logo.remove.confirm'|trans }}')">
+                                    {{ 'branding.logo.remove'|trans }}
+                                </button>
+                            </form>
+                        </div>
+                    {% endif %}
+                    {{ form_row(form.logo) }}
+                    {{ form_row(form.logoPosition) }}
+                    {{ form_row(form.logoSize) }}
+                </div>
+                
+                {% if canConfigureTemplate %}
+                    <div class="form-section" style="margin-bottom: 30px;">
+                        <h2>{{ 'branding.template.title'|trans }}</h2>
+                        <p style="color: #666; margin-bottom: 15px;">
+                            {{ 'branding.template.description'|trans|default('Customize your public card page template. Your template must extend the base template.') }}
+                        </p>
+                        {% if templateForm %}
+                            {{ form_start(templateForm, {'action': path('app_branding_template_save'), 'method': 'POST'}) }}
+                                {{ form_row(templateForm.customTemplate) }}
+                                {{ form_row(templateForm._token) }}
+                                <button type="submit" class="btn btn-primary">{{ 'branding.template.save'|trans }}</button>
+                                {% if branding and branding.customTemplate %}
+                                    <button type="button" class="btn btn-secondary" onclick="if(confirm('{{ 'branding.template.reset.confirm'|trans }}')) { document.getElementById('template_reset_form').submit(); }">
+                                        {{ 'branding.template.reset'|trans }}
+                                    </button>
+                                    <form id="template_reset_form" method="post" action="{{ path('app_branding_template_reset') }}" style="display: none;">
+                                        <input type="hidden" name="_token" value="{{ csrf_token('reset_template') }}">
+                                    </form>
+                                {% endif %}
+                            {{ form_end(templateForm) }}
+                        {% endif %}
+                    </div>
+                {% endif %}
+                
+                {{ form_row(form._token) }}
+                <button type="submit" class="btn btn-primary">{{ 'branding.save'|trans }}</button>
+            {{ form_end(form) }}
+            
+            {# Reset branding button #}
+            {% if branding %}
+                <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #eee;">
+                    <form method="post" action="{{ path('app_branding_reset') }}" onsubmit="return confirm('{{ 'branding.reset.confirm'|trans }}');">
+                        <input type="hidden" name="_token" value="{{ csrf_token('reset_branding') }}">
+                        <button type="submit" class="btn btn-danger">{{ 'branding.reset'|trans }}</button>
+                    </form>
+                </div>
+            {% endif %}
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
+

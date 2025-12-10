@@ -5,6 +5,10 @@
 {% block stylesheets %}
     {{ parent() }}
     <style>
+        :root {
+            --primary-color: {{ branding and branding.primaryColor ? branding.primaryColor : '#007bff' }};
+            --secondary-color: {{ branding and branding.secondaryColor ? branding.secondaryColor : '#6c757d' }};
+        }
         .public-card-container {
             max-width: 600px;
             margin: 40px auto;
@@ -16,6 +20,7 @@
             box-shadow: 0 4px 20px rgba(0,0,0,0.1);
             padding: 40px;
             text-align: center;
+            border-top: 4px solid var(--primary-color);
         }
         .public-card h1 {
             margin-top: 0;
@@ -59,16 +64,54 @@
             flex-wrap: wrap;
         }
         .public-card .social-links a {
-            color: #007bff;
+            color: var(--primary-color);
             text-decoration: none;
             padding: 8px 16px;
-            border: 1px solid #007bff;
+            border: 1px solid var(--primary-color);
             border-radius: 4px;
             transition: all 0.3s;
         }
         .public-card .social-links a:hover {
-            background-color: #007bff;
+            background-color: var(--primary-color);
             color: white;
+        }
+        .brand-logo {
+            display: block;
+            margin-bottom: 20px;
+        }
+        .brand-logo img {
+            max-width: 100%;
+            height: auto;
+        }
+        .brand-logo-small img {
+            max-width: 100px;
+        }
+        .brand-logo-medium img {
+            max-width: 200px;
+        }
+        .brand-logo-large img {
+            max-width: 300px;
+        }
+        .brand-logo-top-left {
+            text-align: left;
+        }
+        .brand-logo-top-center {
+            text-align: center;
+        }
+        .brand-logo-top-right {
+            text-align: right;
+        }
+        .brand-logo-center {
+            text-align: center;
+        }
+        .brand-logo-bottom-left {
+            text-align: left;
+        }
+        .brand-logo-bottom-center {
+            text-align: center;
+        }
+        .brand-logo-bottom-right {
+            text-align: right;
         }
         @media (max-width: 768px) {
             .public-card-container {
@@ -87,6 +130,13 @@
 {% block body %}
 <div class="public-card-container">
     <div class="public-card">
+        {% if branding and branding.logoFilename %}
+            {% set logoPosition = branding.logoPosition|default('top-left') %}
+            {% set logoSize = branding.logoSize|default('medium') %}
+            <div class="brand-logo brand-logo-{{ logoPosition }} brand-logo-{{ logoSize }}">
+                <img src="{{ asset('uploads/branding/logos/' ~ branding.logoFilename) }}?v={{ 'now'|date('U') }}" alt="Brand Logo">
+            </div>
+        {% endif %}
         <h1>{{ card.content.name|default('card.public.title'|trans) }}</h1>
         
         {% if card.content.title %}

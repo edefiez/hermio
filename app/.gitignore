@@ -15,3 +15,8 @@
 npm-debug.log
 yarn-error.log
 ###< symfony/webpack-encore-bundle ###
+
+###> branding uploads ###
+/public/uploads/branding/logos/*
+!/public/uploads/branding/logos/.gitkeep
+###< branding uploads ###
