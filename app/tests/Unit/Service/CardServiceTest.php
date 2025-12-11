@@ -11,6 +11,7 @@ use App\Repository\CardRepository;
 use App\Repository\TeamMemberRepository;
 use App\Service\CardService;
 use App\Service\QuotaService;
+use App\Service\SecureKeyGenerator;
 use Doctrine\ORM\EntityManagerInterface;
 use PHPUnit\Framework\TestCase;
 
@@ -21,6 +22,7 @@ class CardServiceTest extends TestCase
     private EntityManagerInterface $entityManager;
     private TeamMemberRepository $teamMemberRepository;
     private CardAssignmentRepository $cardAssignmentRepository;
+    private SecureKeyGenerator $secureKeyGenerator;
     private CardService $cardService;
 
     protected function setUp(): void
@@ -30,13 +32,15 @@ class CardServiceTest extends TestCase
         $this->entityManager = $this->createMock(EntityManagerInterface::class);
         $this->teamMemberRepository = $this->createMock(TeamMemberRepository::class);
         $this->cardAssignmentRepository = $this->createMock(CardAssignmentRepository::class);
+        $this->secureKeyGenerator = $this->createMock(SecureKeyGenerator::class);
         
         $this->cardService = new CardService(
             $this->cardRepository,
             $this->quotaService,
             $this->entityManager,
             $this->teamMemberRepository,
-            $this->cardAssignmentRepository
+            $this->cardAssignmentRepository,
+            $this->secureKeyGenerator
         );
     }
 
@@ -126,5 +130,64 @@ class CardServiceTest extends TestCase
 
         $this->cardService->deleteCard($card);
     }
+
+    public function testValidateAccessKeyReturnsTrueWithValidKey(): void
+    {
+        $card = new Card();
+        $validKey = 'test-secure-key-123456789';
+        $card->setPublicAccessKey($validKey);
+
+        $result = $this->cardService->validateAccessKey($card, $validKey);
+
+        $this->assertTrue($result);
+    }
+
+    public function testValidateAccessKeyReturnsFalseWithInvalidKey(): void
+    {
+        $card = new Card();
+        $card->setPublicAccessKey('correct-key-123456789');
+
+        $result = $this->cardService->validateAccessKey($card, 'wrong-key');
+
+        $this->assertFalse($result);
+    }
+
+    public function testValidateAccessKeyReturnsFalseWhenKeyIsNull(): void
+    {
+        $card = new Card();
+        $card->setPublicAccessKey('some-key-123456789');
+
+        $result = $this->cardService->validateAccessKey($card, null);
+
+        $this->assertFalse($result);
+    }
+
+    public function testValidateAccessKeyReturnsFalseWhenCardHasNoKey(): void
+    {
+        $card = new Card();
+        $card->setPublicAccessKey(null);
+
+        $result = $this->cardService->validateAccessKey($card, 'any-key');
+
+        $this->assertFalse($result);
+    }
+
+    public function testRegenerateCardAccessKeyGeneratesNewKey(): void
+    {
+        $card = new Card();
+        $newKey = 'new-generated-key-123456789';
+        
+        $this->secureKeyGenerator
+            ->expects($this->once())
+            ->method('generateRandomKey')
+            ->willReturn($newKey);
+
+        $this->entityManager->expects($this->once())->method('flush');
+
+        $this->cardService->regenerateCardAccessKey($card);
+
+        $this->assertEquals($newKey, $card->getPublicAccessKey());
+    }
 }
+
 

@@ -500,3 +500,27 @@ team:
     revoked: "Révoqué"
   can_manage: "Vous pouvez gérer les membres d'équipe"
   cannot_manage: "Vous n'avez pas la permission de gérer les membres d'équipe"
+
+error:
+  access_denied:
+    title: "Accès Refusé"
+    message: "Cette carte nécessite une clé d'accès valide pour être consultée."
+    reason: "Pourquoi je vois cela ?"
+    invalid_key: "La clé d'accès est manquante ou invalide. Veuillez vérifier l'URL que vous avez reçue."
+    help: "Que puis-je faire ?"
+    check_url: "Vérifiez l'URL complète incluant le paramètre de clé d'accès (?k=...)"
+    check_link: "Assurez-vous d'utiliser le lien le plus récent qui vous a été partagé"
+    contact_owner: "Contactez le propriétaire de la carte pour demander un nouveau lien"
+  back_home: "Retour à l'accueil"
+
+card:
+  security:
+    regenerate_key: "Régénérer la Clé d'Accès"
+    regenerate_key_confirm: "Êtes-vous sûr ? Cela invalidera l'URL publique actuelle."
+    regenerate_key_success: "Clé d'accès régénérée avec succès. Veuillez partager la nouvelle URL."
+    warning: "⚠️ Gardez cette URL sécurisée. Toute personne avec ce lien peut voir votre carte."
+    secure_url: "URL Publique Sécurisée"
+    copy_url: "Copier l'URL"
+    url_copied: "URL copiée dans le presse-papiers !"
+  view: "Voir la carte"
+  public_url: "URL publique"
