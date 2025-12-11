@@ -546,3 +546,94 @@ team:
     revoked: "Révoqué"
   can_manage: "Vous pouvez gérer les membres d'équipe"
   cannot_manage: "Vous n'avez pas la permission de gérer les membres d'équipe"
+
+# ============================================================================
+# PAGES D'AUTHENTIFICATION (Refonte du thème back-office)
+# ============================================================================
+auth:
+  title: "Authentification"
+  form:
+    aria_label: "Formulaire d'authentification"
+  illustration:
+    aria_label: "Image de marque Hermio"
+    tagline: "Votre identité professionnelle, en un scan"
+  
+  login:
+    title: "Connexion à Hermio"
+    subtitle: "Accédez à vos cartes de visite numériques"
+    email_label: "Adresse e-mail"
+    email_placeholder: "vous@exemple.com"
+    email_help: "Entrez votre adresse e-mail enregistrée"
+    password_label: "Mot de passe"
+    password_placeholder: "Entrez votre mot de passe"
+    password_help: "Entrez le mot de passe de votre compte"
+    remember_me: "Se souvenir de moi"
+    submit: "Se connecter"
+    forgot_password: "Mot de passe oublié ?"
+    no_account: "Vous n'avez pas de compte ?"
+    register_link: "Créer un compte maintenant"
+  
+  register:
+    title: "Créer votre compte"
+    subtitle: "Commencez à créer des cartes de visite numériques"
+    email_label: "Adresse e-mail"
+    email_placeholder: "vous@exemple.com"
+    email_help: "Entrez une adresse e-mail valide"
+    password_label: "Mot de passe"
+    password_placeholder: "Choisissez un mot de passe sécurisé"
+    password_help: "Minimum 8 caractères"
+    confirm_password_label: "Confirmer le mot de passe"
+    confirm_password_placeholder: "Ressaisissez votre mot de passe"
+    confirm_password_help: "Les mots de passe doivent correspondre"
+    submit: "Créer un compte"
+    have_account: "Vous avez déjà un compte ?"
+    login_link: "Connectez-vous ici"
+    terms: "En créant un compte, vous acceptez nos <a href=\"%terms_url%\">Conditions d'utilisation</a> et notre <a href=\"%privacy_url%\">Politique de confidentialité</a>."
+
+# ============================================================================
+# ACCESSIBILITÉ
+# ============================================================================
+accessibility:
+  skip_to_content: "Aller au contenu principal"
+
+# ============================================================================
+# COMPOSANTS DU TABLEAU DE BORD
+# ============================================================================
+dashboard:
+  cards:
+    account_overview: "Aperçu du compte"
+    plan_summary: "Mon forfait"
+    card_stats: "Statistiques des cartes"
+    recent_activity: "Activité récente"
+  account:
+    email: "E-mail"
+    plan: "Forfait actuel"
+    quota: "Quota"
+    joined: "Membre depuis"
+  actions:
+    view_details: "Voir les détails"
+    upgrade_plan: "Mettre à niveau le forfait"
+    manage_cards: "Gérer les cartes"
+error:
+  access_denied:
+    title: "Accès Refusé"
+    message: "Cette carte nécessite une clé d'accès valide pour être consultée."
+    reason: "Pourquoi je vois cela ?"
+    invalid_key: "La clé d'accès est manquante ou invalide. Veuillez vérifier l'URL que vous avez reçue."
+    help: "Que puis-je faire ?"
+    check_url: "Vérifiez l'URL complète incluant le paramètre de clé d'accès (?k=...)"
+    check_link: "Assurez-vous d'utiliser le lien le plus récent qui vous a été partagé"
+    contact_owner: "Contactez le propriétaire de la carte pour demander un nouveau lien"
+  back_home: "Retour à l'accueil"
+
+card:
+  security:
+    regenerate_key: "Régénérer la Clé d'Accès"
+    regenerate_key_confirm: "Êtes-vous sûr ? Cela invalidera l'URL publique actuelle."
+    regenerate_key_success: "Clé d'accès régénérée avec succès. Veuillez partager la nouvelle URL."
+    warning: "⚠️ Gardez cette URL sécurisée. Toute personne avec ce lien peut voir votre carte."
+    secure_url: "URL Publique Sécurisée"
+    copy_url: "Copier l'URL"
+    url_copied: "URL copiée dans le presse-papiers !"
+  view: "Voir la carte"
+  public_url: "URL publique"

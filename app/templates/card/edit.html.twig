@@ -7,10 +7,32 @@
     <div class="profile-card">
         <h1>{{ 'card.edit.title'|trans }}</h1>
 
-        <p>
-            <strong>{{ 'card.public_url'|trans }}:</strong>
-            <a href="{{ card.publicUrl }}" target="_blank">{{ card.publicUrl }}</a>
-        </p>
+        {# Secure Public URL Section #}
+        <div style="background: #f8f9fa; border: 2px solid #007bff; border-radius: 8px; padding: 20px; margin-bottom: 30px;">
+            <h3 style="margin-top: 0; color: #007bff;">
+                <i class="fas fa-lock"></i> {{ 'card.security.secure_url'|trans }}
+            </h3>
+            <div style="background: white; padding: 15px; border-radius: 6px; margin: 15px 0; word-break: break-all;">
+                <code style="font-size: 0.9rem; color: #333;">{{ app.request.schemeAndHttpHost }}{{ card.publicUrl }}</code>
+            </div>
+            <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 15px;">
+                <button type="button" class="btn btn-primary btn-sm" onclick="copyToClipboard('{{ app.request.schemeAndHttpHost }}{{ card.publicUrl|e('js') }}')">
+                    <i class="fas fa-copy"></i> {{ 'card.security.copy_url'|trans }}
+                </button>
+                <a href="{{ card.publicUrl }}" target="_blank" class="btn btn-secondary btn-sm">
+                    <i class="fas fa-external-link-alt"></i> {{ 'card.view'|trans }}
+                </a>
+                <form method="post" action="{{ path('app_card_regenerate_key', {id: card.id}) }}" style="display: inline;" onsubmit="return confirm('{{ 'card.security.regenerate_key_confirm'|trans }}');">
+                    <input type="hidden" name="_token" value="{{ csrf_token('regenerate' ~ card.id) }}">
+                    <button type="submit" class="btn btn-warning btn-sm">
+                        <i class="fas fa-sync-alt"></i> {{ 'card.security.regenerate_key'|trans }}
+                    </button>
+                </form>
+            </div>
+            <div style="background: #fff3cd; border: 1px solid #ffc107; border-radius: 6px; padding: 12px; font-size: 0.9rem; color: #856404;">
+                {{ 'card.security.warning'|trans }}
+            </div>
+        </div>
 
         {# Flash messages #}
         {% for label, messages in app.flashes %}
@@ -97,5 +119,47 @@
         {{ form_end(form) }}
     </div>
 </div>
+
+<script>
+function copyToClipboard(text) {
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(function() {
+            alert('{{ 'card.security.url_copied'|trans }}');
+        }, function(err) {
+            console.error('Could not copy text: ', err);
+            fallbackCopyTextToClipboard(text);
+        });
+    } else {
+        fallbackCopyTextToClipboard(text);
+    }
+}
+
+function fallbackCopyTextToClipboard(text) {
+    var textArea = document.createElement("textarea");
+    textArea.value = text;
+    textArea.style.position = "fixed";
+    textArea.style.top = 0;
+    textArea.style.left = 0;
+    textArea.style.width = '2em';
+    textArea.style.height = '2em';
+    textArea.style.padding = 0;
+    textArea.style.border = 'none';
+    textArea.style.outline = 'none';
+    textArea.style.boxShadow = 'none';
+    textArea.style.background = 'transparent';
+    document.body.appendChild(textArea);
+    textArea.focus();
+    textArea.select();
+    try {
+        var successful = document.execCommand('copy');
+        if (successful) {
+            alert('{{ 'card.security.url_copied'|trans }}');
+        }
+    } catch (err) {
+        console.error('Fallback: Could not copy text: ', err);
+    }
+    document.body.removeChild(textArea);
+}
+</script>
 {% endblock %}
 

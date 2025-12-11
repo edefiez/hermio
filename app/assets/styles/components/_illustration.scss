@@ -1,0 +1,107 @@
+// ============================================================================
+// ILLUSTRATION COMPONENT
+// ============================================================================
+// Styles for the business card illustration on authentication pages
+
+@import '../design-tokens';
+
+// ============================================================================
+// ILLUSTRATION WRAPPER
+// ============================================================================
+
+.auth-illustration-wrapper {
+  width: 100%;
+  max-width: 600px;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+// ============================================================================
+// ILLUSTRATION IMAGE
+// ============================================================================
+
+.auth-illustration {
+  width: 100%;
+  height: auto;
+  max-width: 500px;
+  
+  // Ensure SVG scales properly
+  object-fit: contain;
+  
+  // Add subtle animation on page load (optional)
+  animation: fadeInUp 0.6s ease-out;
+  
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+}
+
+// ============================================================================
+// ILLUSTRATION TAGLINE (Text below illustration)
+// ============================================================================
+
+.auth-illustration-tagline {
+  margin-top: $hermio-space-xl;
+  font-size: $hermio-text-lg;
+  font-weight: $hermio-font-medium;
+  color: #FFFFFF;
+  text-align: center;
+  line-height: $hermio-leading-relaxed;
+  max-width: 400px;
+  
+  // Text shadow for better readability on gradient background
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+// ============================================================================
+// RESPONSIVE ADJUSTMENTS
+// ============================================================================
+
+// Mobile: Smaller illustration
+@media (max-width: $hermio-breakpoint-md) {
+  .auth-illustration {
+    max-width: 300px;
+  }
+  
+  .auth-illustration-tagline {
+    font-size: $hermio-text-base;
+    margin-top: $hermio-space-lg;
+  }
+}
+
+// Tablet
+@media (min-width: $hermio-breakpoint-md) and (max-width: $hermio-breakpoint-lg) {
+  .auth-illustration {
+    max-width: 400px;
+  }
+}
+
+// Large desktop: Allow larger illustration
+@media (min-width: $hermio-breakpoint-xl) {
+  .auth-illustration {
+    max-width: 550px;
+  }
+  
+  .auth-illustration-tagline {
+    font-size: $hermio-text-xl;
+  }
+}
+
+// ============================================================================
+// ACCESSIBILITY
+// ============================================================================
+
+// The illustration SVG should have role="presentation" or empty alt=""
+// since it's decorative and doesn't convey essential information
+// This is handled in the HTML template
+

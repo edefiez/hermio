@@ -1,5 +1,7 @@
-// Import Bootstrap using @use (modern SASS)
-@use "sass:map";
+// Import design tokens FIRST (defines variables that override Bootstrap defaults)
+@import 'design-tokens';
+
+// Import Bootstrap (SCSS variables from design-tokens will override Bootstrap defaults)
 @import "~bootstrap/scss/bootstrap";
 
 // Custom styles to complement Bootstrap
