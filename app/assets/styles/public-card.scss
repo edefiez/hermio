@@ -1,0 +1,476 @@
+/**
+ * Public Card Styles
+ * Feature 008: Public Card Enhancements
+ * 
+ * Mobile-first responsive design with:
+ * - Touch-friendly elements (min 48px)
+ * - WCAG 2.1 Level AA color contrast
+ * - Fixed download button on mobile
+ * - Accessibility features
+ */
+
+/* ========================================
+   Variables & Breakpoints
+   ======================================== */
+
+:root {
+  --card-primary-color: #007bff;
+  --card-text-color: #333;
+  --card-text-secondary: #666;
+  --card-text-muted: #888;
+  --card-bg-light: #f8f9fa;
+  --card-border-color: #eee;
+  --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  --card-radius: 12px;
+  --card-spacing: 1rem;
+  --card-spacing-lg: 1.5rem;
+  
+  /* Minimum touch target size */
+  --min-touch-target: 48px;
+  
+  /* Z-index layers */
+  --z-fixed-button: 1000;
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --card-text-color: #e0e0e0;
+    --card-text-secondary: #b0b0b0;
+    --card-text-muted: #888;
+    --card-bg-light: #2a2a2a;
+    --card-border-color: #444;
+    --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+  }
+  
+  .public-card {
+    background: #1a1a1a;
+    color: var(--card-text-color);
+  }
+}
+
+/* ========================================
+   Container & Card Layout
+   ======================================== */
+
+.public-card-container {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: var(--card-spacing);
+  
+  /* Add bottom padding on mobile to account for fixed button */
+  padding-bottom: calc(var(--min-touch-target) + var(--card-spacing-lg) * 2);
+}
+
+.public-card {
+  background: white;
+  border-radius: var(--card-radius);
+  box-shadow: var(--card-shadow);
+  padding: calc(var(--card-spacing) * 1.5);
+  border-top: 4px solid var(--card-primary-color);
+}
+
+/* ========================================
+   Card Header Section
+   ======================================== */
+
+.card-header-section {
+  text-align: center;
+  padding-bottom: var(--card-spacing-lg);
+  border-bottom: 2px solid var(--card-primary-color);
+  margin-bottom: var(--card-spacing-lg);
+}
+
+.card-name {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--card-text-color);
+  margin: 0 0 0.5rem 0;
+  line-height: 1.2;
+}
+
+.card-title {
+  font-size: 1.25rem;
+  color: var(--card-text-secondary);
+  margin: 0 0 0.25rem 0;
+}
+
+.card-company {
+  font-size: 1rem;
+  color: var(--card-text-muted);
+  margin: 0;
+}
+
+/* ========================================
+   Contact Actions (Call/Email Buttons)
+   ======================================== */
+
+.contact-actions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--card-spacing);
+  margin: var(--card-spacing-lg) 0;
+}
+
+.btn-action {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  min-height: var(--min-touch-target);
+  padding: 1rem;
+  font-size: 1.125rem;
+  font-weight: 600;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.btn-action i,
+.btn-action svg {
+  font-size: 1.5rem;
+}
+
+.btn-call {
+  background-color: #28a745;
+  color: white;
+  border: none;
+}
+
+.btn-call:hover {
+  background-color: #218838;
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(40, 167, 69, 0.3);
+}
+
+.btn-email {
+  background-color: #007bff;
+  color: white;
+  border: none;
+}
+
+.btn-email:hover {
+  background-color: #0056b3;
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3);
+}
+
+/* ========================================
+   Contact Info Section
+   ======================================== */
+
+.contact-info {
+  margin: var(--card-spacing-lg) 0;
+}
+
+.contact-info-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  padding: var(--card-spacing) 0;
+  border-bottom: 1px solid var(--card-border-color);
+}
+
+.contact-info-item:last-child {
+  border-bottom: none;
+}
+
+.contact-icon {
+  font-size: 1.5rem;
+  color: var(--card-primary-color);
+  margin-right: 0.75rem;
+}
+
+.contact-label {
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--card-text-secondary);
+}
+
+.contact-value {
+  font-size: 1.125rem;
+  color: var(--card-text-color);
+  word-break: break-word;
+}
+
+.contact-value a {
+  color: var(--card-primary-color);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.contact-value a:hover {
+  color: #0056b3;
+  text-decoration: underline;
+}
+
+/* ========================================
+   Bio Section
+   ======================================== */
+
+.card-bio {
+  margin: var(--card-spacing-lg) 0;
+  padding: var(--card-spacing-lg);
+  background: var(--card-bg-light);
+  border-radius: 8px;
+}
+
+.card-bio h2 {
+  font-size: 1.125rem;
+  font-weight: 600;
+  margin: 0 0 0.75rem 0;
+  color: var(--card-text-color);
+}
+
+.card-bio p {
+  margin: 0;
+  line-height: 1.6;
+  color: var(--card-text-color);
+}
+
+/* ========================================
+   Social Links
+   ======================================== */
+
+.social-links {
+  margin-top: var(--card-spacing-lg);
+}
+
+.social-links h2 {
+  font-size: 1.125rem;
+  font-weight: 600;
+  margin: 0 0 1rem 0;
+  color: var(--card-text-color);
+}
+
+.social-links-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--card-spacing);
+  justify-content: center;
+}
+
+.social-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: var(--min-touch-target);
+  min-height: var(--min-touch-target);
+  padding: 0.75rem 1rem;
+  color: var(--card-primary-color);
+  background: white;
+  border: 2px solid var(--card-primary-color);
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.social-link i,
+.social-link svg {
+  font-size: 1.5rem;
+  margin-right: 0.5rem;
+}
+
+.social-link:hover {
+  background-color: var(--card-primary-color);
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3);
+}
+
+/* Platform-specific colors (optional enhancement) */
+.social-link[data-platform="instagram"]:hover {
+  background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+  border-color: #e1306c;
+}
+
+.social-link[data-platform="linkedin"]:hover {
+  background-color: #0077b5;
+  border-color: #0077b5;
+}
+
+.social-link[data-platform="facebook"]:hover {
+  background-color: #1877f2;
+  border-color: #1877f2;
+}
+
+.social-link[data-platform="tiktok"]:hover {
+  background-color: #000;
+  border-color: #000;
+}
+
+.social-link[data-platform="x"]:hover,
+.social-link[data-platform="twitter"]:hover {
+  background-color: #000;
+  border-color: #000;
+}
+
+.social-link[data-platform="snapchat"]:hover {
+  background-color: #fffc00;
+  border-color: #fffc00;
+  color: #000;
+}
+
+/* ========================================
+   Download Button
+   ======================================== */
+
+.btn-download {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  min-height: var(--min-touch-target);
+  padding: 1rem 1.5rem;
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: white;
+  background-color: var(--card-primary-color);
+  border: none;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.btn-download:hover {
+  background-color: #0056b3;
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 123, 255, 0.4);
+}
+
+.btn-download i,
+.btn-download svg {
+  font-size: 1.25rem;
+}
+
+/* Fixed download button for mobile */
+.btn-download-mobile {
+  position: fixed;
+  bottom: var(--card-spacing);
+  left: var(--card-spacing);
+  right: var(--card-spacing);
+  z-index: var(--z-fixed-button);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  animation: slideUp 0.3s ease-out;
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(100px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* ========================================
+   Keyboard Focus Styles (Accessibility)
+   ======================================== */
+
+.btn-action:focus,
+.btn-download:focus,
+.social-link:focus,
+.contact-value a:focus {
+  outline: 2px solid var(--card-primary-color);
+  outline-offset: 2px;
+}
+
+/* ========================================
+   Reduced Motion (Accessibility)
+   ======================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  
+  .btn-download-mobile {
+    animation: none;
+  }
+  
+  .btn-action:hover,
+  .btn-download:hover,
+  .social-link:hover {
+    transform: none;
+  }
+}
+
+/* ========================================
+   Tablet & Desktop Breakpoints
+   ======================================== */
+
+@media (min-width: 768px) {
+  .public-card-container {
+    margin: 2rem auto;
+    padding: var(--card-spacing-lg);
+    padding-bottom: var(--card-spacing-lg);
+  }
+  
+  .public-card {
+    padding: 2.5rem;
+  }
+  
+  .card-name {
+    font-size: 2.5rem;
+  }
+  
+  .contact-actions {
+    flex-direction: row;
+    justify-content: center;
+  }
+  
+  .btn-action {
+    flex: 1;
+    max-width: 250px;
+  }
+  
+  /* Hide mobile fixed button on desktop */
+  .btn-download-mobile {
+    display: none;
+  }
+}
+
+@media (min-width: 1024px) {
+  .public-card-container {
+    margin: 3rem auto;
+  }
+}
+
+/* ========================================
+   Print Styles
+   ======================================== */
+
+@media print {
+  .btn-download,
+  .btn-download-mobile {
+    display: none;
+  }
+  
+  .public-card {
+    box-shadow: none;
+    border: 1px solid #ccc;
+  }
+  
+  .social-link,
+  .contact-value a {
+    color: #000;
+    text-decoration: underline;
+  }
+  
+  /* Prevent page breaks inside card */
+  .public-card {
+    page-break-inside: avoid;
+  }
+}

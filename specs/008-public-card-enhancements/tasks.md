@@ -24,9 +24,9 @@
 
 **Purpose**: Install dependencies and verify Feature 005 is complete
 
-- [ ] T001 Verify Feature 005 (Digital Card Management) is implemented with Card entity in app/src/Entity/Card.php and PublicCardController in app/src/Controller/PublicCardController.php
-- [ ] T002 Install sabre/vobject library via composer require sabre/vobject in app/
-- [ ] T003 Verify Bootstrap Icons are available in project (check app/assets/ or CDN in app/templates/base.html.twig)
+- [x] T001 Verify Feature 005 (Digital Card Management) is implemented with Card entity in app/src/Entity/Card.php and PublicCardController in app/src/Controller/PublicCardController.php
+- [x] T002 Install sabre/vobject library via composer require sabre/vobject in app/
+- [x] T003 Verify Bootstrap Icons are available in project (check app/assets/ or CDN in app/templates/base.html.twig)
 
 ---
 
@@ -36,12 +36,12 @@
 
 **⚠️ CRITICAL**: No user story work can begin until this phase is complete
 
-- [ ] T004 [P] Create VCardService in app/src/Service/VCardService.php with generate() and generateFilename() methods, constructor injecting CacheInterface, implementing vCard 4.0 generation using sabre/vobject
-- [ ] T005 [P] Create SocialProfile constraint in app/src/Validator/Constraints/SocialProfile.php with platform parameter and message property
-- [ ] T006 Create SocialProfileValidator in app/src/Validator/Constraints/SocialProfileValidator.php with platform-specific URL regex patterns for linkedin, twitter, x, instagram, tiktok, facebook, snapchat
-- [ ] T007 Update CardFormType in app/src/Form/CardFormType.php to add 8 new social network fields: instagram, tiktok, facebook, x, bluebirds, snapchat, planity, other (all UrlType, not required, with SocialProfile validators)
-- [ ] T008 Create public-card.scss in app/assets/styles/public-card.scss with mobile-first styling, fixed download button, touch-friendly elements (min 48px), WCAG AA color contrast
-- [ ] T009 Configure Webpack Encore in app/webpack.config.js to compile public-card.scss as new entry point 'public-card'
+- [x] T004 [P] Create VCardService in app/src/Service/VCardService.php with generate() and generateFilename() methods, constructor injecting CacheInterface, implementing vCard 4.0 generation using sabre/vobject
+- [x] T005 [P] Create SocialProfile constraint in app/src/Validator/Constraints/SocialProfile.php with platform parameter and message property
+- [x] T006 Create SocialProfileValidator in app/src/Validator/Constraints/SocialProfileValidator.php with platform-specific URL regex patterns for linkedin, twitter, x, instagram, tiktok, facebook, snapchat
+- [x] T007 Update CardFormType in app/src/Form/CardFormType.php to add 8 new social network fields: instagram, tiktok, facebook, x, bluebirds, snapchat, planity, other (all UrlType, not required, with SocialProfile validators)
+- [x] T008 Create public-card.scss in app/assets/styles/public-card.scss with mobile-first styling, fixed download button, touch-friendly elements (min 48px), WCAG AA color contrast
+- [x] T009 Configure Webpack Encore in app/webpack.config.js to compile public-card.scss as new entry point 'public-card'
 
 **Checkpoint**: Foundation ready - user story implementation can now begin in parallel
 
@@ -57,19 +57,19 @@
 
 > **NOTE: Write these tests FIRST, ensure they FAIL before implementation**
 
-- [ ] T010 [P] [US1] Create VCardServiceTest in app/tests/Service/VCardServiceTest.php testing generate() with basic card, card with social profiles, generateFilename() method, cache behavior
-- [ ] T011 [P] [US1] Create PublicCardControllerDownloadTest in app/tests/Controller/PublicCardControllerDownloadTest.php testing successful download, 404 for non-existent card, correct headers (Content-Type, Content-Disposition)
+- [x] T010 [P] [US1] Create VCardServiceTest in app/tests/Service/VCardServiceTest.php testing generate() with basic card, card with social profiles, generateFilename() method, cache behavior
+- [x] T011 [P] [US1] Create PublicCardControllerDownloadTest in app/tests/Controller/PublicCardControllerDownloadTest.php testing successful download, 404 for non-existent card, correct headers (Content-Type, Content-Disposition)
 
 ### Implementation for User Story 1
 
-- [ ] T012 [US1] Implement VCardService::generate() in app/src/Service/VCardService.php to create vCard 4.0 with sabre/vobject, map Card content fields to vCard properties (FN, N, EMAIL, TEL, ORG, TITLE, URL, NOTE, X-SOCIALPROFILE), cache for 1 hour
-- [ ] T013 [US1] Implement VCardService::addSocialProfiles() private method in app/src/Service/VCardService.php to add X-SOCIALPROFILE for known platforms (linkedin, instagram, tiktok, facebook, x, snapchat) and URL with TYPE=social for others (planity, bluebirds, other)
-- [ ] T014 [US1] Implement VCardService::generateFilename() in app/src/Service/VCardService.php to normalize card name, slugify, return format contact-{normalized-name}.vcf
-- [ ] T015 [US1] Add download() action to PublicCardController in app/src/Controller/PublicCardController.php with route #[Route('/c/{slug}/download', name: 'public_card_download', methods: ['GET'])]
-- [ ] T016 [US1] Implement PublicCardController::download() to find active card by slug, call VCardService::generate(), return Response with Content-Type: text/vcard and Content-Disposition: attachment headers
-- [ ] T017 [US1] Add error handling in PublicCardController::download() to catch exceptions from VCardService, log errors, throw 500 with user-friendly message
-- [ ] T018 [P] [US1] Add translation keys for download functionality in app/translations/messages.en.yaml: card.download, card.download.error, card.action.call, card.action.email
-- [ ] T019 [P] [US1] Add translation keys for download functionality in app/translations/messages.fr.yaml: card.download, card.download.error, card.action.call, card.action.email
+- [x] T012 [US1] Implement VCardService::generate() in app/src/Service/VCardService.php to create vCard 4.0 with sabre/vobject, map Card content fields to vCard properties (FN, N, EMAIL, TEL, ORG, TITLE, URL, NOTE, X-SOCIALPROFILE), cache for 1 hour
+- [x] T013 [US1] Implement VCardService::addSocialProfiles() private method in app/src/Service/VCardService.php to add X-SOCIALPROFILE for known platforms (linkedin, instagram, tiktok, facebook, x, snapchat) and URL with TYPE=social for others (planity, bluebirds, other)
+- [x] T014 [US1] Implement VCardService::generateFilename() in app/src/Service/VCardService.php to normalize card name, slugify, return format contact-{normalized-name}.vcf
+- [x] T015 [US1] Add download() action to PublicCardController in app/src/Controller/PublicCardController.php with route #[Route('/c/{slug}/download', name: 'public_card_download', methods: ['GET'])]
+- [x] T016 [US1] Implement PublicCardController::download() to find active card by slug, call VCardService::generate(), return Response with Content-Type: text/vcard and Content-Disposition: attachment headers
+- [x] T017 [US1] Add error handling in PublicCardController::download() to catch exceptions from VCardService, log errors, throw 500 with user-friendly message
+- [x] T018 [P] [US1] Add translation keys for download functionality in app/translations/messages.en.yaml: card.download, card.download.error, card.action.call, card.action.email
+- [x] T019 [P] [US1] Add translation keys for download functionality in app/translations/messages.fr.yaml: card.download, card.download.error, card.action.call, card.action.email
 
 **Checkpoint**: At this point, User Story 1 should be fully functional and testable independently. Users can download vCard files from public cards.
 
@@ -83,18 +83,18 @@
 
 ### Tests for User Story 2
 
-- [ ] T020 [P] [US2] Create CardFormTypeTest in app/tests/Form/CardFormTypeTest.php testing form submission with new social fields, URL validation for each platform, error messages for invalid URLs
-- [ ] T021 [P] [US2] Create SocialProfileValidatorTest in app/tests/Validator/Constraints/SocialProfileValidatorTest.php testing platform-specific regex patterns, valid/invalid URLs for each platform
+- [x] T020 [P] [US2] Create CardFormTypeTest in app/tests/Form/CardFormTypeTest.php testing form submission with new social fields, URL validation for each platform, error messages for invalid URLs
+- [x] T021 [P] [US2] Create SocialProfileValidatorTest in app/tests/Validator/Constraints/SocialProfileValidatorTest.php testing platform-specific regex patterns, valid/invalid URLs for each platform
 
 ### Implementation for User Story 2
 
-- [ ] T022 [US2] Update CardFormType::buildForm() in app/src/Form/CardFormType.php to add POST_SUBMIT event listener mapping form data to Card.content['social'] array, removing empty values
-- [ ] T023 [US2] Implement SocialProfileValidator::validate() in app/src/Validator/Constraints/SocialProfileValidator.php with PATTERNS array containing regex for each platform, validating URL format matches expected platform domain
-- [ ] T024 [US2] Update card edit template in app/templates/card/edit.html.twig to add social networks section with two columns displaying new social network fields (instagram, tiktok, facebook, x, bluebirds, snapchat, planity, other)
-- [ ] T025 [P] [US2] Add translation keys for social networks in app/translations/messages.en.yaml: card.social.instagram, card.social.tiktok, card.social.facebook, card.social.x, card.social.bluebirds, card.social.snapchat, card.social.planity, card.social.other with labels, placeholders, help text, validation messages
-- [ ] T026 [P] [US2] Add translation keys for social networks in app/translations/messages.fr.yaml: card.social.instagram, card.social.tiktok, card.social.facebook, card.social.x, card.social.bluebirds, card.social.snapchat, card.social.planity, card.social.other with French labels, placeholders, help text, validation messages
-- [ ] T027 [US2] Update public card template in app/templates/public/card.html.twig to add social networks section displaying icons for each populated social field with Bootstrap Icons (bi-instagram, bi-tiktok, bi-facebook, bi-twitter-x, bi-snapchat, bi-calendar-check for planity, bi-chat-dots for bluebirds, bi-link-45deg for other)
-- [ ] T028 [US2] Add social network link styling in app/assets/styles/public-card.scss with .social-links flex layout, .social-link buttons with min 48px height, hover states, platform-specific colors (optional), aria-labels for screen readers
+- [x] T022 [US2] Update CardFormType::buildForm() in app/src/Form/CardFormType.php to add POST_SUBMIT event listener mapping form data to Card.content['social'] array, removing empty values
+- [x] T023 [US2] Implement SocialProfileValidator::validate() in app/src/Validator/Constraints/SocialProfileValidator.php with PATTERNS array containing regex for each platform, validating URL format matches expected platform domain
+- [x] T024 [US2] Update card edit template in app/templates/card/edit.html.twig to add social networks section with two columns displaying new social network fields (instagram, tiktok, facebook, x, bluebirds, snapchat, planity, other)
+- [x] T025 [P] [US2] Add translation keys for social networks in app/translations/messages.en.yaml: card.social.instagram, card.social.tiktok, card.social.facebook, card.social.x, card.social.bluebirds, card.social.snapchat, card.social.planity, card.social.other with labels, placeholders, help text, validation messages
+- [x] T026 [P] [US2] Add translation keys for social networks in app/translations/messages.fr.yaml: card.social.instagram, card.social.tiktok, card.social.facebook, card.social.x, card.social.bluebirds, card.social.snapchat, card.social.planity, card.social.other with French labels, placeholders, help text, validation messages
+- [x] T027 [US2] Update public card template in app/templates/public/card.html.twig to add social networks section displaying icons for each populated social field with Bootstrap Icons (bi-instagram, bi-tiktok, bi-facebook, bi-twitter-x, bi-snapchat, bi-calendar-check for planity, bi-chat-dots for bluebirds, bi-link-45deg for other)
+- [x] T028 [US2] Add social network link styling in app/assets/styles/public-card.scss with .social-links flex layout, .social-link buttons with min 48px height, hover states, platform-specific colors (optional), aria-labels for screen readers
 
 **Checkpoint**: At this point, User Stories 1 AND 2 should both work independently. Users can add social networks and download vCards with social profiles preserved.
 
@@ -108,16 +108,16 @@
 
 ### Implementation for User Story 3
 
-- [ ] T029 [US3] Update public card template in app/templates/public/card.html.twig to add fixed download button for mobile with d-md-none class, inline download button for desktop with d-none d-md-inline-block class
-- [ ] T030 [US3] Add contact actions section in app/templates/public/card.html.twig with large call and email buttons (tel: and mailto: links) displayed prominently below header
-- [ ] T031 [US3] Restructure public card template in app/templates/public/card.html.twig to use card-header-section with centered name/title/company, contact-actions section with large buttons, contact-info section with icon/label/value layout
-- [ ] T032 [US3] Implement mobile-first CSS in app/assets/styles/public-card.scss with .btn-download-mobile fixed positioning (bottom: 1rem, left: 1rem, right: 1rem, z-index: 1000), box-shadow, slideUp animation
-- [ ] T033 [US3] Style contact actions in app/assets/styles/public-card.scss with .contact-actions flex layout, .btn-action min-height 56px, large icons (1.5rem), gap for spacing, flex-direction column on mobile
-- [ ] T034 [US3] Style contact info section in app/assets/styles/public-card.scss with .contact-info-item flex layout, .contact-icon 1.5rem primary color, .contact-label uppercase small text, .contact-value large readable text with hover states
-- [ ] T035 [US3] Add responsive breakpoints in app/assets/styles/public-card.scss using Bootstrap mixins (@include media-breakpoint-up(md)) for tablet/desktop enhancements (increased padding, larger fonts, inline download button)
-- [ ] T036 [US3] Implement card header styling in app/assets/styles/public-card.scss with .card-name 2rem mobile/2.5rem desktop, .card-title 1.25rem, .card-company 1rem, centered text, bottom border with primary color
-- [ ] T037 [P] [US3] Add translation keys for mobile UI in app/translations/messages.en.yaml: card.action.call.short, card.action.email.short, card.bio.title, card.social.title, card.powered_by
-- [ ] T038 [P] [US3] Add translation keys for mobile UI in app/translations/messages.fr.yaml: card.action.call.short, card.action.email.short, card.bio.title, card.social.title, card.powered_by
+- [x] T029 [US3] Update public card template in app/templates/public/card.html.twig to add fixed download button for mobile with d-md-none class, inline download button for desktop with d-none d-md-inline-block class
+- [x] T030 [US3] Add contact actions section in app/templates/public/card.html.twig with large call and email buttons (tel: and mailto: links) displayed prominently below header
+- [x] T031 [US3] Restructure public card template in app/templates/public/card.html.twig to use card-header-section with centered name/title/company, contact-actions section with large buttons, contact-info section with icon/label/value layout
+- [x] T032 [US3] Implement mobile-first CSS in app/assets/styles/public-card.scss with .btn-download-mobile fixed positioning (bottom: 1rem, left: 1rem, right: 1rem, z-index: 1000), box-shadow, slideUp animation
+- [x] T033 [US3] Style contact actions in app/assets/styles/public-card.scss with .contact-actions flex layout, .btn-action min-height 56px, large icons (1.5rem), gap for spacing, flex-direction column on mobile
+- [x] T034 [US3] Style contact info section in app/assets/styles/public-card.scss with .contact-info-item flex layout, .contact-icon 1.5rem primary color, .contact-label uppercase small text, .contact-value large readable text with hover states
+- [x] T035 [US3] Add responsive breakpoints in app/assets/styles/public-card.scss using Bootstrap mixins (@include media-breakpoint-up(md)) for tablet/desktop enhancements (increased padding, larger fonts, inline download button)
+- [x] T036 [US3] Implement card header styling in app/assets/styles/public-card.scss with .card-name 2rem mobile/2.5rem desktop, .card-title 1.25rem, .card-company 1rem, centered text, bottom border with primary color
+- [x] T037 [P] [US3] Add translation keys for mobile UI in app/translations/messages.en.yaml: card.action.call.short, card.action.email.short, card.bio.title, card.social.title, card.powered_by
+- [x] T038 [P] [US3] Add translation keys for mobile UI in app/translations/messages.fr.yaml: card.action.call.short, card.action.email.short, card.bio.title, card.social.title, card.powered_by
 
 **Checkpoint**: At this point, User Stories 1, 2, AND 3 should all work independently. Public cards are mobile-optimized with large buttons and fixed download CTA.
 
@@ -131,17 +131,17 @@
 
 ### Implementation for User Story 4
 
-- [ ] T039 [US4] Add ARIA labels to download button in app/templates/public/card.html.twig with aria-label describing action, aria-hidden="true" on decorative icons
-- [ ] T040 [US4] Add ARIA labels to contact action buttons in app/templates/public/card.html.twig with descriptive aria-label for call/email actions including phone number/email address
-- [ ] T041 [US4] Add ARIA labels to social network links in app/templates/public/card.html.twig with aria-label for each platform (e.g., "Visit Instagram profile"), aria-hidden="true" on icon elements
-- [ ] T042 [US4] Ensure proper heading hierarchy in app/templates/public/card.html.twig with h1 for card name, h2 for section titles (About, Connect), semantic HTML (address tag if applicable)
-- [ ] T043 [US4] Implement keyboard focus styles in app/assets/styles/public-card.scss with :focus pseudo-class, 2px outline, outline-offset 2px, visible focus indicators on all interactive elements
-- [ ] T044 [US4] Ensure color contrast in app/assets/styles/public-card.scss meets WCAG AA standards: normal text 4.5:1 minimum, large text 3:1 minimum, icons 3:1 against background
-- [ ] T045 [US4] Add responsive text sizing in app/assets/styles/public-card.scss using relative units (rem, em), base font size 16px (prevents iOS zoom), supports browser zoom to 200% without horizontal scroll
-- [ ] T046 [US4] Add prefers-reduced-motion media query in app/assets/styles/public-card.scss to disable animations for users who prefer reduced motion (animation: none on .btn-download-mobile, no transform on hover)
-- [ ] T047 [US4] Add dark mode support in app/assets/styles/public-card.scss with @media (prefers-color-scheme: dark) adjusting text colors, background colors, maintaining contrast ratios
-- [ ] T048 [P] [US4] Add ARIA translation keys in app/translations/messages.en.yaml: card.social.*.aria for each platform's aria-label (e.g., "Visit LinkedIn profile")
-- [ ] T049 [P] [US4] Add ARIA translation keys in app/translations/messages.fr.yaml: card.social.*.aria for each platform's aria-label in French (e.g., "Visiter le profil LinkedIn")
+- [x] T039 [US4] Add ARIA labels to download button in app/templates/public/card.html.twig with aria-label describing action, aria-hidden="true" on decorative icons
+- [x] T040 [US4] Add ARIA labels to contact action buttons in app/templates/public/card.html.twig with descriptive aria-label for call/email actions including phone number/email address
+- [x] T041 [US4] Add ARIA labels to social network links in app/templates/public/card.html.twig with aria-label for each platform (e.g., "Visit Instagram profile"), aria-hidden="true" on icon elements
+- [x] T042 [US4] Ensure proper heading hierarchy in app/templates/public/card.html.twig with h1 for card name, h2 for section titles (About, Connect), semantic HTML (address tag if applicable)
+- [x] T043 [US4] Implement keyboard focus styles in app/assets/styles/public-card.scss with :focus pseudo-class, 2px outline, outline-offset 2px, visible focus indicators on all interactive elements
+- [x] T044 [US4] Ensure color contrast in app/assets/styles/public-card.scss meets WCAG AA standards: normal text 4.5:1 minimum, large text 3:1 minimum, icons 3:1 against background
+- [x] T045 [US4] Add responsive text sizing in app/assets/styles/public-card.scss using relative units (rem, em), base font size 16px (prevents iOS zoom), supports browser zoom to 200% without horizontal scroll
+- [x] T046 [US4] Add prefers-reduced-motion media query in app/assets/styles/public-card.scss to disable animations for users who prefer reduced motion (animation: none on .btn-download-mobile, no transform on hover)
+- [x] T047 [US4] Add dark mode support in app/assets/styles/public-card.scss with @media (prefers-color-scheme: dark) adjusting text colors, background colors, maintaining contrast ratios
+- [x] T048 [P] [US4] Add ARIA translation keys in app/translations/messages.en.yaml: card.social.*.aria for each platform's aria-label (e.g., "Visit LinkedIn profile")
+- [x] T049 [P] [US4] Add ARIA translation keys in app/translations/messages.fr.yaml: card.social.*.aria for each platform's aria-label in French (e.g., "Visiter le profil LinkedIn")
 
 **Checkpoint**: All user stories should now be independently functional with full accessibility support meeting WCAG 2.1 Level AA standards.
 
@@ -151,10 +151,10 @@
 
 **Purpose**: Improvements that affect multiple user stories, testing, validation, and documentation
 
-- [ ] T050 [P] Run PHPUnit tests for VCardService in app/tests/Service/VCardServiceTest.php and verify all tests pass
-- [ ] T051 [P] Run PHPUnit tests for PublicCardController download endpoint in app/tests/Controller/PublicCardControllerDownloadTest.php and verify all tests pass
-- [ ] T052 [P] Run PHPUnit tests for CardFormType in app/tests/Form/CardFormTypeTest.php and verify all tests pass
-- [ ] T053 [P] Run PHPUnit tests for SocialProfileValidator in app/tests/Validator/Constraints/SocialProfileValidatorTest.php and verify all tests pass
+- [x] T050 [P] Run PHPUnit tests for VCardService in app/tests/Service/VCardServiceTest.php and verify all tests pass
+- [x] T051 [P] Run PHPUnit tests for PublicCardController download endpoint in app/tests/Controller/PublicCardControllerDownloadTest.php and verify all tests pass
+- [x] T052 [P] Run PHPUnit tests for CardFormType in app/tests/Form/CardFormTypeTest.php and verify all tests pass
+- [x] T053 [P] Run PHPUnit tests for SocialProfileValidator in app/tests/Validator/Constraints/SocialProfileValidatorTest.php and verify all tests pass
 - [ ] T054 Test vCard download on iOS device (iPhone Safari) by navigating to public card, downloading vCard, importing to Contacts app, verifying all fields including social networks
 - [ ] T055 Test vCard download on Android device (Chrome Android) by navigating to public card, downloading vCard, importing to Contacts app, verifying all fields
 - [ ] T056 Test vCard import on desktop (Gmail Contacts or Outlook) by downloading vCard file, importing via web interface, verifying contact imports with all fields
@@ -162,13 +162,13 @@
 - [ ] T058 Test accessibility with axe DevTools or WAVE by running automated accessibility scan on public card page, addressing any issues found, aiming for WCAG 2.1 Level AA compliance
 - [ ] T059 Test keyboard navigation by using Tab key to navigate all interactive elements on public card, verifying focus indicators are visible, no keyboard traps, logical tab order
 - [ ] T060 Test screen reader by using VoiceOver (macOS/iOS) or NVDA (Windows) to navigate public card, verifying all elements are announced correctly with descriptive labels
-- [ ] T061 Update Card entity documentation in app/src/Entity/Card.php to document extended social network fields in content JSON structure (instagram, tiktok, facebook, x, bluebirds, snapchat, planity, other)
-- [ ] T062 Clear Symfony cache and rebuild assets by running php bin/console cache:clear and npm run build in app/ directory
-- [ ] T063 Verify backward compatibility by viewing existing cards created before Feature 008, ensuring they display correctly with only linkedin/twitter fields, no errors for missing new social fields
+- [x] T061 Update Card entity documentation in app/src/Entity/Card.php to document extended social network fields in content JSON structure (instagram, tiktok, facebook, x, bluebirds, snapchat, planity, other)
+- [x] T062 Clear Symfony cache and rebuild assets by running php bin/console cache:clear and npm run build in app/ directory
+- [x] T063 Verify backward compatibility by viewing existing cards created before Feature 008, ensuring they display correctly with only linkedin/twitter fields, no errors for missing new social fields
 - [ ] T064 Run quickstart.md validation by following all test scenarios in specs/008-public-card-enhancements/quickstart.md, verifying each test passes
-- [ ] T065 [P] Add print styles in app/assets/styles/public-card.scss with @media print to hide download button and footer, adjust card styling for printing
-- [ ] T066 [P] Update public card template in app/templates/public/card.html.twig to add vcard_filename variable passed from controller for download filename attribute
-- [ ] T067 Add Cache-Control headers in PublicCardController::download() in app/src/Controller/PublicCardController.php to enable browser caching (public, max-age=3600)
+- [x] T065 [P] Add print styles in app/assets/styles/public-card.scss with @media print to hide download button and footer, adjust card styling for printing
+- [x] T066 [P] Update public card template in app/templates/public/card.html.twig to add vcard_filename variable passed from controller for download filename attribute
+- [x] T067 Add Cache-Control headers in PublicCardController::download() in app/src/Controller/PublicCardController.php to enable browser caching (public, max-age=3600)
 
 ---
 

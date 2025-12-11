@@ -6,6 +6,7 @@
         "@popperjs/core": "^2.11.8",
         "@symfony/webpack-encore": "^5.1.0",
         "bootstrap": "^5.3.8",
+        "bootstrap-icons": "^1.11.3",
         "core-js": "^3.38.0",
         "regenerator-runtime": "^0.13.9",
         "sass": "^1.95.1",
