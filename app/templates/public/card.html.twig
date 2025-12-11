@@ -4,132 +4,14 @@
 
 {% block stylesheets %}
     {{ parent() }}
-    <style>
-        :root {
-            --primary-color: {{ branding and branding.primaryColor ? branding.primaryColor : '#007bff' }};
-            --secondary-color: {{ branding and branding.secondaryColor ? branding.secondaryColor : '#6c757d' }};
-        }
-        .public-card-container {
-            max-width: 600px;
-            margin: 40px auto;
-            padding: 20px;
-        }
-        .public-card {
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-            padding: 40px;
-            text-align: center;
-            border-top: 4px solid var(--primary-color);
-        }
-        .public-card h1 {
-            margin-top: 0;
-            color: #333;
-            font-size: 2rem;
-        }
-        .public-card .card-info {
-            margin: 30px 0;
-            text-align: left;
-        }
-        .public-card .card-info-item {
-            margin: 15px 0;
-            padding: 10px 0;
-            border-bottom: 1px solid #eee;
-        }
-        .public-card .card-info-item:last-child {
-            border-bottom: none;
-        }
-        .public-card .card-info-label {
-            font-weight: bold;
-            color: #666;
-            display: block;
-            margin-bottom: 5px;
-        }
-        .public-card .card-info-value {
-            color: #333;
-            word-break: break-word;
-        }
-        .public-card .card-bio {
-            margin: 20px 0;
-            padding: 20px;
-            background: #f8f9fa;
-            border-radius: 8px;
-            text-align: left;
-        }
-        .public-card .social-links {
-            margin-top: 30px;
-            display: flex;
-            gap: 15px;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-        .public-card .social-links a {
-            color: var(--primary-color);
-            text-decoration: none;
-            padding: 8px 16px;
-            border: 1px solid var(--primary-color);
-            border-radius: 4px;
-            transition: all 0.3s;
-        }
-        .public-card .social-links a:hover {
-            background-color: var(--primary-color);
-            color: white;
-        }
-        .brand-logo {
-            display: block;
-            margin-bottom: 20px;
-        }
-        .brand-logo img {
-            max-width: 100%;
-            height: auto;
-        }
-        .brand-logo-small img {
-            max-width: 100px;
-        }
-        .brand-logo-medium img {
-            max-width: 200px;
-        }
-        .brand-logo-large img {
-            max-width: 300px;
-        }
-        .brand-logo-top-left {
-            text-align: left;
-        }
-        .brand-logo-top-center {
-            text-align: center;
-        }
-        .brand-logo-top-right {
-            text-align: right;
-        }
-        .brand-logo-center {
-            text-align: center;
-        }
-        .brand-logo-bottom-left {
-            text-align: left;
-        }
-        .brand-logo-bottom-center {
-            text-align: center;
-        }
-        .brand-logo-bottom-right {
-            text-align: right;
-        }
-        @media (max-width: 768px) {
-            .public-card-container {
-                padding: 10px;
-            }
-            .public-card {
-                padding: 20px;
-            }
-            .public-card h1 {
-                font-size: 1.5rem;
-            }
-        }
-    </style>
+    {{ encore_entry_link_tags('public-card') }}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 {% endblock %}
 
-{% block body %}
+{% block body_wrapper %}
 <div class="public-card-container">
     <div class="public-card">
+        {# Logo (if branded) #}
         {% if branding and branding.logoFilename %}
             {% set logoPosition = branding.logoPosition|default('top-left') %}
             {% set logoSize = branding.logoSize|default('medium') %}
@@ -137,62 +19,208 @@
                 <img src="{{ asset('uploads/branding/logos/' ~ branding.logoFilename) }}?v={{ 'now'|date('U') }}" alt="Brand Logo">
             </div>
         {% endif %}
-        <h1>{{ card.content.name|default('card.public.title'|trans) }}</h1>
-        
-        {% if card.content.title %}
-            <p style="color: #666; font-size: 1.1em; margin-top: -10px;">{{ card.content.title }}</p>
-        {% endif %}
-        
-        {% if card.content.company %}
-            <p style="color: #888; margin-top: -5px;">{{ card.content.company }}</p>
-        {% endif %}
 
-        <div class="card-info">
-            {% if card.content.email %}
-                <div class="card-info-item">
-                    <span class="card-info-label">{{ 'card.email'|trans }}</span>
-                    <span class="card-info-value">
-                        <a href="mailto:{{ card.content.email }}">{{ card.content.email }}</a>
-                    </span>
-                </div>
+        {# Card Header Section #}
+        <div class="card-header-section">
+            <h1 class="card-name">{{ card.content.name|default('card.public.title'|trans) }}</h1>
+            
+            {% if card.content.title %}
+                <p class="card-title">{{ card.content.title }}</p>
             {% endif %}
-
-            {% if card.content.phone %}
-                <div class="card-info-item">
-                    <span class="card-info-label">{{ 'card.phone'|trans }}</span>
-                    <span class="card-info-value">
-                        <a href="tel:{{ card.content.phone }}">{{ card.content.phone }}</a>
-                    </span>
-                </div>
-            {% endif %}
-
-            {% if card.content.website %}
-                <div class="card-info-item">
-                    <span class="card-info-label">{{ 'card.website'|trans }}</span>
-                    <span class="card-info-value">
-                        <a href="{{ card.content.website }}" target="_blank" rel="noopener">{{ card.content.website }}</a>
-                    </span>
-                </div>
+            
+            {% if card.content.company %}
+                <p class="card-company">{{ card.content.company }}</p>
             {% endif %}
         </div>
 
+        {# Contact Actions (Call/Email) #}
+        {% if card.content.phone or card.content.email %}
+            <div class="contact-actions">
+                {% if card.content.phone %}
+                    <a href="tel:{{ card.content.phone }}" class="btn btn-action btn-call" aria-label="{{ 'card.action.call'|trans }} {{ card.content.phone }}">
+                        <i class="bi bi-telephone-fill"></i>
+                        <span>{{ 'card.action.call'|trans }}</span>
+                    </a>
+                {% endif %}
+                {% if card.content.email %}
+                    <a href="mailto:{{ card.content.email }}" class="btn btn-action btn-email" aria-label="{{ 'card.action.email'|trans }} {{ card.content.email }}">
+                        <i class="bi bi-envelope-fill"></i>
+                        <span>{{ 'card.action.email'|trans }}</span>
+                    </a>
+                {% endif %}
+            </div>
+        {% endif %}
+
+        {# Download Button - Desktop (inline) #}
+        <div class="text-center mb-4 d-none d-md-block">
+            <a href="{{ path('public_card_download', {slug: card.slug}) }}" class="btn btn-download" aria-label="{{ 'card.download'|trans }}">
+                <i class="bi bi-download"></i>
+                <span>{{ 'card.download'|trans }}</span>
+            </a>
+        </div>
+
+        {# Contact Info Section #}
+        {% if card.content.email or card.content.phone or card.content.website %}
+            <div class="contact-info">
+                {% if card.content.email %}
+                    <div class="contact-info-item">
+                        <span class="contact-label">
+                            <i class="bi bi-envelope contact-icon"></i>
+                            {{ 'card.email'|trans }}
+                        </span>
+                        <span class="contact-value">
+                            <a href="mailto:{{ card.content.email }}">{{ card.content.email }}</a>
+                        </span>
+                    </div>
+                {% endif %}
+
+                {% if card.content.phone %}
+                    <div class="contact-info-item">
+                        <span class="contact-label">
+                            <i class="bi bi-telephone contact-icon"></i>
+                            {{ 'card.phone'|trans }}
+                        </span>
+                        <span class="contact-value">
+                            <a href="tel:{{ card.content.phone }}">{{ card.content.phone }}</a>
+                        </span>
+                    </div>
+                {% endif %}
+
+                {% if card.content.website %}
+                    <div class="contact-info-item">
+                        <span class="contact-label">
+                            <i class="bi bi-globe contact-icon"></i>
+                            {{ 'card.website'|trans }}
+                        </span>
+                        <span class="contact-value">
+                            <a href="{{ card.content.website }}" target="_blank" rel="noopener">{{ card.content.website }}</a>
+                        </span>
+                    </div>
+                {% endif %}
+            </div>
+        {% endif %}
+
+        {# Bio Section #}
         {% if card.content.bio %}
             <div class="card-bio">
+                <h2>{{ 'card.bio.title'|trans }}</h2>
                 <p>{{ card.content.bio|nl2br }}</p>
             </div>
         {% endif %}
 
-        {% if card.content.social.linkedin or card.content.social.twitter %}
+        {# Social Networks Section #}
+        {% set hasSocial = card.content.social.linkedin or card.content.social.twitter 
+                          or card.content.social.instagram or card.content.social.tiktok 
+                          or card.content.social.facebook or card.content.social.x 
+                          or card.content.social.snapchat or card.content.social.bluebirds 
+                          or card.content.social.planity or card.content.social.other %}
+        {% if hasSocial %}
             <div class="social-links">
-                {% if card.content.social.linkedin %}
-                    <a href="{{ card.content.social.linkedin }}" target="_blank" rel="noopener">LinkedIn</a>
-                {% endif %}
-                {% if card.content.social.twitter %}
-                    <a href="{{ card.content.social.twitter }}" target="_blank" rel="noopener">Twitter</a>
-                {% endif %}
+                <h2>{{ 'card.social.title'|trans }}</h2>
+                <div class="social-links-grid">
+                    {# Legacy social fields (stored at root level) #}
+                    {% if card.content.linkedin %}
+                        <a href="{{ card.content.linkedin }}" target="_blank" rel="noopener" 
+                           class="social-link" data-platform="linkedin"
+                           aria-label="{{ 'card.social.linkedin.aria'|trans }}">
+                            <i class="bi bi-linkedin" aria-hidden="true"></i>
+                            <span class="d-none d-sm-inline">LinkedIn</span>
+                        </a>
+                    {% endif %}
+                    {% if card.content.twitter %}
+                        <a href="{{ card.content.twitter }}" target="_blank" rel="noopener" 
+                           class="social-link" data-platform="twitter"
+                           aria-label="{{ 'card.social.x.aria'|trans }}">
+                            <i class="bi bi-twitter-x" aria-hidden="true"></i>
+                            <span class="d-none d-sm-inline">Twitter</span>
+                        </a>
+                    {% endif %}
+
+                    {# New social fields (stored in content.social) #}
+                    {% if card.content.social %}
+                        {% if card.content.social.instagram %}
+                            <a href="{{ card.content.social.instagram }}" target="_blank" rel="noopener" 
+                               class="social-link" data-platform="instagram"
+                               aria-label="{{ 'card.social.instagram.aria'|trans }}">
+                                <i class="bi bi-instagram" aria-hidden="true"></i>
+                                <span class="d-none d-sm-inline">Instagram</span>
+                            </a>
+                        {% endif %}
+                        {% if card.content.social.tiktok %}
+                            <a href="{{ card.content.social.tiktok }}" target="_blank" rel="noopener" 
+                               class="social-link" data-platform="tiktok"
+                               aria-label="{{ 'card.social.tiktok.aria'|trans }}">
+                                <i class="bi bi-tiktok" aria-hidden="true"></i>
+                                <span class="d-none d-sm-inline">TikTok</span>
+                            </a>
+                        {% endif %}
+                        {% if card.content.social.facebook %}
+                            <a href="{{ card.content.social.facebook }}" target="_blank" rel="noopener" 
+                               class="social-link" data-platform="facebook"
+                               aria-label="{{ 'card.social.facebook.aria'|trans }}">
+                                <i class="bi bi-facebook" aria-hidden="true"></i>
+                                <span class="d-none d-sm-inline">Facebook</span>
+                            </a>
+                        {% endif %}
+                        {% if card.content.social.x %}
+                            <a href="{{ card.content.social.x }}" target="_blank" rel="noopener" 
+                               class="social-link" data-platform="x"
+                               aria-label="{{ 'card.social.x.aria'|trans }}">
+                                <i class="bi bi-twitter-x" aria-hidden="true"></i>
+                                <span class="d-none d-sm-inline">X</span>
+                            </a>
+                        {% endif %}
+                        {% if card.content.social.snapchat %}
+                            <a href="{{ card.content.social.snapchat }}" target="_blank" rel="noopener" 
+                               class="social-link" data-platform="snapchat"
+                               aria-label="{{ 'card.social.snapchat.aria'|trans }}">
+                                <i class="bi bi-snapchat" aria-hidden="true"></i>
+                                <span class="d-none d-sm-inline">Snapchat</span>
+                            </a>
+                        {% endif %}
+                        {% if card.content.social.planity %}
+                            <a href="{{ card.content.social.planity }}" target="_blank" rel="noopener" 
+                               class="social-link" data-platform="planity"
+                               aria-label="{{ 'card.social.planity.aria'|trans }}">
+                                <i class="bi bi-calendar-check" aria-hidden="true"></i>
+                                <span class="d-none d-sm-inline">Planity</span>
+                            </a>
+                        {% endif %}
+                        {% if card.content.social.bluebirds %}
+                            <a href="{{ card.content.social.bluebirds }}" target="_blank" rel="noopener" 
+                               class="social-link" data-platform="bluebirds"
+                               aria-label="{{ 'card.social.bluebirds.aria'|trans }}">
+                                <i class="bi bi-chat-dots" aria-hidden="true"></i>
+                                <span class="d-none d-sm-inline">Bluebirds</span>
+                            </a>
+                        {% endif %}
+                        {% if card.content.social.other %}
+                            <a href="{{ card.content.social.other }}" target="_blank" rel="noopener" 
+                               class="social-link" data-platform="other"
+                               aria-label="{{ 'card.social.other.aria'|trans }}">
+                                <i class="bi bi-link-45deg" aria-hidden="true"></i>
+                                <span class="d-none d-sm-inline">{{ 'card.social.other'|trans }}</span>
+                            </a>
+                        {% endif %}
+                    {% endif %}
+                </div>
             </div>
         {% endif %}
+
+        {# Footer #}
+        <div class="text-center mt-4" style="color: #888; font-size: 0.875rem;">
+            <p>{{ 'card.powered_by'|trans }}</p>
+        </div>
     </div>
+
+    {# Fixed Download Button - Mobile Only #}
+    <a href="{{ path('public_card_download', {slug: card.slug}) }}" 
+       class="btn btn-download btn-download-mobile d-md-none"
+       aria-label="{{ 'card.download'|trans }}">
+        <i class="bi bi-download"></i>
+        <span>{{ 'card.download'|trans }}</span>
+    </a>
 </div>
 {% endblock %}
+
 

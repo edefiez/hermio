@@ -9,6 +9,33 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
+/**
+ * Card Entity
+ * Represents a digital business card with contact information and social profiles
+ * 
+ * Content JSON Structure:
+ * {
+ *   "name": "Full Name",
+ *   "email": "email@example.com",
+ *   "phone": "+1234567890",
+ *   "company": "Company Name",
+ *   "title": "Job Title",
+ *   "bio": "Biography text",
+ *   "website": "https://example.com",
+ *   "linkedin": "https://linkedin.com/in/profile", // Legacy field
+ *   "twitter": "https://twitter.com/handle",       // Legacy field
+ *   "social": {                                     // Feature 008: Extended social networks
+ *     "instagram": "https://instagram.com/profile",
+ *     "tiktok": "https://tiktok.com/@handle",
+ *     "facebook": "https://facebook.com/profile",
+ *     "x": "https://x.com/handle",
+ *     "bluebirds": "https://bluebirds.app/profile",
+ *     "snapchat": "https://snapchat.com/add/handle",
+ *     "planity": "https://planity.com/profile",
+ *     "other": "https://custom-platform.com/profile"
+ *   }
+ * }
+ */
 #[ORM\Entity(repositoryClass: CardRepository::class)]
 #[ORM\Table(name: 'cards')]
 #[ORM\UniqueConstraint(name: 'card_slug_unique', columns: ['slug'])]

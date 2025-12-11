@@ -375,6 +375,52 @@ card:
     count: "cards"
   access:
     denied: "You do not have access to this card"
+  # Feature 008: Download functionality
+  download: "Download Contact"
+  download:
+    error: "Unable to generate contact card. Please try again later."
+  action:
+    call: "Call"
+    email: "Email"
+    call.short: "Call"
+    email.short: "Email"
+  bio:
+    title: "About"
+  social:
+    title: "Connect"
+    instagram: "Instagram"
+    instagram:
+      placeholder: "https://instagram.com/yourprofile"
+      aria: "Visit Instagram profile"
+    tiktok: "TikTok"
+    tiktok:
+      placeholder: "https://tiktok.com/@yourhandle"
+      aria: "Visit TikTok profile"
+    facebook: "Facebook"
+    facebook:
+      placeholder: "https://facebook.com/yourprofile"
+      aria: "Visit Facebook profile"
+    x: "X (Twitter)"
+    x:
+      placeholder: "https://x.com/yourhandle"
+      aria: "Visit X profile"
+    bluebirds: "Bluebirds"
+    bluebirds:
+      placeholder: "https://bluebirds.app/yourprofile"
+      aria: "Visit Bluebirds profile"
+    snapchat: "Snapchat"
+    snapchat:
+      placeholder: "https://snapchat.com/add/yourhandle"
+      aria: "Visit Snapchat profile"
+    planity: "Planity"
+    planity:
+      placeholder: "https://planity.com/yourprofile"
+      aria: "Visit Planity profile"
+    other: "Other"
+    other:
+      placeholder: "https://yourprofile.com"
+      aria: "Visit profile"
+  powered_by: "Powered by Hermio"
 
 branding:
   title: "Branding Configuration"

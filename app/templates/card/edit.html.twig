@@ -53,8 +53,22 @@
             {{ form_row(form.website) }}
             
             <h3 style="margin-top: 30px;">{{ 'card.social.title'|trans }}</h3>
-            {{ form_row(form.linkedin) }}
-            {{ form_row(form.twitter) }}
+            <div class="row">
+                <div class="col-md-6">
+                    {{ form_row(form.linkedin) }}
+                    {{ form_row(form.twitter) }}
+                    {{ form_row(form.instagram) }}
+                    {{ form_row(form.tiktok) }}
+                    {{ form_row(form.facebook) }}
+                </div>
+                <div class="col-md-6">
+                    {{ form_row(form.x) }}
+                    {{ form_row(form.bluebirds) }}
+                    {{ form_row(form.snapchat) }}
+                    {{ form_row(form.planity) }}
+                    {{ form_row(form.other) }}
+                </div>
+            </div>
             
             {% if isEnterprise and canManageAssignments and assignmentForm %}
                 <div class="form-section" style="margin-top: 30px; padding-top: 30px; border-top: 2px solid #dee2e6;">
