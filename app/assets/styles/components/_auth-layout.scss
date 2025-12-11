@@ -1,0 +1,317 @@
+// ============================================================================
+// AUTH LAYOUT COMPONENT
+// ============================================================================
+// Two-column layout for authentication pages (login, register)
+// Left: Form column | Right: Illustration column
+// Mobile: Stacked vertical layout
+// Desktop (≥768px): Side-by-side 50/50 split
+
+@import '../design-tokens';
+
+// ============================================================================
+// AUTH CONTAINER (Full viewport height, two-column layout)
+// ============================================================================
+
+.auth-container {
+  display: flex;
+  min-height: 100vh;
+  width: 100%;
+  
+  // Mobile: Stack vertically
+  flex-direction: column;
+  
+  // Desktop: Side by side
+  @media (min-width: $hermio-breakpoint-md) {
+    flex-direction: row;
+  }
+  
+  // Optional: Max width container for ultra-wide screens
+  max-width: $hermio-auth-max-width;
+  margin: 0 auto;
+}
+
+// ============================================================================
+// FORM COLUMN (Left side on desktop, top on mobile)
+// ============================================================================
+
+.auth-form-column {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: $hermio-space-xl $hermio-space-lg;
+  background: $hermio-bg-auth-form;
+  
+  // Mobile: Full width
+  width: 100%;
+  min-height: 100vh;
+  
+  // Desktop: 50% width
+  @media (min-width: $hermio-breakpoint-md) {
+    width: 50%;
+    min-height: auto;
+  }
+}
+
+// Form wrapper (constrains form width)
+.auth-form-wrapper {
+  width: 100%;
+  max-width: $hermio-auth-form-width;
+}
+
+// Form title
+.auth-form-title {
+  font-size: $hermio-text-4xl;
+  font-weight: $hermio-font-bold;
+  color: $hermio-gray-900;
+  margin-bottom: $hermio-space-sm;
+  line-height: $hermio-leading-tight;
+}
+
+// Form subtitle
+.auth-form-subtitle {
+  font-size: $hermio-text-base;
+  color: $hermio-gray-600;
+  margin-bottom: $hermio-space-2xl;
+  line-height: $hermio-leading-normal;
+}
+
+// ============================================================================
+// FORM ELEMENTS (Using Bootstrap classes, enhanced with tokens)
+// ============================================================================
+
+.auth-form {
+  .form-label {
+    font-weight: $hermio-font-medium;
+    color: $hermio-gray-700;
+    margin-bottom: $hermio-space-xs;
+  }
+  
+  .form-control {
+    padding: $hermio-space-sm;
+    font-size: $hermio-text-base;
+    border-radius: $hermio-radius-md;
+    border: 1px solid $hermio-gray-300;
+    transition: border-color $hermio-transition-fast,
+                box-shadow $hermio-transition-fast;
+    
+    &:focus {
+      border-color: $hermio-primary;
+      box-shadow: 0 0 0 3px rgba($hermio-primary, 0.1);
+      outline: none;
+    }
+    
+    &.is-invalid {
+      border-color: $hermio-danger;
+      
+      &:focus {
+        box-shadow: 0 0 0 3px rgba($hermio-danger, 0.1);
+      }
+    }
+  }
+  
+  // Checkbox styling
+  .form-check-input {
+    width: 1.25rem;
+    height: 1.25rem;
+    border-radius: $hermio-radius-sm;
+    border: 1px solid $hermio-gray-300;
+    transition: background-color $hermio-transition-fast,
+                border-color $hermio-transition-fast;
+    
+    &:checked {
+      background-color: $hermio-primary;
+      border-color: $hermio-primary;
+    }
+    
+    &:focus {
+      border-color: $hermio-primary;
+      box-shadow: 0 0 0 3px rgba($hermio-primary, 0.1);
+    }
+  }
+  
+  .form-check-label {
+    font-size: $hermio-text-sm;
+    color: $hermio-gray-700;
+    margin-left: $hermio-space-xs;
+  }
+  
+  // Submit button
+  .btn-primary {
+    width: 100%;
+    padding: $hermio-space-sm $hermio-space-lg;
+    font-size: $hermio-text-base;
+    font-weight: $hermio-font-semibold;
+    border-radius: $hermio-radius-md;
+    background: $hermio-primary;
+    border: none;
+    color: #FFFFFF;
+    transition: background-color $hermio-transition-base,
+                transform $hermio-transition-fast,
+                box-shadow $hermio-transition-base;
+    
+    &:hover {
+      background: $hermio-primary-light;
+      transform: translateY(-1px);
+      box-shadow: $hermio-shadow-md;
+    }
+    
+    &:active {
+      background: $hermio-primary-dark;
+      transform: translateY(0);
+    }
+    
+    &:focus {
+      box-shadow: 0 0 0 3px rgba($hermio-primary, 0.2);
+    }
+  }
+  
+  // Error messages
+  .invalid-feedback {
+    font-size: $hermio-text-sm;
+    color: $hermio-danger;
+    margin-top: $hermio-space-xs;
+  }
+  
+  // Form spacing
+  .mb-3 {
+    margin-bottom: $hermio-space-lg !important;
+  }
+}
+
+// ============================================================================
+// FORM FOOTER (Links, alternative actions)
+// ============================================================================
+
+.auth-form-footer {
+  margin-top: $hermio-space-xl;
+  text-align: center;
+  
+  p {
+    font-size: $hermio-text-sm;
+    color: $hermio-gray-600;
+    margin-bottom: $hermio-space-sm;
+  }
+  
+  a {
+    color: $hermio-primary;
+    text-decoration: none;
+    font-weight: $hermio-font-medium;
+    transition: color $hermio-transition-fast;
+    
+    &:hover {
+      color: $hermio-primary-light;
+      text-decoration: underline;
+    }
+    
+    &:focus {
+      outline: 2px solid $hermio-primary;
+      outline-offset: 2px;
+      border-radius: $hermio-radius-sm;
+    }
+  }
+}
+
+// Forgot password link
+.auth-forgot-password {
+  display: block;
+  text-align: right;
+  font-size: $hermio-text-sm;
+  color: $hermio-primary;
+  margin-top: -$hermio-space-sm;
+  margin-bottom: $hermio-space-lg;
+  text-decoration: none;
+  transition: color $hermio-transition-fast;
+  
+  &:hover {
+    color: $hermio-primary-light;
+    text-decoration: underline;
+  }
+}
+
+// ============================================================================
+// ILLUSTRATION COLUMN (Right side on desktop, bottom on mobile)
+// ============================================================================
+
+.auth-illustration-column {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: $hermio-space-2xl $hermio-space-lg;
+  background: $hermio-bg-auth-illustration;
+  
+  // Mobile: Optional minimum height (or hidden)
+  width: 100%;
+  min-height: 40vh;
+  
+  // Desktop: 50% width, full viewport height
+  @media (min-width: $hermio-breakpoint-md) {
+    width: 50%;
+    min-height: $hermio-auth-illustration-min-height;
+  }
+  
+  // Hide on very small mobile screens (optional)
+  @media (max-width: 575px) {
+    display: none;
+  }
+}
+
+// ============================================================================
+// ACCESSIBILITY ENHANCEMENTS
+// ============================================================================
+
+// Focus visible indicator (WCAG 2.1 AA compliant)
+.auth-form {
+  *:focus-visible {
+    outline: $hermio-focus-ring-width solid $hermio-focus-ring-color;
+    outline-offset: $hermio-focus-ring-offset;
+    border-radius: $hermio-radius-sm;
+  }
+}
+
+// Skip to main content link (for keyboard users)
+.skip-to-content {
+  position: absolute;
+  top: -9999px;
+  left: -9999px;
+  z-index: $hermio-z-tooltip;
+  padding: $hermio-space-sm $hermio-space-md;
+  background: $hermio-primary;
+  color: #FFFFFF;
+  font-weight: $hermio-font-semibold;
+  border-radius: $hermio-radius-md;
+  
+  &:focus {
+    top: $hermio-space-sm;
+    left: $hermio-space-sm;
+  }
+}
+
+// ============================================================================
+// RESPONSIVE ADJUSTMENTS
+// ============================================================================
+
+// Tablet landscape (show both columns side by side)
+@media (min-width: $hermio-breakpoint-md) and (max-width: $hermio-breakpoint-lg) {
+  .auth-form-title {
+    font-size: $hermio-text-3xl;
+  }
+  
+  .auth-form-column,
+  .auth-illustration-column {
+    padding: $hermio-space-xl $hermio-space-md;
+  }
+}
+
+// Large desktop (optimize spacing)
+@media (min-width: $hermio-breakpoint-xl) {
+  .auth-form-column {
+    padding: $hermio-space-3xl $hermio-space-2xl;
+  }
+  
+  .auth-illustration-column {
+    padding: $hermio-space-3xl $hermio-space-2xl;
+  }
+}
+

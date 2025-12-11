@@ -1,0 +1,9 @@
+{# Reusable Page Header Component #}
+{# Parameters: title, subtitle (optional) #}
+
+<div class="page-header mb-4">
+    <h1 class="h2 mb-2">{{ title }}</h1>
+    {% if subtitle is defined %}
+    <p class="text-muted">{{ subtitle }}</p>
+    {% endif %}
+</div>

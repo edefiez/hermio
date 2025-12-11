@@ -8,6 +8,9 @@
 // Import Bootstrap CSS
 import './styles/bootstrap-custom.scss';
 
+// Import Dashboard styles
+import './styles/dashboard.scss';
+
 // Import Font Awesome
 import '@fortawesome/fontawesome-free/css/all.css';
 
