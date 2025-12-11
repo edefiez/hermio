@@ -20,7 +20,8 @@ class CardService
         private QuotaService $quotaService,
         private EntityManagerInterface $entityManager,
         private TeamMemberRepository $teamMemberRepository,
-        private CardAssignmentRepository $cardAssignmentRepository
+        private CardAssignmentRepository $cardAssignmentRepository,
+        private SecureKeyGenerator $secureKeyGenerator
     ) {
     }
 
@@ -35,6 +36,11 @@ class CardService
         $card->setSlug($slug);
         $card->setUser($user);
         $card->setStatus('active');
+
+        // Generate public access key if not already set
+        if (!$card->getPublicAccessKey()) {
+            $card->setPublicAccessKey($this->secureKeyGenerator->generateRandomKey());
+        }
 
         $this->entityManager->persist($card);
         $this->entityManager->flush();
@@ -224,6 +230,39 @@ class CardService
     public function getCardAssignments(Card $card): array
     {
         return $this->cardAssignmentRepository->findByCard($card);
+    }
+
+    /**
+     * Regenerate public access key for a card
+     * This will invalidate the previous key
+     */
+    public function regenerateCardAccessKey(Card $card): void
+    {
+        $newKey = $this->secureKeyGenerator->generateRandomKey();
+        $card->regenerateAccessKey($newKey);
+        $this->entityManager->flush();
+    }
+
+    /**
+     * Validate if provided access key matches card's key
+     * Uses constant-time comparison to prevent timing attacks
+     */
+    public function validateAccessKey(Card $card, ?string $providedKey): bool
+    {
+        $cardKey = $card->getPublicAccessKey();
+        
+        // If card has no key set, deny access (for security during migration)
+        if ($cardKey === null) {
+            return false;
+        }
+        
+        // If no key provided, deny access
+        if ($providedKey === null) {
+            return false;
+        }
+        
+        // Use constant-time comparison to prevent timing attacks
+        return hash_equals($cardKey, $providedKey);
     }
 }
 

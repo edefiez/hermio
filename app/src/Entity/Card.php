@@ -46,6 +46,9 @@ class Card
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $deletedAt = null;
 
+    #[ORM\Column(type: Types::STRING, length: 128, nullable: true)]
+    private ?string $publicAccessKey = null;
+
     #[ORM\OneToMany(targetEntity: CardAssignment::class, mappedBy: 'card', cascade: ['remove'])]
     private Collection $assignments;
 
@@ -75,7 +78,14 @@ class Card
 
     public function getPublicUrl(): string
     {
-        return '/c/' . $this->slug;
+        $url = '/c/' . $this->slug;
+        
+        // Add access key parameter if key is set
+        if ($this->publicAccessKey) {
+            $url .= '?k=' . $this->publicAccessKey;
+        }
+        
+        return $url;
     }
 
     public function getId(): ?int
@@ -185,6 +195,27 @@ class Card
                 $assignment->setCard(null);
             }
         }
+        return $this;
+    }
+
+    public function getPublicAccessKey(): ?string
+    {
+        return $this->publicAccessKey;
+    }
+
+    public function setPublicAccessKey(?string $publicAccessKey): static
+    {
+        $this->publicAccessKey = $publicAccessKey;
+        return $this;
+    }
+
+    /**
+     * Generate a new public access key
+     * This will invalidate the previous key
+     */
+    public function regenerateAccessKey(string $newKey): static
+    {
+        $this->publicAccessKey = $newKey;
         return $this;
     }
 }
