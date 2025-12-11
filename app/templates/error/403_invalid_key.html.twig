@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ 'error.access_denied.title'|trans }} - Hermio{% endblock %}
+
+{% block body %}
+<div class="container" style="max-width: 600px; margin: 80px auto; text-align: center;">
+    <div class="error-card" style="background: white; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); padding: 60px 40px;">
+        <div style="font-size: 72px; color: #dc3545; margin-bottom: 20px;">
+            🔒
+        </div>
+        
+        <h1 style="color: #333; font-size: 2rem; margin-bottom: 20px;">
+            {{ 'error.access_denied.title'|trans }}
+        </h1>
+        
+        <p style="color: #666; font-size: 1.1rem; margin-bottom: 30px;">
+            {{ 'error.access_denied.message'|trans }}
+        </p>
+        
+        <div style="background: #f8d7da; border: 1px solid #f5c6cb; border-radius: 8px; padding: 20px; margin-bottom: 30px;">
+            <p style="color: #721c24; margin: 0; font-size: 0.95rem;">
+                <strong>{{ 'error.access_denied.reason'|trans }}</strong><br>
+                {{ 'error.access_denied.invalid_key'|trans }}
+            </p>
+        </div>
+        
+        <div style="color: #666; font-size: 0.9rem;">
+            <p>{{ 'error.access_denied.help'|trans }}</p>
+            <ul style="list-style: none; padding: 0; margin: 20px 0;">
+                <li style="margin: 10px 0;">✓ {{ 'error.access_denied.check_url'|trans }}</li>
+                <li style="margin: 10px 0;">✓ {{ 'error.access_denied.check_link'|trans }}</li>
+                <li style="margin: 10px 0;">✓ {{ 'error.access_denied.contact_owner'|trans }}</li>
+            </ul>
+        </div>
+        
+        <div style="margin-top: 40px;">
+            <a href="{{ path('app_home') }}" class="btn btn-primary" style="text-decoration: none; padding: 12px 30px; background: #007bff; color: white; border-radius: 6px; display: inline-block;">
+                {{ 'error.back_home'|trans }}
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -568,3 +568,26 @@ dashboard:
     view_details: "View Details"
     upgrade_plan: "Upgrade Plan"
     manage_cards: "Manage Cards"
+error:
+  access_denied:
+    title: "Access Denied"
+    message: "This card requires a valid access key to be viewed."
+    reason: "Why am I seeing this?"
+    invalid_key: "The access key is missing or invalid. Please check the URL you received."
+    help: "What can I do?"
+    check_url: "Verify the complete URL including the access key parameter (?k=...)"
+    check_link: "Make sure you're using the most recent link shared with you"
+    contact_owner: "Contact the card owner to request a new link"
+  back_home: "Back to Home"
+
+card:
+  security:
+    regenerate_key: "Regenerate Access Key"
+    regenerate_key_confirm: "Are you sure? This will invalidate the current public URL."
+    regenerate_key_success: "Access key regenerated successfully. Please share the new URL."
+    warning: "⚠️ Keep this URL secure. Anyone with this link can view your card."
+    secure_url: "Secure Public URL"
+    copy_url: "Copy URL"
+    url_copied: "URL copied to clipboard!"
+  view: "View Card"
+  public_url: "Public URL"

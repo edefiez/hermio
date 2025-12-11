@@ -389,5 +389,36 @@ class CardController extends AbstractController
             'publicUrl' => $publicUrl,
         ]);
     }
+
+    #[Route('/{id}/regenerate-key', name: 'app_card_regenerate_key', methods: ['POST'])]
+    public function regenerateKey(int $id, Request $request): Response
+    {
+        /** @var \App\Entity\User $user */
+        $user = $this->getUser();
+        $card = $this->cardRepository->find($id);
+
+        if (!$card) {
+            throw $this->createNotFoundException('Card not found');
+        }
+
+        // Check access using CardService
+        if (!$this->cardService->canAccessCard($card, $user)) {
+            throw $this->createAccessDeniedException('card.access.denied');
+        }
+
+        // Only card owner can regenerate key
+        if ($card->getUser() !== $user) {
+            throw $this->createAccessDeniedException('card.regenerate_key.denied');
+        }
+
+        if ($this->isCsrfTokenValid('regenerate' . $card->getId(), $request->request->get('_token'))) {
+            $this->cardService->regenerateCardAccessKey($card);
+            $this->addFlash('success', 'card.security.regenerate_key_success');
+        } else {
+            $this->addFlash('error', 'Invalid CSRF token');
+        }
+
+        return $this->redirectToRoute('app_card_edit', ['id' => $card->getId()]);
+    }
 }
 

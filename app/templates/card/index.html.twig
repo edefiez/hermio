@@ -38,8 +38,13 @@
                             {{ card.content.name|default('card.unnamed'|trans) }}
                         </h3>
                         <p>
-                            <strong>{{ 'card.public_url'|trans }}:</strong>
-                            <a href="{{ card.publicUrl }}" target="_blank">{{ card.publicUrl }}</a>
+                            <strong>
+                                <i class="fas fa-lock" style="color: #007bff;"></i> 
+                                {{ 'card.security.secure_url'|trans }}:
+                            </strong><br>
+                            <small style="word-break: break-all; color: #666;">
+                                {{ app.request.schemeAndHttpHost }}{{ card.publicUrl }}
+                            </small>
                         </p>
                         {% if isEnterprise and cardAssignments[card.id] is defined and cardAssignments[card.id]|length > 0 %}
                             <p style="margin-top: 10px;">
