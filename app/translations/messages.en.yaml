@@ -500,3 +500,71 @@ team:
     revoked: "Revoked"
   can_manage: "You can manage team members"
   cannot_manage: "You do not have permission to manage team members"
+
+# ============================================================================
+# AUTHENTICATION PAGES (Back-Office Theme Redesign)
+# ============================================================================
+auth:
+  title: "Authentication"
+  form:
+    aria_label: "Authentication form"
+  illustration:
+    aria_label: "Hermio branding"
+    tagline: "Your professional identity, one scan away"
+  
+  login:
+    title: "Login to Hermio"
+    subtitle: "Access your digital business cards"
+    email_label: "Email Address"
+    email_placeholder: "you@example.com"
+    email_help: "Enter your registered email address"
+    password_label: "Password"
+    password_placeholder: "Enter your password"
+    password_help: "Enter your account password"
+    remember_me: "Remember me"
+    submit: "Sign In"
+    forgot_password: "Forgot your password?"
+    no_account: "Don't have an account?"
+    register_link: "Create one now"
+  
+  register:
+    title: "Create Your Account"
+    subtitle: "Start creating digital business cards"
+    email_label: "Email Address"
+    email_placeholder: "you@example.com"
+    email_help: "Enter a valid email address"
+    password_label: "Password"
+    password_placeholder: "Choose a secure password"
+    password_help: "Minimum 8 characters"
+    confirm_password_label: "Confirm Password"
+    confirm_password_placeholder: "Re-enter your password"
+    confirm_password_help: "Passwords must match"
+    submit: "Create Account"
+    have_account: "Already have an account?"
+    login_link: "Sign in here"
+    terms: "By creating an account, you agree to our <a href=\"%terms_url%\">Terms of Service</a> and <a href=\"%privacy_url%\">Privacy Policy</a>."
+
+# ============================================================================
+# ACCESSIBILITY
+# ============================================================================
+accessibility:
+  skip_to_content: "Skip to main content"
+
+# ============================================================================
+# DASHBOARD COMPONENTS
+# ============================================================================
+dashboard:
+  cards:
+    account_overview: "Account Overview"
+    plan_summary: "My Plan"
+    card_stats: "Card Statistics"
+    recent_activity: "Recent Activity"
+  account:
+    email: "Email"
+    plan: "Current Plan"
+    quota: "Quota"
+    joined: "Member Since"
+  actions:
+    view_details: "View Details"
+    upgrade_plan: "Upgrade Plan"
+    manage_cards: "Manage Cards"

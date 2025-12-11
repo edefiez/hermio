@@ -1,0 +1,16 @@
+{# Reusable Dashboard Card Component #}
+{# Parameters: title, icon (optional), content #}
+
+<div class="dashboard-card">
+    {% if icon is defined %}
+    <div class="card-icon">
+        <i class="{{ icon }}"></i>
+    </div>
+    {% endif %}
+    
+    <h3 class="card-title">{{ title }}</h3>
+    
+    <div class="card-content">
+        {{ content|raw }}
+    </div>
+</div>

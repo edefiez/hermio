@@ -1,0 +1,46 @@
+// ============================================================================
+// DASHBOARD CARD COMPONENT
+// ============================================================================
+// Reusable card component for dashboard pages
+
+@import '../design-tokens';
+
+.dashboard-card {
+  background: $hermio-bg-card;
+  border-radius: $hermio-radius-lg;
+  box-shadow: $hermio-shadow-sm;
+  padding: $hermio-space-lg;
+  transition: box-shadow $hermio-transition-base,
+              transform $hermio-transition-fast;
+  height: 100%;
+  
+  &:hover {
+    box-shadow: $hermio-shadow-md;
+    transform: translateY(-2px);
+  }
+  
+  .card-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: $hermio-radius-md;
+    background: rgba($hermio-primary, 0.1);
+    color: $hermio-primary;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: $hermio-text-2xl;
+    margin-bottom: $hermio-space-md;
+  }
+  
+  .card-title {
+    font-size: $hermio-text-xl;
+    font-weight: $hermio-font-semibold;
+    color: $hermio-gray-900;
+    margin-bottom: $hermio-space-sm;
+  }
+  
+  .card-content {
+    color: $hermio-gray-600;
+    line-height: $hermio-leading-normal;
+  }
+}

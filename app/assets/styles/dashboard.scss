@@ -1,0 +1,25 @@
+// ============================================================================
+// DASHBOARD STYLES
+// ============================================================================
+// Styles for dashboard pages (account, plan, profile)
+
+@import 'design-tokens';
+
+// Dashboard-specific components will be imported here
+@import 'components/dashboard-card';
+
+// ============================================================================
+// DASHBOARD BASE STYLES
+// ============================================================================
+
+body.dashboard-page {
+  background: $hermio-bg-dashboard;
+  font-family: $hermio-font-sans;
+  color: $hermio-gray-900;
+}
+
+.dashboard-container {
+  max-width: $hermio-dashboard-max-width;
+  margin: 0 auto;
+  padding: $hermio-space-xl $hermio-space-lg;
+}
