@@ -522,3 +522,5 @@ card:
     secure_url: "Secure Public URL"
     copy_url: "Copy URL"
     url_copied: "URL copied to clipboard!"
+  view: "View Card"
+  public_url: "Public URL"

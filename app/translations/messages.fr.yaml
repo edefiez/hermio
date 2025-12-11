@@ -522,3 +522,5 @@ card:
     secure_url: "URL Publique Sécurisée"
     copy_url: "Copier l'URL"
     url_copied: "URL copiée dans le presse-papiers !"
+  view: "Voir la carte"
+  public_url: "URL publique"
