@@ -5,7 +5,7 @@
 # Les commandes sont exécutées à l'intérieur du conteneur 'app'.
 # ==============================================================================
 
-.PHONY: help up down restart logs shell rebuild install update test test-all test-unit test-functional test-integration cc migrate make-migration yarn-install yarn-dev yarn-watch yarn-watch-stop yarn-build
+.PHONY: help up down restart logs shell rebuild install update test test-all test-unit test-functional test-integration cc migrate make-migration fixtures yarn-install yarn-dev yarn-watch yarn-watch-stop yarn-build
 
 # --- Aide ---------------------------------------------------------------------
 help:
@@ -27,6 +27,7 @@ help:
 	@echo "    \033[33mcc\033[0m          - Vide le cache de Symfony."
 	@echo "    \033[33mmigrate\033[0m     - Exécute les migrations Doctrine."
 	@echo "    \033[33mmake-migration\033[0m - Crée une nouvelle migration Doctrine."
+	@echo "    \033[33mfixtures\033[0m    - Charge les fixtures dans la base de données."
 	@echo ""
 	@echo "  Tests & Qualité:"
 	@echo "    \033[35mtest\033[0m        - Lance les tests unitaires (recommandé, 50 tests fonctionnels)."
@@ -105,6 +106,10 @@ migrate:
 make-migration:
 	@echo "📝 Création d'une nouvelle migration..."
 	docker compose exec app php bin/console make:migration
+
+fixtures:
+	@echo "📦 Chargement des fixtures..."
+	docker compose exec app php bin/console doctrine:fixtures:load --no-interaction
 
 # --- Commandes de Tests & Qualité ---------------------------------------------
 test:

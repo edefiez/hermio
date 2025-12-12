@@ -22,7 +22,7 @@ class VCardService
 
     /**
      * Generate vCard 4.0 content for a Card entity
-     * 
+     *
      * @param Card $card The card entity to convert
      * @return string vCard 4.0 formatted string
      */
@@ -90,7 +90,7 @@ class VCardService
 
     /**
      * Generate a filename for the vCard download
-     * 
+     *
      * @param Card $card The card entity
      * @return string Normalized filename (e.g., "contact-john-doe.vcf")
      */
@@ -98,17 +98,17 @@ class VCardService
     {
         $content = $card->getContent();
         $name = $content['name'] ?? 'contact';
-        
+
         // Normalize and slugify the name
         $normalized = $this->slugify($name);
-        
+
         return sprintf('contact-%s.vcf', $normalized);
     }
 
     /**
      * Add social profiles to vCard
      * Uses X-SOCIALPROFILE for known platforms and URL with TYPE=social for others
-     * 
+     *
      * @param VCard $vcard The vCard object to modify
      * @param array $content Card content array
      */
@@ -121,20 +121,10 @@ class VCardService
             'tiktok' => 'TikTok',
             'facebook' => 'Facebook',
             'x' => 'X',
-            'twitter' => 'Twitter',
             'snapchat' => 'Snapchat',
         ];
 
-        // Add legacy social fields (linkedin, twitter) from root content
-        foreach (['linkedin', 'twitter'] as $platform) {
-            if (!empty($content[$platform])) {
-                $vcard->add('X-SOCIALPROFILE', $content[$platform], [
-                    'type' => $knownPlatforms[$platform] ?? ucfirst($platform),
-                ]);
-            }
-        }
-
-        // Add new social fields from content['social'] array
+        // Add social fields from content['social'] array
         if (!empty($content['social']) && is_array($content['social'])) {
             foreach ($content['social'] as $platform => $url) {
                 if (empty($url)) {
@@ -160,7 +150,7 @@ class VCardService
     /**
      * Parse name into structured parts for vCard N property
      * Simple implementation: assumes "FirstName LastName" format
-     * 
+     *
      * @param string $fullName Full name string
      * @return array [Family, Given, Additional, Prefix, Suffix]
      */
@@ -169,13 +159,13 @@ class VCardService
         $parts = explode(' ', trim($fullName), 2);
         $family = $parts[1] ?? '';
         $given = $parts[0] ?? '';
-        
+
         return [$family, $given, '', '', ''];
     }
 
     /**
      * Slugify a string for use in filenames
-     * 
+     *
      * @param string $text Text to slugify
      * @return string Slugified text
      */
@@ -187,7 +177,7 @@ class VCardService
         $text = trim($text, '-');
         // Collapse multiple hyphens
         $text = preg_replace('/-+/', '-', $text);
-        
+
         return $text ?: 'contact';
     }
 }

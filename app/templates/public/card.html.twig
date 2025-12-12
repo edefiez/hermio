@@ -1,4 +1,4 @@
-{% extends 'base.html.twig' %}
+{% extends 'base_public.html.twig' %}
 
 {% block title %}{{ card.content.name|default('card.public.title'|trans) }} - Hermio{% endblock %}
 
@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 {% endblock %}
 
-{% block body_wrapper %}
+{% block body %}
 <div class="public-card-container">
     <div class="public-card">
         {# Logo (if branded) #}
@@ -23,11 +23,11 @@
         {# Card Header Section #}
         <div class="card-header-section">
             <h1 class="card-name">{{ card.content.name|default('card.public.title'|trans) }}</h1>
-            
+
             {% if card.content.title %}
                 <p class="card-title">{{ card.content.title }}</p>
             {% endif %}
-            
+
             {% if card.content.company %}
                 <p class="card-company">{{ card.content.company }}</p>
             {% endif %}
@@ -109,93 +109,84 @@
         {% endif %}
 
         {# Social Networks Section #}
-        {% set hasSocial = card.content.social.linkedin or card.content.social.twitter 
-                          or card.content.social.instagram or card.content.social.tiktok 
-                          or card.content.social.facebook or card.content.social.x 
-                          or card.content.social.snapchat or card.content.social.bluebirds 
-                          or card.content.social.planity or card.content.social.other %}
+        {% set hasSocial = (card.content.social.linkedin ?? false)
+              or (card.content.social.instagram ?? false) or (card.content.social.tiktok ?? false)
+              or (card.content.social.facebook ?? false) or (card.content.social.x ?? false)
+              or (card.content.social.snapchat ?? false) or (card.content.social.bluebirds ?? false)
+              or (card.content.social.planity ?? false) or (card.content.social.other ?? false)
+        %}
         {% if hasSocial %}
             <div class="social-links">
                 <h2>{{ 'card.social.title'|trans }}</h2>
                 <div class="social-links-grid">
-                    {# Legacy social fields (stored at root level) #}
-                    {% if card.content.linkedin %}
-                        <a href="{{ card.content.linkedin }}" target="_blank" rel="noopener" 
-                           class="social-link" data-platform="linkedin"
-                           aria-label="{{ 'card.social.linkedin.aria'|trans }}">
-                            <i class="bi bi-linkedin" aria-hidden="true"></i>
-                            <span class="d-none d-sm-inline">LinkedIn</span>
-                        </a>
-                    {% endif %}
-                    {% if card.content.twitter %}
-                        <a href="{{ card.content.twitter }}" target="_blank" rel="noopener" 
-                           class="social-link" data-platform="twitter"
-                           aria-label="{{ 'card.social.x.aria'|trans }}">
-                            <i class="bi bi-twitter-x" aria-hidden="true"></i>
-                            <span class="d-none d-sm-inline">Twitter</span>
-                        </a>
-                    {% endif %}
-
-                    {# New social fields (stored in content.social) #}
+                    {# Social fields (all stored in content.social) #}
                     {% if card.content.social %}
-                        {% if card.content.social.instagram %}
-                            <a href="{{ card.content.social.instagram }}" target="_blank" rel="noopener" 
+                        {% if card.content.social.linkedin ?? false %}
+                            <a href="{{ card.content.social.linkedin }}" target="_blank" rel="noopener"
+                               class="social-link" data-platform="linkedin"
+                               aria-label="{{ 'card.social.linkedin.aria'|trans }}">
+                                <i class="bi bi-linkedin" aria-hidden="true"></i>
+                                <span class="d-none d-sm-inline">LinkedIn</span>
+                            </a>
+                        {% endif %}
+                        {% if card.content.social.instagram ?? false %}
+                            <a href="{{ card.content.social.instagram }}" target="_blank" rel="noopener"
                                class="social-link" data-platform="instagram"
                                aria-label="{{ 'card.social.instagram.aria'|trans }}">
                                 <i class="bi bi-instagram" aria-hidden="true"></i>
                                 <span class="d-none d-sm-inline">Instagram</span>
                             </a>
                         {% endif %}
-                        {% if card.content.social.tiktok %}
-                            <a href="{{ card.content.social.tiktok }}" target="_blank" rel="noopener" 
+                        {% if card.content.social.tiktok ?? false %}
+                            <a href="{{ card.content.social.tiktok }}" target="_blank" rel="noopener"
                                class="social-link" data-platform="tiktok"
                                aria-label="{{ 'card.social.tiktok.aria'|trans }}">
                                 <i class="bi bi-tiktok" aria-hidden="true"></i>
                                 <span class="d-none d-sm-inline">TikTok</span>
                             </a>
                         {% endif %}
-                        {% if card.content.social.facebook %}
-                            <a href="{{ card.content.social.facebook }}" target="_blank" rel="noopener" 
+                        {% if card.content.social.facebook ?? false %}
+                            <a href="{{ card.content.social.facebook }}" target="_blank" rel="noopener"
                                class="social-link" data-platform="facebook"
                                aria-label="{{ 'card.social.facebook.aria'|trans }}">
                                 <i class="bi bi-facebook" aria-hidden="true"></i>
                                 <span class="d-none d-sm-inline">Facebook</span>
                             </a>
                         {% endif %}
-                        {% if card.content.social.x %}
-                            <a href="{{ card.content.social.x }}" target="_blank" rel="noopener" 
+                        {% if card.content.social.x ?? false %}
+                            <a href="{{ card.content.social.x }}" target="_blank" rel="noopener"
                                class="social-link" data-platform="x"
                                aria-label="{{ 'card.social.x.aria'|trans }}">
                                 <i class="bi bi-twitter-x" aria-hidden="true"></i>
                                 <span class="d-none d-sm-inline">X</span>
                             </a>
                         {% endif %}
-                        {% if card.content.social.snapchat %}
-                            <a href="{{ card.content.social.snapchat }}" target="_blank" rel="noopener" 
+                        {% if card.content.social.snapchat ?? false %}
+                            <a href="{{ card.content.social.snapchat }}" target="_blank" rel="noopener"
                                class="social-link" data-platform="snapchat"
                                aria-label="{{ 'card.social.snapchat.aria'|trans }}">
                                 <i class="bi bi-snapchat" aria-hidden="true"></i>
                                 <span class="d-none d-sm-inline">Snapchat</span>
                             </a>
                         {% endif %}
-                        {% if card.content.social.planity %}
-                            <a href="{{ card.content.social.planity }}" target="_blank" rel="noopener" 
+                        {% if card.content.social.planity ?? false %}
+                            <a href="{{ card.content.social.planity }}" target="_blank" rel="noopener"
                                class="social-link" data-platform="planity"
                                aria-label="{{ 'card.social.planity.aria'|trans }}">
                                 <i class="bi bi-calendar-check" aria-hidden="true"></i>
                                 <span class="d-none d-sm-inline">Planity</span>
                             </a>
                         {% endif %}
-                        {% if card.content.social.bluebirds %}
-                            <a href="{{ card.content.social.bluebirds }}" target="_blank" rel="noopener" 
+                        {% if card.content.social.bluebirds ?? false %}
+                            <a href="{{ card.content.social.bluebirds }}" target="_blank" rel="noopener"
                                class="social-link" data-platform="bluebirds"
                                aria-label="{{ 'card.social.bluebirds.aria'|trans }}">
                                 <i class="bi bi-chat-dots" aria-hidden="true"></i>
                                 <span class="d-none d-sm-inline">Bluebirds</span>
                             </a>
                         {% endif %}
-                        {% if card.content.social.other %}
-                            <a href="{{ card.content.social.other }}" target="_blank" rel="noopener" 
+                        {% if card.content.social.other ?? false %}
+                            <a href="{{ card.content.social.other }}" target="_blank" rel="noopener"
                                class="social-link" data-platform="other"
                                aria-label="{{ 'card.social.other.aria'|trans }}">
                                 <i class="bi bi-link-45deg" aria-hidden="true"></i>
@@ -209,12 +200,21 @@
 
         {# Footer #}
         <div class="text-center mt-4" style="color: #888; font-size: 0.875rem;">
-            <p>{{ 'card.powered_by'|trans }}</p>
+            <p>
+                <a href="{{ path('app_home') }}"
+                   style="color: #888; text-decoration: none; transition: color 0.3s;"
+                   onmouseover="this.style.color='#333'"
+                   onmouseout="this.style.color='#888'"
+                   target="_blank"
+                   rel="noopener">
+                    {{ 'card.powered_by'|trans }}
+                </a>
+            </p>
         </div>
     </div>
 
     {# Fixed Download Button - Mobile Only #}
-    <a href="{{ path('public_card_download', {slug: card.slug}) }}" 
+    <a href="{{ path('public_card_download', {slug: card.slug}) }}"
        class="btn btn-download btn-download-mobile d-md-none"
        aria-label="{{ 'card.download'|trans }}">
         <i class="bi bi-download"></i>

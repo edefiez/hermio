@@ -43,26 +43,26 @@ class CardController extends AbstractController
         /** @var \App\Entity\User $user */
         $user = $this->getUser();
         $account = $user->getAccount();
-        
+
         $quotaLimit = $account?->getPlanType()?->getQuotaLimit();
         $currentUsage = $this->quotaService->getCurrentUsage($user);
         $canCreateMore = $quotaLimit === null || $currentUsage < $quotaLimit;
 
         // Get accessible cards (owned + assigned if MEMBER, or all account cards if ADMIN)
         $cards = $this->cardService->getAccessibleCardsForUser($user);
-        
+
         // Get assignments for each card (for display) - optimized to avoid N+1
         $cardAssignments = [];
         if (!empty($cards)) {
             $cardIds = array_map(fn($c) => $c->getId(), $cards);
-            
+
             // Single query to get all assignments for all cards
             $allAssignments = $this->cardAssignmentRepository->createQueryBuilder('ca')
                 ->where('ca.card IN (:cardIds)')
                 ->setParameter('cardIds', $cardIds)
                 ->getQuery()
                 ->getResult();
-            
+
             // Group assignments by card ID
             foreach ($allAssignments as $assignment) {
                 $cardId = $assignment->getCard()->getId();
@@ -95,7 +95,7 @@ class CardController extends AbstractController
         /** @var \App\Entity\User $user */
         $user = $this->getUser();
         $account = $user->getAccount();
-        
+
         $quotaLimit = $account?->getPlanType()?->getQuotaLimit();
         $currentUsage = $this->quotaService->getCurrentUsage($user);
         $canCreateMore = $quotaLimit === null || $currentUsage < $quotaLimit;
@@ -112,19 +112,7 @@ class CardController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             try {
                 // Transform form data to card content
-                $content = [
-                    'name' => $form->get('name')->getData() ?? '',
-                    'email' => $form->get('email')->getData() ?? '',
-                    'phone' => $form->get('phone')->getData() ?? '',
-                    'company' => $form->get('company')->getData() ?? '',
-                    'title' => $form->get('title')->getData() ?? '',
-                    'bio' => $form->get('bio')->getData() ?? '',
-                    'website' => $form->get('website')->getData() ?? '',
-                    'social' => [
-                        'linkedin' => $form->get('linkedin')->getData() ?? '',
-                        'twitter' => $form->get('twitter')->getData() ?? '',
-                    ],
-                ];
+                $content = $this->buildCardContentFromForm($form);
                 $card->setContent($content);
 
                 $card = $this->cardService->createCard($card, $user);
@@ -182,26 +170,22 @@ class CardController extends AbstractController
         $form->get('title')->setData($content['title'] ?? '');
         $form->get('bio')->setData($content['bio'] ?? '');
         $form->get('website')->setData($content['website'] ?? '');
+        // All social fields in social object
         $form->get('linkedin')->setData($content['social']['linkedin'] ?? '');
-        $form->get('twitter')->setData($content['social']['twitter'] ?? '');
+        $form->get('instagram')->setData($content['social']['instagram'] ?? '');
+        $form->get('tiktok')->setData($content['social']['tiktok'] ?? '');
+        $form->get('facebook')->setData($content['social']['facebook'] ?? '');
+        $form->get('x')->setData($content['social']['x'] ?? '');
+        $form->get('bluebirds')->setData($content['social']['bluebirds'] ?? '');
+        $form->get('snapchat')->setData($content['social']['snapchat'] ?? '');
+        $form->get('planity')->setData($content['social']['planity'] ?? '');
+        $form->get('other')->setData($content['social']['other'] ?? '');
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             // Transform form data to card content
-            $content = [
-                'name' => $form->get('name')->getData() ?? '',
-                'email' => $form->get('email')->getData() ?? '',
-                'phone' => $form->get('phone')->getData() ?? '',
-                'company' => $form->get('company')->getData() ?? '',
-                'title' => $form->get('title')->getData() ?? '',
-                'bio' => $form->get('bio')->getData() ?? '',
-                'website' => $form->get('website')->getData() ?? '',
-                'social' => [
-                    'linkedin' => $form->get('linkedin')->getData() ?? '',
-                    'twitter' => $form->get('twitter')->getData() ?? '',
-                ],
-            ];
+            $content = $this->buildCardContentFromForm($form);
             $card->setContent($content);
 
             $this->cardService->updateCard($card);
@@ -218,14 +202,14 @@ class CardController extends AbstractController
 
         if ($account && $account->getPlanType()->value === 'enterprise') {
             $canManageAssignments = $this->teamService->canManageTeam($account, $user);
-            
+
             if ($canManageAssignments) {
                 $currentAssignments = $this->cardAssignmentRepository->findByCard($card);
-                
+
                 $assignmentForm = $this->createForm(CardAssignmentFormType::class, null, [
                     'account' => $account,
                 ]);
-                
+
                 // Pre-select current assignments
                 $currentTeamMemberIds = array_map(
                     fn($assignment) => $assignment->getTeamMember()->getId(),
@@ -234,22 +218,22 @@ class CardController extends AbstractController
                 $assignmentForm->get('teamMembers')->setData(
                     $this->teamMemberRepository->findBy(['id' => $currentTeamMemberIds])
                 );
-                
+
                 $assignmentForm->handleRequest($request);
-                
+
                 if ($assignmentForm->isSubmitted() && $assignmentForm->isValid()) {
                     $selectedTeamMembers = $assignmentForm->get('teamMembers')->getData();
-                    
+
                     // Remove all existing assignments
                     foreach ($currentAssignments as $assignment) {
                         $this->cardService->unassignCardFromTeamMember($card, $assignment->getTeamMember());
                     }
-                    
+
                     // Add new assignments
                     if (!empty($selectedTeamMembers)) {
                         $this->cardService->assignCardToTeamMembers($card, $selectedTeamMembers, $user);
                     }
-                    
+
                     $this->addFlash('success', 'card.assignments.success');
                     return $this->redirectToRoute('app_card_edit', ['id' => $card->getId()]);
                 }
@@ -322,7 +306,7 @@ class CardController extends AbstractController
 
         if ($assignmentForm->isSubmitted() && $assignmentForm->isValid()) {
             $selectedTeamMembers = $assignmentForm->get('teamMembers')->getData();
-            
+
             if (!empty($selectedTeamMembers)) {
                 $this->cardService->assignCardToTeamMembers($card, $selectedTeamMembers, $user);
                 $this->addFlash('success', 'card.assignments.success');
@@ -419,6 +403,34 @@ class CardController extends AbstractController
         }
 
         return $this->redirectToRoute('app_card_edit', ['id' => $card->getId()]);
+    }
+
+    /**
+     * Transform form data to card content array
+     */
+    private function buildCardContentFromForm($form): array
+    {
+        return [
+            'name' => $form->get('name')->getData() ?? '',
+            'email' => $form->get('email')->getData() ?? '',
+            'phone' => $form->get('phone')->getData() ?? '',
+            'company' => $form->get('company')->getData() ?? '',
+            'title' => $form->get('title')->getData() ?? '',
+            'bio' => $form->get('bio')->getData() ?? '',
+            'website' => $form->get('website')->getData() ?? '',
+            // All social fields in social object
+            'social' => [
+                'linkedin' => $form->get('linkedin')->getData() ?? '',
+                'instagram' => $form->get('instagram')->getData() ?? '',
+                'tiktok' => $form->get('tiktok')->getData() ?? '',
+                'facebook' => $form->get('facebook')->getData() ?? '',
+                'x' => $form->get('x')->getData() ?? '',
+                'bluebirds' => $form->get('bluebirds')->getData() ?? '',
+                'snapchat' => $form->get('snapchat')->getData() ?? '',
+                'planity' => $form->get('planity')->getData() ?? '',
+                'other' => $form->get('other')->getData() ?? '',
+            ],
+        ];
     }
 }
 

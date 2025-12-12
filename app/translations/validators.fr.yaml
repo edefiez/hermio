@@ -1,0 +1,27 @@
+# Validateurs - Traductions françaises
+# Messages de validation pour les formulaires
+
+# Authentification
+"Please enter your email address": "Veuillez entrer votre adresse e-mail"
+"Please enter a password": "Veuillez entrer un mot de passe"
+"Your password should be at least {{ limit }} characters": "Votre mot de passe doit contenir au moins {{ limit }} caractères"
+"Your password must contain at least one uppercase letter, one lowercase letter, one number, and one special character (@$!%*?&)": "Votre mot de passe doit contenir au moins une majuscule, une minuscule, un chiffre et un caractère spécial (@$!%*?&)"
+"You must agree to our terms and conditions.": "Vous devez accepter nos conditions générales d'utilisation."
+"An account with this email already exists": "Un compte avec cet e-mail existe déjà"
+
+# Validation des cartes
+"card.name.required": "Le nom est requis"
+"card.name.max_length": "Le nom ne peut pas dépasser 255 caractères"
+"card.phone.max_length": "Le téléphone ne peut pas dépasser 50 caractères"
+"card.company.max_length": "Le nom de l'entreprise ne peut pas dépasser 255 caractères"
+"card.title.max_length": "Le titre ne peut pas dépasser 255 caractères"
+"card.bio.max_length": "La biographie ne peut pas dépasser 1000 caractères"
+"card.slug.invalid_format": "Le slug doit contenir uniquement des lettres minuscules, des chiffres et des tirets"
+
+# Validation du branding
+"branding.color.invalid_format": "La couleur doit être au format hexadécimal (#RRGGBB)"
+"branding.logo.invalid_type": "Le logo doit être un fichier PNG, JPG, JPEG ou SVG"
+"branding.logo.position.invalid": "Position du logo invalide"
+"branding.logo.size.invalid": "Taille du logo invalide"
+"branding.template.too_large": "Le contenu du template ne doit pas dépasser 50KB"
+

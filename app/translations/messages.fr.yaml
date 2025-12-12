@@ -208,6 +208,12 @@ subscription:
       failed: "Échoué"
       pending: "En Attente"
       canceled: "Annulé"
+  payment:
+    date: "Date"
+    amount: "Montant"
+    plan: "Plan"
+    status: "Statut"
+    id: "ID de Paiement"
 
 admin:
   account:
@@ -296,6 +302,7 @@ card:
   list:
     title: "Mes Cartes"
     empty: "Vous n'avez pas encore créé de cartes."
+  view: "Voir"
   save: "Enregistrer"
   cancel: "Annuler"
   back_to_list: "Retour aux Cartes"
@@ -319,8 +326,6 @@ card:
     title: "Titre du Poste"
     bio: "Biographie"
     website: "Site Web"
-  social:
-    title: "Réseaux Sociaux"
   name:
     placeholder: "Votre nom complet"
     required: "Le nom est requis"
@@ -340,6 +345,7 @@ card:
   bio:
     placeholder: "Parlez-nous de vous..."
     max_length: "La biographie ne peut pas dépasser 1000 caractères"
+    title: "À propos"
   website:
     placeholder: "https://votresite.com"
     invalid: "Veuillez entrer une URL valide"
@@ -376,48 +382,58 @@ card:
   access:
     denied: "Vous n'avez pas accès à cette carte"
   # Feature 008: Fonctionnalité de téléchargement
-  download: "Télécharger le Contact"
   download:
+    label: "Télécharger le Contact"
     error: "Impossible de générer la carte de contact. Veuillez réessayer plus tard."
+  security:
+    regenerate_key: "Régénérer la Clé d'Accès"
+    regenerate_key_confirm: "Êtes-vous sûr ? Cela invalidera l'URL publique actuelle."
+    regenerate_key_success: "Clé d'accès régénérée avec succès. Veuillez partager la nouvelle URL."
+    warning: "⚠️ Gardez cette URL sécurisée. Toute personne avec ce lien peut voir votre carte."
+    secure_url: "URL Publique Sécurisée"
+    copy_url: "Copier l'URL"
+    url_copied: "URL copiée dans le presse-papiers !"
   action:
     call: "Appeler"
     email: "Envoyer un Email"
     call.short: "Appeler"
     email.short: "Email"
-  bio:
-    title: "À propos"
   social:
     title: "Se Connecter"
-    instagram: "Instagram"
     instagram:
+      label: "Instagram"
       placeholder: "https://instagram.com/votreprofil"
       aria: "Visiter le profil Instagram"
-    tiktok: "TikTok"
     tiktok:
+      label: "TikTok"
       placeholder: "https://tiktok.com/@votrecompte"
       aria: "Visiter le profil TikTok"
-    facebook: "Facebook"
     facebook:
+      label: "Facebook"
       placeholder: "https://facebook.com/votreprofil"
       aria: "Visiter le profil Facebook"
-    x: "X (Twitter)"
     x:
+      label: "X (Twitter)"
       placeholder: "https://x.com/votrecompte"
       aria: "Visiter le profil X"
-    bluebirds: "Bluebirds"
     bluebirds:
+      label: "Bluebirds"
       placeholder: "https://bluebirds.app/votreprofil"
       aria: "Visiter le profil Bluebirds"
-    snapchat: "Snapchat"
     snapchat:
+      label: "Snapchat"
       placeholder: "https://snapchat.com/add/votrecompte"
       aria: "Visiter le profil Snapchat"
-    planity: "Planity"
     planity:
+      label: "Planity"
       placeholder: "https://planity.com/votreprofil"
       aria: "Visiter le profil Planity"
-    other: "Autre"
+    linkedin:
+      label: "LinkedIn"
+      placeholder: "https://linkedin.com/in/votreprofil"
+      aria: "Visiter le profil LinkedIn"
     other:
+      label: "Autre"
       placeholder: "https://votreprofil.com"
       aria: "Visiter le profil"
   powered_by: "Propulsé par Hermio"
@@ -538,6 +554,9 @@ team:
     invalid: "Invitation invalide ou déjà traitée"
     accept.success: "Vous avez rejoint l'équipe avec succès"
     decline.success: "Invitation refusée"
+    expires_on: "Cette invitation expire le"
+    ignore_message: "Si vous n'attendiez pas cette invitation, vous pouvez ignorer cet e-mail en toute sécurité."
+    automated_message: "Ceci est un message automatique de Hermio. Veuillez ne pas répondre à cet e-mail."
   status:
     pending: "En Attente"
     accepted: "Accepté"
@@ -557,7 +576,7 @@ auth:
   illustration:
     aria_label: "Image de marque Hermio"
     tagline: "Votre identité professionnelle, en un scan"
-  
+
   login:
     title: "Connexion à Hermio"
     subtitle: "Accédez à vos cartes de visite numériques"
@@ -572,7 +591,7 @@ auth:
     forgot_password: "Mot de passe oublié ?"
     no_account: "Vous n'avez pas de compte ?"
     register_link: "Créer un compte maintenant"
-  
+
   register:
     title: "Créer votre compte"
     subtitle: "Commencez à créer des cartes de visite numériques"
@@ -625,15 +644,3 @@ error:
     check_link: "Assurez-vous d'utiliser le lien le plus récent qui vous a été partagé"
     contact_owner: "Contactez le propriétaire de la carte pour demander un nouveau lien"
   back_home: "Retour à l'accueil"
-
-card:
-  security:
-    regenerate_key: "Régénérer la Clé d'Accès"
-    regenerate_key_confirm: "Êtes-vous sûr ? Cela invalidera l'URL publique actuelle."
-    regenerate_key_success: "Clé d'accès régénérée avec succès. Veuillez partager la nouvelle URL."
-    warning: "⚠️ Gardez cette URL sécurisée. Toute personne avec ce lien peut voir votre carte."
-    secure_url: "URL Publique Sécurisée"
-    copy_url: "Copier l'URL"
-    url_copied: "URL copiée dans le presse-papiers !"
-  view: "Voir la carte"
-  public_url: "URL publique"

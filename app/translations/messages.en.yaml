@@ -208,6 +208,12 @@ subscription:
       failed: "Failed"
       pending: "Pending"
       canceled: "Canceled"
+  payment:
+    date: "Date"
+    amount: "Amount"
+    plan: "Plan"
+    status: "Status"
+    id: "Payment ID"
 
 admin:
   account:
@@ -319,8 +325,6 @@ card:
     title: "Job Title"
     bio: "Bio"
     website: "Website"
-  social:
-    title: "Social Media"
   name:
     placeholder: "Your full name"
     required: "Name is required"
@@ -338,6 +342,7 @@ card:
     placeholder: "Your job title"
     max_length: "Job title cannot exceed 255 characters"
   bio:
+    title: "About"
     placeholder: "Tell us about yourself..."
     max_length: "Bio cannot exceed 1000 characters"
   website:
@@ -376,48 +381,58 @@ card:
   access:
     denied: "You do not have access to this card"
   # Feature 008: Download functionality
-  download: "Download Contact"
   download:
+    label: "Download Contact"
     error: "Unable to generate contact card. Please try again later."
+  security:
+    regenerate_key: "Regenerate Access Key"
+    regenerate_key_confirm: "Are you sure? This will invalidate the current public URL."
+    regenerate_key_success: "Access key regenerated successfully. Please share the new URL."
+    warning: "⚠️ Keep this URL secure. Anyone with this link can view your card."
+    secure_url: "Secure Public URL"
+    copy_url: "Copy URL"
+    url_copied: "URL copied to clipboard!"
   action:
     call: "Call"
     email: "Email"
     call.short: "Call"
     email.short: "Email"
-  bio:
-    title: "About"
   social:
-    title: "Connect"
-    instagram: "Instagram"
+    title: "Social Media"
     instagram:
+      label: "Instagram"
       placeholder: "https://instagram.com/yourprofile"
       aria: "Visit Instagram profile"
-    tiktok: "TikTok"
     tiktok:
+      label: "TikTok"
       placeholder: "https://tiktok.com/@yourhandle"
       aria: "Visit TikTok profile"
-    facebook: "Facebook"
     facebook:
+      label: "Facebook"
       placeholder: "https://facebook.com/yourprofile"
       aria: "Visit Facebook profile"
-    x: "X (Twitter)"
     x:
+      label: "X (Twitter)"
       placeholder: "https://x.com/yourhandle"
       aria: "Visit X profile"
-    bluebirds: "Bluebirds"
     bluebirds:
+      label: "Bluebirds"
       placeholder: "https://bluebirds.app/yourprofile"
       aria: "Visit Bluebirds profile"
-    snapchat: "Snapchat"
     snapchat:
+      label: "Snapchat"
       placeholder: "https://snapchat.com/add/yourhandle"
       aria: "Visit Snapchat profile"
-    planity: "Planity"
     planity:
+      label: "Planity"
       placeholder: "https://planity.com/yourprofile"
       aria: "Visit Planity profile"
-    other: "Other"
+    linkedin:
+      label: "LinkedIn"
+      placeholder: "https://linkedin.com/in/yourprofile"
+      aria: "Visit LinkedIn profile"
     other:
+      label: "Other"
       placeholder: "https://yourprofile.com"
       aria: "Visit profile"
   powered_by: "Powered by Hermio"
@@ -538,6 +553,9 @@ team:
     invalid: "Invalid or already processed invitation"
     accept.success: "You have successfully joined the team"
     decline.success: "Invitation declined"
+    expires_on: "This invitation expires on"
+    ignore_message: "If you did not expect this invitation, you can safely ignore this email."
+    automated_message: "This is an automated message from Hermio. Please do not reply to this email."
   status:
     pending: "Pending"
     accepted: "Accepted"
@@ -557,7 +575,7 @@ auth:
   illustration:
     aria_label: "Hermio branding"
     tagline: "Your professional identity, one scan away"
-  
+
   login:
     title: "Login to Hermio"
     subtitle: "Access your digital business cards"
@@ -572,7 +590,7 @@ auth:
     forgot_password: "Forgot your password?"
     no_account: "Don't have an account?"
     register_link: "Create one now"
-  
+
   register:
     title: "Create Your Account"
     subtitle: "Start creating digital business cards"
@@ -626,14 +644,3 @@ error:
     contact_owner: "Contact the card owner to request a new link"
   back_home: "Back to Home"
 
-card:
-  security:
-    regenerate_key: "Regenerate Access Key"
-    regenerate_key_confirm: "Are you sure? This will invalidate the current public URL."
-    regenerate_key_success: "Access key regenerated successfully. Please share the new URL."
-    warning: "⚠️ Keep this URL secure. Anyone with this link can view your card."
-    secure_url: "Secure Public URL"
-    copy_url: "Copy URL"
-    url_copied: "URL copied to clipboard!"
-  view: "View Card"
-  public_url: "Public URL"

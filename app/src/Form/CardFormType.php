@@ -88,12 +88,6 @@ class CardFormType extends AbstractType
                 'mapped' => false,
                 'attr' => ['placeholder' => 'card.linkedin.placeholder'],
             ])
-            ->add('twitter', UrlType::class, [
-                'label' => 'card.twitter',
-                'required' => false,
-                'mapped' => false,
-                'attr' => ['placeholder' => 'card.twitter.placeholder'],
-            ])
             // New social network fields (Feature 008)
             ->add('instagram', UrlType::class, [
                 'label' => 'card.social.instagram',
