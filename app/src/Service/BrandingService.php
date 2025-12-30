@@ -405,22 +405,24 @@ class BrandingService
         if ($primaryColor) {
             $contrast = $this->checkColorContrast($primaryColor, $defaultBackground);
             if (!$contrast['passes']) {
-                $warnings[] = sprintf(
-                    'branding.color.accessibility.warning.primary',
-                    $contrast['ratio'],
-                    $contrast['level']
-                );
+                $warnings[] = [
+                    'type' => 'primary',
+                    'ratio' => $contrast['ratio'],
+                    'level' => $contrast['level'],
+                    'message_key' => 'branding.color.accessibility.warning.primary',
+                ];
             }
         }
         
         if ($secondaryColor) {
             $contrast = $this->checkColorContrast($secondaryColor, $defaultBackground);
             if (!$contrast['passes']) {
-                $warnings[] = sprintf(
-                    'branding.color.accessibility.warning.secondary',
-                    $contrast['ratio'],
-                    $contrast['level']
-                );
+                $warnings[] = [
+                    'type' => 'secondary',
+                    'ratio' => $contrast['ratio'],
+                    'level' => $contrast['level'],
+                    'message_key' => 'branding.color.accessibility.warning.secondary',
+                ];
             }
         }
         

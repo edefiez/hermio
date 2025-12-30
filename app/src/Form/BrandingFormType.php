@@ -21,6 +21,7 @@ class BrandingFormType extends AbstractType
                 'required' => false,
                 'label' => 'branding.primary_color',
                 'attr' => [
+                    'class' => 'form-control',
                     'placeholder' => '#FF5733',
                     'pattern' => '^#[0-9A-Fa-f]{6}$',
                     'maxlength' => 7,
@@ -36,6 +37,7 @@ class BrandingFormType extends AbstractType
                 'required' => false,
                 'label' => 'branding.secondary_color',
                 'attr' => [
+                    'class' => 'form-control',
                     'placeholder' => '#6c757d',
                     'pattern' => '^#[0-9A-Fa-f]{6}$',
                     'maxlength' => 7,
@@ -51,22 +53,29 @@ class BrandingFormType extends AbstractType
                 'required' => false,
                 'label' => 'branding.logo',
                 'mapped' => false,
+                'attr' => [
+                    'class' => 'form-control',
+                    'accept' => 'image/png,image/jpeg,image/jpg,image/svg+xml',
+                ],
                 'constraints' => [
-                    new File([
-                        'maxSize' => '5M',
-                        'mimeTypes' => [
+                    new File(
+                        maxSize: '5M',
+                        mimeTypes: [
                             'image/png',
                             'image/jpeg',
                             'image/jpg',
                             'image/svg+xml',
                         ],
-                        'mimeTypesMessage' => 'branding.logo.invalid_type',
-                    ]),
+                        mimeTypesMessage: 'branding.logo.invalid_type',
+                    ),
                 ],
             ])
             ->add('logoPosition', ChoiceType::class, [
                 'required' => false,
                 'label' => 'branding.logo.position',
+                'attr' => [
+                    'class' => 'form-select',
+                ],
                 'choices' => [
                     'branding.logo.position.top_left' => 'top-left',
                     'branding.logo.position.top_center' => 'top-center',
@@ -80,6 +89,9 @@ class BrandingFormType extends AbstractType
             ->add('logoSize', ChoiceType::class, [
                 'required' => false,
                 'label' => 'branding.logo.size',
+                'attr' => [
+                    'class' => 'form-select',
+                ],
                 'choices' => [
                     'branding.logo.size.small' => 'small',
                     'branding.logo.size.medium' => 'medium',

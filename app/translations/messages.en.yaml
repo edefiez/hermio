@@ -1,6 +1,15 @@
 nav:
   login: "Login"
   register: "Register"
+  main: "Main Navigation"
+  dashboard: "Dashboard"
+  my_cards: "My Cards"
+  account: "Account"
+  settings: "Settings"
+  collapse: "Collapse"
+  expand: "Expand"
+  toggle: "Toggle navigation"
+  skip_to_content: "Skip to main content"
 
 home:
   meta:
@@ -441,6 +450,8 @@ branding:
   title: "Branding Configuration"
   access_denied: "Branding customization is only available for Pro and Enterprise plans"
   upgrade: "Upgrade Now"
+  preview:
+    title: "Live Preview"
   colors:
     title: "Brand Colors"
   primary_color: "Primary Color"
@@ -618,6 +629,7 @@ accessibility:
 # DASHBOARD COMPONENTS
 # ============================================================================
 dashboard:
+  title: "Dashboard"
   cards:
     account_overview: "Account Overview"
     plan_summary: "My Plan"
@@ -632,6 +644,35 @@ dashboard:
     view_details: "View Details"
     upgrade_plan: "Upgrade Plan"
     manage_cards: "Manage Cards"
+  plan:
+    title: "Plan"
+    unlimited: "Unlimited"
+    limited: "Limited"
+  usage:
+    title: "Card Usage"
+  quick_actions:
+    title: "Quick Actions"
+  activity:
+    event: "Event"
+    date: "Date/Time"
+    status: "Status"
+    login: "Login"
+    logout: "Logout"
+    registration: "Registration"
+    success: "Success"
+    failed: "Failed"
+  welcome: "Welcome back"
+  member_since: "Member since"
+  days: "days"
+  total_cards: "Total Cards"
+  active: "active"
+  view_all: "View All"
+
+header:
+  user_menu:
+    profile: "Profile"
+    logout: "Logout"
+
 error:
   access_denied:
     title: "Access Denied"

@@ -55,7 +55,17 @@ class BrandingController extends AbstractController
             );
             
             foreach ($accessibilityWarnings as $warning) {
-                $this->addFlash('warning', $warning);
+                if (is_array($warning)) {
+                    // Format the warning message with parameters
+                    $this->addFlash('warning', [
+                        'message' => $warning['message_key'],
+                        'ratio' => $warning['ratio'],
+                        'level' => $warning['level'],
+                        'type' => $warning['type'],
+                    ]);
+                } else {
+                    $this->addFlash('warning', $warning);
+                }
             }
             
             $this->brandingService->configureBranding($account, [
@@ -90,12 +100,33 @@ class BrandingController extends AbstractController
             }
         }
 
+        // Create a demo card for preview
+        $demoCard = new \App\Entity\Card();
+        $demoCard->setSlug('demo-preview');
+        // Extract name from email for demo
+        $emailParts = explode('@', $user->getEmail());
+        $demoName = ucfirst($emailParts[0]);
+        $demoCard->setContent([
+            'name' => $demoName,
+            'title' => 'Directeur Marketing',
+            'company' => 'Hermio Inc.',
+            'email' => $user->getEmail(),
+            'phone' => '+33 6 12 34 56 78',
+            'website' => 'www.example.com',
+            'bio' => null,
+            'social' => [
+                'linkedin' => 'https://linkedin.com/in/demo',
+                'instagram' => 'https://instagram.com/demo',
+            ],
+        ]);
+
         return $this->render('branding/configure.html.twig', [
             'account' => $account,
             'branding' => $branding,
             'form' => $form,
             'canConfigureTemplate' => $canConfigureTemplate,
             'templateForm' => $templateForm?->createView(),
+            'demoCard' => $demoCard,
         ]);
     }
 

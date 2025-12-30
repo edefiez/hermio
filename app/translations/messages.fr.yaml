@@ -1,6 +1,15 @@
 nav:
   login: "Connexion"
   register: "S'inscrire"
+  main: "Navigation principale"
+  dashboard: "Tableau de bord"
+  my_cards: "Mes cartes"
+  account: "Compte"
+  settings: "Paramètres"
+  collapse: "Réduire"
+  expand: "Développer"
+  toggle: "Basculer la navigation"
+  skip_to_content: "Aller au contenu principal"
 
 home:
   meta:
@@ -442,6 +451,8 @@ branding:
   title: "Configuration du Branding"
   access_denied: "La personnalisation du branding est uniquement disponible pour les plans Pro et Entreprise"
   upgrade: "Mettre à Niveau"
+  preview:
+    title: "Aperçu en temps réel"
   colors:
     title: "Couleurs de Marque"
   primary_color: "Couleur Principale"
@@ -619,6 +630,7 @@ accessibility:
 # COMPOSANTS DU TABLEAU DE BORD
 # ============================================================================
 dashboard:
+  title: "Tableau de bord"
   cards:
     account_overview: "Aperçu du compte"
     plan_summary: "Mon forfait"
@@ -633,6 +645,35 @@ dashboard:
     view_details: "Voir les détails"
     upgrade_plan: "Mettre à niveau le forfait"
     manage_cards: "Gérer les cartes"
+  plan:
+    title: "Plan"
+    unlimited: "Illimité"
+    limited: "Limité"
+  usage:
+    title: "Utilisation des cartes"
+  quick_actions:
+    title: "Actions rapides"
+  activity:
+    event: "Événement"
+    date: "Date/Heure"
+    status: "Statut"
+    login: "Connexion"
+    logout: "Déconnexion"
+    registration: "Inscription"
+    success: "Réussi"
+    failed: "Échoué"
+  welcome: "Bon retour"
+  member_since: "Membre depuis"
+  days: "jours"
+  total_cards: "Total des cartes"
+  active: "actives"
+  view_all: "Voir tout"
+
+header:
+  user_menu:
+    profile: "Profil"
+    logout: "Déconnexion"
+
 error:
   access_denied:
     title: "Accès Refusé"

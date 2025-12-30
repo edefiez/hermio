@@ -145,16 +145,17 @@
 }
 
 .btn-email {
-  background-color: #007bff;
+  background-color: var(--card-secondary-color, #6c757d);
   color: white;
   border: none;
 }
 
 .btn-email:hover {
-  background-color: #0056b3;
+  background-color: var(--card-secondary-color, #6c757d);
+  filter: brightness(0.9);
   color: white;
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3);
+  box-shadow: 0 4px 12px rgba(108, 117, 125, 0.3);
 }
 
 /* ========================================
@@ -445,6 +446,97 @@
 @media (min-width: 1024px) {
   .public-card-container {
     margin: 3rem auto;
+  }
+}
+
+/* ========================================
+   Brand Logo Styles
+   ======================================== */
+
+.brand-logo {
+  position: absolute;
+  z-index: 10;
+  
+  img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 4px;
+  }
+}
+
+/* Logo Position */
+.brand-logo-top-left {
+  top: 1rem;
+  left: 1rem;
+  right: auto;
+  bottom: auto;
+  transform: none;
+}
+
+.brand-logo-top-center {
+  top: 1rem;
+  left: 50%;
+  right: auto;
+  bottom: auto;
+  transform: translateX(-50%);
+}
+
+.brand-logo-top-right {
+  top: 1rem;
+  left: auto;
+  right: 1rem;
+  bottom: auto;
+  transform: none;
+}
+
+.brand-logo-center {
+  top: 50%;
+  left: 50%;
+  right: auto;
+  bottom: auto;
+  transform: translate(-50%, -50%);
+}
+
+.brand-logo-bottom-left {
+  top: auto;
+  left: 1rem;
+  right: auto;
+  bottom: 1rem;
+  transform: none;
+}
+
+.brand-logo-bottom-center {
+  top: auto;
+  left: 50%;
+  right: auto;
+  bottom: 1rem;
+  transform: translateX(-50%);
+}
+
+.brand-logo-bottom-right {
+  top: auto;
+  left: auto;
+  right: 1rem;
+  bottom: 1rem;
+  transform: none;
+}
+
+/* Logo Size */
+.brand-logo-small {
+  img {
+    max-width: 80px;
+  }
+}
+
+.brand-logo-medium {
+  img {
+    max-width: 120px;
+  }
+}
+
+.brand-logo-large {
+  img {
+    max-width: 180px;
   }
 }
 

@@ -1,8 +1,10 @@
-{% extends 'base.html.twig' %}
+{% extends 'base_admin.html.twig' %}
 
 {% block title %}{{ 'card.qr_code.title'|trans }} - Hermio{% endblock %}
 
-{% block body %}
+{% block page_title %}{{ 'card.qr_code.title'|trans }}{% endblock %}
+
+{% block admin_content %}
 <div class="profile-container">
     <div class="profile-card" style="text-align: center;">
         <h1>{{ 'card.qr_code.title'|trans }}</h1>

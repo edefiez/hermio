@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block navbar %}{% endblock %}
+
+{% block body_attr %}class="bg-light admin-layout-body"{% endblock %}
+
+{% block body_wrapper %}
+<div class="admin-layout">
+    {% include 'admin/_sidebar.html.twig' %}
+    <div class="admin-content">
+        {% include 'admin/_header.html.twig' %}
+        <a href="#main-content" class="visually-hidden-focusable btn btn-primary position-absolute" style="top: 1rem; left: 1rem; z-index: 9999;">{{ 'nav.skip_to_content'|trans|default('Skip to main content') }}</a>
+        <main id="main-content" class="admin-main" role="main">
+            {% for label, messages in app.flashes %}
+                {% for message in messages %}
+                    {# Skip contrast warnings - they are handled specifically in branding template #}
+                    {% if not (label == 'warning' and message is iterable and message.type is defined) %}
+                        <div class="alert alert-{{ label == 'error' ? 'danger' : label }} alert-dismissible fade show" role="alert">
+                            {% if message is iterable and message.message is defined %}
+                                {% if message.message is not iterable %}
+                                    {{ message.message|trans }}
+                                {% else %}
+                                    {{ message|join(', ') }}
+                                {% endif %}
+                            {% else %}
+                                {{ message|trans }}
+                            {% endif %}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            {% endfor %}
+            {% block admin_content %}{% endblock %}
+        </main>
+    </div>
+</div>
+{% endblock %}
+
