@@ -37,7 +37,7 @@ class CardRepository extends ServiceEntityRepository
 
     /**
      * Search cards for a user with pagination
-     * 
+     *
      * @param User $user
      * @param string|null $query Search query (searches in name, email, company)
      * @param int $limit Number of results to return
@@ -58,9 +58,9 @@ class CardRepository extends ServiceEntityRepository
         if ($query && trim($query) !== '') {
             $qb->andWhere(
                 $qb->expr()->orX(
-                    $qb->expr()->like('LOWER(JSON_UNQUOTE(JSON_EXTRACT(c.content, \'$.name\')))', ':query'),
-                    $qb->expr()->like('LOWER(JSON_UNQUOTE(JSON_EXTRACT(c.content, \'$.email\')))', ':query'),
-                    $qb->expr()->like('LOWER(JSON_UNQUOTE(JSON_EXTRACT(c.content, \'$.company\')))', ':query'),
+                    $qb->expr()->like('LOWER(JSON_EXTRACT(c.content, \'$.name\'))', ':query'),
+                    $qb->expr()->like('LOWER(JSON_EXTRACT(c.content, \'$.email\'))', ':query'),
+                    $qb->expr()->like('LOWER(JSON_EXTRACT(c.content, \'$.company\'))', ':query'),
                     $qb->expr()->like('LOWER(c.slug)', ':query')
                 )
             )->setParameter('query', '%' . strtolower($query) . '%');
@@ -71,7 +71,7 @@ class CardRepository extends ServiceEntityRepository
 
     /**
      * Count cards for a user with optional search query
-     * 
+     *
      * @param User $user
      * @param string|null $query Search query
      * @return int
@@ -88,9 +88,9 @@ class CardRepository extends ServiceEntityRepository
         if ($query && trim($query) !== '') {
             $qb->andWhere(
                 $qb->expr()->orX(
-                    $qb->expr()->like('LOWER(JSON_UNQUOTE(JSON_EXTRACT(c.content, \'$.name\')))', ':query'),
-                    $qb->expr()->like('LOWER(JSON_UNQUOTE(JSON_EXTRACT(c.content, \'$.email\')))', ':query'),
-                    $qb->expr()->like('LOWER(JSON_UNQUOTE(JSON_EXTRACT(c.content, \'$.company\')))', ':query'),
+                    $qb->expr()->like('LOWER(JSON_EXTRACT(c.content, \'$.name\'))', ':query'),
+                    $qb->expr()->like('LOWER(JSON_EXTRACT(c.content, \'$.email\'))', ':query'),
+                    $qb->expr()->like('LOWER(JSON_EXTRACT(c.content, \'$.company\'))', ':query'),
                     $qb->expr()->like('LOWER(c.slug)', ':query')
                 )
             )->setParameter('query', '%' . strtolower($query) . '%');

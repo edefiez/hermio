@@ -43,11 +43,20 @@
             <div class="card-body">
                 <div class="row align-items-center">
                     <div class="col-md-8 col-12">
-                        <input type="text" 
-                               id="card-search" 
-                               class="form-control" 
-                               placeholder="{{ 'card.search.placeholder'|trans|default('Search cards by name, email, or company...') }}"
-                               aria-label="{{ 'card.search.label'|trans|default('Search cards') }}">
+                        <div class="position-relative">
+                            <i class="fas fa-search position-absolute" style="left: 12px; top: 50%; transform: translateY(-50%); color: #6c757d; z-index: 2;"></i>
+                            <input type="text"
+                                   id="card-search"
+                                   class="form-control ps-5 pe-5"
+                                   placeholder="{{ 'card.search.placeholder'|trans|default('Search cards by name, email, or company...') }}"
+                                   aria-label="{{ 'card.search.label'|trans|default('Search cards') }}"
+                                   style="user-select: text !important; caret-color: auto !important; cursor: text !important;">
+                            <div id="search-spinner" class="position-absolute" style="right: 12px; top: 50%; transform: translateY(-50%); display: none; z-index: 2;">
+                                <div class="spinner-border spinner-border-sm text-primary" role="status">
+                                    <span class="visually-hidden">Loading...</span>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <div class="col-md-4 col-12 mt-2 mt-md-0">
                         <span id="card-count" class="text-muted">
@@ -98,23 +107,94 @@
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     const searchInput = document.getElementById('card-search');
+    const searchSpinner = document.getElementById('search-spinner');
     const cardsContainer = document.getElementById('cards-container');
     const scrollTrigger = document.getElementById('scroll-trigger');
     const loadingIndicator = document.getElementById('loading-indicator');
     const cardTotal = document.getElementById('card-total');
     const noResultsTemplate = document.getElementById('no-results-template');
     const apiUrl = {{ path('app_card_api_search')|json_encode|raw }};
-    
+
     let currentQuery = '';
     let currentOffset = 0;
     let hasMore = scrollTrigger ? scrollTrigger.dataset.hasMore === 'true' : false;
     let isLoading = false;
     let searchTimeout = null;
 
+    // Add CSS animations
+    const style = document.createElement('style');
+    style.textContent = `
+        /* Force input to be interactive */
+        #card-search {
+            user-select: text !important;
+            caret-color: auto !important;
+            cursor: text !important;
+            pointer-events: auto !important;
+            position: relative !important;
+            z-index: 10 !important;
+        }
+
+        #card-search:focus {
+            outline: 2px solid #0d6efd !important;
+            outline-offset: -2px !important;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .card-item {
+            animation: fadeInUp 0.4s ease-out;
+        }
+
+        .card-item:nth-child(even) {
+            animation-delay: 0.1s;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.5;
+            }
+        }
+
+        .skeleton-loader {
+            animation: pulse 1.5s ease-in-out infinite;
+            background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+            background-size: 200% 100%;
+            animation: shimmer 1.5s infinite;
+        }
+
+        @keyframes shimmer {
+            0% {
+                background-position: -200% 0;
+            }
+            100% {
+                background-position: 200% 0;
+            }
+        }
+    `;
+    document.head.appendChild(style);
+
     // Search functionality with debounce
     if (searchInput) {
         searchInput.addEventListener('input', function() {
             clearTimeout(searchTimeout);
+
+            // Show spinner immediately when typing
+            if (searchSpinner && searchInput.value.trim() !== '') {
+                searchSpinner.style.display = 'block';
+            }
+
             searchTimeout = setTimeout(function() {
                 currentQuery = searchInput.value.trim();
                 currentOffset = 0;
@@ -139,12 +219,50 @@ document.addEventListener('DOMContentLoaded', function() {
         observer.observe(scrollTrigger);
     }
 
+    // Create skeleton loaders for smooth loading experience
+    function createSkeletonLoaders(count) {
+        let html = '';
+        for (let i = 0; i < count; i++) {
+            html += `
+                <div class="col-6 mt-4">
+                    <div class="card">
+                        <div class="card-header bg-light">
+                            <div class="skeleton-loader" style="height: 24px; width: 60%; border-radius: 4px;"></div>
+                        </div>
+                        <div class="card-body">
+                            <div class="skeleton-loader mb-3" style="height: 20px; width: 100%; border-radius: 4px;"></div>
+                            <div class="skeleton-loader mb-3" style="height: 20px; width: 80%; border-radius: 4px;"></div>
+                            <div class="skeleton-loader mb-3" style="height: 20px; width: 40%; border-radius: 4px;"></div>
+                            <div class="d-flex gap-2 mt-3">
+                                <div class="skeleton-loader" style="height: 38px; flex: 1; border-radius: 8px;"></div>
+                                <div class="skeleton-loader" style="height: 38px; flex: 1; border-radius: 8px;"></div>
+                                <div class="skeleton-loader" style="height: 38px; flex: 1; border-radius: 8px;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+        return html;
+    }
+
     function loadCards(replace) {
         if (isLoading) return;
-        
+
         isLoading = true;
+
+        // Show spinner in search input
+        if (searchSpinner && currentQuery) {
+            searchSpinner.style.display = 'block';
+        }
+
         if (loadingIndicator) {
             loadingIndicator.style.display = 'block';
+        }
+
+        // Add skeleton loaders for better UX
+        if (replace) {
+            cardsContainer.innerHTML = createSkeletonLoaders(2);
         }
 
         const url = new URL(apiUrl, window.location.origin);
@@ -166,14 +284,16 @@ document.addEventListener('DOMContentLoaded', function() {
                 const parser = new DOMParser();
                 const doc = parser.parseFromString(html, 'text/html');
                 const newCards = doc.querySelectorAll('.card-item');
-                
+
                 if (replace) {
                     cardsContainer.innerHTML = '';
                     currentOffset = 0;
                 }
 
                 if (newCards.length > 0) {
-                    newCards.forEach(function(card) {
+                    newCards.forEach(function(card, index) {
+                        // Add staggered animation delay
+                        card.style.animationDelay = (index * 0.05) + 's';
                         cardsContainer.appendChild(card);
                     });
                     currentOffset += newCards.length;
@@ -190,16 +310,36 @@ document.addEventListener('DOMContentLoaded', function() {
                 // Update hasMore flag
                 const hasMoreAttr = doc.querySelector('[data-has-more]');
                 hasMore = hasMoreAttr ? hasMoreAttr.dataset.hasMore === 'true' : false;
-                
-                // Update total count
+
+                // Update total count with animation
                 const totalAttr = doc.querySelector('[data-total-cards]');
                 if (totalAttr && cardTotal) {
-                    cardTotal.textContent = totalAttr.dataset.totalCards;
+                    const newTotal = totalAttr.dataset.totalCards;
+                    if (cardTotal.textContent !== newTotal) {
+                        cardTotal.style.transition = 'all 0.3s ease';
+                        cardTotal.style.transform = 'scale(1.2)';
+                        cardTotal.style.color = '#0d6efd';
+                        setTimeout(function() {
+                            cardTotal.textContent = newTotal;
+                            setTimeout(function() {
+                                cardTotal.style.transform = 'scale(1)';
+                                cardTotal.style.color = '';
+                            }, 100);
+                        }, 150);
+                    }
                 }
 
+                // Hide spinners with smooth transition
                 if (loadingIndicator) {
                     loadingIndicator.style.display = 'none';
                 }
+
+                if (searchSpinner) {
+                    setTimeout(function() {
+                        searchSpinner.style.display = 'none';
+                    }, 300);
+                }
+
                 isLoading = false;
             })
             .catch(function(error) {
@@ -207,8 +347,123 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (loadingIndicator) {
                     loadingIndicator.style.display = 'none';
                 }
+                if (searchSpinner) {
+                    searchSpinner.style.display = 'none';
+                }
                 isLoading = false;
             });
+    }
+});
+</script>
+
+{# Diagnostic script for debugging sidebar issues #}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('[DEBUG] Testing card-search accessibility');
+    const searchInput = document.getElementById('card-search');
+    const sidebar = document.getElementById('adminSidebar');
+
+    if (searchInput && sidebar) {
+        const inputRect = searchInput.getBoundingClientRect();
+        const sidebarRect = sidebar.getBoundingClientRect();
+        const sidebarStyles = window.getComputedStyle(sidebar);
+
+        console.log('[DEBUG] Search Input:', {
+            left: inputRect.left,
+            top: inputRect.top,
+            width: inputRect.width,
+            height: inputRect.height,
+            zIndex: window.getComputedStyle(searchInput).zIndex,
+            pointerEvents: window.getComputedStyle(searchInput).pointerEvents
+        });
+
+        console.log('[DEBUG] Sidebar:', {
+            left: sidebarRect.left,
+            top: sidebarRect.top,
+            width: sidebarRect.width,
+            transform: sidebarStyles.transform,
+            visibility: sidebarStyles.visibility,
+            pointerEvents: sidebarStyles.pointerEvents,
+            zIndex: sidebarStyles.zIndex,
+            hasShowClass: sidebar.classList.contains('show')
+        });
+
+        // Check if sidebar overlaps input
+        const overlaps = !(inputRect.right < sidebarRect.left ||
+                          inputRect.left > sidebarRect.right ||
+                          inputRect.bottom < sidebarRect.top ||
+                          inputRect.top > sidebarRect.bottom);
+
+        console.log('[DEBUG] Sidebar overlaps input:', overlaps);
+
+        if (overlaps && sidebarStyles.pointerEvents !== 'none') {
+            console.warn('[DEBUG] ⚠️ PROBLEM: Sidebar overlaps input and has pointer-events:', sidebarStyles.pointerEvents);
+        } else {
+            console.log('[DEBUG] ✅ Input should be accessible');
+        }
+
+        // NEW: Test what element is actually at the input position
+        const centerX = inputRect.left + inputRect.width / 2;
+        const centerY = inputRect.top + inputRect.height / 2;
+        const elementAtPoint = document.elementFromPoint(centerX, centerY);
+
+        console.log('[DEBUG] Element at input center point:', {
+            element: elementAtPoint,
+            tagName: elementAtPoint?.tagName,
+            id: elementAtPoint?.id,
+            className: elementAtPoint?.className,
+            isInputItself: elementAtPoint === searchInput
+        });
+
+        if (elementAtPoint !== searchInput) {
+            console.error('[DEBUG] ❌ BLOCKER FOUND: Element blocking input:', elementAtPoint);
+            console.error('[DEBUG] Blocker styles:', {
+                zIndex: window.getComputedStyle(elementAtPoint).zIndex,
+                position: window.getComputedStyle(elementAtPoint).position,
+                pointerEvents: window.getComputedStyle(elementAtPoint).pointerEvents,
+                background: window.getComputedStyle(elementAtPoint).background
+            });
+        } else {
+            console.log('[DEBUG] ✅ Input is the top element at its position');
+        }
+
+        // Test if input can actually be focused
+        console.log('[DEBUG] Testing focus capability...');
+        console.log('[DEBUG] Input attributes:', {
+            disabled: searchInput.disabled,
+            readOnly: searchInput.readOnly,
+            tabIndex: searchInput.tabIndex,
+            type: searchInput.type
+        });
+
+        // Try to focus the input
+        searchInput.focus();
+
+        setTimeout(function() {
+            console.log('[DEBUG] After focus attempt:', {
+                hasFocus: document.activeElement === searchInput,
+                activeElement: document.activeElement,
+                inputValue: searchInput.value
+            });
+
+            if (document.activeElement !== searchInput) {
+                console.error('[DEBUG] ❌ INPUT CANNOT RECEIVE FOCUS!');
+                console.error('[DEBUG] Active element is:', document.activeElement);
+
+                // Try to force focus with click
+                console.log('[DEBUG] Trying to force focus with click...');
+                searchInput.click();
+
+                setTimeout(function() {
+                    console.log('[DEBUG] After click:', {
+                        hasFocus: document.activeElement === searchInput,
+                        activeElement: document.activeElement
+                    });
+                }, 100);
+            } else {
+                console.log('[DEBUG] ✅ Input successfully focused');
+            }
+        }, 100);
     }
 });
 </script>

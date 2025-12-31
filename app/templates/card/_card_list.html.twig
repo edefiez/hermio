@@ -8,9 +8,22 @@
     <div class="col-md-6 col-12 mt-4 card-item">
         <div class="card">
             <div class="card-header bg-light">
-                <h5 style="margin-top: 0;">
+                <h5 style="margin-top: 0; margin-bottom: 0;">
                     {{ card.content.name|default('card.unnamed'|trans) }}
                 </h5>
+                {% if card.content.title or card.content.company %}
+                    <div class="text-muted" style="font-size: 0.9rem; margin-top: 0.25rem;">
+                        {% if card.content.title %}
+                            <span>{{ card.content.title }}</span>
+                        {% endif %}
+                        {% if card.content.title and card.content.company %}
+                            <span> • </span>
+                        {% endif %}
+                        {% if card.content.company %}
+                            <span>{{ card.content.company }}</span>
+                        {% endif %}
+                    </div>
+                {% endif %}
             </div>
             <div class="card-body">
                 <p>
