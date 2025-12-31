@@ -1,6 +1,16 @@
 nav:
   login: "Connexion"
   register: "S'inscrire"
+  main: "Navigation principale"
+  dashboard: "Tableau de bord"
+  my_cards: "Mes cartes"
+  account: "Compte"
+  profile: "Profil"
+  branding: "Branding"
+  collapse: "Réduire"
+  expand: "Développer"
+  toggle: "Basculer la navigation"
+  skip_to_content: "Aller au contenu principal"
 
 home:
   meta:
@@ -346,6 +356,8 @@ card:
     placeholder: "Parlez-nous de vous..."
     max_length: "La biographie ne peut pas dépasser 1000 caractères"
     title: "À propos"
+    help: "Décrivez-vous en quelques mots"
+  basic_info: "Informations principales"
   website:
     placeholder: "https://votresite.com"
     invalid: "Veuillez entrer une URL valide"
@@ -393,13 +405,17 @@ card:
     secure_url: "URL Publique Sécurisée"
     copy_url: "Copier l'URL"
     url_copied: "URL copiée dans le presse-papiers !"
+  label:
+    email: "Email"
+    phone: "Téléphone"
+    website: "Site Web"
   action:
     call: "Appeler"
     email: "Envoyer un Email"
     call.short: "Appeler"
     email.short: "Email"
   social:
-    title: "Se Connecter"
+    title: "Réseaux Sociaux"
     instagram:
       label: "Instagram"
       placeholder: "https://instagram.com/votreprofil"
@@ -442,6 +458,8 @@ branding:
   title: "Configuration du Branding"
   access_denied: "La personnalisation du branding est uniquement disponible pour les plans Pro et Entreprise"
   upgrade: "Mettre à Niveau"
+  preview:
+    title: "Aperçu en temps réel"
   colors:
     title: "Couleurs de Marque"
   primary_color: "Couleur Principale"
@@ -462,6 +480,9 @@ branding:
     size.small: "Petit"
     size.medium: "Moyen"
     size.large: "Grand"
+    current: "Logo actuel"
+    help: "Téléchargez un fichier PNG, JPG ou SVG (max 5MB)"
+
   save: "Enregistrer le Branding"
   save.success: "Configuration du branding enregistrée avec succès"
   template:
@@ -493,8 +514,17 @@ branding:
   template.access_denied: "La personnalisation des templates est uniquement disponible pour les plans Entreprise"
   validation.error: "Veuillez corriger les erreurs ci-dessous"
   upload.error: "L'upload du logo a échoué. Veuillez réessayer."
+  primary_color_picker:
+    picker: "Choisir la couleur principale"
+    help: "Choisissez une couleur ou entrez un code hexadécimal (ex: #FF5733)"
+  secondary_color_picker:
+    picker: "Choisir la couleur secondaire"
+    help: "Choisissez une couleur ou entrez un code hexadécimal (ex: #6c757d)"
+
   color:
     accessibility:
+      title: "Accessibilité des couleurs"
+      help: "Pour améliorer l'accessibilité, utilisez des couleurs avec un ratio de contraste d'au moins 4,5:1 (WCAG AA) ou 7:1 (WCAG AAA) par rapport au fond blanc."
       warning:
         primary: "Avertissement : Le ratio de contraste de la couleur principale est de %s:1 (%s). Pour une meilleure accessibilité, visez au moins 4,5:1 (WCAG AA) ou 7:1 (WCAG AAA)."
         secondary: "Avertissement : Le ratio de contraste de la couleur secondaire est de %s:1 (%s). Pour une meilleure accessibilité, visez au moins 4,5:1 (WCAG AA) ou 7:1 (WCAG AAA)."
@@ -619,6 +649,7 @@ accessibility:
 # COMPOSANTS DU TABLEAU DE BORD
 # ============================================================================
 dashboard:
+  title: "Tableau de bord"
   cards:
     account_overview: "Aperçu du compte"
     plan_summary: "Mon forfait"
@@ -633,6 +664,35 @@ dashboard:
     view_details: "Voir les détails"
     upgrade_plan: "Mettre à niveau le forfait"
     manage_cards: "Gérer les cartes"
+  plan:
+    title: "Plan"
+    unlimited: "Illimité"
+    limited: "Limité"
+  usage:
+    title: "Utilisation des cartes"
+  quick_actions:
+    title: "Actions rapides"
+  activity:
+    event: "Événement"
+    date: "Date/Heure"
+    status: "Statut"
+    login: "Connexion"
+    logout: "Déconnexion"
+    registration: "Inscription"
+    success: "Réussi"
+    failed: "Échoué"
+  welcome: "Bon retour"
+  member_since: "Membre depuis"
+  days: "jours"
+  total_cards: "Total des cartes"
+  active: "actives"
+  view_all: "Voir tout"
+
+header:
+  user_menu:
+    profile: "Profil"
+    logout: "Déconnexion"
+
 error:
   access_denied:
     title: "Accès Refusé"

@@ -1,0 +1,195 @@
+{% extends 'base_admin.html.twig' %}
+
+{% block page_title %}{{ 'dashboard.title'|trans }}{% endblock %}
+
+{% block admin_content %}
+<div class="dashboard-container">
+    {# Welcome Section #}
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card shadow-sm border-0">
+                <div class="card-body p-4">
+                    <div class="d-flex align-items-center justify-content-between flex-wrap">
+                        <div>
+                            <h2 class="mb-1">{{ 'dashboard.welcome'|trans|default('Welcome back') }}, {{ app.user.email }}</h2>
+                            <p class="text-muted mb-0">
+                                {% if memberSince %}
+                                    {{ 'dashboard.member_since'|trans|default('Member since') }} {{ memberSince|date('F Y') }}
+                                    {% if daysSince > 0 %}
+                                        <span class="badge bg-secondary ms-2">{{ daysSince }} {{ 'dashboard.days'|trans|default('days') }}</span>
+                                    {% endif %}
+                                {% endif %}
+                            </p>
+                        </div>
+                        <div class="mt-2 mt-md-0">
+                            <a href="{{ path('app_card_create') }}" class="btn btn-primary btn-lg">
+                                <i class="fas fa-plus me-2"></i>{{ 'card.create.button'|trans }}
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {# Statistics Cards #}
+    <div class="row g-4 mb-4">
+        {# Plan Card #}
+        <div class="col-6">
+            <div class="card shadow-sm h-100 border-0">
+                <div class="card-header card-header-gradient text-white">
+                    <h5 class="card-title mb-0">
+                        <i class="fas fa-crown me-2"></i>{{ 'dashboard.plan.title'|trans }}
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <h3 class="mb-2">{{ planType.getDisplayName()|trans }}</h3>
+                    {% if isUnlimited %}
+                        <p class="text-muted mb-3">
+                            <i class="fas fa-infinity me-1"></i>{{ 'dashboard.plan.unlimited'|trans }}
+                        </p>
+                    {% else %}
+                        <p class="text-muted mb-3">{{ 'dashboard.plan.limited'|trans }}</p>
+                    {% endif %}
+                    <a href="{{ path('app_account_my_plan') }}" class="btn btn-sm btn-outline-primary w-100">
+                        <i class="fas fa-info-circle me-1"></i>{{ 'account.view_plan_details'|trans }}
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        {# Quick Actions Card #}
+        <div class="col-6">
+            <div class="card shadow-sm h-100 border-0">
+                <div class="card-header bg-success text-white">
+                    <h5 class="card-title mb-0">
+                        <i class="fas fa-bolt me-2"></i>{{ 'dashboard.quick_actions.title'|trans }}
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="d-grid gap-2">
+                        <a href="{{ path('app_card_create') }}" class="btn btn-primary btn-sm">
+                            <i class="fas fa-plus me-1"></i>{{ 'card.create.button'|trans }}
+                        </a>
+                        <a href="{{ path('app_account_index') }}" class="btn btn-outline-secondary btn-sm">
+                            <i class="fas fa-user-circle me-1"></i>{{ 'nav.account'|trans }}
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {# Card Usage Card #}
+        <div class="col-6">
+            <div class="card shadow-sm h-100 border-0">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="card-title mb-0">
+                        <i class="fas fa-id-card me-2"></i>{{ 'dashboard.usage.title'|trans }}
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <h3 class="mb-2">
+                        {{ currentUsage }} / {{ quotaLimit ?? '∞' }}
+                    </h3>
+                    {% if usagePercentage is not null %}
+                        <div class="progress mb-2" style="height: 24px;">
+                            <div class="progress-bar
+                                {% if usagePercentage >= 100 %}bg-danger
+                                {% elseif usagePercentage >= 80 %}bg-warning
+                                {% else %}bg-success
+                                {% endif %}"
+                                role="progressbar"
+                                style="width: {{ usagePercentage }}%"
+                                aria-valuenow="{{ usagePercentage }}"
+                                aria-valuemin="0"
+                                aria-valuemax="100">
+                                <strong>{{ usagePercentage|round }}%</strong>
+                            </div>
+                        </div>
+                        <small class="text-muted d-block mb-3">{{ 'account.quota.used'|trans }}</small>
+                    {% else %}
+                        <p class="text-muted mb-3">{{ 'account.quota.unlimited'|trans }}</p>
+                    {% endif %}
+                    <a href="{{ path('app_card_index') }}" class="btn btn-sm btn-outline-primary w-100">
+                        <i class="fas fa-list me-1"></i>{{ 'nav.my_cards'|trans }}
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        {# Total Cards Card #}
+        <div class="col-6">
+            <div class="card shadow-sm h-100 border-0">
+                <div class="card-header bg-info text-white">
+                    <h5 class="card-title mb-0">
+                        <i class="fas fa-layer-group me-2"></i>{{ 'dashboard.total_cards'|trans|default('Total Cards') }}
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <h3 class="mb-2">{{ totalCards }}</h3>
+                    <p class="text-muted mb-3">
+                        <i class="fas fa-check-circle text-success me-1"></i>{{ activeCards }} {{ 'dashboard.active'|trans|default('active') }}
+                    </p>
+                    <a href="{{ path('app_card_index') }}" class="btn btn-sm btn-outline-info w-100">
+                        <i class="fas fa-eye me-1"></i>{{ 'dashboard.view_all'|trans|default('View All') }}
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {# Recent Activity Section #}
+    {% if recentActivity|length > 0 %}
+    <div class="row">
+        <div class="col-12">
+            <div class="card shadow-sm">
+                <div class="card-header bg-light">
+                    <h5 class="card-title mb-0">
+                        <i class="fas fa-clock me-2"></i>{{ 'dashboard.cards.recent_activity'|trans }}
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover mb-0">
+                            <thead>
+                                <tr>
+                                    <th>{{ 'dashboard.activity.event'|trans|default('Event') }}</th>
+                                    <th>{{ 'dashboard.activity.date'|trans|default('Date/Time') }}</th>
+                                    <th>{{ 'dashboard.activity.status'|trans|default('Status') }}</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for log in recentActivity %}
+                                <tr>
+                                    <td>
+                                        {% if log.eventType == 'login_success' %}
+                                            <i class="fas fa-sign-in-alt text-success me-2"></i>{{ 'dashboard.activity.login'|trans|default('Login') }}
+                                        {% elseif log.eventType == 'logout' %}
+                                            <i class="fas fa-sign-out-alt text-info me-2"></i>{{ 'dashboard.activity.logout'|trans|default('Logout') }}
+                                        {% elseif log.eventType == 'registration' %}
+                                            <i class="fas fa-user-plus text-primary me-2"></i>{{ 'dashboard.activity.registration'|trans|default('Registration') }}
+                                        {% else %}
+                                            <i class="fas fa-circle text-muted me-2"></i>{{ log.eventType|replace({'_': ' '})|title }}
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        <small>{{ log.timestamp|date('Y-m-d H:i:s') }}</small>
+                                    </td>
+                                    <td>
+                                        <span class="badge bg-{{ log.successful ? 'success' : 'danger' }}">
+                                            {{ log.successful ? ('dashboard.activity.success'|trans|default('Success')) : ('dashboard.activity.failed'|trans|default('Failed')) }}
+                                        </span>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
+

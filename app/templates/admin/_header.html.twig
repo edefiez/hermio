@@ -1,0 +1,61 @@
+<header class="admin-header">
+    <div class="admin-header-content d-flex align-items-center justify-content-between">
+        <div class="d-flex align-items-center">
+            <button class="sidebar-toggle d-lg-none me-3 btn btn-link p-2" 
+                    type="button" 
+                    data-bs-toggle="offcanvas" 
+                    data-bs-target="#adminSidebar"
+                    aria-controls="adminSidebar"
+                    aria-label="{{ 'nav.toggle'|trans|default('Toggle navigation') }}">
+                <i class="fas fa-bars"></i>
+            </button>
+            <h1 class="admin-page-title mb-0 h5">{% block page_title %}{% endblock %}</h1>
+        </div>
+        <div class="admin-header-actions d-flex align-items-center gap-3">
+            {# Language Selector #}
+            <div class="dropdown">
+                <a class="btn btn-link dropdown-toggle text-decoration-none" href="#" id="languageDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="fas fa-globe"></i>
+                    {% if app.request.locale == 'fr' %}
+                        Français
+                    {% else %}
+                        English
+                    {% endif %}
+                </a>
+                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="languageDropdown">
+                    <li>
+                        <a class="dropdown-item {% if app.request.locale == 'en' %}active{% endif %}" href="{{ path('app_change_locale', {'_locale': 'en'}) }}">
+                            🇬🇧 English
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item {% if app.request.locale == 'fr' %}active{% endif %}" href="{{ path('app_change_locale', {'_locale': 'fr'}) }}">
+                            🇫🇷 Français
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            {# User Menu #}
+            <div class="dropdown">
+                <button class="btn btn-link dropdown-toggle text-decoration-none" type="button" id="userMenu" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="fas fa-user me-2"></i>
+                    {{ app.user.email }}
+                </button>
+                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userMenu">
+                    <li>
+                        <a class="dropdown-item" href="{{ path('app_profile') }}">
+                            <i class="fas fa-user me-2"></i>{{ 'header.user_menu.profile'|trans }}
+                        </a>
+                    </li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li>
+                        <a class="dropdown-item" href="{{ path('app_logout') }}">
+                            <i class="fas fa-sign-out-alt me-2"></i>{{ 'header.user_menu.logout'|trans }}
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</header>
+

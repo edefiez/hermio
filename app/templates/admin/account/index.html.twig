@@ -1,8 +1,10 @@
-{% extends 'base.html.twig' %}
+{% extends 'base_admin.html.twig' %}
 
 {% block title %}{{ 'admin.account.list'|trans }} - Hermio{% endblock %}
 
-{% block body %}
+{% block page_title %}{{ 'admin.account.list'|trans }}{% endblock %}
+
+{% block admin_content %}
 <div class="profile-container">
     <h1>{{ 'admin.account.list'|trans }}</h1>
 
