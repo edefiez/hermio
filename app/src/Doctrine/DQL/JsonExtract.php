@@ -11,8 +11,6 @@ use Doctrine\ORM\Query\TokenType;
  * JsonExtract DQL function for MySQL/MariaDB
  * Usage: JSON_EXTRACT(field, path)
  * Example: JSON_EXTRACT(c.content, '$.name')
- *
- * Extracts data from a JSON document using a path expression
  */
 class JsonExtract extends FunctionNode
 {
@@ -34,7 +32,7 @@ class JsonExtract extends FunctionNode
         return 'JSON_EXTRACT(' .
             $this->field->dispatch($sqlWalker) . ', ' .
             $this->path->dispatch($sqlWalker) .
-            ')';
+        ')';
     }
 }
 

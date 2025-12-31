@@ -48,9 +48,14 @@ console.log('Hermio app loaded with Bootstrap 5');
 
         // Initialize sidebar on desktop (always visible)
         function initializeSidebar() {
-            if (window.innerWidth >= 992) {
-                // Desktop: Force sidebar to be visible
-                sidebarElement.classList.add('show');
+            const width = window.innerWidth;
+            console.log('[Sidebar] Initializing - Window width:', width);
+
+            if (width >= 992) {
+                // Desktop: Don't add .show class to avoid triggering Bootstrap events that steal focus
+                // The CSS already forces visibility with @media queries
+                console.log('[Sidebar] Desktop mode - Using CSS for visibility (no .show class)');
+
                 // Don't set inline styles that would override CSS transitions
                 // Only set essential styles
                 sidebarElement.style.position = 'fixed';
@@ -68,6 +73,16 @@ console.log('Hermio app loaded with Bootstrap 5');
 
                 // Remove body class that Bootstrap adds for offcanvas
                 document.body.classList.remove('offcanvas-open');
+            } else {
+                // Mobile: Ensure sidebar is hidden
+                sidebarElement.classList.remove('show');
+                console.log('[Sidebar] Mobile mode - Removed .show class');
+                console.log('[Sidebar] Computed styles:', {
+                    transform: window.getComputedStyle(sidebarElement).transform,
+                    visibility: window.getComputedStyle(sidebarElement).visibility,
+                    pointerEvents: window.getComputedStyle(sidebarElement).pointerEvents,
+                    zIndex: window.getComputedStyle(sidebarElement).zIndex
+                });
             }
         }
 
@@ -238,31 +253,27 @@ console.log('Hermio app loaded with Bootstrap 5');
                     }
                 }
             });
-
-            // Keyboard navigation support (Enter/Space activation)
-            link.addEventListener('keydown', function(e) {
-                if (e.key === 'Enter' || e.key === ' ') {
-                    e.preventDefault();
-                    link.click();
-                }
-            });
         });
 
-        // Focus management for mobile sidebar
+        // Focus management for mobile sidebar ONLY
         if (typeof bootstrap !== 'undefined' && bootstrap.Offcanvas) {
             sidebarElement.addEventListener('shown.bs.offcanvas', function() {
-                // Focus first navigation link when sidebar opens
-                const firstLink = sidebarElement.querySelector('.nav-link');
-                if (firstLink) {
-                    firstLink.focus();
+                // Only manage focus on mobile/tablet, not on desktop
+                if (window.innerWidth < 992) {
+                    const firstLink = sidebarElement.querySelector('.nav-link');
+                    if (firstLink) {
+                        firstLink.focus();
+                    }
                 }
             });
 
             sidebarElement.addEventListener('hidden.bs.offcanvas', function() {
-                // Return focus to hamburger button when sidebar closes
-                const hamburgerButton = document.querySelector('.sidebar-toggle');
-                if (hamburgerButton) {
-                    hamburgerButton.focus();
+                // Only manage focus on mobile/tablet, not on desktop
+                if (window.innerWidth < 992) {
+                    const hamburgerButton = document.querySelector('.sidebar-toggle');
+                    if (hamburgerButton) {
+                        hamburgerButton.focus();
+                    }
                 }
             });
         }

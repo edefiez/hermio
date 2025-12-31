@@ -311,6 +311,11 @@ card:
   delete:
     confirm: "Êtes-vous sûr de vouloir supprimer cette carte ?"
   delete_button: "Supprimer"
+  search:
+    placeholder: "Rechercher des cartes par nom, email ou entreprise..."
+    label: "Rechercher des cartes"
+    no_results: "Aucune carte ne correspond à votre recherche."
+  count: "Total de cartes"
   list:
     title: "Mes Cartes"
     empty: "Vous n'avez pas encore créé de cartes."
@@ -720,6 +725,9 @@ error:
     invalid_key: "La clé d'accès est manquante ou invalide. Veuillez vérifier l'URL que vous avez reçue."
     help: "Que puis-je faire ?"
     check_url: "Vérifiez l'URL complète incluant le paramètre de clé d'accès (?k=...)"
-    check_link: "Assurez-vous d'utiliser le lien le plus récent qui vous a été partagé"
-    contact_owner: "Contactez le propriétaire de la carte pour demander un nouveau lien"
+
+common:
+  loading: "Chargement..."
+  check_link: "Assurez-vous d'utiliser le lien le plus récent qui vous a été partagé"
+  contact_owner: "Contactez le propriétaire de la carte pour demander un nouveau lien"
   back_home: "Retour à l'accueil"

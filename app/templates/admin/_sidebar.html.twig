@@ -1,4 +1,4 @@
-<nav class="admin-sidebar offcanvas offcanvas-start show" id="adminSidebar" tabindex="-1" aria-labelledby="adminSidebarLabel" aria-label="Hermio" role="navigation">
+<nav class="admin-sidebar offcanvas offcanvas-start" id="adminSidebar" tabindex="-1" aria-labelledby="adminSidebarLabel" aria-label="Hermio" role="navigation">
     <div class="offcanvas-header d-lg-none">
         <h5 class="offcanvas-title" id="adminSidebarLabel">Hermio</h5>
         <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
@@ -14,8 +14,7 @@
             <li class="nav-item">
                 <a class="nav-link {% if app.request.attributes.get('_route') == 'app_dashboard' %}active{% endif %}"
                    href="{{ path('app_dashboard') }}"
-                   {% if app.request.attributes.get('_route') == 'app_dashboard' %}aria-current="page"{% endif %}
-                   tabindex="0">
+                   {% if app.request.attributes.get('_route') == 'app_dashboard' %}aria-current="page"{% endif %}>
                     <i class="fas fa-home me-2" aria-hidden="true"></i>
                     <span>{{ 'nav.dashboard'|trans }}</span>
                 </a>
@@ -23,8 +22,7 @@
             <li class="nav-item">
                 <a class="nav-link {% if app.request.attributes.get('_route') starts with 'app_card' %}active{% endif %}"
                    href="{{ path('app_card_index') }}"
-                   {% if app.request.attributes.get('_route') starts with 'app_card' %}aria-current="page"{% endif %}
-                   tabindex="0">
+                   {% if app.request.attributes.get('_route') starts with 'app_card' %}aria-current="page"{% endif %}>
                     <i class="fas fa-id-card me-2" aria-hidden="true"></i>
                     <span>{{ 'nav.my_cards'|trans }}</span>
                 </a>
@@ -32,8 +30,7 @@
             <li class="nav-item">
                 <a class="nav-link {% if app.request.attributes.get('_route') starts with 'app_account' %}active{% endif %}"
                    href="{{ path('app_account_index') }}"
-                   {% if app.request.attributes.get('_route') starts with 'app_account' %}aria-current="page"{% endif %}
-                   tabindex="0">
+                   {% if app.request.attributes.get('_route') starts with 'app_account' %}aria-current="page"{% endif %}>
                     <i class="fas fa-user-circle me-2" aria-hidden="true"></i>
                     <span>{{ 'nav.account'|trans }}</span>
                 </a>
@@ -41,8 +38,7 @@
             <li class="nav-item">
                 <a class="nav-link {% if app.request.attributes.get('_route') == 'app_profile' %}active{% endif %}"
                    href="{{ path('app_profile') }}"
-                   {% if app.request.attributes.get('_route') == 'app_profile' %}aria-current="page"{% endif %}
-                   tabindex="0">
+                   {% if app.request.attributes.get('_route') == 'app_profile' %}aria-current="page"{% endif %}>
                     <i class="fas fa-user me-2" aria-hidden="true"></i>
                     <span>{{ 'nav.profile'|trans }}</span>
                 </a>
@@ -53,8 +49,7 @@
                     <li class="nav-item">
                         <a class="nav-link {% if app.request.attributes.get('_route') starts with 'app_branding' %}active{% endif %}"
                            href="{{ path('app_branding_configure') }}"
-                           {% if app.request.attributes.get('_route') starts with 'app_branding' %}aria-current="page"{% endif %}
-                           tabindex="0">
+                           {% if app.request.attributes.get('_route') starts with 'app_branding' %}aria-current="page"{% endif %}>
                             <i class="fas fa-palette me-2" aria-hidden="true"></i>
                             <span>{{ 'nav.branding'|trans }}</span>
                         </a>

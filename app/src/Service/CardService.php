@@ -183,6 +183,101 @@ class CardService
     }
 
     /**
+     * Search accessible cards for user with pagination
+     *
+     * @param User $user
+     * @param string|null $query Search query
+     * @param int $limit Number of results to return
+     * @param int $offset Offset for pagination
+     * @return Card[]
+     */
+    public function searchAccessibleCardsForUser(User $user, ?string $query, int $limit = 10, int $offset = 0): array
+    {
+        $account = $user->getAccount();
+        
+        // For non-Enterprise or users without account, search only owned cards
+        if (!$account || $account->getPlanType() !== PlanType::ENTERPRISE) {
+            return $this->cardRepository->searchByUser($user, $query, $limit, $offset);
+        }
+
+        // Check if team member
+        $teamMember = $this->teamMemberRepository->findByAccountAndUser($account, $user);
+        if (!$teamMember || $teamMember->getInvitationStatus() !== 'accepted') {
+            return $this->cardRepository->searchByUser($user, $query, $limit, $offset);
+        }
+
+        // ADMINs can view all cards in the account
+        if ($teamMember->getRole()->canViewAllCards()) {
+            return $this->cardRepository->searchByUser($account->getUser(), $query, $limit, $offset);
+        }
+
+        // MEMBERs: return assigned cards only
+        // We fetch more cards than needed because we need to filter by assignment afterward
+        // Multiplier of 3 provides a buffer to account for cards that will be filtered out
+        $preFilterMultiplier = 3;
+        $allCards = $this->cardRepository->searchByUser($account->getUser(), $query, $limit * $preFilterMultiplier, 0);
+        $assignedCards = $this->getAssignedCardsForUser($user);
+        $assignedCardIds = array_map(fn($c) => $c->getId(), $assignedCards);
+        
+        $filteredCards = array_filter($allCards, fn($c) => in_array($c->getId(), $assignedCardIds));
+        
+        return array_slice($filteredCards, $offset, $limit);
+    }
+
+    /**
+     * Count accessible cards for user with optional search query
+     *
+     * @param User $user
+     * @param string|null $query Search query
+     * @return int
+     */
+    public function countAccessibleCardsForUser(User $user, ?string $query = null): int
+    {
+        $account = $user->getAccount();
+        
+        // For non-Enterprise or users without account, count only owned cards
+        if (!$account || $account->getPlanType() !== PlanType::ENTERPRISE) {
+            return $this->cardRepository->countByUser($user, $query);
+        }
+
+        // Check if team member
+        $teamMember = $this->teamMemberRepository->findByAccountAndUser($account, $user);
+        if (!$teamMember || $teamMember->getInvitationStatus() !== 'accepted') {
+            return $this->cardRepository->countByUser($user, $query);
+        }
+
+        // ADMINs can view all cards in the account
+        if ($teamMember->getRole()->canViewAllCards()) {
+            return $this->cardRepository->countByUser($account->getUser(), $query);
+        }
+
+        // MEMBERs: return count of assigned cards
+        // For simplicity, we'll filter assigned cards from all cards
+        $assignedCards = $this->getAssignedCardsForUser($user);
+        
+        if (!$query || trim($query) === '') {
+            return count($assignedCards);
+        }
+        
+        // Filter assigned cards by query
+        $query = strtolower($query);
+        $filteredCards = array_filter($assignedCards, function($card) use ($query) {
+            $content = $card->getContent();
+            $name = strtolower($content['name'] ?? '');
+            $email = strtolower($content['email'] ?? '');
+            $company = strtolower($content['company'] ?? '');
+            $slug = strtolower($card->getSlug());
+            
+            return str_contains($name, $query) || 
+                   str_contains($email, $query) || 
+                   str_contains($company, $query) ||
+                   str_contains($slug, $query);
+        });
+        
+        return count($filteredCards);
+    }
+
+    /**
      * Assign card to team members
      *
      * @param TeamMember[] $teamMembers
