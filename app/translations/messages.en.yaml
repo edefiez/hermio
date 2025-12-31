@@ -311,6 +311,11 @@ card:
   delete:
     confirm: "Are you sure you want to delete this card?"
   delete_button: "Delete"
+  search:
+    placeholder: "Search cards by name, email, or company..."
+    label: "Search cards"
+    no_results: "No cards found matching your search."
+  count: "Total cards"
   list:
     title: "My Cards"
     empty: "You haven't created any cards yet."
@@ -704,6 +709,9 @@ error:
     help: "What can I do?"
     check_url: "Verify the complete URL including the access key parameter (?k=...)"
     check_link: "Make sure you're using the most recent link shared with you"
-    contact_owner: "Contact the card owner to request a new link"
+
+common:
+  loading: "Loading..."
+  contact_owner: "Contact the card owner to request a new link"
   back_home: "Back to Home"
 
