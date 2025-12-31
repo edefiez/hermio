@@ -28,6 +28,13 @@
                             </a>
                         </div>
                     {% else %}
+                        {# Separate form for logo removal - MUST be outside main form to avoid CSRF conflicts #}
+                        {% if branding and branding.logoFilename %}
+                            <form method="post" action="{{ path('app_branding_remove_logo') }}" id="removeLogoForm" style="display: none;">
+                                <input type="hidden" name="_token" value="{{ csrf_token('remove_logo') }}">
+                            </form>
+                        {% endif %}
+
                         {{ form_start(form, {'attr': {'enctype': 'multipart/form-data', 'class': 'needs-validation'}}) }}
                         <div class="row">
                             {# Display flash messages #}
@@ -193,14 +200,11 @@
                                                      style="max-width: 200px; max-height: 200px;">
                                                 <div>
                                                     <p class="mb-2"><strong>{{ 'branding.logo.current'|trans|default('Current logo') }}</strong></p>
-                                                    <form method="post" action="{{ path('app_branding_remove_logo') }}" class="d-inline">
-                                                        <input type="hidden" name="_token" value="{{ csrf_token('remove_logo') }}">
-                                                        <button type="submit"
-                                                                class="btn btn-danger btn-sm"
-                                                                onclick="return confirm('{{ 'branding.logo.remove.confirm'|trans }}')">
-                                                            <i class="fas fa-trash me-1"></i>{{ 'branding.logo.remove'|trans }}
-                                                        </button>
-                                                    </form>
+                                                    <button type="button"
+                                                            class="btn btn-danger btn-sm"
+                                                            onclick="if(confirm('{{ 'branding.logo.remove.confirm'|trans }}')) { document.getElementById('removeLogoForm').submit(); }">
+                                                        <i class="fas fa-trash me-1"></i>{{ 'branding.logo.remove'|trans }}
+                                                    </button>
                                                 </div>
                                             </div>
                                         </div>
