@@ -689,6 +689,21 @@ dashboard:
   total_cards: "Total Cards"
   active: "active"
   view_all: "View All"
+  analytics:
+    title: "QR Code Analytics"
+    total_scans: "Total Scans"
+    tracked_cards: "Tracked Cards"
+    avg_per_day: "Avg Scans/Day"
+    scans_per_day: "Scans Per Day (Last 30 Days)"
+    top_cards: "Most Scanned Cards"
+    rank: "Rank"
+    card_name: "Card Name"
+    slug: "Slug"
+    scans: "Scans"
+    locked: "Feature Locked"
+    upgrade_title: "Unlock Advanced Analytics"
+    upgrade_message: "Track your QR code scans, view daily statistics, and see which cards perform best. Upgrade to Enterprise plan to access these powerful insights."
+    upgrade_button: "Upgrade to Enterprise"
 
 header:
   user_menu:

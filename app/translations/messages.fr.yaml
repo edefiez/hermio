@@ -691,6 +691,21 @@ dashboard:
   total_cards: "Total des cartes"
   active: "actives"
   view_all: "Voir tout"
+  analytics:
+    title: "Statistiques des QR Codes"
+    total_scans: "Scans Totaux"
+    tracked_cards: "Cartes Suivies"
+    avg_per_day: "Moy. Scans/Jour"
+    scans_per_day: "Scans par Jour (30 Derniers Jours)"
+    top_cards: "Cartes les Plus Flashées"
+    rank: "Rang"
+    card_name: "Nom de la Carte"
+    slug: "Identifiant"
+    scans: "Scans"
+    locked: "Fonctionnalité Verrouillée"
+    upgrade_title: "Débloquez les Statistiques Avancées"
+    upgrade_message: "Suivez les scans de vos QR codes, visualisez les statistiques quotidiennes et découvrez quelles cartes performent le mieux. Passez au plan Enterprise pour accéder à ces analyses puissantes."
+    upgrade_button: "Passer à Enterprise"
 
 header:
   user_menu:
