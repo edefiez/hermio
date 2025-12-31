@@ -51,7 +51,7 @@ class BrandingFormType extends AbstractType
             ])
             ->add('logo', FileType::class, [
                 'required' => false,
-                'label' => 'branding.logo',
+                'label' => 'branding.logo.title',
                 'mapped' => false,
                 'attr' => [
                     'class' => 'form-control',
@@ -80,7 +80,6 @@ class BrandingFormType extends AbstractType
                     'branding.logo.position.top_left' => 'top-left',
                     'branding.logo.position.top_center' => 'top-center',
                     'branding.logo.position.top_right' => 'top-right',
-                    'branding.logo.position.center' => 'center',
                     'branding.logo.position.bottom_left' => 'bottom-left',
                     'branding.logo.position.bottom_center' => 'bottom-center',
                     'branding.logo.position.bottom_right' => 'bottom-right',

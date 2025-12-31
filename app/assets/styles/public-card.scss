@@ -1,7 +1,7 @@
 /**
  * Public Card Styles
  * Feature 008: Public Card Enhancements
- * 
+ *
  * Mobile-first responsive design with:
  * - Touch-friendly elements (min 48px)
  * - WCAG 2.1 Level AA color contrast
@@ -24,10 +24,10 @@
   --card-radius: 12px;
   --card-spacing: 1rem;
   --card-spacing-lg: 1.5rem;
-  
+
   /* Minimum touch target size */
   --min-touch-target: 48px;
-  
+
   /* Z-index layers */
   --z-fixed-button: 1000;
 }
@@ -42,7 +42,7 @@
     --card-border-color: #444;
     --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
   }
-  
+
   .public-card {
     background: #1a1a1a;
     color: var(--card-text-color);
@@ -57,7 +57,7 @@
   max-width: 600px;
   margin: 0 auto;
   padding: var(--card-spacing);
-  
+
   /* Add bottom padding on mobile to account for fixed button */
   padding-bottom: calc(var(--min-touch-target) + var(--card-spacing-lg) * 2);
 }
@@ -76,10 +76,19 @@
 
 .card-header-section {
   text-align: center;
-  padding-bottom: var(--card-spacing-lg);
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  padding-left: 0;
+  padding-right: 0;
   border-bottom: 2px solid var(--card-primary-color);
   margin-bottom: var(--card-spacing-lg);
+  margin-left: calc(var(--card-spacing) * -1.5);
+  margin-right: calc(var(--card-spacing) * -1.5);
   position: relative;
+  width: calc(100% + var(--card-spacing) * 3);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .card-name {
@@ -88,6 +97,10 @@
   color: #000;
   margin: 0 0 0.5rem 0;
   line-height: 1.2;
+  width: 100%;
+  text-align: center;
+  padding-left: calc(var(--card-spacing) * 1.5);
+  padding-right: calc(var(--card-spacing) * 1.5);
 }
 
 .card-title {
@@ -95,6 +108,10 @@
   color: #1a1a1a;
   margin: 0 0 0.25rem 0;
   font-weight: 600;
+  width: 100%;
+  text-align: center;
+  padding-left: calc(var(--card-spacing) * 1.5);
+  padding-right: calc(var(--card-spacing) * 1.5);
 }
 
 .card-company {
@@ -102,6 +119,10 @@
   color: #333;
   margin: 0;
   font-weight: 500;
+  width: 100%;
+  text-align: center;
+  padding-left: calc(var(--card-spacing) * 1.5);
+  padding-right: calc(var(--card-spacing) * 1.5);
 }
 
 /* ========================================
@@ -298,7 +319,7 @@
   background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
   border-color: #e1306c;
   color: white !important;
-  
+
   i,
   svg,
   span {
@@ -310,7 +331,7 @@
   background-color: #0077b5;
   border-color: #0077b5;
   color: white !important;
-  
+
   i,
   svg,
   span {
@@ -322,7 +343,7 @@
   background-color: #1877f2;
   border-color: #1877f2;
   color: white !important;
-  
+
   i,
   svg,
   span {
@@ -334,7 +355,7 @@
   background-color: #000;
   border-color: #000;
   color: white !important;
-  
+
   i,
   svg,
   span {
@@ -347,7 +368,7 @@
   background-color: #000;
   border-color: #000;
   color: white !important;
-  
+
   i,
   svg,
   span {
@@ -359,7 +380,7 @@
   background-color: #fffc00;
   border-color: #fffc00;
   color: white !important;
-  
+
   i,
   svg,
   span {
@@ -371,7 +392,7 @@
   background-color: var(--card-primary-color, #007bff);
   border-color: var(--card-primary-color, #007bff);
   color: white !important;
-  
+
   i,
   svg,
   span {
@@ -383,7 +404,7 @@
   background-color: var(--card-primary-color, #007bff);
   border-color: var(--card-primary-color, #007bff);
   color: white !important;
-  
+
   i,
   svg,
   span {
@@ -395,7 +416,7 @@
   background-color: var(--card-primary-color, #007bff);
   border-color: var(--card-primary-color, #007bff);
   color: white !important;
-  
+
   i,
   svg,
   span {
@@ -482,11 +503,11 @@
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
-  
+
   .btn-download-mobile {
     animation: none;
   }
-  
+
   .btn-action:hover,
   .btn-download:hover,
   .social-link:hover {
@@ -502,27 +523,49 @@
   .public-card-container {
     margin: 2rem auto;
     padding: var(--card-spacing-lg);
-    padding-bottom: var(--card-spacing-lg);
   }
-  
+
   .public-card {
     padding: 2.5rem;
   }
-  
+
+  .card-header-section {
+    margin-left: -2.5rem;
+    margin-right: -2.5rem;
+    width: calc(100% + 5rem);
+  }
+
+  .card-name,
+  .card-title,
+  .card-company {
+    padding-left: 2.5rem;
+    padding-right: 2.5rem;
+  }
+
+  .brand-logo-top-left,
+  .brand-logo-top-center,
+  .brand-logo-top-right,
+  .brand-logo-bottom-left,
+  .brand-logo-bottom-center,
+  .brand-logo-bottom-right {
+    padding-left: 2.5rem;
+    padding-right: 2.5rem;
+  }
+
   .card-name {
     font-size: 2.5rem;
   }
-  
+
   .contact-actions {
     flex-direction: row;
     justify-content: center;
   }
-  
+
   .btn-action {
     flex: 1;
     max-width: 250px;
   }
-  
+
   /* Hide mobile fixed button on desktop */
   .btn-download-mobile {
     display: none;
@@ -540,85 +583,107 @@
    ======================================== */
 
 .brand-logo {
-  position: absolute;
-  z-index: 10;
-  
+  width: 100%;
+  display: block;
+
   img {
     max-width: 100%;
     height: auto;
     border-radius: 4px;
+    display: inline-block;
   }
 }
 
-/* Logo centered above name in header section */
-.brand-logo-center-above {
-  position: relative;
-  text-align: center;
-  margin-bottom: 1rem;
-  z-index: 1;
-  
-  img {
-    display: block;
-    margin: 0 auto;
-    border-radius: 4px;
-  }
-}
-
-/* Logo Position (for other positions if needed) */
+/* Logo Position - Top positions: above card-name (relative positioning) */
 .brand-logo-top-left {
-  top: 1rem;
-  left: 1rem;
-  right: auto;
-  bottom: auto;
-  transform: none;
+  position: relative;
+  text-align: left;
+  margin-bottom: 2rem;
+  margin-top: 0;
+  width: 100%;
+  padding-left: calc(var(--card-spacing) * 1.5);
+  padding-right: calc(var(--card-spacing) * 1.5);
+
+  img {
+    margin: 0;
+    display: inline-block;
+  }
 }
 
 .brand-logo-top-center {
-  top: 1rem;
-  left: 50%;
-  right: auto;
-  bottom: auto;
-  transform: translateX(-50%);
+  position: relative;
+  text-align: center;
+  margin-bottom: 2rem;
+  margin-top: 0;
+  width: 100%;
+  padding-left: calc(var(--card-spacing) * 1.5);
+  padding-right: calc(var(--card-spacing) * 1.5);
+
+  img {
+    margin: 0 auto;
+    display: inline-block;
+  }
 }
 
 .brand-logo-top-right {
-  top: 1rem;
-  left: auto;
-  right: 1rem;
-  bottom: auto;
-  transform: none;
+  position: relative;
+  text-align: right;
+  margin-bottom: 2rem;
+  margin-top: 0;
+  width: 100%;
+  padding-left: calc(var(--card-spacing) * 1.5);
+  padding-right: calc(var(--card-spacing) * 1.5);
+
+  img {
+    margin: 0;
+    display: inline-block;
+  }
 }
 
-.brand-logo-center {
-  top: 50%;
-  left: 50%;
-  right: auto;
-  bottom: auto;
-  transform: translate(-50%, -50%);
-}
-
+/* Logo Position - Bottom positions: below card-company (relative positioning) */
 .brand-logo-bottom-left {
-  top: auto;
-  left: 1rem;
-  right: auto;
-  bottom: 1rem;
-  transform: none;
+  position: relative;
+  text-align: left;
+  margin-top: 2rem;
+  margin-bottom: 0;
+  width: 100%;
+  padding-left: calc(var(--card-spacing) * 1.5);
+  padding-right: calc(var(--card-spacing) * 1.5);
+
+  img {
+    margin: 0;
+    display: inline-block;
+  }
 }
 
 .brand-logo-bottom-center {
-  top: auto;
-  left: 50%;
-  right: auto;
-  bottom: 1rem;
-  transform: translateX(-50%);
+  position: relative;
+  text-align: center;
+  margin-top: 2rem;
+  margin-bottom: 0;
+  width: 100%;
+  padding-left: calc(var(--card-spacing) * 1.5);
+  padding-right: calc(var(--card-spacing) * 1.5);
+
+  img {
+    margin: 0 auto;
+    display: inline-block;
+  }
 }
 
 .brand-logo-bottom-right {
-  top: auto;
-  left: auto;
-  right: 1rem;
-  bottom: 1rem;
-  transform: none;
+  position: relative;
+  text-align: right;
+  margin-top: 2rem;
+  margin-bottom: 0;
+  width: 100%;
+  padding-left: calc(var(--card-spacing) * 1.5);
+  padding-right: calc(var(--card-spacing) * 1.5);
+
+  img {
+    margin: 0;
+    display: inline-block;
+  }
 }
 
 /* Logo Size */
@@ -649,18 +714,18 @@
   .btn-download-mobile {
     display: none;
   }
-  
+
   .public-card {
     box-shadow: none;
     border: 1px solid #ccc;
   }
-  
+
   .social-link,
   .contact-value a {
     color: #000;
     text-decoration: underline;
   }
-  
+
   /* Prevent page breaks inside card */
   .public-card {
     page-break-inside: avoid;

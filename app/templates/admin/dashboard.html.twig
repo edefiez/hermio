@@ -35,7 +35,7 @@
     {# Statistics Cards #}
     <div class="row g-4 mb-4">
         {# Plan Card #}
-        <div class="col-md-6 col-lg-3">
+        <div class="col-6">
             <div class="card shadow-sm h-100 border-0">
                 <div class="card-header card-header-gradient text-white">
                     <h5 class="card-title mb-0">
@@ -58,8 +58,29 @@
             </div>
         </div>
 
+        {# Quick Actions Card #}
+        <div class="col-6">
+            <div class="card shadow-sm h-100 border-0">
+                <div class="card-header bg-success text-white">
+                    <h5 class="card-title mb-0">
+                        <i class="fas fa-bolt me-2"></i>{{ 'dashboard.quick_actions.title'|trans }}
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="d-grid gap-2">
+                        <a href="{{ path('app_card_create') }}" class="btn btn-primary btn-sm">
+                            <i class="fas fa-plus me-1"></i>{{ 'card.create.button'|trans }}
+                        </a>
+                        <a href="{{ path('app_account_index') }}" class="btn btn-outline-secondary btn-sm">
+                            <i class="fas fa-user-circle me-1"></i>{{ 'nav.account'|trans }}
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         {# Card Usage Card #}
-        <div class="col-md-6 col-lg-3">
+        <div class="col-6">
             <div class="card shadow-sm h-100 border-0">
                 <div class="card-header bg-primary text-white">
                     <h5 class="card-title mb-0">
@@ -72,15 +93,15 @@
                     </h3>
                     {% if usagePercentage is not null %}
                         <div class="progress mb-2" style="height: 24px;">
-                            <div class="progress-bar 
+                            <div class="progress-bar
                                 {% if usagePercentage >= 100 %}bg-danger
                                 {% elseif usagePercentage >= 80 %}bg-warning
                                 {% else %}bg-success
-                                {% endif %}" 
-                                role="progressbar" 
+                                {% endif %}"
+                                role="progressbar"
                                 style="width: {{ usagePercentage }}%"
-                                aria-valuenow="{{ usagePercentage }}" 
-                                aria-valuemin="0" 
+                                aria-valuenow="{{ usagePercentage }}"
+                                aria-valuemin="0"
                                 aria-valuemax="100">
                                 <strong>{{ usagePercentage|round }}%</strong>
                             </div>
@@ -97,7 +118,7 @@
         </div>
 
         {# Total Cards Card #}
-        <div class="col-md-6 col-lg-3">
+        <div class="col-6">
             <div class="card shadow-sm h-100 border-0">
                 <div class="card-header bg-info text-white">
                     <h5 class="card-title mb-0">
@@ -112,27 +133,6 @@
                     <a href="{{ path('app_card_index') }}" class="btn btn-sm btn-outline-info w-100">
                         <i class="fas fa-eye me-1"></i>{{ 'dashboard.view_all'|trans|default('View All') }}
                     </a>
-                </div>
-            </div>
-        </div>
-
-        {# Quick Actions Card #}
-        <div class="col-md-6 col-lg-3">
-            <div class="card shadow-sm h-100 border-0">
-                <div class="card-header bg-success text-white">
-                    <h5 class="card-title mb-0">
-                        <i class="fas fa-bolt me-2"></i>{{ 'dashboard.quick_actions.title'|trans }}
-                    </h5>
-                </div>
-                <div class="card-body">
-                    <div class="d-grid gap-2">
-                        <a href="{{ path('app_card_create') }}" class="btn btn-primary btn-sm">
-                            <i class="fas fa-plus me-1"></i>{{ 'card.create.button'|trans }}
-                        </a>
-                        <a href="{{ path('app_account_index') }}" class="btn btn-outline-secondary btn-sm">
-                            <i class="fas fa-user-circle me-1"></i>{{ 'nav.account'|trans }}
-                        </a>
-                    </div>
                 </div>
             </div>
         </div>

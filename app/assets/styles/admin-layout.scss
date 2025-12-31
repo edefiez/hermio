@@ -30,7 +30,8 @@ body.admin-layout-body {
 }
 
 // Sidebar Styles
-.admin-sidebar {
+.admin-sidebar,
+#adminSidebar {
     width: 250px;
     background: #fff;
     border-right: 1px solid #dee2e6;
@@ -41,11 +42,11 @@ body.admin-layout-body {
     z-index: 1000;
     overflow-y: auto;
     transition: width 0.35s ease-in-out, min-width 0.35s ease-in-out, max-width 0.35s ease-in-out, transform 0.35s ease-in-out;
-    
+
     // Ensure width can be changed by CSS (but allow override when collapsed)
     min-width: 250px;
     max-width: 250px;
-    
+
     // Desktop: Always visible (override Bootstrap offcanvas behavior)
     @media (min-width: 992px) {
         position: fixed !important;
@@ -53,27 +54,27 @@ body.admin-layout-body {
         visibility: visible !important; // Override Bootstrap offcanvas visibility
         opacity: 1 !important; // Ensure it's visible
         display: block !important; // Force display
-        
+
         // Remove offcanvas backdrop on desktop
         &::before {
             display: none !important;
         }
-        
+
         // Remove offcanvas styling on desktop
         &.offcanvas {
             background-color: #fff;
         }
     }
-    
+
     // Mobile: Bootstrap offcanvas handles show/hide
     @media (max-width: 991.98px) {
         // Offcanvas handles the transform and visibility
         // No additional styles needed
     }
-    
+
     .sidebar-header {
         background: #fff;
-        
+
         .sidebar-collapse-btn {
             color: #6c757d;
             text-decoration: none;
@@ -81,7 +82,7 @@ body.admin-layout-body {
             background: none;
             padding: 0.25rem 0.5rem;
             font-size: 0.875rem;
-            
+
             &:hover {
                 color: #495057;
                 background-color: #f8f9fa;
@@ -89,7 +90,7 @@ body.admin-layout-body {
             }
         }
     }
-    
+
     // Navigation Links
     .nav-link {
         padding: 0.75rem 1rem;
@@ -99,24 +100,24 @@ body.admin-layout-body {
         transition: all 0.2s ease;
         display: flex;
         align-items: center;
-        
+
         &:hover {
             background-color: #f8f9fa;
             color: #0d6efd;
         }
-        
+
         &.active {
             background-color: #e7f3ff;
             color: #0d6efd;
             font-weight: 600;
         }
-        
+
         i {
             width: 20px;
             text-align: center;
         }
     }
-    
+
     // Sidebar Footer (Collapse Button)
     .sidebar-footer {
         position: absolute;
@@ -125,66 +126,103 @@ body.admin-layout-body {
         right: 0;
         background: #fff;
     }
-    
+
     .sidebar-collapse-btn {
         color: #6c757d;
         text-decoration: none;
-        
+
         &:hover {
             color: #495057;
         }
     }
 }
 
-// Sidebar Collapsed State
-.admin-layout.sidebar-collapsed,
-body.sidebar-collapsed .admin-layout {
-    .admin-sidebar {
+// Sidebar Collapsed State - Desktop only
+@media (min-width: 992px) {
+    // Target the sidebar element itself when it has the collapsed class (highest specificity)
+    .admin-sidebar.sidebar-collapsed,
+    #adminSidebar.sidebar-collapsed,
+    nav.admin-sidebar.sidebar-collapsed,
+    nav#adminSidebar.sidebar-collapsed,
+    .offcanvas.admin-sidebar.sidebar-collapsed,
+    .offcanvas#adminSidebar.sidebar-collapsed,
+    nav.offcanvas.admin-sidebar.sidebar-collapsed.show,
+    nav.offcanvas#adminSidebar.sidebar-collapsed.show {
         width: 80px !important;
         min-width: 80px !important;
         max-width: 80px !important;
-        
-        .nav-link {
-            span {
-                display: none !important;
-            }
-        }
-        
-        .offcanvas-title {
-            display: none !important;
-        }
-        
-        .sidebar-header {
-            h5 {
-                display: none !important;
-            }
-        }
-        
-        .sidebar-footer {
-            .collapse-text {
-                display: none !important;
-            }
-        }
+        flex: 0 0 80px !important;
     }
-    
-    .admin-content {
+
+    // Force sidebar width when collapsed - Maximum specificity
+    // Multiple selectors with different combinations to override Bootstrap Offcanvas
+    .admin-layout.sidebar-collapsed .admin-sidebar,
+    .admin-layout.sidebar-collapsed #adminSidebar,
+    body.sidebar-collapsed .admin-layout .admin-sidebar,
+    body.sidebar-collapsed .admin-layout #adminSidebar,
+    .admin-layout.sidebar-collapsed nav.admin-sidebar,
+    .admin-layout.sidebar-collapsed nav#adminSidebar,
+    body.sidebar-collapsed .admin-layout nav.admin-sidebar,
+    body.sidebar-collapsed .admin-layout nav#adminSidebar,
+    .admin-layout.sidebar-collapsed .offcanvas.admin-sidebar,
+    .admin-layout.sidebar-collapsed .offcanvas#adminSidebar,
+    body.sidebar-collapsed .admin-layout .offcanvas.admin-sidebar,
+    body.sidebar-collapsed .admin-layout .offcanvas#adminSidebar,
+    .admin-layout.sidebar-collapsed nav.offcanvas.admin-sidebar.show,
+    .admin-layout.sidebar-collapsed nav.offcanvas#adminSidebar.show,
+    body.sidebar-collapsed .admin-layout nav.offcanvas.admin-sidebar.show,
+    body.sidebar-collapsed .admin-layout nav.offcanvas#adminSidebar.show {
+        width: 80px !important;
+        min-width: 80px !important;
+        max-width: 80px !important;
+        flex: 0 0 80px !important;
+    }
+
+    // Hide text in nav links when collapsed (target both parent and element class)
+    .admin-sidebar.sidebar-collapsed .nav-link span,
+    #adminSidebar.sidebar-collapsed .nav-link span,
+    .admin-layout.sidebar-collapsed .admin-sidebar .nav-link span,
+    .admin-layout.sidebar-collapsed #adminSidebar .nav-link span,
+    body.sidebar-collapsed .admin-layout .admin-sidebar .nav-link span,
+    body.sidebar-collapsed .admin-layout #adminSidebar .nav-link span {
+        display: none !important;
+    }
+
+    // Hide titles when collapsed
+    .admin-sidebar.sidebar-collapsed .offcanvas-title,
+    #adminSidebar.sidebar-collapsed .offcanvas-title,
+    .admin-layout.sidebar-collapsed .admin-sidebar .offcanvas-title,
+    .admin-layout.sidebar-collapsed #adminSidebar .offcanvas-title,
+    body.sidebar-collapsed .admin-layout .admin-sidebar .offcanvas-title,
+    body.sidebar-collapsed .admin-layout #adminSidebar .offcanvas-title {
+        display: none !important;
+    }
+
+    // Hide sidebar header title when collapsed
+    .admin-sidebar.sidebar-collapsed .sidebar-header h5,
+    #adminSidebar.sidebar-collapsed .sidebar-header h5,
+    .admin-layout.sidebar-collapsed .admin-sidebar .sidebar-header h5,
+    .admin-layout.sidebar-collapsed #adminSidebar .sidebar-header h5,
+    body.sidebar-collapsed .admin-layout .admin-sidebar .sidebar-header h5,
+    body.sidebar-collapsed .admin-layout #adminSidebar .sidebar-header h5 {
+        display: none !important;
+    }
+
+    // Hide collapse text when collapsed
+    .admin-sidebar.sidebar-collapsed .sidebar-footer .collapse-text,
+    #adminSidebar.sidebar-collapsed .sidebar-footer .collapse-text,
+    .admin-layout.sidebar-collapsed .admin-sidebar .sidebar-footer .collapse-text,
+    .admin-layout.sidebar-collapsed #adminSidebar .sidebar-footer .collapse-text,
+    body.sidebar-collapsed .admin-layout .admin-sidebar .sidebar-footer .collapse-text,
+    body.sidebar-collapsed .admin-layout #adminSidebar .sidebar-footer .collapse-text {
+        display: none !important;
+    }
+
+    // Adjust content margin when sidebar is collapsed
+    .admin-layout.sidebar-collapsed .admin-content,
+    body.sidebar-collapsed .admin-layout .admin-content {
         margin-left: 80px !important;
     }
-}
-
-// Force sidebar width when collapsed (override any inline styles and base styles)
-// Use multiple selectors to ensure highest specificity
-.admin-layout.sidebar-collapsed .admin-sidebar,
-body.sidebar-collapsed .admin-layout .admin-sidebar,
-.admin-layout.sidebar-collapsed #adminSidebar,
-body.sidebar-collapsed .admin-layout #adminSidebar,
-.admin-layout.sidebar-collapsed nav.admin-sidebar,
-body.sidebar-collapsed .admin-layout nav.admin-sidebar,
-.admin-layout.sidebar-collapsed nav#adminSidebar,
-body.sidebar-collapsed .admin-layout nav#adminSidebar {
-    width: 80px !important;
-    min-width: 80px !important;
-    max-width: 80px !important;
 }
 
 // Admin Content Area
@@ -195,7 +233,7 @@ body.sidebar-collapsed .admin-layout nav#adminSidebar {
     flex-direction: column;
     min-height: 100vh;
     transition: margin-left 0.35s ease-in-out;
-    
+
     @media (max-width: 991.98px) {
         margin-left: 0;
     }
@@ -211,32 +249,32 @@ body.sidebar-collapsed .admin-layout nav#adminSidebar {
     top: 0;
     z-index: 100;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-    
+
     .admin-header-content {
         height: 100%;
     }
-    
+
     .admin-page-title {
         font-size: 1.25rem;
         font-weight: 600;
         color: #212529;
     }
-    
+
     .sidebar-toggle {
         color: #495057;
         border: none;
         background: none;
-        
+
         &:hover {
             color: #0d6efd;
         }
     }
-    
+
     .admin-header-actions {
         .dropdown-toggle {
             color: #495057;
             text-decoration: none;
-            
+
             &:hover {
                 color: #0d6efd;
             }
@@ -250,7 +288,7 @@ body.sidebar-collapsed .admin-layout nav#adminSidebar {
     padding: 1.5rem;
     background: #f8f9fa;
     overflow-y: auto;
-    
+
     // Ensure content doesn't overflow
     max-width: 100%;
 }
@@ -262,7 +300,7 @@ body.sidebar-collapsed .admin-layout nav#adminSidebar {
             font-size: 1.1rem;
         }
     }
-    
+
     .admin-main {
         padding: 1rem;
     }

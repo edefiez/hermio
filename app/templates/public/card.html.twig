@@ -16,9 +16,9 @@
     <a href="{{ path('public_card_download', {slug: card.slug}) }}"
        class="btn btn-download btn-download-mobile d-md-none"
        style="background-color: {{ branding and branding.primaryColor ? branding.primaryColor : '#007bff' }};"
-       aria-label="{{ 'card.download'|trans }}">
+       aria-label="{{ 'card.download.label'|trans }}">
         <i class="bi bi-download"></i>
-        <span>{{ 'card.download'|trans }}</span>
+        <span>{{ 'card.download.label'|trans }}</span>
     </a>
 </div>
 {% endblock %}

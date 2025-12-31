@@ -30,7 +30,13 @@ console.log('Hermio app loaded with Bootstrap 5');
         if (!sidebarElement) {
             return; // Not on an admin page
         }
-        
+
+        // Get admin layout container
+        const adminLayout = document.querySelector('.admin-layout');
+        if (!adminLayout) {
+            return; // Not on an admin page
+        }
+
         // Initialize sidebar on desktop (always visible)
         function initializeSidebar() {
             if (window.innerWidth >= 992) {
@@ -39,33 +45,57 @@ console.log('Hermio app loaded with Bootstrap 5');
                 // Don't set inline styles that would override CSS transitions
                 // Only set essential styles
                 sidebarElement.style.position = 'fixed';
-                
+
                 // Remove any Bootstrap offcanvas width restrictions
                 sidebarElement.style.removeProperty('width');
                 sidebarElement.style.removeProperty('min-width');
                 sidebarElement.style.removeProperty('max-width');
-                
+
                 // Remove backdrop if it exists
                 const backdrop = document.querySelector('.offcanvas-backdrop');
                 if (backdrop) {
                     backdrop.remove();
                 }
-                
+
                 // Remove body class that Bootstrap adds for offcanvas
                 document.body.classList.remove('offcanvas-open');
             }
         }
-        
+
+        // Create a MutationObserver to prevent Bootstrap from adding inline width styles on desktop
+        if (window.innerWidth >= 992) {
+            const observer = new MutationObserver(function(mutations) {
+                mutations.forEach(function(mutation) {
+                    if (mutation.type === 'attributes' && mutation.attributeName === 'style') {
+                        // Check if we're on desktop and if width was added inline
+                        if (window.innerWidth >= 992 && sidebarElement.style.width &&
+                            sidebarElement.style.width !== '80px' && sidebarElement.style.width !== '250px') {
+                            console.log('Bootstrap tried to set inline width, removing it:', sidebarElement.style.width);
+                            sidebarElement.style.removeProperty('width');
+                            sidebarElement.style.removeProperty('min-width');
+                            sidebarElement.style.removeProperty('max-width');
+                        }
+                    }
+                });
+            });
+
+            // Observe the sidebar element for attribute changes
+            observer.observe(sidebarElement, {
+                attributes: true,
+                attributeFilter: ['style']
+            });
+        }
+
         // Initialize immediately
         initializeSidebar();
-        
+
         // Re-initialize on window resize
         let resizeTimeout;
         window.addEventListener('resize', function() {
             clearTimeout(resizeTimeout);
             resizeTimeout = setTimeout(initializeSidebar, 100);
         });
-        
+
         // Prevent Bootstrap from hiding sidebar on desktop
         if (window.innerWidth >= 992 && typeof bootstrap !== 'undefined' && bootstrap.Offcanvas) {
             // Override Bootstrap offcanvas hide behavior on desktop
@@ -78,7 +108,7 @@ console.log('Hermio app loaded with Bootstrap 5');
                 return originalHide.call(this);
             };
         }
-    
+
         // Function to update collapse button icons and text
         function updateCollapseButtons(isCollapsed) {
             const collapseButtons = document.querySelectorAll('.sidebar-collapse-btn');
@@ -93,102 +123,80 @@ console.log('Hermio app loaded with Bootstrap 5');
                         icon.classList.add('fa-chevron-left');
                     }
                 }
-                
+
                 // Update text in footer button
                 const collapseText = button.querySelector('.collapse-text');
                 if (collapseText) {
-                    collapseText.textContent = isCollapsed 
+                    collapseText.textContent = isCollapsed
                         ? (button.getAttribute('data-expand-text') || 'Expand')
                         : (button.getAttribute('data-collapse-text') || 'Collapse');
                 }
             });
         }
-        
-        // Get admin layout container
-        const adminLayout = document.querySelector('.admin-layout');
-        if (!adminLayout) {
-            return; // Not on an admin page
-        }
-        
-        // Create or get dynamic style element for sidebar
-        let dynamicStyleElement = document.getElementById('admin-sidebar-dynamic-styles');
-        if (!dynamicStyleElement) {
-            dynamicStyleElement = document.createElement('style');
-            dynamicStyleElement.id = 'admin-sidebar-dynamic-styles';
-            document.head.appendChild(dynamicStyleElement);
-        }
-        
+
         // Function to apply sidebar styles
         function applySidebarStyles(isCollapsed) {
             if (!sidebarElement) {
                 console.error('sidebarElement not found');
                 return;
             }
-            
-            const width = isCollapsed ? '80px' : '250px';
-            
-            // Use dynamic style element to inject CSS with !important
-            dynamicStyleElement.textContent = `
-                .admin-layout.sidebar-collapsed #adminSidebar,
-                body.sidebar-collapsed .admin-layout #adminSidebar {
-                    width: ${width} !important;
-                    min-width: ${width} !important;
-                    max-width: ${width} !important;
-                }
-                .admin-layout.sidebar-collapsed .admin-content,
-                body.sidebar-collapsed .admin-layout .admin-content {
-                    margin-left: ${width} !important;
-                }
-            `;
-            
-            // Also apply inline styles as backup
-            sidebarElement.style.width = width;
-            sidebarElement.style.minWidth = width;
-            sidebarElement.style.maxWidth = width;
-            
+
+            // Let CSS handle the styles via classes instead of inline styles
+            // Remove any inline width styles to let CSS take over
+            sidebarElement.style.removeProperty('width');
+            sidebarElement.style.removeProperty('min-width');
+            sidebarElement.style.removeProperty('max-width');
+
             const adminContent = document.querySelector('.admin-content');
             if (adminContent) {
-                adminContent.style.marginLeft = width;
+                // Remove inline margin to let CSS take over
+                adminContent.style.removeProperty('margin-left');
             }
-            
-            console.log('Applied sidebar styles:', { 
-                width, 
-                isCollapsed, 
+
+            // Force a reflow to ensure CSS is applied
+            void sidebarElement.offsetWidth;
+
+            console.log('Applied sidebar styles:', {
+                isCollapsed,
                 computedWidth: window.getComputedStyle(sidebarElement).width,
-                inlineWidth: sidebarElement.style.width
+                hasCollapsedClass: adminLayout.classList.contains('sidebar-collapsed'),
+                bodyHasCollapsedClass: document.body.classList.contains('sidebar-collapsed')
             });
         }
-        
+
         // Load sidebar state from localStorage
         const sidebarCollapsed = localStorage.getItem('hermio-admin-sidebar-collapsed') === 'true';
         if (sidebarCollapsed && window.innerWidth >= 992) {
             adminLayout.classList.add('sidebar-collapsed');
             document.body.classList.add('sidebar-collapsed');
+            sidebarElement.classList.add('sidebar-collapsed'); // Add class to sidebar itself
             updateCollapseButtons(true);
             applySidebarStyles(true);
         }
-        
+
         // Function to toggle sidebar collapse
         function toggleSidebarCollapse(e) {
             if (e) {
                 e.preventDefault();
                 e.stopPropagation();
             }
-            
+
             if (window.innerWidth >= 992 && adminLayout && sidebarElement) {
                 const isCollapsed = adminLayout.classList.toggle('sidebar-collapsed');
                 document.body.classList.toggle('sidebar-collapsed', isCollapsed);
+                sidebarElement.classList.toggle('sidebar-collapsed', isCollapsed); // Add class to sidebar itself
                 localStorage.setItem('hermio-admin-sidebar-collapsed', isCollapsed);
                 updateCollapseButtons(isCollapsed);
                 applySidebarStyles(isCollapsed);
-                
-                console.log('Sidebar toggled:', isCollapsed ? 'collapsed' : 'expanded', 
-                    'adminLayout:', adminLayout, 
+
+                console.log('Sidebar toggled:', isCollapsed ? 'collapsed' : 'expanded',
+                    'adminLayout:', adminLayout,
                     'has class:', adminLayout.classList.contains('sidebar-collapsed'),
+                    'sidebar has class:', sidebarElement.classList.contains('sidebar-collapsed'),
                     'sidebarElement width:', sidebarElement.style.width);
             }
         }
-        
+
         // Attach event listeners using event delegation (more reliable)
         document.addEventListener('click', function(e) {
             const button = e.target.closest('.sidebar-collapse-btn');
@@ -197,7 +205,7 @@ console.log('Hermio app loaded with Bootstrap 5');
                 toggleSidebarCollapse(e);
             }
         });
-        
+
         // Also attach directly for immediate binding
         setTimeout(function() {
             const collapseButtons = document.querySelectorAll('.sidebar-collapse-btn');
@@ -209,7 +217,7 @@ console.log('Hermio app loaded with Bootstrap 5');
                 });
             });
         }, 100);
-        
+
         // Close mobile sidebar on navigation item click
         const sidebarLinks = document.querySelectorAll('#adminSidebar .nav-link');
         sidebarLinks.forEach(link => {
@@ -221,7 +229,7 @@ console.log('Hermio app loaded with Bootstrap 5');
                     }
                 }
             });
-            
+
             // Keyboard navigation support (Enter/Space activation)
             link.addEventListener('keydown', function(e) {
                 if (e.key === 'Enter' || e.key === ' ') {
@@ -230,7 +238,7 @@ console.log('Hermio app loaded with Bootstrap 5');
                 }
             });
         });
-        
+
         // Focus management for mobile sidebar
         if (typeof bootstrap !== 'undefined' && bootstrap.Offcanvas) {
             sidebarElement.addEventListener('shown.bs.offcanvas', function() {
@@ -240,7 +248,7 @@ console.log('Hermio app loaded with Bootstrap 5');
                     firstLink.focus();
                 }
             });
-            
+
             sidebarElement.addEventListener('hidden.bs.offcanvas', function() {
                 // Return focus to hamburger button when sidebar closes
                 const hamburgerButton = document.querySelector('.sidebar-toggle');
@@ -250,14 +258,14 @@ console.log('Hermio app loaded with Bootstrap 5');
             });
         }
     }
-    
+
     // Initialize when DOM is ready
     if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', initAdminSidebar);
     } else {
         initAdminSidebar();
     }
-    
+
     // Also try after a short delay to ensure Bootstrap is loaded
     setTimeout(initAdminSidebar, 100);
 })();

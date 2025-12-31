@@ -356,6 +356,8 @@ card:
     placeholder: "Parlez-nous de vous..."
     max_length: "La biographie ne peut pas dépasser 1000 caractères"
     title: "À propos"
+    help: "Décrivez-vous en quelques mots"
+  basic_info: "Informations principales"
   website:
     placeholder: "https://votresite.com"
     invalid: "Veuillez entrer une URL valide"
@@ -403,6 +405,10 @@ card:
     secure_url: "URL Publique Sécurisée"
     copy_url: "Copier l'URL"
     url_copied: "URL copiée dans le presse-papiers !"
+  label:
+    email: "Email"
+    phone: "Téléphone"
+    website: "Site Web"
   action:
     call: "Appeler"
     email: "Envoyer un Email"
@@ -474,6 +480,9 @@ branding:
     size.small: "Petit"
     size.medium: "Moyen"
     size.large: "Grand"
+    current: "Logo actuel"
+    help: "Téléchargez un fichier PNG, JPG ou SVG (max 5MB)"
+
   save: "Enregistrer le Branding"
   save.success: "Configuration du branding enregistrée avec succès"
   template:
@@ -505,8 +514,17 @@ branding:
   template.access_denied: "La personnalisation des templates est uniquement disponible pour les plans Entreprise"
   validation.error: "Veuillez corriger les erreurs ci-dessous"
   upload.error: "L'upload du logo a échoué. Veuillez réessayer."
+  primary_color_picker:
+    picker: "Choisir la couleur principale"
+    help: "Choisissez une couleur ou entrez un code hexadécimal (ex: #FF5733)"
+  secondary_color_picker:
+    picker: "Choisir la couleur secondaire"
+    help: "Choisissez une couleur ou entrez un code hexadécimal (ex: #6c757d)"
+
   color:
     accessibility:
+      title: "Accessibilité des couleurs"
+      help: "Pour améliorer l'accessibilité, utilisez des couleurs avec un ratio de contraste d'au moins 4,5:1 (WCAG AA) ou 7:1 (WCAG AAA) par rapport au fond blanc."
       warning:
         primary: "Avertissement : Le ratio de contraste de la couleur principale est de %s:1 (%s). Pour une meilleure accessibilité, visez au moins 4,5:1 (WCAG AA) ou 7:1 (WCAG AAA)."
         secondary: "Avertissement : Le ratio de contraste de la couleur secondaire est de %s:1 (%s). Pour une meilleure accessibilité, visez au moins 4,5:1 (WCAG AA) ou 7:1 (WCAG AAA)."

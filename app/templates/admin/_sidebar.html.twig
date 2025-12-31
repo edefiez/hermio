@@ -1,18 +1,18 @@
-<nav class="admin-sidebar offcanvas offcanvas-start show" id="adminSidebar" tabindex="-1" aria-labelledby="adminSidebarLabel" aria-label="{{ 'nav.main'|trans|default('Main navigation') }}" role="navigation">
+<nav class="admin-sidebar offcanvas offcanvas-start show" id="adminSidebar" tabindex="-1" aria-labelledby="adminSidebarLabel" aria-label="Hermio" role="navigation">
     <div class="offcanvas-header d-lg-none">
-        <h5 class="offcanvas-title" id="adminSidebarLabel">{{ 'nav.main'|trans }}</h5>
+        <h5 class="offcanvas-title" id="adminSidebarLabel">Hermio</h5>
         <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
     <div class="sidebar-header d-none d-lg-block p-3 border-bottom d-flex align-items-center justify-content-between">
-        <h5 class="mb-0 fw-bold">{{ 'nav.main'|trans }}</h5>
-        <button type="button" class="btn btn-link text-muted sidebar-collapse-btn p-0" aria-label="{{ 'nav.collapse'|trans|default('Collapse') }}" title="{{ 'nav.collapse'|trans|default('Collapse') }}">
-            <i class="fas fa-chevron-left"></i>
-        </button>
+        <h5 class="mb-0 fw-bold">Hermio</h5>
+{#        <button type="button" class="btn btn-link text-muted sidebar-collapse-btn p-0" aria-label="{{ 'nav.collapse'|trans|default('Collapse') }}" title="{{ 'nav.collapse'|trans|default('Collapse') }}">#}
+{#            <i class="fas fa-chevron-left"></i>#}
+{#        </button>#}
     </div>
-    <div class="offcanvas-body p-0">
+    <div class="offcanvas-body p-0 mt-3">
         <ul class="nav flex-column">
             <li class="nav-item">
-                <a class="nav-link {% if app.request.attributes.get('_route') == 'app_dashboard' %}active{% endif %}" 
+                <a class="nav-link {% if app.request.attributes.get('_route') == 'app_dashboard' %}active{% endif %}"
                    href="{{ path('app_dashboard') }}"
                    {% if app.request.attributes.get('_route') == 'app_dashboard' %}aria-current="page"{% endif %}
                    tabindex="0">
@@ -21,7 +21,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link {% if app.request.attributes.get('_route') starts with 'app_card' %}active{% endif %}" 
+                <a class="nav-link {% if app.request.attributes.get('_route') starts with 'app_card' %}active{% endif %}"
                    href="{{ path('app_card_index') }}"
                    {% if app.request.attributes.get('_route') starts with 'app_card' %}aria-current="page"{% endif %}
                    tabindex="0">
@@ -30,7 +30,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link {% if app.request.attributes.get('_route') starts with 'app_account' %}active{% endif %}" 
+                <a class="nav-link {% if app.request.attributes.get('_route') starts with 'app_account' %}active{% endif %}"
                    href="{{ path('app_account_index') }}"
                    {% if app.request.attributes.get('_route') starts with 'app_account' %}aria-current="page"{% endif %}
                    tabindex="0">
@@ -39,7 +39,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link {% if app.request.attributes.get('_route') == 'app_profile' %}active{% endif %}" 
+                <a class="nav-link {% if app.request.attributes.get('_route') == 'app_profile' %}active{% endif %}"
                    href="{{ path('app_profile') }}"
                    {% if app.request.attributes.get('_route') == 'app_profile' %}aria-current="page"{% endif %}
                    tabindex="0">
@@ -51,7 +51,7 @@
                 {% set planType = app.user.account.planType %}
                 {% if planType.value == 'pro' or planType.value == 'enterprise' %}
                     <li class="nav-item">
-                        <a class="nav-link {% if app.request.attributes.get('_route') starts with 'app_branding' %}active{% endif %}" 
+                        <a class="nav-link {% if app.request.attributes.get('_route') starts with 'app_branding' %}active{% endif %}"
                            href="{{ path('app_branding_configure') }}"
                            {% if app.request.attributes.get('_route') starts with 'app_branding' %}aria-current="page"{% endif %}
                            tabindex="0">
@@ -62,12 +62,12 @@
                 {% endif %}
             {% endif %}
         </ul>
-        <div class="sidebar-footer p-3 border-top d-none d-lg-block">
-            <button type="button" class="btn btn-link text-muted sidebar-collapse-btn w-100 text-start" aria-label="{{ 'nav.collapse'|trans|default('Collapse') }}" data-collapse-text="{{ 'nav.collapse'|trans|default('Collapse') }}" data-expand-text="{{ 'nav.expand'|trans|default('Expand') }}">
-                <i class="fas fa-chevron-left me-2"></i>
-                <span class="collapse-text">{{ 'nav.collapse'|trans|default('Collapse') }}</span>
-            </button>
-        </div>
+{#        <div class="sidebar-footer p-3 border-top d-none d-lg-block">#}
+{#            <button type="button" class="btn btn-link text-muted sidebar-collapse-btn w-100 text-start" aria-label="{{ 'nav.collapse'|trans|default('Collapse') }}" data-collapse-text="{{ 'nav.collapse'|trans|default('Collapse') }}" data-expand-text="{{ 'nav.expand'|trans|default('Expand') }}">#}
+{#                <i class="fas fa-chevron-left me-2"></i>#}
+{#                <span class="collapse-text">{{ 'nav.collapse'|trans|default('Collapse') }}</span>#}
+{#            </button>#}
+{#        </div>#}
     </div>
 </nav>
 

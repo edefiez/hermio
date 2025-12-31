@@ -355,6 +355,8 @@ card:
     title: "About"
     placeholder: "Tell us about yourself..."
     max_length: "Bio cannot exceed 1000 characters"
+    help: "Describe yourself in a few words"
+  basic_info: "Basic Information"
   website:
     placeholder: "https://yourwebsite.com"
     invalid: "Please enter a valid URL"
@@ -402,6 +404,10 @@ card:
     secure_url: "Secure Public URL"
     copy_url: "Copy URL"
     url_copied: "URL copied to clipboard!"
+  label:
+    email: "Email"
+    phone: "Phone"
+    website: "Website"
   action:
     call: "Call"
     email: "Email"
@@ -473,6 +479,9 @@ branding:
     size.small: "Small"
     size.medium: "Medium"
     size.large: "Large"
+    current: "Current logo"
+    help: "Upload a PNG, JPG, or SVG file (max 5MB)"
+
   save: "Save Branding"
   save.success: "Branding configuration saved successfully"
   template:
@@ -504,8 +513,16 @@ branding:
   template.access_denied: "Template customization is only available for Enterprise plans"
   validation.error: "Please correct the errors below"
   upload.error: "Logo upload failed. Please try again."
+  primary_color_picker:
+    picker: "Choose primary color"
+    help: "Choose a color or enter a hex code (e.g., #FF5733)"
+  secondary_color_picker:
+    picker: "Choose secondary color"
+    help: "Choose a color or enter a hex code (e.g., #6c757d)"
   color:
     accessibility:
+      title: "Color Accessibility"
+      help: "For better accessibility, use colors with a contrast ratio of at least 4.5:1 (WCAG AA) or 7:1 (WCAG AAA) against a white background."
       warning:
         primary: "Warning: Primary color contrast ratio is %s:1 (%s). For better accessibility, aim for at least 4.5:1 (WCAG AA) or 7:1 (WCAG AAA)."
         secondary: "Warning: Secondary color contrast ratio is %s:1 (%s). For better accessibility, aim for at least 4.5:1 (WCAG AA) or 7:1 (WCAG AAA)."

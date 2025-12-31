@@ -5,17 +5,12 @@
 <div class="public-card" style="--card-primary-color: {{ primaryColor }}; --card-secondary-color: {{ secondaryColor }}; border-top: 4px solid {{ primaryColor }};">
     {# Card Header Section #}
     <div class="card-header-section" style="border-bottom: 2px solid {{ primaryColor }}; position: relative;">
-        {# Logo (if branded) - Position and size based on branding settings #}
+        {# Logo (if branded) - Top positions: above card-name #}
         {% if branding and branding.logoFilename %}
-            {% set logoPosition = branding.logoPosition|default('top-center') %}
+            {% set logoPosition = branding.logoPosition|default('top-left') %}
             {% set logoSize = branding.logoSize|default('medium') %}
-            {% if logoPosition == 'top-center' or logoPosition == '' %}
-                {# Centered above name (default behavior) #}
-                <div class="brand-logo brand-logo-center-above brand-logo-{{ logoSize }}">
-                    <img src="{{ asset('uploads/branding/logos/' ~ branding.logoFilename) }}?v={{ 'now'|date('U') }}" alt="Brand Logo">
-                </div>
-            {% else %}
-                {# Absolute positioned logo #}
+            {% if logoPosition starts with 'top-' %}
+                {# Top positions: displayed above card-name #}
                 <div class="brand-logo brand-logo-{{ logoPosition }} brand-logo-{{ logoSize }}">
                     <img src="{{ asset('uploads/branding/logos/' ~ branding.logoFilename) }}?v={{ 'now'|date('U') }}" alt="Brand Logo">
                 </div>
@@ -30,6 +25,18 @@
 
         {% if card.content.company %}
             <p class="card-company">{{ card.content.company }}</p>
+        {% endif %}
+
+        {# Logo (if branded) - Bottom positions: below card-company #}
+        {% if branding and branding.logoFilename %}
+            {% set logoPosition = branding.logoPosition|default('top-left') %}
+            {% set logoSize = branding.logoSize|default('medium') %}
+            {% if logoPosition starts with 'bottom-' %}
+                {# Bottom positions: displayed below card-company #}
+                <div class="brand-logo brand-logo-{{ logoPosition }} brand-logo-{{ logoSize }}">
+                    <img src="{{ asset('uploads/branding/logos/' ~ branding.logoFilename) }}?v={{ 'now'|date('U') }}" alt="Brand Logo">
+                </div>
+            {% endif %}
         {% endif %}
     </div>
 
@@ -54,9 +61,9 @@
     {# Download Button - Desktop (inline) #}
     {% if showDownloadButton is not defined or showDownloadButton %}
         <div class="text-center mb-4 d-none d-md-block">
-            <a href="{% if card.slug %}{{ path('public_card_download', {slug: card.slug}) }}{% else %}#{% endif %}" class="btn btn-download" style="background-color: #000; color: white;" aria-label="{{ 'card.download'|trans }}">
+            <a href="{% if card.slug %}{{ path('public_card_download', {slug: card.slug}) }}{% else %}#{% endif %}" class="btn btn-download" style="background-color: #000; color: white;" aria-label="{{ 'card.download.label'|trans }}">
                 <i class="bi bi-download"></i>
-                <span>{{ 'card.download'|trans }}</span>
+                <span>{{ 'card.download.label'|trans }}</span>
             </a>
         </div>
     {% endif %}
@@ -68,7 +75,7 @@
                 <div class="contact-info-item">
                     <span class="contact-label" style="color: {{ secondaryColor }};">
                         <i class="bi bi-envelope contact-icon" style="color: {{ secondaryColor }};"></i>
-                        {{ 'card.email'|trans }}
+                        {{ 'card.label.email'|trans }}
                     </span>
                     <span class="contact-value">
                         <a href="mailto:{{ card.content.email }}" style="color: {{ primaryColor }};">{{ card.content.email }}</a>
@@ -80,7 +87,7 @@
                 <div class="contact-info-item">
                     <span class="contact-label" style="color: {{ secondaryColor }};">
                         <i class="bi bi-telephone contact-icon" style="color: {{ secondaryColor }};"></i>
-                        {{ 'card.phone'|trans }}
+                        {{ 'card.label.phone'|trans }}
                     </span>
                     <span class="contact-value">
                         <a href="tel:{{ card.content.phone }}" style="color: {{ primaryColor }};">{{ card.content.phone }}</a>
@@ -92,7 +99,7 @@
                 <div class="contact-info-item">
                     <span class="contact-label" style="color: {{ secondaryColor }};">
                         <i class="bi bi-globe contact-icon" style="color: {{ secondaryColor }};"></i>
-                        {{ 'card.website'|trans }}
+                        {{ 'card.label.website'|trans }}
                     </span>
                     <span class="contact-value">
                         <a href="{{ card.content.website }}" target="_blank" rel="noopener" style="color: {{ primaryColor }};">{{ card.content.website }}</a>
