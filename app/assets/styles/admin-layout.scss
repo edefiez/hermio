@@ -66,10 +66,19 @@ body.admin-layout-body {
         }
     }
 
-    // Mobile: Bootstrap offcanvas handles show/hide
+    // Mobile/Tablet: Hidden by default, only visible when .show class is added by Bootstrap
     @media (max-width: 991.98px) {
-        // Offcanvas handles the transform and visibility
-        // No additional styles needed
+        // Force hidden state by default on mobile/tablet
+        transform: translateX(-100%) !important;
+        visibility: hidden !important;
+        pointer-events: none !important; // Prevent any interaction when hidden
+
+        // Only show when .show class is added (by Bootstrap Offcanvas or JS)
+        &.show {
+            transform: translateX(0) !important;
+            visibility: visible !important;
+            pointer-events: auto !important; // Re-enable interactions when visible
+        }
     }
 
     .sidebar-header {
@@ -297,6 +306,11 @@ body.admin-layout-body {
 
     // Ensure content doesn't overflow
     max-width: 100%;
+
+    // Position and z-index to ensure content is above sidebar (1000)
+    position: relative;
+    z-index: 1001;
+    isolation: isolate; // Create a new stacking context
 }
 
 // Responsive Adjustments
