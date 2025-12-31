@@ -9,7 +9,7 @@
     <div class="card">
         <div class="card-header">
             <div class="row align-items-center">
-                <div class="col-6">
+                <div class="col-md-6">
                     <h2>{{ 'card.list.title'|trans }}</h2>
                     <p class="mb-0">
                         <strong>{{ 'account.quota.usage'|trans }}:</strong>
@@ -20,9 +20,8 @@
                             {{ 'account.quota.unlimited'|trans }}
                         {% endif %}
                     </p>
-
                 </div>
-                <div class="col-6">
+                <div class="col-md-6">
                     {% if canCreateMore %}
                         <div class="d-flex justify-content-end">
                             <a href="{{ path('app_card_create') }}" class="btn btn-primary">{{ 'card.create.button'|trans }}</a>
@@ -38,74 +37,165 @@
         </div>
     </div>
 
-    <div class="row">
-        {% if cards|length > 0 %}
-            {% for card in cards %}
-                <div class="col-6 mt-4">
-                    <div class="card">
-                        <div class="card-header bg-light">
-                            <h5 style="margin-top: 0;">
-                                {{ card.content.name|default('card.unnamed'|trans) }}
-                            </h5>
-                        </div>
-                        <div class="card-body">
-                            <p>
-                                <strong>
-                                    <i class="fas fa-lock" style="color: #007bff;"></i>
-                                    {{ 'card.security.secure_url'|trans }}:
-                                </strong><br>
-                                <small style="word-break: break-all;">
-                                    <a href="{{ app.request.schemeAndHttpHost }}{{ card.publicUrl }}"
-                                       target="_blank"
-                                       rel="noopener noreferrer"
-                                       style="color: #007bff; text-decoration: none;"
-                                       title="{{ 'card.preview.open'|trans|default('Open card preview') }}">
-                                        {{ app.request.schemeAndHttpHost }}{{ card.publicUrl }}
-                                        <i class="fas fa-external-link-alt" style="font-size: 0.75em; margin-left: 3px;"></i>
-                                    </a>
-                                </small>
-                            </p>
-                            {% if isEnterprise and cardAssignments[card.id] is defined and cardAssignments[card.id]|length > 0 %}
-                                <p style="margin-top: 10px;">
-                                    <strong>{{ 'card.assignments.current'|trans }}:</strong>
-                                    {% for assignment in cardAssignments[card.id] %}
-                                        <span class="badge bg-info text-white" style="margin-right: 5px;" title="{{ 'team.members.assigned_by'|trans }}: {{ assignment.assignedBy.email }}">
-                                        {{ assignment.teamMember.email }}
-                                        <small>({{ assignment.teamMember.role.getDisplayName()|trans }})</small>
-                                    </span>
-                                    {% endfor %}
-                                </p>
-                            {% elseif isEnterprise and canManageAssignments %}
-                                <p style="margin-top: 10px; color: #6c757d; font-size: 14px;">
-                                    {{ 'card.assignments.none'|trans }}
-                                </p>
-                            {% endif %}
-                            <p>
-                                <small>{{ 'card.created_at'|trans }}: {{ card.createdAt|date('Y-m-d H:i:s') }}</small>
-                            </p>
-                            <div style="display: flex; gap: 10px; margin-top: 15px; justify-content: center; align-items: stretch;">
-                                <a href="{{ path('app_card_edit', {id: card.id}) }}" class="btn btn-secondary" style="flex: 1; text-align: center;">{{ 'card.edit_button'|trans }}</a>
-                                <a href="{{ path('app_card_qr_code', {id: card.id}) }}" class="btn btn-info" style="flex: 1; text-align: center;">{{ 'card.qr_code.view'|trans }}</a>
-                                {% if card.user == app.user %}
-                                    <form method="post" action="{{ path('app_card_delete', {id: card.id}) }}" style="flex: 1;" onsubmit="return confirm('{{ 'card.delete.confirm'|trans }}');">
-                                        <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ card.id) }}">
-                                        <button type="submit" class="btn btn-danger" style="width: 100%; height: 100%;">{{ 'card.delete_button'|trans }}</button>
-                                    </form>
-                                {% endif %}
-                            </div>
-                        </div>
+    {# Search Bar #}
+    {% if totalCards > 0 %}
+        <div class="card mt-3">
+            <div class="card-body">
+                <div class="row align-items-center">
+                    <div class="col-md-8">
+                        <input type="text" 
+                               id="card-search" 
+                               class="form-control" 
+                               placeholder="{{ 'card.search.placeholder'|trans|default('Search cards by name, email, or company...') }}"
+                               aria-label="{{ 'card.search.label'|trans|default('Search cards') }}">
+                    </div>
+                    <div class="col-md-4 mt-2 mt-md-0">
+                        <span id="card-count" class="text-muted">
+                            {{ 'card.count'|trans|default('Total cards') }}: <strong id="card-total">{{ totalCards }}</strong>
+                        </span>
                     </div>
                 </div>
-            {% endfor %}
+            </div>
+        </div>
+    {% endif %}
+
+    {# Cards Container #}
+    <div class="row" id="cards-container">
+        {% if cards|length > 0 %}
+            {% include 'card/_card_list.html.twig' %}
         {% else %}
-            <div class="alert alert-info">
-                <p>{{ 'card.list.empty'|trans }}</p>
-                {% if canCreateMore %}
-                    <a href="{{ path('app_card_create') }}" class="btn btn-primary">{{ 'card.create.button'|trans }}</a>
-                {% endif %}
+            <div class="col-12 mt-4">
+                <div class="alert alert-info" id="no-cards-message">
+                    <p>{{ 'card.list.empty'|trans }}</p>
+                    {% if canCreateMore %}
+                        <a href="{{ path('app_card_create') }}" class="btn btn-primary">{{ 'card.create.button'|trans }}</a>
+                    {% endif %}
+                </div>
             </div>
         {% endif %}
     </div>
+
+    {# Loading Indicator #}
+    <div class="text-center mt-4" id="loading-indicator" style="display: none;">
+        <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">{{ 'common.loading'|trans|default('Loading...') }}</span>
+        </div>
+    </div>
+
+    {# Infinite Scroll Trigger #}
+    <div id="scroll-trigger" style="height: 1px;" data-offset="{{ cards|length }}" data-has-more="{{ totalCards > cards|length ? 'true' : 'false' }}"></div>
 </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const searchInput = document.getElementById('card-search');
+    const cardsContainer = document.getElementById('cards-container');
+    const scrollTrigger = document.getElementById('scroll-trigger');
+    const loadingIndicator = document.getElementById('loading-indicator');
+    const cardTotal = document.getElementById('card-total');
+    
+    let currentQuery = '';
+    let currentOffset = 0;
+    let hasMore = scrollTrigger ? scrollTrigger.dataset.hasMore === 'true' : false;
+    let isLoading = false;
+    let searchTimeout = null;
+
+    // Search functionality with debounce
+    if (searchInput) {
+        searchInput.addEventListener('input', function() {
+            clearTimeout(searchTimeout);
+            searchTimeout = setTimeout(function() {
+                currentQuery = searchInput.value.trim();
+                currentOffset = 0;
+                hasMore = true;
+                loadCards(true);
+            }, 300); // 300ms debounce
+        });
+    }
+
+    // Infinite scroll
+    if (scrollTrigger) {
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(function(entry) {
+                if (entry.isIntersecting && hasMore && !isLoading) {
+                    loadCards(false);
+                }
+            });
+        }, {
+            rootMargin: '100px'
+        });
+
+        observer.observe(scrollTrigger);
+    }
+
+    function loadCards(replace) {
+        if (isLoading) return;
+        
+        isLoading = true;
+        if (loadingIndicator) {
+            loadingIndicator.style.display = 'block';
+        }
+
+        const url = new URL('{{ path('app_card_api_search') }}', window.location.origin);
+        if (currentQuery) {
+            url.searchParams.set('q', currentQuery);
+        }
+        if (!replace) {
+            url.searchParams.set('offset', currentOffset);
+        }
+
+        fetch(url)
+            .then(function(response) {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.text();
+            })
+            .then(function(html) {
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(html, 'text/html');
+                const newCards = doc.querySelectorAll('.card-item');
+                
+                if (replace) {
+                    cardsContainer.innerHTML = '';
+                    currentOffset = 0;
+                }
+
+                if (newCards.length > 0) {
+                    newCards.forEach(function(card) {
+                        cardsContainer.appendChild(card);
+                    });
+                    currentOffset += newCards.length;
+                } else if (replace) {
+                    cardsContainer.innerHTML = '<div class="col-12 mt-4"><div class="alert alert-info">' +
+                        '<p>{{ 'card.search.no_results'|trans|default('No cards found matching your search.') }}</p>' +
+                        '</div></div>';
+                }
+
+                // Update hasMore flag
+                const hasMoreAttr = doc.querySelector('[data-has-more]');
+                hasMore = hasMoreAttr ? hasMoreAttr.dataset.hasMore === 'true' : false;
+                
+                // Update total count
+                const totalAttr = doc.querySelector('[data-total-cards]');
+                if (totalAttr && cardTotal) {
+                    cardTotal.textContent = totalAttr.dataset.totalCards;
+                }
+
+                if (loadingIndicator) {
+                    loadingIndicator.style.display = 'none';
+                }
+                isLoading = false;
+            })
+            .catch(function(error) {
+                console.error('Error loading cards:', error);
+                if (loadingIndicator) {
+                    loadingIndicator.style.display = 'none';
+                }
+                isLoading = false;
+            });
+    }
+});
+</script>
 {% endblock %}
 

@@ -48,8 +48,9 @@ class CardController extends AbstractController
         $currentUsage = $this->quotaService->getCurrentUsage($user);
         $canCreateMore = $quotaLimit === null || $currentUsage < $quotaLimit;
 
-        // Get accessible cards (owned + assigned if MEMBER, or all account cards if ADMIN)
-        $cards = $this->cardService->getAccessibleCardsForUser($user);
+        // Get first 10 cards for initial load
+        $cards = $this->cardService->searchAccessibleCardsForUser($user, null, 10, 0);
+        $totalCards = $this->cardService->countAccessibleCardsForUser($user);
 
         // Get assignments for each card (for display) - optimized to avoid N+1
         $cardAssignments = [];
@@ -86,7 +87,67 @@ class CardController extends AbstractController
             'canCreateMore' => $canCreateMore,
             'canManageAssignments' => $canManageAssignments,
             'isEnterprise' => $account && $account->getPlanType()->value === 'enterprise',
+            'totalCards' => $totalCards,
         ]);
+    }
+
+    #[Route('/api/search', name: 'app_card_api_search', methods: ['GET'])]
+    public function apiSearch(Request $request): Response
+    {
+        /** @var \App\Entity\User $user */
+        $user = $this->getUser();
+        $account = $user->getAccount();
+        
+        $query = $request->query->get('q');
+        $offset = (int) $request->query->get('offset', 0);
+        $limit = 10;
+
+        $cards = $this->cardService->searchAccessibleCardsForUser($user, $query, $limit, $offset);
+        $totalCards = $this->cardService->countAccessibleCardsForUser($user, $query);
+
+        // Get assignments for each card
+        $cardAssignments = [];
+        if (!empty($cards)) {
+            $cardIds = array_map(fn($c) => $c->getId(), $cards);
+
+            $allAssignments = $this->cardAssignmentRepository->createQueryBuilder('ca')
+                ->where('ca.card IN (:cardIds)')
+                ->setParameter('cardIds', $cardIds)
+                ->getQuery()
+                ->getResult();
+
+            foreach ($allAssignments as $assignment) {
+                $cardId = $assignment->getCard()->getId();
+                if (!isset($cardAssignments[$cardId])) {
+                    $cardAssignments[$cardId] = [];
+                }
+                $cardAssignments[$cardId][] = $assignment;
+            }
+        }
+
+        $canManageAssignments = false;
+        if ($account && $account->getPlanType()->value === 'enterprise') {
+            $canManageAssignments = $this->teamService->canManageTeam($account, $user);
+        }
+
+        $hasMore = ($offset + count($cards)) < $totalCards;
+        
+        $response = $this->render('card/_card_list.html.twig', [
+            'cards' => $cards,
+            'cardAssignments' => $cardAssignments,
+            'canManageAssignments' => $canManageAssignments,
+            'isEnterprise' => $account && $account->getPlanType()->value === 'enterprise',
+        ]);
+        
+        // Add data attributes to response content
+        $content = $response->getContent();
+        $metaData = sprintf(
+            '<div style="display:none;" data-has-more="%s" data-total-cards="%d"></div>',
+            $hasMore ? 'true' : 'false',
+            $totalCards
+        );
+        
+        return new Response($metaData . $content);
     }
 
     #[Route('/create', name: 'app_card_create', methods: ['GET', 'POST'])]
