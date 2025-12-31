@@ -91,7 +91,7 @@
             <h3 style="margin-top: 0;">{{ 'admin.webhook.event_type_distribution'|trans }}</h3>
             <div style="display: flex; flex-wrap: wrap; gap: 10px;">
                 {% for eventType, count in eventTypeDistribution %}
-                <span class="badge badge-info">{{ eventType }}: {{ count }}</span>
+                <span class="badge bg-info text-dark">{{ eventType }}: {{ count }}</span>
                 {% endfor %}
             </div>
         </div>
@@ -118,13 +118,13 @@
                             <code style="font-size: 0.85em;">{{ event.stripeEventId|slice(0, 20) }}...</code>
                         </td>
                         <td style="padding: 12px;">
-                            <span class="badge badge-secondary">{{ event.eventType }}</span>
+                            <span class="badge bg-secondary text-white">{{ event.eventType }}</span>
                         </td>
                         <td style="padding: 12px;">
                             {% if event.success %}
-                                <span class="badge badge-success">{{ 'admin.webhook.status.success'|trans }}</span>
+                                <span class="badge bg-success text-white">{{ 'admin.webhook.status.success'|trans }}</span>
                             {% else %}
-                                <span class="badge badge-danger">{{ 'admin.webhook.status.failed'|trans }}</span>
+                                <span class="badge bg-danger text-white">{{ 'admin.webhook.status.failed'|trans }}</span>
                             {% endif %}
                         </td>
                         <td style="padding: 12px;">{{ event.processedAt|date('Y-m-d H:i:s') }}</td>

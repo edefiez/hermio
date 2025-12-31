@@ -307,8 +307,10 @@ card:
     button: "Create Card"
   edit:
     title: "Edit Card"
+  edit_button: "Edit"
   delete:
     confirm: "Are you sure you want to delete this card?"
+  delete_button: "Delete"
   list:
     title: "My Cards"
     empty: "You haven't created any cards yet."
@@ -370,6 +372,8 @@ card:
     invalid_format: "Slug must contain only lowercase letters, numbers, and hyphens"
   public:
     title: "Digital Card"
+  preview:
+    open: "Open card preview"
   qr_code:
     title: "QR Code"
     view: "View QR Code"

@@ -8,7 +8,7 @@
 <div class="profile-container">
     <div class="profile-card">
         <h1>{{ 'subscription.payments.title'|trans }}</h1>
-        
+
         {% if payments is empty %}
         <div class="alert alert-info">
             {{ 'subscription.payments.empty'|trans }}
@@ -40,7 +40,7 @@
                                     {{ payment.planType.getDisplayName() }}
                                 </span>
                             {% else %}
-                                <span class="badge badge-secondary">-</span>
+                                <span class="badge bg-secondary text-white">-</span>
                             {% endif %}
                         </td>
                         <td style="padding: 12px;">
@@ -57,7 +57,7 @@
             </table>
         </div>
         {% endif %}
-        
+
         <div style="margin-top: 30px;">
             <a href="{{ path('app_subscription_manage') }}" class="btn btn-secondary">
                 {{ 'subscription.back_to_management'|trans }}

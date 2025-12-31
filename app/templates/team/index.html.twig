@@ -8,7 +8,7 @@
 <div class="profile-container">
     <div class="profile-card">
         <h1>{{ 'team.title'|trans }}</h1>
-        
+
         {# Flash messages #}
         {% for label, messages in app.flashes %}
             {% for message in messages %}
@@ -17,7 +17,7 @@
                 </div>
             {% endfor %}
         {% endfor %}
-        
+
         {% if not isEnterprise %}
             <div class="alert alert-warning">
                 {{ 'team.access_denied'|trans }}
@@ -45,7 +45,7 @@
                                 </ul>
                             </div>
                         {% endif %}
-                        
+
                         {{ form_row(invitationForm.email) }}
                         {{ form_row(invitationForm.role) }}
                         {{ form_row(invitationForm._token) }}
@@ -53,10 +53,10 @@
                     {{ form_end(invitationForm) }}
                 </div>
             {% endif %}
-            
+
             <div class="team-members-section">
                 <h2>{{ 'team.members.title'|trans }} ({{ teamMembers|length }})</h2>
-                
+
                 {% if teamMembers|length > 0 %}
                     <table class="table" style="width: 100%; border-collapse: collapse; margin-top: 20px;">
                         <thead>
@@ -99,11 +99,11 @@
                                         </td>
                                         <td style="padding: 12px;">
                                             {% if teamOverview and teamOverview.assignmentCounts[member.id] is defined %}
-                                                <span class="badge badge-info">
+                                                <span class="badge bg-info text-dark">
                                                     {{ teamOverview.assignmentCounts[member.id] }} {{ 'card.assignments.count'|trans }}
                                                 </span>
                                             {% else %}
-                                                <span class="badge badge-secondary">0</span>
+                                                <span class="badge bg-secondary text-white">0</span>
                                             {% endif %}
                                         </td>
                                         <td style="padding: 12px;">
@@ -121,7 +121,7 @@
                                                             </option>
                                                         </select>
                                                     </form>
-                                                    
+
                                                     {# Remove button #}
                                                     <form method="post" action="{{ path('app_team_remove', {id: member.id}) }}" style="display: inline;" onsubmit="return confirm('{{ 'team.remove.confirm'|trans }}');">
                                                         <input type="hidden" name="_token" value="{{ csrf_token('team_remove' ~ member.id) }}">

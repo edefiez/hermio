@@ -231,7 +231,8 @@ body.admin-layout-body {
     margin-left: 250px;
     display: flex;
     flex-direction: column;
-    min-height: 100vh;
+    height: 100vh; // Fixed height instead of min-height
+    overflow: hidden; // Prevent overflow, let admin-main handle scrolling
     transition: margin-left 0.35s ease-in-out;
 
     @media (max-width: 991.98px) {
@@ -288,6 +289,11 @@ body.admin-layout-body {
     padding: 1.5rem;
     background: #f8f9fa;
     overflow-y: auto;
+    overflow-x: hidden;
+
+    // Ensure scrolling works properly
+    height: 100%;
+    min-height: 0; // Allow flex item to shrink below content size
 
     // Ensure content doesn't overflow
     max-width: 100%;

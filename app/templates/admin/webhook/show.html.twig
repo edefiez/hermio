@@ -16,15 +16,15 @@
 
                 <dt>{{ 'admin.webhook.details.event_type'|trans }}</dt>
                 <dd>
-                    <span class="badge badge-secondary">{{ event.eventType }}</span>
+                    <span class="badge bg-secondary text-white">{{ event.eventType }}</span>
                 </dd>
 
                 <dt>{{ 'admin.webhook.details.status'|trans }}</dt>
                 <dd>
                     {% if event.success %}
-                        <span class="badge badge-success">{{ 'admin.webhook.status.success'|trans }}</span>
+                        <span class="badge bg-success text-white">{{ 'admin.webhook.status.success'|trans }}</span>
                     {% else %}
-                        <span class="badge badge-danger">{{ 'admin.webhook.status.failed'|trans }}</span>
+                        <span class="badge bg-danger text-white">{{ 'admin.webhook.status.failed'|trans }}</span>
                     {% endif %}
                 </dd>
 

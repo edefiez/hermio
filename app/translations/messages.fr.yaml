@@ -307,8 +307,10 @@ card:
     button: "Créer une Carte"
   edit:
     title: "Modifier la Carte"
+  edit_button: "Modifier"
   delete:
     confirm: "Êtes-vous sûr de vouloir supprimer cette carte ?"
+  delete_button: "Supprimer"
   list:
     title: "Mes Cartes"
     empty: "Vous n'avez pas encore créé de cartes."
@@ -371,6 +373,8 @@ card:
     invalid_format: "Le slug doit contenir uniquement des lettres minuscules, des chiffres et des tirets"
   public:
     title: "Carte Numérique"
+  preview:
+    open: "Ouvrir l'aperçu de la carte"
   qr_code:
     title: "Code QR"
     view: "Voir le Code QR"
