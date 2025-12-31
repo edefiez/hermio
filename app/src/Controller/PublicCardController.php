@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Repository\CardRepository;
 use App\Service\BrandingService;
 use App\Service\CardService;
+use App\Service\ScanTrackingService;
 use App\Service\TemplateResolverService;
 use App\Service\VCardService;
 use Psr\Log\LoggerInterface;
@@ -22,7 +23,8 @@ class PublicCardController extends AbstractController
         private TemplateResolverService $templateResolverService,
         private VCardService $vcardService,
         private LoggerInterface $logger,
-        private CardService $cardService
+        private CardService $cardService,
+        private ScanTrackingService $scanTrackingService
     ) {
     }
 
@@ -43,6 +45,17 @@ class PublicCardController extends AbstractController
             return $this->render('error/403_invalid_key.html.twig', [
                 'slug' => $slug,
             ], new Response('', Response::HTTP_FORBIDDEN));
+        }
+
+        // Track the scan
+        try {
+            $this->scanTrackingService->trackScan($card, $request);
+        } catch (\Exception $e) {
+            // Log error but don't block the user from viewing the card
+            $this->logger->error('Failed to track card scan', [
+                'slug' => $slug,
+                'error' => $e->getMessage(),
+            ]);
         }
 
         $publicUrl = '/c/' . $slug;

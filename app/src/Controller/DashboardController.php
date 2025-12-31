@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Service\AccountService;
 use App\Service\AuthenticationLogService;
 use App\Service\QuotaService;
+use App\Service\ScanAnalyticsService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -16,7 +17,8 @@ class DashboardController extends AbstractController
     public function __construct(
         private AccountService $accountService,
         private QuotaService $quotaService,
-        private AuthenticationLogService $authenticationLogService
+        private AuthenticationLogService $authenticationLogService,
+        private ScanAnalyticsService $scanAnalyticsService
     ) {
     }
 
@@ -50,6 +52,16 @@ class DashboardController extends AbstractController
         $memberSince = $user->getCreatedAt();
         $daysSince = $memberSince ? (new \DateTime())->diff($memberSince)->days : 0;
 
+        // Get analytics data if user has Enterprise plan
+        $analytics = null;
+        $showUpgradePrompt = false;
+        
+        if ($planType->value === 'enterprise') {
+            $analytics = $this->scanAnalyticsService->getAnalyticsForUser($user, 30);
+        } elseif ($planType->value === 'pro') {
+            $showUpgradePrompt = true;
+        }
+
         return $this->render('admin/dashboard.html.twig', [
             'account' => $account,
             'planType' => $planType,
@@ -62,6 +74,8 @@ class DashboardController extends AbstractController
             'activeCards' => $activeCards,
             'memberSince' => $memberSince,
             'daysSince' => $daysSince,
+            'analytics' => $analytics,
+            'showUpgradePrompt' => $showUpgradePrompt,
         ]);
     }
 }

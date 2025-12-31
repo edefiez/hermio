@@ -15,6 +15,7 @@ doctrine:
         dql:
             string_functions:
                 JSON_EXTRACT: App\Doctrine\DQL\JsonExtract
+                DATE: App\Doctrine\DQL\Date
         mappings:
             App:
                 type: attribute

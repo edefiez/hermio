@@ -138,6 +138,129 @@
         </div>
     </div>
 
+    {# Analytics Section - Enterprise Only #}
+    {% if analytics %}
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card shadow-sm">
+                <div class="card-header bg-gradient" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                    <h5 class="card-title mb-0 text-white">
+                        <i class="fas fa-chart-line me-2"></i>{{ 'dashboard.analytics.title'|trans|default('QR Code Analytics') }}
+                    </h5>
+                </div>
+                <div class="card-body">
+                    {# Analytics Summary Stats #}
+                    <div class="row mb-4">
+                        <div class="col-md-4">
+                            <div class="card bg-light h-100">
+                                <div class="card-body text-center">
+                                    <h2 class="mb-2 text-primary">{{ analytics.totalScans }}</h2>
+                                    <p class="text-muted mb-0">{{ 'dashboard.analytics.total_scans'|trans|default('Total Scans') }}</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card bg-light h-100">
+                                <div class="card-body text-center">
+                                    <h2 class="mb-2 text-success">{{ analytics.cardCount }}</h2>
+                                    <p class="text-muted mb-0">{{ 'dashboard.analytics.tracked_cards'|trans|default('Tracked Cards') }}</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card bg-light h-100">
+                                <div class="card-body text-center">
+                                    <h2 class="mb-2 text-info">{{ (analytics.totalScans / 30)|round(1) }}</h2>
+                                    <p class="text-muted mb-0">{{ 'dashboard.analytics.avg_per_day'|trans|default('Avg Scans/Day') }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    {# Scans Per Day Chart #}
+                    <div class="mb-4">
+                        <h6 class="mb-3">{{ 'dashboard.analytics.scans_per_day'|trans|default('Scans Per Day (Last 30 Days)') }}</h6>
+                        <canvas id="scansPerDayChart" style="max-height: 300px;"></canvas>
+                    </div>
+
+                    {# Top Cards Table #}
+                    {% if analytics.topCards|length > 0 %}
+                    <div>
+                        <h6 class="mb-3">{{ 'dashboard.analytics.top_cards'|trans|default('Most Scanned Cards') }}</h6>
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>{{ 'dashboard.analytics.rank'|trans|default('Rank') }}</th>
+                                        <th>{{ 'dashboard.analytics.card_name'|trans|default('Card Name') }}</th>
+                                        <th>{{ 'dashboard.analytics.slug'|trans|default('Slug') }}</th>
+                                        <th class="text-end">{{ 'dashboard.analytics.scans'|trans|default('Scans') }}</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for card in analytics.topCards %}
+                                    <tr>
+                                        <td>
+                                            {% if loop.index == 1 %}
+                                                <i class="fas fa-trophy text-warning"></i>
+                                            {% elseif loop.index == 2 %}
+                                                <i class="fas fa-medal text-secondary"></i>
+                                            {% elseif loop.index == 3 %}
+                                                <i class="fas fa-medal" style="color: #cd7f32;"></i>
+                                            {% else %}
+                                                <span class="text-muted">{{ loop.index }}</span>
+                                            {% endif %}
+                                        </td>
+                                        <td><strong>{{ card.name|default('N/A') }}</strong></td>
+                                        <td><code>{{ card.slug }}</code></td>
+                                        <td class="text-end">
+                                            <span class="badge bg-primary">{{ card.scan_count }}</span>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {# Chart.js Data #}
+    <script>
+        window.analyticsData = {
+            scansPerDay: {{ analytics.scansPerDay|json_encode|raw }}
+        };
+    </script>
+    {% endif %}
+
+    {# Upgrade Prompt for Pro Users #}
+    {% if showUpgradePrompt %}
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card shadow-sm border-warning">
+                <div class="card-header bg-warning text-dark">
+                    <h5 class="card-title mb-0">
+                        <i class="fas fa-lock me-2"></i>{{ 'dashboard.analytics.locked'|trans|default('Analytics Feature Locked') }}
+                    </h5>
+                </div>
+                <div class="card-body text-center py-5">
+                    <i class="fas fa-chart-bar fa-4x text-warning mb-3"></i>
+                    <h4 class="mb-3">{{ 'dashboard.analytics.upgrade_title'|trans|default('Unlock Advanced Analytics') }}</h4>
+                    <p class="text-muted mb-4">
+                        {{ 'dashboard.analytics.upgrade_message'|trans|default('Track your QR code scans, view daily statistics, and see which cards perform best. Upgrade to Enterprise plan to access these powerful insights.') }}
+                    </p>
+                    <a href="{{ path('app_account_my_plan') }}" class="btn btn-warning btn-lg">
+                        <i class="fas fa-crown me-2"></i>{{ 'dashboard.analytics.upgrade_button'|trans|default('Upgrade to Enterprise') }}
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
     {# Recent Activity Section #}
     {% if recentActivity|length > 0 %}
     <div class="row">

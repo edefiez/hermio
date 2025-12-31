@@ -20,6 +20,15 @@ import '@fortawesome/fontawesome-free/css/all.css';
 // Import Bootstrap JS
 import 'bootstrap';
 
+// Import Chart.js for analytics
+import Chart from 'chart.js/auto';
+
+// Make Chart.js globally available
+window.Chart = Chart;
+
+// Import analytics dashboard JavaScript
+import './analytics.js';
+
 console.log('Hermio app loaded with Bootstrap 5');
 
 // Admin sidebar toggle functionality
