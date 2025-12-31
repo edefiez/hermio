@@ -3,17 +3,25 @@
 {% set secondaryColor = branding and branding.secondaryColor ? branding.secondaryColor : '#6c757d' %}
 
 <div class="public-card" style="--card-primary-color: {{ primaryColor }}; --card-secondary-color: {{ secondaryColor }}; border-top: 4px solid {{ primaryColor }};">
-    {# Logo (if branded) #}
-    {% if branding and branding.logoFilename %}
-        {% set logoPosition = branding.logoPosition|default('top-left') %}
-        {% set logoSize = branding.logoSize|default('medium') %}
-        <div class="brand-logo brand-logo-{{ logoPosition }} brand-logo-{{ logoSize }}">
-            <img src="{{ asset('uploads/branding/logos/' ~ branding.logoFilename) }}?v={{ 'now'|date('U') }}" alt="Brand Logo">
-        </div>
-    {% endif %}
-
     {# Card Header Section #}
-    <div class="card-header-section" style="border-bottom: 2px solid {{ primaryColor }};">
+    <div class="card-header-section" style="border-bottom: 2px solid {{ primaryColor }}; position: relative;">
+        {# Logo (if branded) - Position and size based on branding settings #}
+        {% if branding and branding.logoFilename %}
+            {% set logoPosition = branding.logoPosition|default('top-center') %}
+            {% set logoSize = branding.logoSize|default('medium') %}
+            {% if logoPosition == 'top-center' or logoPosition == '' %}
+                {# Centered above name (default behavior) #}
+                <div class="brand-logo brand-logo-center-above brand-logo-{{ logoSize }}">
+                    <img src="{{ asset('uploads/branding/logos/' ~ branding.logoFilename) }}?v={{ 'now'|date('U') }}" alt="Brand Logo">
+                </div>
+            {% else %}
+                {# Absolute positioned logo #}
+                <div class="brand-logo brand-logo-{{ logoPosition }} brand-logo-{{ logoSize }}">
+                    <img src="{{ asset('uploads/branding/logos/' ~ branding.logoFilename) }}?v={{ 'now'|date('U') }}" alt="Brand Logo">
+                </div>
+            {% endif %}
+        {% endif %}
+        
         <h1 class="card-name">{{ card.content.name|default('card.public.title'|trans) }}</h1>
 
         {% if card.content.title %}
@@ -29,7 +37,7 @@
     {% if card.content.phone or card.content.email %}
         <div class="contact-actions">
             {% if card.content.phone %}
-                <a href="tel:{{ card.content.phone }}" class="btn btn-action btn-call" aria-label="{{ 'card.action.call'|trans }} {{ card.content.phone }}">
+                <a href="tel:{{ card.content.phone }}" class="btn btn-action btn-call" style="background-color: {{ primaryColor }};" aria-label="{{ 'card.action.call'|trans }} {{ card.content.phone }}">
                     <i class="bi bi-telephone-fill"></i>
                     <span>{{ 'card.action.call'|trans }}</span>
                 </a>
@@ -46,7 +54,7 @@
     {# Download Button - Desktop (inline) #}
     {% if showDownloadButton is not defined or showDownloadButton %}
         <div class="text-center mb-4 d-none d-md-block">
-            <a href="{% if card.slug %}{{ path('public_card_download', {slug: card.slug}) }}{% else %}#{% endif %}" class="btn btn-download" style="background-color: {{ primaryColor }};" aria-label="{{ 'card.download'|trans }}">
+            <a href="{% if card.slug %}{{ path('public_card_download', {slug: card.slug}) }}{% else %}#{% endif %}" class="btn btn-download" style="background-color: #000; color: white;" aria-label="{{ 'card.download'|trans }}">
                 <i class="bi bi-download"></i>
                 <span>{{ 'card.download'|trans }}</span>
             </a>
@@ -58,8 +66,8 @@
         <div class="contact-info">
             {% if card.content.email %}
                 <div class="contact-info-item">
-                    <span class="contact-label">
-                        <i class="bi bi-envelope contact-icon" style="color: {{ primaryColor }};"></i>
+                    <span class="contact-label" style="color: {{ secondaryColor }};">
+                        <i class="bi bi-envelope contact-icon" style="color: {{ secondaryColor }};"></i>
                         {{ 'card.email'|trans }}
                     </span>
                     <span class="contact-value">
@@ -70,8 +78,8 @@
 
             {% if card.content.phone %}
                 <div class="contact-info-item">
-                    <span class="contact-label">
-                        <i class="bi bi-telephone contact-icon" style="color: {{ primaryColor }};"></i>
+                    <span class="contact-label" style="color: {{ secondaryColor }};">
+                        <i class="bi bi-telephone contact-icon" style="color: {{ secondaryColor }};"></i>
                         {{ 'card.phone'|trans }}
                     </span>
                     <span class="contact-value">
@@ -82,8 +90,8 @@
 
             {% if card.content.website %}
                 <div class="contact-info-item">
-                    <span class="contact-label">
-                        <i class="bi bi-globe contact-icon" style="color: {{ primaryColor }};"></i>
+                    <span class="contact-label" style="color: {{ secondaryColor }};">
+                        <i class="bi bi-globe contact-icon" style="color: {{ secondaryColor }};"></i>
                         {{ 'card.website'|trans }}
                     </span>
                     <span class="contact-value">
@@ -96,9 +104,9 @@
 
     {# Bio Section #}
     {% if card.content.bio %}
-        <div class="card-bio">
-            <h2>{{ 'card.bio.title'|trans }}</h2>
-            <p>{{ card.content.bio|nl2br }}</p>
+        <div class="card-bio" style="background-color: {{ secondaryColor }}; color: white;">
+            <h2 style="color: white;">{{ 'card.bio.title'|trans }}</h2>
+            <p style="color: white;">{{ card.content.bio|nl2br }}</p>
         </div>
     {% endif %}
 
@@ -111,14 +119,13 @@
     %}
     {% if hasSocial %}
         <div class="social-links">
-            <h2>{{ 'card.social.title'|trans }}</h2>
+            <h2 style="color: {{ secondaryColor }};">{{ 'card.social.title'|trans }}</h2>
             <div class="social-links-grid">
                 {# Social fields (all stored in content.social) #}
                 {% if card.content.social %}
                     {% if card.content.social.linkedin ?? false %}
                         <a href="{{ card.content.social.linkedin }}" target="_blank" rel="noopener"
                            class="social-link" data-platform="linkedin"
-                           style="border-color: {{ primaryColor }}; color: {{ primaryColor }};"
                            aria-label="{{ 'card.social.linkedin.aria'|trans }}">
                             <i class="bi bi-linkedin" aria-hidden="true"></i>
                             <span class="d-none d-sm-inline">LinkedIn</span>
@@ -127,7 +134,6 @@
                     {% if card.content.social.instagram ?? false %}
                         <a href="{{ card.content.social.instagram }}" target="_blank" rel="noopener"
                            class="social-link" data-platform="instagram"
-                           style="border-color: {{ primaryColor }}; color: {{ primaryColor }};"
                            aria-label="{{ 'card.social.instagram.aria'|trans }}">
                             <i class="bi bi-instagram" aria-hidden="true"></i>
                             <span class="d-none d-sm-inline">Instagram</span>
@@ -136,7 +142,6 @@
                     {% if card.content.social.tiktok ?? false %}
                         <a href="{{ card.content.social.tiktok }}" target="_blank" rel="noopener"
                            class="social-link" data-platform="tiktok"
-                           style="border-color: {{ primaryColor }}; color: {{ primaryColor }};"
                            aria-label="{{ 'card.social.tiktok.aria'|trans }}">
                             <i class="bi bi-tiktok" aria-hidden="true"></i>
                             <span class="d-none d-sm-inline">TikTok</span>
@@ -145,7 +150,6 @@
                     {% if card.content.social.facebook ?? false %}
                         <a href="{{ card.content.social.facebook }}" target="_blank" rel="noopener"
                            class="social-link" data-platform="facebook"
-                           style="border-color: {{ primaryColor }}; color: {{ primaryColor }};"
                            aria-label="{{ 'card.social.facebook.aria'|trans }}">
                             <i class="bi bi-facebook" aria-hidden="true"></i>
                             <span class="d-none d-sm-inline">Facebook</span>
@@ -154,7 +158,6 @@
                     {% if card.content.social.x ?? false %}
                         <a href="{{ card.content.social.x }}" target="_blank" rel="noopener"
                            class="social-link" data-platform="x"
-                           style="border-color: {{ primaryColor }}; color: {{ primaryColor }};"
                            aria-label="{{ 'card.social.x.aria'|trans }}">
                             <i class="bi bi-twitter-x" aria-hidden="true"></i>
                             <span class="d-none d-sm-inline">X</span>
@@ -163,7 +166,6 @@
                     {% if card.content.social.snapchat ?? false %}
                         <a href="{{ card.content.social.snapchat }}" target="_blank" rel="noopener"
                            class="social-link" data-platform="snapchat"
-                           style="border-color: {{ primaryColor }}; color: {{ primaryColor }};"
                            aria-label="{{ 'card.social.snapchat.aria'|trans }}">
                             <i class="bi bi-snapchat" aria-hidden="true"></i>
                             <span class="d-none d-sm-inline">Snapchat</span>
@@ -172,7 +174,6 @@
                     {% if card.content.social.planity ?? false %}
                         <a href="{{ card.content.social.planity }}" target="_blank" rel="noopener"
                            class="social-link" data-platform="planity"
-                           style="border-color: {{ primaryColor }}; color: {{ primaryColor }};"
                            aria-label="{{ 'card.social.planity.aria'|trans }}">
                             <i class="bi bi-calendar-check" aria-hidden="true"></i>
                             <span class="d-none d-sm-inline">Planity</span>
@@ -181,7 +182,6 @@
                     {% if card.content.social.bluebirds ?? false %}
                         <a href="{{ card.content.social.bluebirds }}" target="_blank" rel="noopener"
                            class="social-link" data-platform="bluebirds"
-                           style="border-color: {{ primaryColor }}; color: {{ primaryColor }};"
                            aria-label="{{ 'card.social.bluebirds.aria'|trans }}">
                             <i class="bi bi-chat-dots" aria-hidden="true"></i>
                             <span class="d-none d-sm-inline">Bluebirds</span>
@@ -190,7 +190,6 @@
                     {% if card.content.social.other ?? false %}
                         <a href="{{ card.content.social.other }}" target="_blank" rel="noopener"
                            class="social-link" data-platform="other"
-                           style="border-color: {{ primaryColor }}; color: {{ primaryColor }};"
                            aria-label="{{ 'card.social.other.aria'|trans }}">
                             <i class="bi bi-link-45deg" aria-hidden="true"></i>
                             <span class="d-none d-sm-inline">{{ 'card.social.other'|trans }}</span>

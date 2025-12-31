@@ -79,26 +79,29 @@
   padding-bottom: var(--card-spacing-lg);
   border-bottom: 2px solid var(--card-primary-color);
   margin-bottom: var(--card-spacing-lg);
+  position: relative;
 }
 
 .card-name {
   font-size: 2rem;
   font-weight: 700;
-  color: var(--card-text-color);
+  color: #000;
   margin: 0 0 0.5rem 0;
   line-height: 1.2;
 }
 
 .card-title {
   font-size: 1.25rem;
-  color: var(--card-text-secondary);
+  color: #1a1a1a;
   margin: 0 0 0.25rem 0;
+  font-weight: 600;
 }
 
 .card-company {
   font-size: 1rem;
-  color: var(--card-text-muted);
+  color: #333;
   margin: 0;
+  font-weight: 500;
 }
 
 /* ========================================
@@ -132,16 +135,17 @@
 }
 
 .btn-call {
-  background-color: #28a745;
+  background-color: var(--card-primary-color, #007bff);
   color: white;
   border: none;
 }
 
 .btn-call:hover {
-  background-color: #218838;
+  background-color: var(--card-primary-color, #007bff);
+  filter: brightness(0.9);
   color: white;
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(40, 167, 69, 0.3);
+  box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3);
 }
 
 .btn-email {
@@ -189,7 +193,7 @@
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  color: var(--card-text-secondary);
+  color: var(--card-secondary-color, var(--card-text-secondary));
 }
 
 .contact-value {
@@ -216,21 +220,22 @@
 .card-bio {
   margin: var(--card-spacing-lg) 0;
   padding: var(--card-spacing-lg);
-  background: var(--card-bg-light);
+  background: var(--card-secondary-color, var(--card-bg-light));
   border-radius: 8px;
+  color: white;
 }
 
 .card-bio h2 {
   font-size: 1.125rem;
   font-weight: 600;
   margin: 0 0 0.75rem 0;
-  color: var(--card-text-color);
+  color: white;
 }
 
 .card-bio p {
   margin: 0;
   line-height: 1.6;
-  color: var(--card-text-color);
+  color: white;
 }
 
 /* ========================================
@@ -245,7 +250,7 @@
   font-size: 1.125rem;
   font-weight: 600;
   margin: 0 0 1rem 0;
-  color: var(--card-text-color);
+  color: var(--card-secondary-color, var(--card-text-color));
 }
 
 .social-links-grid {
@@ -262,9 +267,9 @@
   min-width: var(--min-touch-target);
   min-height: var(--min-touch-target);
   padding: 0.75rem 1rem;
-  color: var(--card-primary-color);
+  color: white !important;
   background: white;
-  border: 2px solid var(--card-primary-color);
+  border: 2px solid transparent;
   border-radius: 8px;
   text-decoration: none;
   font-weight: 600;
@@ -275,46 +280,127 @@
 .social-link svg {
   font-size: 1.5rem;
   margin-right: 0.5rem;
+  color: white !important;
+}
+
+.social-link span {
+  color: white !important;
 }
 
 .social-link:hover {
-  background-color: var(--card-primary-color);
-  color: white;
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  filter: brightness(1.1);
 }
 
-/* Platform-specific colors (optional enhancement) */
-.social-link[data-platform="instagram"]:hover {
+/* Platform-specific colors - applied by default */
+.social-link[data-platform="instagram"] {
   background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
   border-color: #e1306c;
+  color: white !important;
+  
+  i,
+  svg,
+  span {
+    color: white !important;
+  }
 }
 
-.social-link[data-platform="linkedin"]:hover {
+.social-link[data-platform="linkedin"] {
   background-color: #0077b5;
   border-color: #0077b5;
+  color: white !important;
+  
+  i,
+  svg,
+  span {
+    color: white !important;
+  }
 }
 
-.social-link[data-platform="facebook"]:hover {
+.social-link[data-platform="facebook"] {
   background-color: #1877f2;
   border-color: #1877f2;
+  color: white !important;
+  
+  i,
+  svg,
+  span {
+    color: white !important;
+  }
 }
 
-.social-link[data-platform="tiktok"]:hover {
+.social-link[data-platform="tiktok"] {
   background-color: #000;
   border-color: #000;
+  color: white !important;
+  
+  i,
+  svg,
+  span {
+    color: white !important;
+  }
 }
 
-.social-link[data-platform="x"]:hover,
-.social-link[data-platform="twitter"]:hover {
+.social-link[data-platform="x"],
+.social-link[data-platform="twitter"] {
   background-color: #000;
   border-color: #000;
+  color: white !important;
+  
+  i,
+  svg,
+  span {
+    color: white !important;
+  }
 }
 
-.social-link[data-platform="snapchat"]:hover {
+.social-link[data-platform="snapchat"] {
   background-color: #fffc00;
   border-color: #fffc00;
-  color: #000;
+  color: white !important;
+  
+  i,
+  svg,
+  span {
+    color: white !important;
+  }
+}
+
+.social-link[data-platform="planity"] {
+  background-color: var(--card-primary-color, #007bff);
+  border-color: var(--card-primary-color, #007bff);
+  color: white !important;
+  
+  i,
+  svg,
+  span {
+    color: white !important;
+  }
+}
+
+.social-link[data-platform="bluebirds"] {
+  background-color: var(--card-primary-color, #007bff);
+  border-color: var(--card-primary-color, #007bff);
+  color: white !important;
+  
+  i,
+  svg,
+  span {
+    color: white !important;
+  }
+}
+
+.social-link[data-platform="other"] {
+  background-color: var(--card-primary-color, #007bff);
+  border-color: var(--card-primary-color, #007bff);
+  color: white !important;
+  
+  i,
+  svg,
+  span {
+    color: white !important;
+  }
 }
 
 /* ========================================
@@ -331,7 +417,7 @@
   font-size: 1.125rem;
   font-weight: 600;
   color: white;
-  background-color: var(--card-primary-color);
+  background-color: #000;
   border: none;
   border-radius: 8px;
   text-decoration: none;
@@ -339,10 +425,10 @@
 }
 
 .btn-download:hover {
-  background-color: #0056b3;
+  background-color: #1a1a1a;
   color: white;
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 123, 255, 0.4);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
 }
 
 .btn-download i,
@@ -464,7 +550,21 @@
   }
 }
 
-/* Logo Position */
+/* Logo centered above name in header section */
+.brand-logo-center-above {
+  position: relative;
+  text-align: center;
+  margin-bottom: 1rem;
+  z-index: 1;
+  
+  img {
+    display: block;
+    margin: 0 auto;
+    border-radius: 4px;
+  }
+}
+
+/* Logo Position (for other positions if needed) */
 .brand-logo-top-left {
   top: 1rem;
   left: 1rem;

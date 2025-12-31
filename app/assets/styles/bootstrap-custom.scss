@@ -176,4 +176,12 @@ main {
     }
 }
 
+// Ensure Symfony Web Debug Toolbar is always visible
+#sfwdt,
+.sf-toolbar,
+.sf-toolbarreset {
+    z-index: 999999 !important;
+    position: fixed !important;
+}
+
 

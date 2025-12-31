@@ -5,7 +5,8 @@ nav:
   dashboard: "Tableau de bord"
   my_cards: "Mes cartes"
   account: "Compte"
-  settings: "Paramètres"
+  profile: "Profil"
+  branding: "Branding"
   collapse: "Réduire"
   expand: "Développer"
   toggle: "Basculer la navigation"
@@ -408,7 +409,7 @@ card:
     call.short: "Appeler"
     email.short: "Email"
   social:
-    title: "Se Connecter"
+    title: "Réseaux Sociaux"
     instagram:
       label: "Instagram"
       placeholder: "https://instagram.com/votreprofil"

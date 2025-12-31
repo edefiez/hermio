@@ -17,6 +17,18 @@ body.admin-layout-body {
     position: relative;
 }
 
+// Ensure Symfony Web Debug Toolbar is always visible
+#sfwdt,
+.sf-toolbar {
+    z-index: 999999 !important;
+    position: fixed !important;
+}
+
+// Ensure profiler is not hidden by sidebar or other elements
+.sf-toolbarreset {
+    z-index: 999999 !important;
+}
+
 // Sidebar Styles
 .admin-sidebar {
     width: 250px;

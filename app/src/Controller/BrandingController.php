@@ -113,7 +113,7 @@ class BrandingController extends AbstractController
             'email' => $user->getEmail(),
             'phone' => '+33 6 12 34 56 78',
             'website' => 'www.example.com',
-            'bio' => null,
+            'bio' => 'Passionné par le marketing digital et les nouvelles technologies, j\'accompagne les entreprises dans leur transformation digitale depuis plus de 10 ans. Expert en stratégie de communication et en développement de marque.',
             'social' => [
                 'linkedin' => 'https://linkedin.com/in/demo',
                 'instagram' => 'https://instagram.com/demo',
