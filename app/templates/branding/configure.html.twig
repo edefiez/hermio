@@ -17,281 +17,281 @@
             <div class="col-lg-6 d-flex flex-column">
                 <div class="flex-grow-1">
                     {% if account.planType.value == 'free' %}
-                    <div class="alert alert-warning d-flex align-items-center justify-content-between" role="alert">
-                        <div>
-                            <i class="fas fa-lock me-2"></i>
-                            {{ 'branding.access_denied'|trans }}
+                        <div class="alert alert-warning d-flex align-items-center justify-content-between" role="alert">
+                            <div>
+                                <i class="fas fa-lock me-2"></i>
+                                {{ 'branding.access_denied'|trans }}
+                            </div>
+                            <a href="{{ path('app_subscription_manage') }}" class="btn btn-primary">
+                                <i class="fas fa-arrow-up me-2"></i>{{ 'branding.upgrade'|trans }}
+                            </a>
                         </div>
-                        <a href="{{ path('app_subscription_manage') }}" class="btn btn-primary">
-                            <i class="fas fa-arrow-up me-2"></i>{{ 'branding.upgrade'|trans }}
-                        </a>
-                    </div>
                     {% else %}
-                    {{ form_start(form, {'attr': {'enctype': 'multipart/form-data', 'class': 'needs-validation'}}) }}
-                    <div class="row">
-                        <div class="card shadow-sm h-50">
-                            <div class="card-body">
-                                {# Display flash messages #}
-        {% for label, messages in app.flashes %}
-            {% for message in messages %}
-                                        {% if label == 'warning' and message is iterable and message.message is defined %}
-                                            {# Contrast accessibility warning #}
-                                            <div class="alert alert-warning d-flex align-items-start" role="alert">
-                                                <i class="fas fa-exclamation-triangle me-2 mt-1"></i>
-                                                <div class="flex-grow-1">
-                                                    <strong>{{ 'branding.color.accessibility.title'|trans|default('Accessibilité des couleurs') }}</strong>
-                                                    <p class="mb-0 mt-1">
-                                                        {% if message.type == 'primary' %}
-                                                            {% set warningText = 'branding.color.accessibility.warning.primary'|trans %}
-                                                            {{ warningText|replace({
-                                                                'est de %s:1': 'est de ' ~ message.ratio ~ ':1',
-                                                                '(%s)': '(' ~ message.level ~ ')'
-                                                            }) }}
-                                                        {% elseif message.type == 'secondary' %}
-                                                            {% set warningText = 'branding.color.accessibility.warning.secondary'|trans %}
-                                                            {{ warningText|replace({
-                                                                'est de %s:1': 'est de ' ~ message.ratio ~ ':1',
-                                                                '(%s)': '(' ~ message.level ~ ')'
-                                                            }) }}
-                                                        {% else %}
-                                                            {% if message.message is defined and message.message is not iterable %}
-                                                                {{ message.message|trans }}
+                        {{ form_start(form, {'attr': {'enctype': 'multipart/form-data', 'class': 'needs-validation'}}) }}
+                        <div class="row">
+                            <div class="card shadow-sm h-50">
+                                <div class="card-body">
+                                    {# Display flash messages #}
+                                    {% for label, messages in app.flashes %}
+                                        {% for message in messages %}
+                                            {% if label == 'warning' and message is iterable and message.message is defined %}
+                                                {# Contrast accessibility warning #}
+                                                <div class="alert alert-warning d-flex align-items-start" role="alert">
+                                                    <i class="fas fa-exclamation-triangle me-2 mt-1"></i>
+                                                    <div class="flex-grow-1">
+                                                        <strong>{{ 'branding.color.accessibility.title'|trans|default('Accessibilité des couleurs') }}</strong>
+                                                        <p class="mb-0 mt-1">
+                                                            {% if message.type == 'primary' %}
+                                                                {% set warningText = 'branding.color.accessibility.warning.primary'|trans %}
+                                                                {{ warningText|replace({
+                                                                    'est de %s:1': 'est de ' ~ message.ratio ~ ':1',
+                                                                    '(%s)': '(' ~ message.level ~ ')'
+                                                                }) }}
+                                                            {% elseif message.type == 'secondary' %}
+                                                                {% set warningText = 'branding.color.accessibility.warning.secondary'|trans %}
+                                                                {{ warningText|replace({
+                                                                    'est de %s:1': 'est de ' ~ message.ratio ~ ':1',
+                                                                    '(%s)': '(' ~ message.level ~ ')'
+                                                                }) }}
                                                             {% else %}
-                                                                {{ message|join(', ') }}
+                                                                {% if message.message is defined and message.message is not iterable %}
+                                                                    {{ message.message|trans }}
+                                                                {% else %}
+                                                                    {{ message|join(', ') }}
+                                                                {% endif %}
                                                             {% endif %}
+                                                        </p>
+                                                        <small class="text-muted d-block mt-2">
+                                                            <i class="fas fa-info-circle me-1"></i>
+                                                            {{ 'branding.color.accessibility.help'|trans|default('Pour améliorer l\'accessibilité, utilisez des couleurs avec un ratio de contraste d\'au moins 4,5:1 (WCAG AA) ou 7:1 (WCAG AAA) par rapport au fond blanc.') }}
+                                                        </small>
+                                                    </div>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                                </div>
+                                            {% else %}
+                                                <div class="alert alert-{{ label == 'error' ? 'danger' : label }} alert-dismissible fade show" role="alert">
+                                                    <i class="fas fa-{{ label == 'error' ? 'exclamation-circle' : (label == 'success' ? 'check-circle' : 'info-circle') }} me-2"></i>
+                                                    {% if message is iterable %}
+                                                        {% if message.message is defined and message.message is not iterable %}
+                                                            {{ message.message|trans }}
+                                                        {% else %}
+                                                            {{ message|join(', ') }}
                                                         {% endif %}
-                                                    </p>
-                                                    <small class="text-muted d-block mt-2">
-                                                        <i class="fas fa-info-circle me-1"></i>
-                                                        {{ 'branding.color.accessibility.help'|trans|default('Pour améliorer l\'accessibilité, utilisez des couleurs avec un ratio de contraste d\'au moins 4,5:1 (WCAG AA) ou 7:1 (WCAG AAA) par rapport au fond blanc.') }}
-                                                    </small>
-                                                </div>
-                                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                                            </div>
-                                        {% else %}
-                                            <div class="alert alert-{{ label == 'error' ? 'danger' : label }} alert-dismissible fade show" role="alert">
-                                                <i class="fas fa-{{ label == 'error' ? 'exclamation-circle' : (label == 'success' ? 'check-circle' : 'info-circle') }} me-2"></i>
-                                                {% if message is iterable %}
-                                                    {% if message.message is defined and message.message is not iterable %}
-                                                        {{ message.message|trans }}
                                                     {% else %}
-                                                        {{ message|join(', ') }}
+                                                        {{ message|trans }}
                                                     {% endif %}
-                                                {% else %}
-                    {{ message|trans }}
-                                                {% endif %}
-                                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
-                                        {% endif %}
-            {% endfor %}
-        {% endfor %}
-        
-                {# Display form errors #}
-                {% if not form.vars.valid %}
-                    <div class="alert alert-danger" role="alert">
-                                        <i class="fas fa-exclamation-circle me-2"></i>
-                                        <strong>{{ 'branding.validation.error'|trans }}</strong>
-                                        <ul class="mb-0 mt-2">
-                            {% for error in form.vars.errors %}
-                                <li>{{ error.message }}</li>
-                            {% endfor %}
-                            {% for child in form.children %}
-                                {% for error in child.vars.errors %}
-                                    <li>{{ error.message }}</li>
-                                {% endfor %}
-                            {% endfor %}
-                        </ul>
-                    </div>
-                {% endif %}
-                
-                                {# Colors Section #}
-                                <div class="card mb-4 shadow-sm">
-                                    <div class="card-header bg-primary text-white">
-                                        <h5 class="mb-0">
-                                            <i class="fas fa-palette me-2"></i>{{ 'branding.colors.title'|trans }}
-                                        </h5>
-                                    </div>
-                                    <div class="card-body">
-                                        <div class="row mb-4">
-                                            {# Primary Color #}
-                                            <div class="col-md-6 mb-3">
-                                                {{ form_label(form.primaryColor, null, {'label_attr': {'class': 'form-label fw-bold'}}) }}
-                                                <div class="input-group">
-                                                    <input type="color"
-                                                           id="primaryColorPicker"
-                                                           class="form-control form-control-color"
-                                                           value="{{ branding and branding.primaryColor ? branding.primaryColor : '#FF5733' }}"
-                                                           title="{{ 'branding.primary_color.picker'|trans|default('Choose primary color') }}"
-                                                           style="width: 60px; height: 38px; cursor: pointer;">
-                                                    <span class="input-group-text">
-                                                    <i class="fas fa-circle" id="primaryColorPreview" style="color: {{ branding and branding.primaryColor ? branding.primaryColor : '#FF5733' }};"></i>
-                                                </span>
-                                                    {{ form_widget(form.primaryColor, {
-                                                        'attr': {
-                                                            'class': 'form-control' ~ (form.primaryColor.vars.errors|length > 0 ? ' is-invalid' : ''),
-                                                            'placeholder': '#FF5733',
-                                                            'pattern': '^#[0-9A-Fa-f]{6}$',
-                                                            'maxlength': 7,
-                                                            'aria-describedby': 'primaryColorHelp',
-                                                            'id': 'primaryColorInput',
-                                                            'required': false
-                                                        }
-                                                    }) }}
-                                                    {% if form.primaryColor.vars.errors|length > 0 %}
-                                                        <div class="invalid-feedback">
-                                                            {{ form_errors(form.primaryColor) }}
-                                                        </div>
-                                                    {% endif %}
+                                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                                                 </div>
-                                                <small id="primaryColorHelp" class="form-text text-muted">
-                                                    {{ 'branding.primary_color.help'|trans|default('Choose a color or enter a hex code (e.g., #FF5733)') }}
-                                                </small>
-                </div>
-                
-                                            {# Secondary Color #}
-                                            <div class="col-md-6 mb-3">
-                                                {{ form_label(form.secondaryColor, null, {'label_attr': {'class': 'form-label fw-bold'}}) }}
-                                                <div class="input-group">
-                                                    <input type="color"
-                                                           id="secondaryColorPicker"
-                                                           class="form-control form-control-color"
-                                                           value="{{ branding and branding.secondaryColor ? branding.secondaryColor : '#6c757d' }}"
-                                                           title="{{ 'branding.secondary_color.picker'|trans|default('Choose secondary color') }}"
-                                                           style="width: 60px; height: 38px; cursor: pointer;">
-                                                    <span class="input-group-text">
-                                                    <i class="fas fa-circle" id="secondaryColorPreview" style="color: {{ branding and branding.secondaryColor ? branding.secondaryColor : '#6c757d' }};"></i>
-                                                </span>
-                                                    {{ form_widget(form.secondaryColor, {
-                                                        'attr': {
-                                                            'class': 'form-control' ~ (form.secondaryColor.vars.errors|length > 0 ? ' is-invalid' : ''),
-                                                            'placeholder': '#6c757d',
-                                                            'pattern': '^#[0-9A-Fa-f]{6}$',
-                                                            'maxlength': 7,
-                                                            'aria-describedby': 'secondaryColorHelp',
-                                                            'id': 'secondaryColorInput',
-                                                            'required': false
-                                                        }
-                                                    }) }}
-                                                    {% if form.secondaryColor.vars.errors|length > 0 %}
-                                                        <div class="invalid-feedback">
-                                                            {{ form_errors(form.secondaryColor) }}
-                                                        </div>
-                                                    {% endif %}
-                                                </div>
-                                                <small id="secondaryColorHelp" class="form-text text-muted">
-                                                    {{ 'branding.secondary_color.help'|trans|default('Choose a color or enter a hex code (e.g., #6c757d)') }}
-                                                </small>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        {# Logo Section #}
-                        <div class="card mb-4">
-                            <div class="card-header bg-light">
-                                <h6 class="mb-0">
-                                    <i class="fas fa-image me-2"></i>{{ 'branding.logo.title'|trans }}
-                                </h6>
-                            </div>
-                            <div class="card-body">
-                                {# Logo content is inside the main form #}
-                    {% if branding and branding.logoFilename %}
-                                    <div class="mb-4 p-3 bg-light rounded">
-                                        <div class="d-flex align-items-center gap-3 mb-3">
-                                            <img src="{{ asset('uploads/branding/logos/' ~ branding.logoFilename) }}"
-                                                 alt="Logo"
-                                                 class="img-thumbnail"
-                                                 style="max-width: 200px; max-height: 200px;">
-                                            <div>
-                                                <p class="mb-2"><strong>{{ 'branding.logo.current'|trans|default('Current logo') }}</strong></p>
-                                                <form method="post" action="{{ path('app_branding_remove_logo') }}" class="d-inline">
-                                <input type="hidden" name="_token" value="{{ csrf_token('remove_logo') }}">
-                                                    <button type="submit"
-                                                            class="btn btn-danger btn-sm"
-                                                            onclick="return confirm('{{ 'branding.logo.remove.confirm'|trans }}')">
-                                                        <i class="fas fa-trash me-1"></i>{{ 'branding.logo.remove'|trans }}
-                                </button>
-                            </form>
-                        </div>
-                                        </div>
-                                    </div>
-                                {% endif %}
+                                            {% endif %}
+                                        {% endfor %}
+                                    {% endfor %}
 
-                                <div class="mb-3">
-                                    {{ form_label(form.logo, null, {'label_attr': {'class': 'form-label fw-bold'}}) }}
-                                    {{ form_widget(form.logo, {
-                                        'attr': {
-                                            'class': 'form-control' ~ (form.logo.vars.errors|length > 0 ? ' is-invalid' : ''),
-                                            'accept': 'image/png,image/jpeg,image/jpg,image/svg+xml',
-                                            'aria-describedby': 'logoHelp'
-                                        }
-                                    }) }}
-                                    {% if form.logo.vars.errors|length > 0 %}
-                                        <div class="invalid-feedback">
-                                            {{ form_errors(form.logo) }}
+                                    {# Display form errors #}
+                                    {% if not form.vars.valid %}
+                                        <div class="alert alert-danger" role="alert">
+                                            <i class="fas fa-exclamation-circle me-2"></i>
+                                            <strong>{{ 'branding.validation.error'|trans }}</strong>
+                                            <ul class="mb-0 mt-2">
+                                                {% for error in form.vars.errors %}
+                                                    <li>{{ error.message }}</li>
+                                                {% endfor %}
+                                                {% for child in form.children %}
+                                                    {% for error in child.vars.errors %}
+                                                        <li>{{ error.message }}</li>
+                                                    {% endfor %}
+                                                {% endfor %}
+                                            </ul>
                                         </div>
                                     {% endif %}
-                                    <small id="logoHelp" class="form-text text-muted">
-                                        {{ 'branding.logo.help'|trans|default('Upload a PNG, JPG, or SVG file (max 5MB)') }}
-                                    </small>
-                                </div>
 
-                                <div class="row">
-                                    <div class="col-md-6 mb-3">
-                                        {{ form_label(form.logoPosition, null, {'label_attr': {'class': 'form-label fw-bold'}}) }}
-                                        {{ form_widget(form.logoPosition, {
-                                            'attr': {
-                                                'class': 'form-select' ~ (form.logoPosition.vars.errors|length > 0 ? ' is-invalid' : '')
-                                            }
-                                        }) }}
-                                        {% if form.logoPosition.vars.errors|length > 0 %}
-                                            <div class="invalid-feedback">
-                                                {{ form_errors(form.logoPosition) }}
+                                    {# Colors Section #}
+                                    <div class="card mb-4 shadow-sm">
+                                        <div class="card-header bg-primary text-white">
+                                            <h5 class="mb-0">
+                                                <i class="fas fa-palette me-2"></i>{{ 'branding.colors.title'|trans }}
+                                            </h5>
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="row mb-4">
+                                                {# Primary Color #}
+                                                <div class="col-md-6 mb-3">
+                                                    {{ form_label(form.primaryColor, null, {'label_attr': {'class': 'form-label fw-bold'}}) }}
+                                                    <div class="input-group">
+                                                        <input type="color"
+                                                               id="primaryColorPicker"
+                                                               class="form-control form-control-color"
+                                                               value="{{ branding and branding.primaryColor ? branding.primaryColor : '#FF5733' }}"
+                                                               title="{{ 'branding.primary_color.picker'|trans|default('Choose primary color') }}"
+                                                               style="width: 60px; height: 38px; cursor: pointer;">
+                                                        <span class="input-group-text">
+                                                    <i class="fas fa-circle" id="primaryColorPreview" style="color: {{ branding and branding.primaryColor ? branding.primaryColor : '#FF5733' }};"></i>
+                                                </span>
+                                                        {{ form_widget(form.primaryColor, {
+                                                            'attr': {
+                                                                'class': 'form-control' ~ (form.primaryColor.vars.errors|length > 0 ? ' is-invalid' : ''),
+                                                                'placeholder': '#FF5733',
+                                                                'pattern': '^#[0-9A-Fa-f]{6}$',
+                                                                'maxlength': 7,
+                                                                'aria-describedby': 'primaryColorHelp',
+                                                                'id': 'primaryColorInput',
+                                                                'required': false
+                                                            }
+                                                        }) }}
+                                                        {% if form.primaryColor.vars.errors|length > 0 %}
+                                                            <div class="invalid-feedback">
+                                                                {{ form_errors(form.primaryColor) }}
+                                                            </div>
+                                                        {% endif %}
+                                                    </div>
+                                                    <small id="primaryColorHelp" class="form-text text-muted">
+                                                        {{ 'branding.primary_color.help'|trans|default('Choose a color or enter a hex code (e.g., #FF5733)') }}
+                                                    </small>
+                                                </div>
+
+                                                {# Secondary Color #}
+                                                <div class="col-md-6 mb-3">
+                                                    {{ form_label(form.secondaryColor, null, {'label_attr': {'class': 'form-label fw-bold'}}) }}
+                                                    <div class="input-group">
+                                                        <input type="color"
+                                                               id="secondaryColorPicker"
+                                                               class="form-control form-control-color"
+                                                               value="{{ branding and branding.secondaryColor ? branding.secondaryColor : '#6c757d' }}"
+                                                               title="{{ 'branding.secondary_color.picker'|trans|default('Choose secondary color') }}"
+                                                               style="width: 60px; height: 38px; cursor: pointer;">
+                                                        <span class="input-group-text">
+                                                            <i class="fas fa-circle" id="secondaryColorPreview" style="color: {{ branding and branding.secondaryColor ? branding.secondaryColor : '#6c757d' }};"></i>
+                                                        </span>
+                                                        {{ form_widget(form.secondaryColor, {
+                                                            'attr': {
+                                                                'class': 'form-control' ~ (form.secondaryColor.vars.errors|length > 0 ? ' is-invalid' : ''),
+                                                                'placeholder': '#6c757d',
+                                                                'pattern': '^#[0-9A-Fa-f]{6}$',
+                                                                'maxlength': 7,
+                                                                'aria-describedby': 'secondaryColorHelp',
+                                                                'id': 'secondaryColorInput',
+                                                                'required': false
+                                                            }
+                                                        }) }}
+                                                        {% if form.secondaryColor.vars.errors|length > 0 %}
+                                                            <div class="invalid-feedback">
+                                                                {{ form_errors(form.secondaryColor) }}
+                                                            </div>
+                                                        {% endif %}
+                                                    </div>
+                                                    <small id="secondaryColorHelp" class="form-text text-muted">
+                                                        {{ 'branding.secondary_color.help'|trans|default('Choose a color or enter a hex code (e.g., #6c757d)') }}
+                                                    </small>
+                                                </div>
                                             </div>
-                    {% endif %}
-                </div>
-                
-                                    <div class="col-md-6 mb-3">
-                                        {{ form_label(form.logoSize, null, {'label_attr': {'class': 'form-label fw-bold'}}) }}
-                                        {{ form_widget(form.logoSize, {
-                                            'attr': {
-                                                'class': 'form-select' ~ (form.logoSize.vars.errors|length > 0 ? ' is-invalid' : '')
-                                            }
-                                        }) }}
-                                        {% if form.logoSize.vars.errors|length > 0 %}
-                                            <div class="invalid-feedback">
-                                                {{ form_errors(form.logoSize) }}
-                                            </div>
-                                        {% endif %}
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="d-flex justify-content-between align-items-center mt-4">
-                            <div>
-                                {# Ensure CSRF token is present #}
-                                {{ form_widget(form._token) }}
-                                <button type="submit" class="btn btn-primary btn-lg" id="brandingSubmitBtn">
-                                    <i class="fas fa-save me-2"></i>{{ 'branding.save'|trans }}
-                                </button>
+                        <div class="row">
+                            {# Logo Section #}
+                            <div class="card mb-4">
+                                <div class="card-header bg-light">
+                                    <h6 class="mb-0">
+                                        <i class="fas fa-image me-2"></i>{{ 'branding.logo.title'|trans }}
+                                    </h6>
+                                </div>
+                                <div class="card-body">
+                                    {# Logo content is inside the main form #}
+                                    {% if branding and branding.logoFilename %}
+                                        <div class="mb-4 p-3 bg-light rounded">
+                                            <div class="d-flex align-items-center gap-3 mb-3">
+                                                <img src="{{ asset('uploads/branding/logos/' ~ branding.logoFilename) }}"
+                                                     alt="Logo"
+                                                     class="img-thumbnail"
+                                                     style="max-width: 200px; max-height: 200px;">
+                                                <div>
+                                                    <p class="mb-2"><strong>{{ 'branding.logo.current'|trans|default('Current logo') }}</strong></p>
+                                                    <form method="post" action="{{ path('app_branding_remove_logo') }}" class="d-inline">
+                                                        <input type="hidden" name="_token" value="{{ csrf_token('remove_logo') }}">
+                                                        <button type="submit"
+                                                                class="btn btn-danger btn-sm"
+                                                                onclick="return confirm('{{ 'branding.logo.remove.confirm'|trans }}')">
+                                                            <i class="fas fa-trash me-1"></i>{{ 'branding.logo.remove'|trans }}
+                                                        </button>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    {% endif %}
+
+                                    <div class="mb-3">
+                                        {{ form_label(form.logo, null, {'label_attr': {'class': 'form-label fw-bold'}}) }}
+                                        {{ form_widget(form.logo, {
+                                            'attr': {
+                                                'class': 'form-control' ~ (form.logo.vars.errors|length > 0 ? ' is-invalid' : ''),
+                                                'accept': 'image/png,image/jpeg,image/jpg,image/svg+xml',
+                                                'aria-describedby': 'logoHelp'
+                                            }
+                                        }) }}
+                                        {% if form.logo.vars.errors|length > 0 %}
+                                            <div class="invalid-feedback">
+                                                {{ form_errors(form.logo) }}
+                                            </div>
+                                        {% endif %}
+                                        <small id="logoHelp" class="form-text text-muted">
+                                            {{ 'branding.logo.help'|trans|default('Upload a PNG, JPG, or SVG file (max 5MB)') }}
+                                        </small>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            {{ form_label(form.logoPosition, null, {'label_attr': {'class': 'form-label fw-bold'}}) }}
+                                            {{ form_widget(form.logoPosition, {
+                                                'attr': {
+                                                    'class': 'form-select' ~ (form.logoPosition.vars.errors|length > 0 ? ' is-invalid' : '')
+                                                }
+                                            }) }}
+                                            {% if form.logoPosition.vars.errors|length > 0 %}
+                                                <div class="invalid-feedback">
+                                                    {{ form_errors(form.logoPosition) }}
+                                                </div>
+                                            {% endif %}
+                                        </div>
+
+                                        <div class="col-md-6 mb-3">
+                                            {{ form_label(form.logoSize, null, {'label_attr': {'class': 'form-label fw-bold'}}) }}
+                                            {{ form_widget(form.logoSize, {
+                                                'attr': {
+                                                    'class': 'form-select' ~ (form.logoSize.vars.errors|length > 0 ? ' is-invalid' : '')
+                                                }
+                                            }) }}
+                                            {% if form.logoSize.vars.errors|length > 0 %}
+                                                <div class="invalid-feedback">
+                                                    {{ form_errors(form.logoSize) }}
+                                                </div>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                            {% if branding %}
-                                <form method="post" action="{{ path('app_branding_reset') }}" class="d-inline" onsubmit="return confirm('{{ 'branding.reset.confirm'|trans }}');">
-                                    <input type="hidden" name="_token" value="{{ csrf_token('reset_branding') }}">
-                                    <button type="submit" class="btn btn-outline-danger">
-                                        <i class="fas fa-redo me-2"></i>{{ 'branding.reset'|trans }}
+                            <div class="d-flex justify-content-between align-items-center mt-4">
+                                <div>
+                                    {# Ensure CSRF token is present #}
+                                    {{ form_widget(form._token) }}
+                                    <button type="submit" class="btn btn-primary btn-lg" id="brandingSubmitBtn">
+                                        <i class="fas fa-save me-2"></i>{{ 'branding.save'|trans }}
                                     </button>
+                                </div>
+                                {% if branding %}
+                                    <form method="post" action="{{ path('app_branding_reset') }}" class="d-inline" onsubmit="return confirm('{{ 'branding.reset.confirm'|trans }}');">
+                                        <input type="hidden" name="_token" value="{{ csrf_token('reset_branding') }}">
+                                        <button type="submit" class="btn btn-outline-danger">
+                                            <i class="fas fa-redo me-2"></i>{{ 'branding.reset'|trans }}
+                                        </button>
                                     </form>
                                 {% endif %}
-                        </div>
+                            </div>
 
-                    </div>
-                    {# Form Actions - Must be inside the main form #}
-                    {{ form_end(form) }}
-                {% endif %}
+                        </div>
+                        {# Form Actions - Must be inside the main form #}
+                        {{ form_end(form) }}
+                    {% endif %}
                 </div>
             </div>
             {# Right Column: Live Preview - Direct card display #}
