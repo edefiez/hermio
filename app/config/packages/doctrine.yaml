@@ -12,6 +12,10 @@ doctrine:
         naming_strategy: doctrine.orm.naming_strategy.underscore_number_aware
         identity_generation_preferences:
             Doctrine\DBAL\Platforms\PostgreSQLPlatform: identity
+        dql:
+            string_functions:
+                JSON_EXTRACT: App\Doctrine\DQL\JsonExtract
+                DATE: App\Doctrine\DQL\Date
         mappings:
             App:
                 type: attribute
