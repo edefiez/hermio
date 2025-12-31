@@ -9,7 +9,7 @@
     <div class="card">
         <div class="card-header">
             <div class="row align-items-center">
-                <div class="col-md-6">
+                <div class="col-md-6 col-12">
                     <h2>{{ 'card.list.title'|trans }}</h2>
                     <p class="mb-0">
                         <strong>{{ 'account.quota.usage'|trans }}:</strong>
@@ -21,7 +21,7 @@
                         {% endif %}
                     </p>
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-6 col-12 mt-2 mt-md-0">
                     {% if canCreateMore %}
                         <div class="d-flex justify-content-end">
                             <a href="{{ path('app_card_create') }}" class="btn btn-primary">{{ 'card.create.button'|trans }}</a>
@@ -42,14 +42,14 @@
         <div class="card mt-3">
             <div class="card-body">
                 <div class="row align-items-center">
-                    <div class="col-md-8">
+                    <div class="col-md-8 col-12">
                         <input type="text" 
                                id="card-search" 
                                class="form-control" 
                                placeholder="{{ 'card.search.placeholder'|trans|default('Search cards by name, email, or company...') }}"
                                aria-label="{{ 'card.search.label'|trans|default('Search cards') }}">
                     </div>
-                    <div class="col-md-4 mt-2 mt-md-0">
+                    <div class="col-md-4 col-12 mt-2 mt-md-0">
                         <span id="card-count" class="text-muted">
                             {{ 'card.count'|trans|default('Total cards') }}: <strong id="card-total">{{ totalCards }}</strong>
                         </span>
@@ -82,6 +82,15 @@
         </div>
     </div>
 
+    {# No Results Message Template (hidden) #}
+    <div id="no-results-template" style="display: none;">
+        <div class="col-12 mt-4">
+            <div class="alert alert-info">
+                <p>{{ 'card.search.no_results'|trans|default('No cards found matching your search.') }}</p>
+            </div>
+        </div>
+    </div>
+
     {# Infinite Scroll Trigger #}
     <div id="scroll-trigger" style="height: 1px;" data-offset="{{ cards|length }}" data-has-more="{{ totalCards > cards|length ? 'true' : 'false' }}"></div>
 </div>
@@ -93,6 +102,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const scrollTrigger = document.getElementById('scroll-trigger');
     const loadingIndicator = document.getElementById('loading-indicator');
     const cardTotal = document.getElementById('card-total');
+    const noResultsTemplate = document.getElementById('no-results-template');
+    const apiUrl = {{ path('app_card_api_search')|json_encode|raw }};
     
     let currentQuery = '';
     let currentOffset = 0;
@@ -136,7 +147,7 @@ document.addEventListener('DOMContentLoaded', function() {
             loadingIndicator.style.display = 'block';
         }
 
-        const url = new URL('{{ path('app_card_api_search') }}', window.location.origin);
+        const url = new URL(apiUrl, window.location.origin);
         if (currentQuery) {
             url.searchParams.set('q', currentQuery);
         }
@@ -167,9 +178,13 @@ document.addEventListener('DOMContentLoaded', function() {
                     });
                     currentOffset += newCards.length;
                 } else if (replace) {
-                    cardsContainer.innerHTML = '<div class="col-12 mt-4"><div class="alert alert-info">' +
-                        '<p>{{ 'card.search.no_results'|trans|default('No cards found matching your search.') }}</p>' +
-                        '</div></div>';
+                    // No results - clone and append the no results template
+                    if (noResultsTemplate) {
+                        const noResults = noResultsTemplate.cloneNode(true);
+                        noResults.style.display = '';
+                        noResults.id = '';
+                        cardsContainer.appendChild(noResults.firstElementChild);
+                    }
                 }
 
                 // Update hasMore flag

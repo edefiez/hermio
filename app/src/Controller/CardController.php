@@ -132,22 +132,14 @@ class CardController extends AbstractController
 
         $hasMore = ($offset + count($cards)) < $totalCards;
         
-        $response = $this->render('card/_card_list.html.twig', [
+        return $this->render('card/_card_list.html.twig', [
             'cards' => $cards,
             'cardAssignments' => $cardAssignments,
             'canManageAssignments' => $canManageAssignments,
             'isEnterprise' => $account && $account->getPlanType()->value === 'enterprise',
+            'hasMore' => $hasMore,
+            'totalCards' => $totalCards,
         ]);
-        
-        // Add data attributes to response content
-        $content = $response->getContent();
-        $metaData = sprintf(
-            '<div style="display:none;" data-has-more="%s" data-total-cards="%d"></div>',
-            $hasMore ? 'true' : 'false',
-            $totalCards
-        );
-        
-        return new Response($metaData . $content);
     }
 
     #[Route('/create', name: 'app_card_create', methods: ['GET', 'POST'])]

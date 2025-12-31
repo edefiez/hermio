@@ -212,8 +212,10 @@ class CardService
         }
 
         // MEMBERs: return assigned cards only
-        // For simplicity, we'll filter assigned cards from search results
-        $allCards = $this->cardRepository->searchByUser($account->getUser(), $query, $limit * 3, 0);
+        // We fetch more cards than needed because we need to filter by assignment afterward
+        // Multiplier of 3 provides a buffer to account for cards that will be filtered out
+        $preFilterMultiplier = 3;
+        $allCards = $this->cardRepository->searchByUser($account->getUser(), $query, $limit * $preFilterMultiplier, 0);
         $assignedCards = $this->getAssignedCardsForUser($user);
         $assignedCardIds = array_map(fn($c) => $c->getId(), $assignedCards);
         
