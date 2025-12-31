@@ -20,14 +20,32 @@ class TeamService
     ) {
     }
 
+    /**
+     * Check if user can manage team and card assignments
+     *
+     * @param Account $account
+     * @param User $user
+     * @return bool
+     *
+     * NOTE: Card assignment feature is temporarily disabled for MVP.
+     * This will be enabled in a future plan tier (e.g., "Ultimate" or "Team Plus").
+     * For now, returns false for all plans (Free, Pro, Enterprise).
+     */
     public function canManageTeam(Account $account, User $user): bool
     {
+        // FEATURE DISABLED FOR MVP
+        // TODO: Re-enable when new plan tier is introduced
+        // Uncomment below code when ready:
+        /*
         if ($account->getUser() === $user) {
             return true; // Account owner
         }
 
         $teamMember = $this->teamMemberRepository->findByAccountAndUser($account, $user);
         return $teamMember && $teamMember->getRole() === TeamRole::ADMIN;
+        */
+
+        return false; // Disabled for all plans in MVP
     }
 
     /**
@@ -109,10 +127,10 @@ class TeamService
             ->getResult();
 
         $assignmentCounts = [];
-        
+
         if (!empty($teamMembers)) {
             $memberIds = array_map(fn($m) => $m->getId(), $teamMembers);
-            
+
             // Single query to get all assignment counts
             $counts = $this->cardAssignmentRepository->createQueryBuilder('ca')
                 ->select('IDENTITY(ca.teamMember) as memberId, COUNT(ca.id) as count')

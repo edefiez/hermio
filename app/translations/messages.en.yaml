@@ -319,6 +319,7 @@ card:
   list:
     title: "My Cards"
     empty: "You haven't created any cards yet."
+  view: "View Card"
   save: "Save"
   cancel: "Cancel"
   back_to_list: "Back to Cards"
@@ -343,28 +344,35 @@ card:
     bio: "Bio"
     website: "Website"
   name:
+    label: "Name"
     placeholder: "Your full name"
     required: "Name is required"
     max_length: "Name cannot exceed 255 characters"
   email:
+    label: "Email"
     placeholder: "your.email@example.com"
     invalid: "Please enter a valid email address"
   phone:
+    label: "Phone"
     placeholder: "+1234567890"
     max_length: "Phone cannot exceed 50 characters"
   company:
+    label: "Company"
     placeholder: "Company Name"
     max_length: "Company name cannot exceed 255 characters"
   title:
+    label: "Job Title"
     placeholder: "Your job title"
     max_length: "Job title cannot exceed 255 characters"
   bio:
+    label: "Bio"
     title: "About"
     placeholder: "Tell us about yourself..."
     max_length: "Bio cannot exceed 1000 characters"
     help: "Describe yourself in a few words"
   basic_info: "Basic Information"
   website:
+    label: "Website"
     placeholder: "https://yourwebsite.com"
     invalid: "Please enter a valid URL"
   linkedin:
@@ -413,6 +421,7 @@ card:
     secure_url: "Secure Public URL"
     copy_url: "Copy URL"
     url_copied: "URL copied to clipboard!"
+    copy_error: "Error copying URL"
   label:
     email: "Email"
     phone: "Phone"

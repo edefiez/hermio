@@ -319,7 +319,7 @@ card:
   list:
     title: "Mes Cartes"
     empty: "Vous n'avez pas encore créé de cartes."
-  view: "Voir"
+  view: "Voir la Carte"
   save: "Enregistrer"
   cancel: "Annuler"
   back_to_list: "Retour aux Cartes"
@@ -344,28 +344,35 @@ card:
     bio: "Biographie"
     website: "Site Web"
   name:
+    label: "Nom du titulaire"
     placeholder: "Votre nom complet"
     required: "Le nom est requis"
     max_length: "Le nom ne peut pas dépasser 255 caractères"
   email:
+    label: "Email"
     placeholder: "votre.email@exemple.com"
     invalid: "Veuillez entrer une adresse email valide"
   phone:
+    label: "Téléphone"
     placeholder: "+33123456789"
     max_length: "Le téléphone ne peut pas dépasser 50 caractères"
   company:
+    label: "Entreprise"
     placeholder: "Nom de l'Entreprise"
     max_length: "Le nom de l'entreprise ne peut pas dépasser 255 caractères"
   title:
+    label: "Titre du Poste"
     placeholder: "Votre titre de poste"
     max_length: "Le titre ne peut pas dépasser 255 caractères"
   bio:
+    label: "Biographie"
     placeholder: "Parlez-nous de vous..."
     max_length: "La biographie ne peut pas dépasser 1000 caractères"
     title: "À propos"
     help: "Décrivez-vous en quelques mots"
   basic_info: "Informations principales"
   website:
+    label: "Site Internet"
     placeholder: "https://votresite.com"
     invalid: "Veuillez entrer une URL valide"
   linkedin:
@@ -414,6 +421,7 @@ card:
     secure_url: "URL Publique Sécurisée"
     copy_url: "Copier l'URL"
     url_copied: "URL copiée dans le presse-papiers !"
+    copy_error: "Erreur lors de la copie de l'URL"
   label:
     email: "Email"
     phone: "Téléphone"

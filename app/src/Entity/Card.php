@@ -12,7 +12,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * Card Entity
  * Represents a digital business card with contact information and social profiles
- * 
+ *
  * Content JSON Structure:
  * {
  *   "name": "Full Name",
@@ -57,7 +57,7 @@ class Card
     #[Assert\Regex(pattern: '/^[a-z0-9-]+$/', message: 'card.slug.invalid_format')]
     private string $slug;
 
-    #[ORM\Column(type: Types::JSON)]
+    #[ORM\Column(type: 'json_utf8')]
     #[Assert\NotBlank]
     private array $content = [];
 
@@ -106,12 +106,12 @@ class Card
     public function getPublicUrl(): string
     {
         $url = '/c/' . $this->slug;
-        
+
         // Add access key parameter if key is set
         if ($this->publicAccessKey) {
             $url .= '?k=' . $this->publicAccessKey;
         }
-        
+
         return $url;
     }
 

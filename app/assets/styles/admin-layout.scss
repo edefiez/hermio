@@ -257,7 +257,7 @@ body.admin-layout-body {
     padding: 0 1.5rem;
     position: sticky;
     top: 0;
-    z-index: 100;
+    z-index: 1020; // Increased to be above .admin-main (1001) and Bootstrap dropdowns (1000)
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
 
     .admin-header-content {
@@ -288,6 +288,11 @@ body.admin-layout-body {
             &:hover {
                 color: #0d6efd;
             }
+        }
+
+        // Ensure dropdown menus are above everything
+        .dropdown-menu {
+            z-index: 1030; // Higher than header itself
         }
     }
 }

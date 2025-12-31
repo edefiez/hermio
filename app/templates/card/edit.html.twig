@@ -54,7 +54,7 @@
         {% endfor %}
 
                     {{ form_start(form, {'attr': {'class': 'needs-validation', 'novalidate': 'novalidate'}}) }}
-                        
+
                         {# Informations principales #}
                         <div class="card mb-4">
                             <div class="card-header bg-light">
@@ -297,15 +297,16 @@
                 </div>
             {% endif %}
 
-                        {# Actions #}
-                        <div class="d-flex gap-2 justify-content-end mt-4">
-                            <a href="{{ path('app_card_index') }}" class="btn btn-secondary">
-                                <i class="fas fa-times me-1"></i>{{ 'card.cancel'|trans }}
-                            </a>
-                            <button type="submit" class="btn btn-primary">
-                                <i class="fas fa-save me-1"></i>{{ 'card.save'|trans }}
-                            </button>
-            </div>
+        {# Actions - MUST be inside the form before form_end #}
+        <div class="d-flex gap-2 justify-content-end mt-4">
+            <a href="{{ path('app_card_index') }}" class="btn btn-secondary">
+                <i class="fas fa-times me-1"></i>{{ 'card.cancel'|trans }}
+            </a>
+            <button type="submit" class="btn btn-primary">
+                <i class="fas fa-save me-1"></i>{{ 'card.save'|trans }}
+            </button>
+        </div>
+
         {{ form_end(form) }}
     </div>
 </div>
@@ -321,7 +322,7 @@ function showNotification(message, type = 'success') {
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     `;
     document.body.appendChild(alertDiv);
-    
+
     // Auto-dismiss after 3 seconds
     setTimeout(() => {
         const bsAlert = new bootstrap.Alert(alertDiv);

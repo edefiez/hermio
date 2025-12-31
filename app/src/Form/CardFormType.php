@@ -22,7 +22,7 @@ class CardFormType extends AbstractType
     {
         $builder
             ->add('name', TextType::class, [
-                'label' => 'card.name',
+                'label' => 'card.name.label',
                 'required' => true,
                 'mapped' => false,
                 'attr' => ['placeholder' => 'card.name.placeholder'],
@@ -32,13 +32,13 @@ class CardFormType extends AbstractType
                 ],
             ])
             ->add('email', EmailType::class, [
-                'label' => 'card.email',
+                'label' => 'card.email.label',
                 'required' => false,
                 'mapped' => false,
                 'attr' => ['placeholder' => 'card.email.placeholder'],
             ])
             ->add('phone', TextType::class, [
-                'label' => 'card.phone',
+                'label' => 'card.phone.label',
                 'required' => false,
                 'mapped' => false,
                 'attr' => ['placeholder' => 'card.phone.placeholder'],
@@ -47,7 +47,7 @@ class CardFormType extends AbstractType
                 ],
             ])
             ->add('company', TextType::class, [
-                'label' => 'card.company',
+                'label' => 'card.company.label',
                 'required' => false,
                 'mapped' => false,
                 'attr' => ['placeholder' => 'card.company.placeholder'],
@@ -56,7 +56,7 @@ class CardFormType extends AbstractType
                 ],
             ])
             ->add('title', TextType::class, [
-                'label' => 'card.title',
+                'label' => 'card.title.label',
                 'required' => false,
                 'mapped' => false,
                 'attr' => ['placeholder' => 'card.title.placeholder'],
@@ -65,7 +65,7 @@ class CardFormType extends AbstractType
                 ],
             ])
             ->add('bio', TextareaType::class, [
-                'label' => 'card.bio',
+                'label' => 'card.bio.label',
                 'required' => false,
                 'mapped' => false,
                 'attr' => [
@@ -77,20 +77,20 @@ class CardFormType extends AbstractType
                 ],
             ])
             ->add('website', UrlType::class, [
-                'label' => 'card.website',
+                'label' => 'card.website.label',
                 'required' => false,
                 'mapped' => false,
                 'attr' => ['placeholder' => 'card.website.placeholder'],
             ])
             ->add('linkedin', UrlType::class, [
-                'label' => 'card.linkedin',
+                'label' => 'card.social.linkedin.label',
                 'required' => false,
                 'mapped' => false,
                 'attr' => ['placeholder' => 'card.linkedin.placeholder'],
             ])
             // New social network fields (Feature 008)
             ->add('instagram', UrlType::class, [
-                'label' => 'card.social.instagram',
+                'label' => 'card.social.instagram.label',
                 'required' => false,
                 'mapped' => false,
                 'attr' => ['placeholder' => 'card.social.instagram.placeholder'],
@@ -99,7 +99,7 @@ class CardFormType extends AbstractType
                 ],
             ])
             ->add('tiktok', UrlType::class, [
-                'label' => 'card.social.tiktok',
+                'label' => 'card.social.tiktok.label',
                 'required' => false,
                 'mapped' => false,
                 'attr' => ['placeholder' => 'card.social.tiktok.placeholder'],
@@ -108,7 +108,7 @@ class CardFormType extends AbstractType
                 ],
             ])
             ->add('facebook', UrlType::class, [
-                'label' => 'card.social.facebook',
+                'label' => 'card.social.facebook.label',
                 'required' => false,
                 'mapped' => false,
                 'attr' => ['placeholder' => 'card.social.facebook.placeholder'],
@@ -117,7 +117,7 @@ class CardFormType extends AbstractType
                 ],
             ])
             ->add('x', UrlType::class, [
-                'label' => 'card.social.x',
+                'label' => 'card.social.x.label',
                 'required' => false,
                 'mapped' => false,
                 'attr' => ['placeholder' => 'card.social.x.placeholder'],
@@ -126,7 +126,7 @@ class CardFormType extends AbstractType
                 ],
             ])
             ->add('bluebirds', UrlType::class, [
-                'label' => 'card.social.bluebirds',
+                'label' => 'card.social.bluebirds.label',
                 'required' => false,
                 'mapped' => false,
                 'attr' => ['placeholder' => 'card.social.bluebirds.placeholder'],
@@ -135,7 +135,7 @@ class CardFormType extends AbstractType
                 ],
             ])
             ->add('snapchat', UrlType::class, [
-                'label' => 'card.social.snapchat',
+                'label' => 'card.social.snapchat.label',
                 'required' => false,
                 'mapped' => false,
                 'attr' => ['placeholder' => 'card.social.snapchat.placeholder'],
@@ -144,7 +144,7 @@ class CardFormType extends AbstractType
                 ],
             ])
             ->add('planity', UrlType::class, [
-                'label' => 'card.social.planity',
+                'label' => 'card.social.planity.label',
                 'required' => false,
                 'mapped' => false,
                 'attr' => ['placeholder' => 'card.social.planity.placeholder'],
@@ -153,7 +153,7 @@ class CardFormType extends AbstractType
                 ],
             ])
             ->add('other', UrlType::class, [
-                'label' => 'card.social.other',
+                'label' => 'card.social.other.label',
                 'required' => false,
                 'mapped' => false,
                 'attr' => ['placeholder' => 'card.social.other.placeholder'],
