@@ -739,3 +739,56 @@ common:
   check_link: "Assurez-vous d'utiliser le lien le plus récent qui vous a été partagé"
   contact_owner: "Contactez le propriétaire de la carte pour demander un nouveau lien"
   back_home: "Retour à l'accueil"
+
+terms:
+  title: "Conditions Générales d'Utilisation"
+  section1:
+    title: "1. Objet"
+    content: "Les présentes Conditions Générales d'Utilisation (ci-après les « CGU ») ont pour objet de définir les conditions dans lesquelles les utilisateurs professionnels (ci-après « l'Utilisateur ») accèdent et utilisent le service SaaS de carte de visite virtuelle (ci-après le « Service »).<br><br>Toute utilisation du Service implique l'acceptation sans réserve des présentes CGU."
+  section2:
+    title: "2. Informations légales"
+    subtitle: "Éditeur du Service"
+    content: "Le Service est édité par une société par actions simplifiée (SAS) immatriculée sous le numéro SIREN 919 984 757.<br><ul class='mt-2'><li>Forme juridique : Société par actions simplifiée (SAS)</li><li>SIRET (siège social) : 919 984 757 00014</li><li>Numéro de TVA intracommunautaire : FR91919984757</li><li>Activité (NAF / APE) : Programmation informatique (6201Z)</li><li>Date de création : 04 octobre 2022</li><li>Adresse du siège social : 14 rue Bausset, 75015 Paris, France</li><li>Dirigeant : Eric DEFIEZ</li></ul>"
+    hosting_title: "Hébergement"
+    hosting_content: "Le Service est hébergé par :<br><ul class='mt-2'><li>OVH SAS</li><li>Adresse : 2 rue Kellermann, 59100 Roubaix, France</li><li>Téléphone : 1007</li><li>Site web : www.ovh.com</li></ul>"
+  section3:
+    title: "3. Description du Service"
+    content: "Le Service est une application SaaS destinée exclusivement à un usage professionnel, permettant notamment :<br><ul class='mt-2'><li>la création et la gestion d'une carte de visite virtuelle,</li><li>le partage d'informations professionnelles,</li><li>le téléchargement d'une fiche contact au format VCF,</li><li>la génération de QR codes permettant l'accès à la carte virtuelle.</li></ul><br>Le Service ne propose pas de contenus générés publiquement par les utilisateurs."
+  section4:
+    title: "4. Accès au Service"
+    content: "L'accès au Service est réservé aux professionnels disposant de la capacité juridique nécessaire.<br><br>L'Utilisateur doit créer un compte personnel et s'engage à fournir des informations exactes et à jour.<br><br>Les identifiants de connexion sont strictement personnels et confidentiels. Toute utilisation du compte est réputée effectuée par l'Utilisateur."
+  section5:
+    title: "5. Conditions financières"
+    content: "Le Service est accessible selon des formules gratuites et/ou payantes, sous forme d'abonnements.<br><br>Les paiements sont traités par un prestataire de paiement tiers sécurisé. Les données de paiement ne sont à aucun moment stockées par l'Éditeur."
+  section6:
+    title: "6. Propriété intellectuelle"
+    content: "L'ensemble du Service, de ses composants techniques, logiciels, algorithmes, interfaces, bases de données, textes, graphismes, logos et contenus est protégé par le droit de la propriété intellectuelle et demeure la propriété exclusive de l'Éditeur, sauf mention contraire.<br><br>Toute reproduction, représentation, modification, extraction ou exploitation non autorisée de tout ou partie du Service est strictement interdite.<br><br>Aucune revente, mise à disposition de tiers ou exploitation commerciale distincte du Service n'est autorisée sans accord écrit préalable de l'Éditeur."
+    qr_title: "QR codes"
+    qr_content: "Les QR codes générés via le Service sont destinés exclusivement à un usage professionnel par l'Utilisateur, notamment pour l'impression et la diffusion de cartes de visite.<br><br>L'Utilisateur bénéficie d'un droit d'usage non exclusif, non cessible et non transférable des QR codes générés, limité à la durée de son abonnement et à l'usage strictement prévu par le Service."
+  section7:
+    title: "7. Responsabilité et limitation de responsabilité"
+    content: "Le Service est fourni en mode SaaS et accessible via Internet.<br><br>L'Éditeur est tenu à une obligation de moyens."
+    availability_title: "Disponibilité"
+    availability_content: "L'Éditeur ne garantit pas une disponibilité continue ou sans erreur du Service. Des interruptions temporaires peuvent survenir notamment pour des opérations de maintenance, de mise à jour ou en raison de contraintes techniques.<br><br>L'Éditeur ne saurait être tenu responsable des indisponibilités résultant notamment :<br><ul class='mt-2'><li>des réseaux de télécommunication,</li><li>de l'hébergeur ou de services tiers,</li><li>de cas de force majeure.</li></ul>"
+    data_title: "Données et contenus de l'Utilisateur"
+    data_content: "L'Utilisateur est seul responsable des données, informations et contenus qu'il saisit, exploite ou diffuse via le Service.<br><br>L'Éditeur ne garantit ni l'exactitude, ni l'exhaustivité, ni la conformité légale des données fournies par l'Utilisateur."
+    limitation_title: "Limitation"
+    limitation_content: "La responsabilité de l'Éditeur est strictement limitée aux dommages directs, personnels et certains.<br><br>Sont expressément exclus les dommages indirects, notamment :<br><ul class='mt-2'><li>pertes de chiffre d'affaires,</li><li>pertes de clientèle,</li><li>pertes d'opportunités commerciales,</li><li>pertes de données,</li><li>préjudices commerciaux ou d'image.</li></ul><br>En tout état de cause, la responsabilité financière totale de l'Éditeur est plafonnée au montant hors taxes effectivement payé par l'Utilisateur au titre de son abonnement au cours des douze (12) derniers mois précédant le fait générateur."
+  section8:
+    title: "8. Utilisation strictement professionnelle (B2B)"
+    content: "Le Service est exclusivement destiné à des utilisateurs professionnels agissant dans le cadre de leur activité commerciale, industrielle, artisanale ou libérale.<br><br>En conséquence :<br><ul class='mt-2'><li>les dispositions du Code de la consommation ne sont pas applicables,</li><li>aucun droit de rétractation n'est applicable,</li><li>l'Utilisateur reconnaît expressément agir à des fins professionnelles.</li></ul><br>Toute utilisation du Service par un consommateur ou un non-professionnel est interdite."
+  section9:
+    title: "9. Données personnelles"
+    content: "Les données personnelles sont traitées conformément à la réglementation en vigueur.<br><br>Les modalités de collecte, de traitement et de protection des données sont détaillées dans la Politique de confidentialité, accessible sur le site."
+  section10:
+    title: "10. Résiliation"
+    content: "L'Utilisateur peut résilier son abonnement à tout moment.<br><br>La résiliation prend effet à l'issue de la période d'abonnement en cours. L'Utilisateur conserve l'accès au Service jusqu'à cette échéance.<br><br>Aucun remboursement prorata temporis n'est effectué, sauf disposition contractuelle contraire."
+  section11:
+    title: "11. Modification des CGU"
+    content: "L'Éditeur se réserve le droit de modifier les présentes CGU à tout moment.<br><br>Les CGU applicables sont celles en vigueur à la date d'utilisation du Service."
+  section12:
+    title: "12. Droit applicable et juridiction compétente"
+    content: "Les présentes CGU sont régies par le droit français.<br><br>En cas de litige relatif à leur interprétation ou à leur exécution, et à défaut de résolution amiable, les tribunaux du ressort du siège social de l'Éditeur seront seuls compétents."
+  section13:
+    title: "13. Contact"
+    content: "Pour toute question relative aux présentes CGU ou au Service, l'Utilisateur peut contacter l'Éditeur via les coordonnées mentionnées à l'article 2."
