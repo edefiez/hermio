@@ -36,8 +36,11 @@ class CardQrCodeController extends AbstractController
             throw $this->createAccessDeniedException('Enterprise plan required for EPS format');
         }
 
+        // Generate full URL for QR code
+        $fullUrl = $request->getSchemeAndHttpHost() . $card->getPublicUrl();
+
         // Generate QR code file
-        $file = $this->qrCodeService->generate($card, $format);
+        $file = $this->qrCodeService->generateFromUrl($fullUrl, $card->getId(), $format);
 
         // Determine MIME type
         $mimeType = match ($format) {

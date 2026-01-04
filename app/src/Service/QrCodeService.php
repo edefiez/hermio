@@ -2,7 +2,6 @@
 
 namespace App\Service;
 
-use App\Entity\Card;
 use Endroid\QrCode\Builder\Builder;
 use Endroid\QrCode\Color\Color;
 use Endroid\QrCode\Encoding\Encoding;
@@ -56,17 +55,20 @@ class QrCodeService
 
     /**
      * Generate QR code file in specified format for download
+     * 
+     * @param string $url The URL to encode in the QR code
+     * @param int $identifier Unique identifier for temp file naming (e.g., card ID)
+     * @param string $format Output format (png, svg, pdf, eps)
      */
-    public function generate(Card $card, string $format): File
+    public function generateFromUrl(string $url, int $identifier, string $format): File
     {
-        $data = $card->getPublicUrl();
         $tmpDir = sys_get_temp_dir();
 
         return match ($format) {
-            'png' => $this->build($data, new PngWriter(), "$tmpDir/qr-{$card->getId()}.png"),
-            'svg' => $this->build($data, new SvgWriter(), "$tmpDir/qr-{$card->getId()}.svg"),
-            'pdf' => $this->build($data, new PdfWriter(), "$tmpDir/qr-{$card->getId()}.pdf"),
-            'eps' => $this->buildEps($data, $card->getId()),
+            'png' => $this->build($url, new PngWriter(), "$tmpDir/qr-{$identifier}.png"),
+            'svg' => $this->build($url, new SvgWriter(), "$tmpDir/qr-{$identifier}.svg"),
+            'pdf' => $this->build($url, new PdfWriter(), "$tmpDir/qr-{$identifier}.pdf"),
+            'eps' => $this->buildEps($url, $identifier),
             default => throw new \InvalidArgumentException("Unsupported format: $format"),
         };
     }
@@ -90,13 +92,13 @@ class QrCodeService
     /**
      * Generate EPS format by converting SVG
      */
-    private function buildEps(string $data, int $cardId): File
+    private function buildEps(string $url, int $identifier): File
     {
-        $svgPath = sys_get_temp_dir() . "/qr-{$cardId}.svg";
-        $epsPath = sys_get_temp_dir() . "/qr-{$cardId}.eps";
+        $svgPath = sys_get_temp_dir() . "/qr-{$identifier}.svg";
+        $epsPath = sys_get_temp_dir() . "/qr-{$identifier}.eps";
 
         // Generate SVG first
-        $this->build($data, new SvgWriter(), $svgPath);
+        $this->build($url, new SvgWriter(), $svgPath);
 
         // Convert SVG to EPS
         $this->convertSvgToEps($svgPath, $epsPath);

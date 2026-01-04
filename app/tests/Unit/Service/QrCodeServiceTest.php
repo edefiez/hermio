@@ -2,7 +2,6 @@
 
 namespace App\Tests\Unit\Service;
 
-use App\Entity\Card;
 use App\Service\QrCodeService;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\File\File;
@@ -18,9 +17,10 @@ class QrCodeServiceTest extends TestCase
 
     public function testGeneratePngFormat(): void
     {
-        $card = $this->createMockCard(1, '/c/test-card');
+        $url = 'https://example.com/c/test-card';
+        $identifier = 1;
 
-        $file = $this->qrCodeService->generate($card, 'png');
+        $file = $this->qrCodeService->generateFromUrl($url, $identifier, 'png');
 
         $this->assertInstanceOf(File::class, $file);
         $this->assertFileExists($file->getPathname());
@@ -32,9 +32,10 @@ class QrCodeServiceTest extends TestCase
 
     public function testGenerateSvgFormat(): void
     {
-        $card = $this->createMockCard(2, '/c/test-card');
+        $url = 'https://example.com/c/test-card';
+        $identifier = 2;
 
-        $file = $this->qrCodeService->generate($card, 'svg');
+        $file = $this->qrCodeService->generateFromUrl($url, $identifier, 'svg');
 
         $this->assertInstanceOf(File::class, $file);
         $this->assertFileExists($file->getPathname());
@@ -46,9 +47,10 @@ class QrCodeServiceTest extends TestCase
 
     public function testGeneratePdfFormat(): void
     {
-        $card = $this->createMockCard(3, '/c/test-card');
+        $url = 'https://example.com/c/test-card';
+        $identifier = 3;
 
-        $file = $this->qrCodeService->generate($card, 'pdf');
+        $file = $this->qrCodeService->generateFromUrl($url, $identifier, 'pdf');
 
         $this->assertInstanceOf(File::class, $file);
         $this->assertFileExists($file->getPathname());
@@ -60,12 +62,13 @@ class QrCodeServiceTest extends TestCase
 
     public function testGenerateInvalidFormatThrowsException(): void
     {
-        $card = $this->createMockCard(4, '/c/test-card');
+        $url = 'https://example.com/c/test-card';
+        $identifier = 4;
 
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('Unsupported format');
 
-        $this->qrCodeService->generate($card, 'invalid');
+        $this->qrCodeService->generateFromUrl($url, $identifier, 'invalid');
     }
 
     public function testGenerateQrCodeBase64(): void
@@ -76,14 +79,5 @@ class QrCodeServiceTest extends TestCase
 
         $this->assertStringStartsWith('data:image/png;base64,', $result);
         $this->assertNotEmpty($result);
-    }
-
-    private function createMockCard(int $id, string $publicUrl): Card
-    {
-        $card = $this->createMock(Card::class);
-        $card->method('getId')->willReturn($id);
-        $card->method('getPublicUrl')->willReturn($publicUrl);
-
-        return $card;
     }
 }
