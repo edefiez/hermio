@@ -76,7 +76,7 @@ class QrCodeService
     /**
      * Build QR code with specified writer and save to file
      */
-    private function build(string $data, object $writer, string $path): File
+    private function build(string $data, PngWriter|SvgWriter|PdfWriter $writer, string $path): File
     {
         Builder::create()
             ->writer($writer)
@@ -97,13 +97,20 @@ class QrCodeService
         $svgPath = sys_get_temp_dir() . "/qr-{$identifier}.svg";
         $epsPath = sys_get_temp_dir() . "/qr-{$identifier}.eps";
 
-        // Generate SVG first
-        $this->build($url, new SvgWriter(), $svgPath);
+        try {
+            // Generate SVG first
+            $this->build($url, new SvgWriter(), $svgPath);
 
-        // Convert SVG to EPS
-        $this->convertSvgToEps($svgPath, $epsPath);
+            // Convert SVG to EPS
+            $this->convertSvgToEps($svgPath, $epsPath);
 
-        return new File($epsPath, false);
+            return new File($epsPath, false);
+        } finally {
+            // Clean up temporary SVG file
+            if (file_exists($svgPath)) {
+                @unlink($svgPath);
+            }
+        }
     }
 
     /**

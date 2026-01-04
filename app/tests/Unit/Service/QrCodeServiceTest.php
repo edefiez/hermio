@@ -27,7 +27,9 @@ class QrCodeServiceTest extends TestCase
         $this->assertStringEndsWith('.png', $file->getPathname());
         
         // Clean up
-        @unlink($file->getPathname());
+        if (file_exists($file->getPathname())) {
+            unlink($file->getPathname());
+        }
     }
 
     public function testGenerateSvgFormat(): void
@@ -42,7 +44,9 @@ class QrCodeServiceTest extends TestCase
         $this->assertStringEndsWith('.svg', $file->getPathname());
         
         // Clean up
-        @unlink($file->getPathname());
+        if (file_exists($file->getPathname())) {
+            unlink($file->getPathname());
+        }
     }
 
     public function testGeneratePdfFormat(): void
@@ -57,7 +61,9 @@ class QrCodeServiceTest extends TestCase
         $this->assertStringEndsWith('.pdf', $file->getPathname());
         
         // Clean up
-        @unlink($file->getPathname());
+        if (file_exists($file->getPathname())) {
+            unlink($file->getPathname());
+        }
     }
 
     public function testGenerateInvalidFormatThrowsException(): void
