@@ -11,6 +11,9 @@ use Endroid\QrCode\Label\LabelAlignment;
 use Endroid\QrCode\Label\Margin\Margin;
 use Endroid\QrCode\RoundBlockSizeMode;
 use Endroid\QrCode\Writer\PngWriter;
+use Endroid\QrCode\Writer\SvgWriter;
+use Endroid\QrCode\Writer\PdfWriter;
+use Symfony\Component\HttpFoundation\File\File;
 
 class QrCodeService
 {
@@ -48,6 +51,101 @@ class QrCodeService
     {
         $qrCodeData = $this->generateQrCode($data, $size);
         return 'data:image/png;base64,' . base64_encode($qrCodeData);
+    }
+
+    /**
+     * Generate QR code file in specified format for download
+     * 
+     * @param string $url The URL to encode in the QR code
+     * @param int $identifier Unique identifier for temp file naming (e.g., card ID)
+     * @param string $format Output format (png, svg, pdf, eps)
+     */
+    public function generateFromUrl(string $url, int $identifier, string $format): File
+    {
+        $tmpDir = sys_get_temp_dir();
+
+        return match ($format) {
+            'png' => $this->build($url, new PngWriter(), "$tmpDir/qr-{$identifier}.png"),
+            'svg' => $this->build($url, new SvgWriter(), "$tmpDir/qr-{$identifier}.svg"),
+            'pdf' => $this->build($url, new PdfWriter(), "$tmpDir/qr-{$identifier}.pdf"),
+            'eps' => $this->buildEps($url, $identifier),
+            default => throw new \InvalidArgumentException("Unsupported format: $format"),
+        };
+    }
+
+    /**
+     * Build QR code with specified writer and save to file
+     */
+    private function build(string $data, PngWriter|SvgWriter|PdfWriter $writer, string $path): File
+    {
+        Builder::create()
+            ->writer($writer)
+            ->data($data)
+            ->size(300)
+            ->margin(10)
+            ->build()
+            ->saveToFile($path);
+
+        return new File($path, false);
+    }
+
+    /**
+     * Generate EPS format by converting SVG
+     */
+    private function buildEps(string $url, int $identifier): File
+    {
+        $svgPath = sys_get_temp_dir() . "/qr-{$identifier}.svg";
+        $epsPath = sys_get_temp_dir() . "/qr-{$identifier}.eps";
+
+        try {
+            // Generate SVG first
+            $this->build($url, new SvgWriter(), $svgPath);
+
+            // Convert SVG to EPS
+            $this->convertSvgToEps($svgPath, $epsPath);
+
+            return new File($epsPath, false);
+        } finally {
+            // Clean up temporary SVG file
+            if (file_exists($svgPath)) {
+                @unlink($svgPath);
+            }
+        }
+    }
+
+    /**
+     * Convert SVG to EPS using Imagick or Inkscape as fallback
+     */
+    private function convertSvgToEps(string $svgPath, string $epsPath): void
+    {
+        // Try Imagick first (recommended)
+        if (extension_loaded('imagick')) {
+            try {
+                $imagick = new \Imagick();
+                $imagick->readImage($svgPath);
+                $imagick->setImageFormat('eps');
+                $imagick->writeImage($epsPath);
+                $imagick->clear();
+                return;
+            } catch (\Exception $e) {
+                // Fall through to Inkscape
+            }
+        }
+
+        // Fallback to Inkscape CLI
+        $command = sprintf(
+            'inkscape %s --export-type=eps --export-filename=%s 2>&1',
+            escapeshellarg($svgPath),
+            escapeshellarg($epsPath)
+        );
+
+        exec($command, $output, $returnCode);
+
+        if ($returnCode !== 0 || !file_exists($epsPath)) {
+            throw new \RuntimeException(
+                'Failed to convert SVG to EPS. Neither Imagick nor Inkscape are available or working properly.'
+            );
+        }
     }
 }
 
