@@ -388,4 +388,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         return $this->cards->filter(fn(Card $card) => $card->getStatus() === 'active');
     }
+
+    /**
+     * Check if user is on Enterprise plan
+     */
+    public function isEnterprise(): bool
+    {
+        return $this->account?->getPlanType() === \App\Enum\PlanType::ENTERPRISE;
+    }
 }
