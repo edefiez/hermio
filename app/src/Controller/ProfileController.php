@@ -41,6 +41,12 @@ class ProfileController extends AbstractController
         EntityManagerInterface $entityManager
     ): Response {
         $user = $this->getUser();
+        
+        // Safety check - should not happen due to IsGranted attribute
+        if (!$user) {
+            throw new \LogicException('User must be authenticated to access this page.');
+        }
+        
         $form = $this->createForm(ChangePasswordFormType::class);
         $form->handleRequest($request);
 
@@ -77,6 +83,12 @@ class ProfileController extends AbstractController
         UserRepository $userRepository
     ): Response {
         $user = $this->getUser();
+        
+        // Safety check - should not happen due to IsGranted attribute
+        if (!$user) {
+            throw new \LogicException('User must be authenticated to access this page.');
+        }
+        
         $form = $this->createForm(UpdateEmailFormType::class);
         $form->handleRequest($request);
 
