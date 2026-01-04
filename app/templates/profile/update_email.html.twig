@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Update Email - Hermio{% endblock %}
+
+{% block body %}
+<div class="auth-container">
+    <div class="auth-card">
+        <h1>Update Email Address</h1>
+        
+        <p style="color: #666; margin-bottom: 20px;">
+            After updating your email, you'll need to verify the new address.
+        </p>
+        
+        {{ form_start(form) }}
+            <div class="form-group">
+                {{ form_label(form.newEmail) }}
+                {{ form_widget(form.newEmail, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(form.newEmail) }}
+            </div>
+
+            <div class="form-group">
+                {{ form_label(form.currentPassword) }}
+                {{ form_widget(form.currentPassword, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(form.currentPassword) }}
+            </div>
+
+            <button type="submit" class="btn btn-primary" style="width: 100%;">Update Email</button>
+        {{ form_end(form) }}
+
+        <div class="auth-links">
+            <p><a href="{{ path('app_profile') }}">Back to Profile</a></p>
+        </div>
+    </div>
+</div>
+{% endblock %}
