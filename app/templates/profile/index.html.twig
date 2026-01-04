@@ -71,8 +71,8 @@
     {% endif %}
 
     <div class="profile-actions">
-        <a href="#" class="btn btn-secondary">Change Password</a>
-        <a href="#" class="btn btn-secondary">Update Email</a>
+        <a href="{{ path('app_profile_change_password') }}" class="btn btn-secondary">Change Password</a>
+        <a href="{{ path('app_profile_update_email') }}" class="btn btn-secondary">Update Email</a>
     </div>
 </div>
 {% endblock %}

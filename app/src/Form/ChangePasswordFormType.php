@@ -2,46 +2,43 @@
 
 namespace App\Form;
 
-use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
-use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Validator\Constraints\IsTrue;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\Regex;
 
-class RegistrationFormType extends AbstractType
+class ChangePasswordFormType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('email', EmailType::class, [
-                'label' => 'Email Address',
+            ->add('currentPassword', PasswordType::class, [
+                'label' => 'Current Password',
+                'mapped' => false,
                 'constraints' => [
-                    new NotBlank(message: 'Please enter your email address'),
+                    new NotBlank(message: 'Please enter your current password'),
                 ],
                 'attr' => [
-                    'placeholder' => 'your.email@example.com',
-                    'autocomplete' => 'email',
+                    'placeholder' => 'Enter your current password',
+                    'autocomplete' => 'current-password',
                 ],
             ])
-            ->add('plainPassword', RepeatedType::class, [
+            ->add('newPassword', RepeatedType::class, [
                 'type' => PasswordType::class,
                 'invalid_message' => 'The password fields must match.',
                 'mapped' => false,
                 'first_options' => [
-                    'label' => 'Password',
+                    'label' => 'New Password',
                     'attr' => [
-                        'placeholder' => 'Enter a strong password',
+                        'placeholder' => 'Enter a new password',
                         'autocomplete' => 'new-password',
                     ],
                     'constraints' => [
-                        new NotBlank(message: 'Please enter a password'),
+                        new NotBlank(message: 'Please enter a new password'),
                         new Length(
                             min: 8,
                             minMessage: 'Your password should be at least {{ limit }} characters',
@@ -54,18 +51,11 @@ class RegistrationFormType extends AbstractType
                     ],
                 ],
                 'second_options' => [
-                    'label' => 'Confirm Password',
+                    'label' => 'Confirm New Password',
                     'attr' => [
-                        'placeholder' => 'Re-enter your password',
+                        'placeholder' => 'Re-enter your new password',
                         'autocomplete' => 'new-password',
                     ],
-                ],
-            ])
-            ->add('agreeTerms', CheckboxType::class, [
-                'label' => 'I agree to the terms and conditions',
-                'mapped' => false,
-                'constraints' => [
-                    new IsTrue(message: 'You must agree to our terms and conditions.'),
                 ],
             ])
         ;
@@ -73,8 +63,6 @@ class RegistrationFormType extends AbstractType
 
     public function configureOptions(OptionsResolver $resolver): void
     {
-        $resolver->setDefaults([
-            'data_class' => User::class,
-        ]);
+        $resolver->setDefaults([]);
     }
 }
