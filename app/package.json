@@ -2,9 +2,16 @@
     "devDependencies": {
         "@babel/core": "^7.17.0",
         "@babel/preset-env": "^7.16.0",
+        "@fortawesome/fontawesome-free": "^7.1.0",
+        "@popperjs/core": "^2.11.8",
         "@symfony/webpack-encore": "^5.1.0",
+        "bootstrap": "^5.3.8",
+        "bootstrap-icons": "^1.11.3",
+        "chart.js": "^4.4.1",
         "core-js": "^3.38.0",
         "regenerator-runtime": "^0.13.9",
+        "sass": "^1.95.1",
+        "sass-loader": "^16.0.6",
         "webpack": "^5.74.0",
         "webpack-cli": "^5.1.0"
     },

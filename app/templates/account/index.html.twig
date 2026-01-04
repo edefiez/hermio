@@ -1,0 +1,47 @@
+{% extends 'base_admin.html.twig' %}
+
+{% block title %}{{ 'account.management.title'|trans }} - Hermio{% endblock %}
+
+{% block page_title %}{{ 'account.management.title'|trans }}{% endblock %}
+
+{% block admin_content %}
+<div class="profile-container">
+    <div class="profile-card">
+        <h1>{{ 'account.management.title'|trans }}</h1>
+        
+        <div class="profile-info">
+            <h2>{{ 'account.management.overview'|trans }}</h2>
+            <dl>
+                <dt>{{ 'account.email'|trans }}</dt>
+                <dd>{{ user.email }}</dd>
+                
+                <dt>{{ 'account.plan.current'|trans }}</dt>
+                <dd>
+                    <strong>{{ planSummary.type.getDisplayName() }}</strong>
+                    <span class="badge badge-{{ planSummary.type == constant('App\\Enum\\PlanType::FREE') ? 'warning' : (planSummary.type == constant('App\\Enum\\PlanType::PRO') ? 'success' : 'primary') }}">
+                        {{ planSummary.type.value }}
+                    </span>
+                </dd>
+                
+                <dt>{{ 'account.quota.summary'|trans }}</dt>
+                <dd>
+                    {% if planSummary.limit is null %}
+                        {{ 'account.quota.unlimited'|trans }}
+                    {% else %}
+                        {{ planSummary.usage }} / {{ planSummary.limit }} {{ 'account.quota.cards'|trans }}
+                    {% endif %}
+                </dd>
+            </dl>
+        </div>
+        
+        <div style="margin-top: 30px;">
+            <h3>{{ 'account.management.actions'|trans }}</h3>
+            <div class="profile-actions">
+                <a href="{{ path('app_account_my_plan') }}" class="btn btn-primary">{{ 'account.view_plan_details'|trans }}</a>
+                <a href="{{ path('app_profile') }}" class="btn btn-secondary">{{ 'account.back_to_profile'|trans }}</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+

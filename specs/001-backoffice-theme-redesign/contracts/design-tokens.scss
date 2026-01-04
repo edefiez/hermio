@@ -1,0 +1,316 @@
+// ============================================================================
+// HERMIO DESIGN TOKENS CONTRACT
+// ============================================================================
+// Design System Token Contract for Hermio Back-Office Theme
+// Version: 1.0.0
+// Last Updated: 2025-12-11
+//
+// This file defines the design system variables that MUST be consistently
+// used across all back-office pages.
+//
+// USAGE:
+//   All back-office SCSS files MUST import this contract:
+//     @import '../../../specs/001-backoffice-theme-redesign/contracts/design-tokens';
+//
+//   Or after implementation, from the actual SCSS location:
+//     @import 'design-tokens';
+//
+// ============================================================================
+
+// ============================================================================
+// COLOR PALETTE
+// ============================================================================
+
+// ----------------------------------------------------------------------------
+// Primary Brand Colors
+// ----------------------------------------------------------------------------
+$hermio-primary: #4F46E5;        // Indigo - primary brand color
+$hermio-primary-light: #6366F1;  // Lighter variant for hovers
+$hermio-primary-dark: #4338CA;   // Darker variant for active states
+$hermio-primary-rgb: 79, 70, 229; // RGB values for rgba() usage
+
+// ----------------------------------------------------------------------------
+// Secondary Colors
+// ----------------------------------------------------------------------------
+$hermio-secondary: #10B981;      // Emerald green - success/growth
+$hermio-accent: #F59E0B;         // Amber - highlights/badges
+
+// ----------------------------------------------------------------------------
+// Semantic Colors
+// ----------------------------------------------------------------------------
+$hermio-success: #10B981;        // Green - positive actions, success states
+$hermio-warning: #F59E0B;        // Amber - warnings, caution
+$hermio-danger: #EF4444;         // Red - errors, destructive actions
+$hermio-info: #3B82F6;           // Blue - informational messages
+
+// ----------------------------------------------------------------------------
+// Neutral Palette (Gray Scale)
+// ----------------------------------------------------------------------------
+$hermio-gray-50: #F9FAFB;        // Lightest gray - backgrounds
+$hermio-gray-100: #F3F4F6;       // Very light gray - hover backgrounds
+$hermio-gray-200: #E5E7EB;       // Light gray - borders, dividers
+$hermio-gray-300: #D1D5DB;       // Medium-light gray - disabled borders
+$hermio-gray-400: #9CA3AF;       // Medium gray - placeholder text
+$hermio-gray-500: #6B7280;       // True gray - secondary text
+$hermio-gray-600: #4B5563;       // Medium-dark gray - body text
+$hermio-gray-700: #374151;       // Dark gray - headings
+$hermio-gray-800: #1F2937;       // Very dark gray - emphasis
+$hermio-gray-900: #111827;       // Darkest gray - primary text
+
+// ----------------------------------------------------------------------------
+// Background Colors
+// ----------------------------------------------------------------------------
+$hermio-bg-auth-form: #FFFFFF;   // White background for auth form column
+$hermio-bg-auth-illustration: linear-gradient(135deg, #667eea 0%, #764ba2 100%); // Purple gradient for illustration column
+$hermio-bg-dashboard: #F9FAFB;   // Light gray background for dashboard pages
+$hermio-bg-card: #FFFFFF;        // White background for cards
+$hermio-bg-navbar: #FFFFFF;      // White background for navbar
+
+// ============================================================================
+// SPACING SCALE (based on 0.25rem = 4px increments)
+// ============================================================================
+
+$hermio-space-xs: 0.5rem;    // 8px - tight spacing
+$hermio-space-sm: 1rem;      // 16px - small spacing
+$hermio-space-md: 1.5rem;    // 24px - medium spacing (default card gap)
+$hermio-space-lg: 2rem;      // 32px - large spacing
+$hermio-space-xl: 3rem;      // 48px - extra large spacing
+$hermio-space-2xl: 4rem;     // 64px - double extra large
+$hermio-space-3xl: 6rem;     // 96px - triple extra large
+
+// ============================================================================
+// TYPOGRAPHY
+// ============================================================================
+
+// ----------------------------------------------------------------------------
+// Font Families
+// ----------------------------------------------------------------------------
+$hermio-font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, 
+                   "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", 
+                   "Segoe UI Emoji", "Segoe UI Symbol";
+$hermio-font-mono: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, 
+                   Courier, monospace;
+
+// ----------------------------------------------------------------------------
+// Font Sizes
+// ----------------------------------------------------------------------------
+$hermio-text-xs: 0.75rem;    // 12px - small labels, captions
+$hermio-text-sm: 0.875rem;   // 14px - secondary text, small buttons
+$hermio-text-base: 1rem;     // 16px - body text (default)
+$hermio-text-lg: 1.125rem;   // 18px - emphasized body text
+$hermio-text-xl: 1.25rem;    // 20px - small headings
+$hermio-text-2xl: 1.5rem;    // 24px - medium headings (h4)
+$hermio-text-3xl: 1.875rem;  // 30px - large headings (h3)
+$hermio-text-4xl: 2.25rem;   // 36px - extra large headings (h2)
+$hermio-text-5xl: 3rem;      // 48px - display headings (h1)
+
+// ----------------------------------------------------------------------------
+// Font Weights
+// ----------------------------------------------------------------------------
+$hermio-font-normal: 400;    // Regular weight - body text
+$hermio-font-medium: 500;    // Medium weight - emphasis
+$hermio-font-semibold: 600;  // Semi-bold - headings, buttons
+$hermio-font-bold: 700;      // Bold - strong emphasis
+
+// ----------------------------------------------------------------------------
+// Line Heights
+// ----------------------------------------------------------------------------
+$hermio-leading-tight: 1.25;    // Tight line height - headings
+$hermio-leading-normal: 1.5;    // Normal line height - body text
+$hermio-leading-relaxed: 1.75;  // Relaxed line height - long-form content
+
+// ============================================================================
+// BORDER RADIUS
+// ============================================================================
+
+$hermio-radius-sm: 0.25rem;  // 4px - small elements (badges, tags)
+$hermio-radius-md: 0.5rem;   // 8px - buttons, inputs (default)
+$hermio-radius-lg: 0.75rem;  // 12px - cards, modals
+$hermio-radius-xl: 1rem;     // 16px - large containers
+$hermio-radius-full: 9999px; // Full rounded (pills, avatars, circular elements)
+
+// ============================================================================
+// SHADOWS (Elevation System)
+// ============================================================================
+
+$hermio-shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+// Small shadow - subtle elevation (buttons, inputs on focus)
+
+$hermio-shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+                   0 2px 4px -1px rgba(0, 0, 0, 0.06);
+// Medium shadow - default cards
+
+$hermio-shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
+                   0 4px 6px -2px rgba(0, 0, 0, 0.05);
+// Large shadow - elevated cards (on hover)
+
+$hermio-shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
+                   0 10px 10px -5px rgba(0, 0, 0, 0.04);
+// Extra large shadow - modals, popovers
+
+$hermio-shadow-inner: inset 0 2px 4px 0 rgba(0, 0, 0, 0.06);
+// Inner shadow - pressed buttons, input focus
+
+// ============================================================================
+// LAYOUT DIMENSIONS
+// ============================================================================
+
+// ----------------------------------------------------------------------------
+// Breakpoints (Bootstrap 5 defaults - for reference)
+// ----------------------------------------------------------------------------
+$hermio-breakpoint-sm: 576px;   // Small devices (phones, landscape)
+$hermio-breakpoint-md: 768px;   // Medium devices (tablets)
+$hermio-breakpoint-lg: 992px;   // Large devices (desktops)
+$hermio-breakpoint-xl: 1200px;  // Extra large devices (large desktops)
+$hermio-breakpoint-xxl: 1400px; // Extra extra large devices (wide screens)
+
+// ----------------------------------------------------------------------------
+// Auth Layout Dimensions
+// ----------------------------------------------------------------------------
+$hermio-auth-form-width: 480px;      // Max width of form column
+$hermio-auth-max-width: 1400px;      // Max width of entire auth container
+$hermio-auth-form-padding: 2.5rem;   // Padding inside form column
+$hermio-auth-illustration-min-height: 100vh; // Full viewport height
+
+// ----------------------------------------------------------------------------
+// Dashboard Layout Dimensions
+// ----------------------------------------------------------------------------
+$hermio-dashboard-max-width: 1200px; // Max width of dashboard container
+$hermio-card-gap: 1.5rem;            // 24px gap between dashboard cards
+$hermio-navbar-height: 60px;         // Height of top navigation bar
+
+// ============================================================================
+// TRANSITIONS & ANIMATIONS
+// ============================================================================
+
+$hermio-transition-fast: 150ms ease-in-out;    // Fast transitions (hover, focus)
+$hermio-transition-base: 250ms ease-in-out;    // Default transitions (most UI)
+$hermio-transition-slow: 350ms ease-in-out;    // Slow transitions (modals, drawers)
+
+// Easing functions
+$hermio-ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+$hermio-ease-out: cubic-bezier(0, 0, 0.2, 1);
+$hermio-ease-in: cubic-bezier(0.4, 0, 1, 1);
+
+// ============================================================================
+// Z-INDEX SCALE
+// ============================================================================
+
+$hermio-z-base: 0;           // Base content
+$hermio-z-dropdown: 1000;    // Dropdown menus
+$hermio-z-sticky: 1020;      // Sticky elements
+$hermio-z-fixed: 1030;       // Fixed elements (navbar)
+$hermio-z-modal-backdrop: 1040; // Modal backdrop
+$hermio-z-modal: 1050;       // Modal content
+$hermio-z-popover: 1060;     // Popovers
+$hermio-z-tooltip: 1070;     // Tooltips
+
+// ============================================================================
+// ACCESSIBILITY
+// ============================================================================
+
+// Focus ring (WCAG 2.1 compliant)
+$hermio-focus-ring-width: 2px;
+$hermio-focus-ring-offset: 2px;
+$hermio-focus-ring-color: $hermio-primary;
+
+// Minimum contrast ratios (WCAG 2.1 Level AA)
+// Normal text: 4.5:1
+// Large text (≥18pt or ≥14pt bold): 3:1
+// These are guidelines - actual colors above are chosen to meet these ratios
+
+// Touch target minimum size (mobile)
+$hermio-touch-target-min: 44px;
+
+// ============================================================================
+// USAGE EXAMPLES
+// ============================================================================
+
+/*
+  All back-office SCSS files MUST import this contract:
+  
+  @import 'design-tokens';
+  
+  Use tokens instead of hardcoded values:
+  
+  ✅ CORRECT:
+  .my-button {
+    background: $hermio-primary;
+    padding: $hermio-space-md;
+    border-radius: $hermio-radius-md;
+    font-size: $hermio-text-base;
+    transition: all $hermio-transition-base;
+  }
+  
+  ❌ INCORRECT:
+  .my-button {
+    background: #4F46E5;        // Hardcoded color
+    padding: 24px;              // Hardcoded spacing
+    border-radius: 8px;         // Hardcoded radius
+    font-size: 16px;            // Hardcoded size
+    transition: all 250ms;      // Hardcoded timing
+  }
+  
+  Follow semantic naming:
+  
+  ✅ Use $hermio-success for positive actions
+  ✅ Use $hermio-danger for destructive actions
+  ✅ Use $hermio-gray-* for neutral UI elements
+  ✅ Use spacing scale for all margins and padding
+  ✅ Use typography scale for all font sizes
+  ✅ Use shadow scale for elevation
+  
+  Maintain consistency:
+  
+  - All spacing MUST use the defined scale
+  - All colors MUST use the defined palette
+  - All typography MUST use the defined scale
+  - All transitions MUST use the defined timing functions
+*/
+
+// ============================================================================
+// BOOTSTRAP OVERRIDES
+// ============================================================================
+// When this file is imported before Bootstrap, these variables override
+// Bootstrap's defaults for seamless integration
+
+// Map Hermio tokens to Bootstrap variables
+$primary: $hermio-primary;
+$secondary: $hermio-secondary;
+$success: $hermio-success;
+$warning: $hermio-warning;
+$danger: $hermio-danger;
+$info: $hermio-info;
+
+// Gray scale
+$gray-100: $hermio-gray-100;
+$gray-200: $hermio-gray-200;
+$gray-300: $hermio-gray-300;
+$gray-400: $hermio-gray-400;
+$gray-500: $hermio-gray-500;
+$gray-600: $hermio-gray-600;
+$gray-700: $hermio-gray-700;
+$gray-800: $hermio-gray-800;
+$gray-900: $hermio-gray-900;
+
+// Border radius
+$border-radius: $hermio-radius-md;
+$border-radius-sm: $hermio-radius-sm;
+$border-radius-lg: $hermio-radius-lg;
+
+// Spacing
+$spacer: $hermio-space-sm; // Base spacing unit (1rem = 16px)
+
+// Typography
+$font-family-sans-serif: $hermio-font-sans;
+$font-family-monospace: $hermio-font-mono;
+$font-size-base: $hermio-text-base;
+
+// Shadows
+$box-shadow-sm: $hermio-shadow-sm;
+$box-shadow: $hermio-shadow-md;
+$box-shadow-lg: $hermio-shadow-lg;
+
+// ============================================================================
+// END OF DESIGN TOKENS CONTRACT
+// ============================================================================

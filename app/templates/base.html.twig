@@ -1,10 +1,11 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ app.request.locale }}">
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>{% block title %}Hermio{% endblock %}</title>
         <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>">
+        {% block head %}{% endblock %}
         {% block stylesheets %}
             {{ encore_entry_link_tags('app') }}
             <style>
@@ -65,33 +66,97 @@
             </style>
         {% endblock %}
     </head>
-    <body>
-        <nav class="navbar">
+    <body {% block body_attr %}class="bg-light"{% endblock %}>
+        {% block navbar %}
+        <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
             <div class="container">
                 <a href="{{ path('app_home') }}" class="navbar-brand">Hermio</a>
-                <div class="navbar-menu">
-                    {% if is_granted('ROLE_USER') %}
-                        <a href="{{ path('app_profile') }}" class="nav-link">Profile</a>
-                        <a href="{{ path('app_logout') }}" class="nav-link">Logout</a>
-                    {% else %}
-                        <a href="{{ path('app_login') }}" class="nav-link">Login</a>
-                        <a href="{{ path('app_register') }}" class="nav-link">Register</a>
-                    {% endif %}
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ms-auto">
+                        {% if is_granted('ROLE_USER') %}
+                            <li class="nav-item">
+                                <a href="{{ path('app_card_index') }}" class="nav-link">{{ 'card.list.title'|trans }}</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ path('app_account_index') }}" class="nav-link">{{ 'account.management.title'|trans }}</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ path('app_account_my_plan') }}" class="nav-link">{{ 'account.my_plan.title'|trans }}</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ path('app_subscription_manage') }}" class="nav-link">{{ 'subscription.manage.title'|trans }}</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ path('app_subscription_payments') }}" class="nav-link">{{ 'subscription.payments.title'|trans }}</a>
+                            </li>
+                            {% if is_granted('ROLE_ADMIN') %}
+                                <li class="nav-item">
+                                    <a href="{{ path('app_admin_account_index') }}" class="nav-link">{{ 'admin.account.list'|trans }}</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{ path('app_admin_webhook_index') }}" class="nav-link">{{ 'admin.webhook.title'|trans }}</a>
+                                </li>
+                            {% endif %}
+                            <li class="nav-item">
+                                <a href="{{ path('app_profile') }}" class="nav-link">Profile</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ path('app_logout') }}" class="nav-link">Logout</a>
+                            </li>
+                        {% else %}
+                            <li class="nav-item">
+                                <a href="{{ path('app_login') }}" class="nav-link">{{ 'nav.login'|trans }}</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ path('app_register') }}" class="nav-link">{{ 'nav.register'|trans }}</a>
+                            </li>
+                        {% endif %}
+                        {# Language Selector #}
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="languageDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="fas fa-globe"></i>
+                                {% if app.request.locale == 'fr' %}
+                                    Français
+                                {% else %}
+                                    English
+                                {% endif %}
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="languageDropdown">
+                                <li>
+                                    <a class="dropdown-item {% if app.request.locale == 'en' %}active{% endif %}" href="{{ path('app_change_locale', {'_locale': 'en'}) }}">
+                                        🇬🇧 English
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item {% if app.request.locale == 'fr' %}active{% endif %}" href="{{ path('app_change_locale', {'_locale': 'fr'}) }}">
+                                        🇫🇷 Français
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
                 </div>
             </div>
         </nav>
+        {% endblock %}
 
-        <main class="container">
+        {% block body_wrapper %}
+        <main class="container my-4">
             {% for label, messages in app.flashes %}
                 {% for message in messages %}
-                    <div class="alert alert-{{ label }}">
+                    <div class="alert alert-{{ label }} alert-dismissible fade show" role="alert">
                         {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     </div>
                 {% endfor %}
             {% endfor %}
 
             {% block body %}{% endblock %}
         </main>
+        {% endblock %}
 
         <footer class="footer">
             <div class="container">

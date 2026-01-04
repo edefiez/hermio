@@ -55,11 +55,28 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(targetEntity: AuthenticationLog::class, mappedBy: 'user')]
     private Collection $authenticationLogs;
 
+    #[ORM\OneToOne(targetEntity: Account::class, mappedBy: 'user', cascade: ['persist', 'remove'])]
+    private ?Account $account = null;
+
+    #[ORM\OneToOne(targetEntity: StripeCustomer::class, mappedBy: 'user', cascade: ['persist', 'remove'])]
+    private ?StripeCustomer $stripeCustomer = null;
+
+    #[ORM\OneToOne(targetEntity: Subscription::class, mappedBy: 'user', cascade: ['persist', 'remove'])]
+    private ?Subscription $subscription = null;
+
+    #[ORM\OneToMany(targetEntity: Payment::class, mappedBy: 'user', cascade: ['persist', 'remove'])]
+    private Collection $payments;
+
+    #[ORM\OneToMany(targetEntity: Card::class, mappedBy: 'user', cascade: ['persist', 'remove'])]
+    private Collection $cards;
+
     public function __construct()
     {
         $this->emailVerificationTokens = new ArrayCollection();
         $this->passwordResetTokens = new ArrayCollection();
         $this->authenticationLogs = new ArrayCollection();
+        $this->payments = new ArrayCollection();
+        $this->cards = new ArrayCollection();
         $this->createdAt = new \DateTime();
         $this->roles = ['ROLE_USER'];
     }
@@ -270,5 +287,105 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         }
 
         return $this;
+    }
+
+    public function getAccount(): ?Account
+    {
+        return $this->account;
+    }
+
+    public function setAccount(Account $account): static
+    {
+        $this->account = $account;
+        $account->setUser($this);
+        return $this;
+    }
+
+    public function getStripeCustomer(): ?StripeCustomer
+    {
+        return $this->stripeCustomer;
+    }
+
+    public function setStripeCustomer(?StripeCustomer $stripeCustomer): static
+    {
+        $this->stripeCustomer = $stripeCustomer;
+        return $this;
+    }
+
+    public function getSubscription(): ?Subscription
+    {
+        return $this->subscription;
+    }
+
+    public function setSubscription(?Subscription $subscription): static
+    {
+        $this->subscription = $subscription;
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Payment>
+     */
+    public function getPayments(): Collection
+    {
+        return $this->payments;
+    }
+
+    public function addPayment(Payment $payment): static
+    {
+        if (!$this->payments->contains($payment)) {
+            $this->payments->add($payment);
+            $payment->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removePayment(Payment $payment): static
+    {
+        if ($this->payments->removeElement($payment)) {
+            if ($payment->getUser() === $this) {
+                $payment->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Card>
+     */
+    public function getCards(): Collection
+    {
+        return $this->cards;
+    }
+
+    public function addCard(Card $card): static
+    {
+        if (!$this->cards->contains($card)) {
+            $this->cards->add($card);
+            $card->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCard(Card $card): static
+    {
+        if ($this->cards->removeElement($card)) {
+            if ($card->getUser() === $this) {
+                $card->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Card>
+     */
+    public function getActiveCards(): Collection
+    {
+        return $this->cards->filter(fn(Card $card) => $card->getStatus() === 'active');
     }
 }

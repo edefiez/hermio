@@ -1,6 +1,14 @@
 doctrine:
     dbal:
         url: '%env(resolve:DATABASE_URL)%'
+        charset: utf8mb4
+        default_table_options:
+            charset: utf8mb4
+            collate: utf8mb4_unicode_ci
+
+        # Custom types for better UTF-8 handling
+        types:
+            json_utf8: App\Doctrine\Type\JsonType
 
         # IMPORTANT: You MUST configure your server version,
         # either here or in the DATABASE_URL env var (see .env file)
@@ -12,7 +20,10 @@ doctrine:
         naming_strategy: doctrine.orm.naming_strategy.underscore_number_aware
         identity_generation_preferences:
             Doctrine\DBAL\Platforms\PostgreSQLPlatform: identity
-        auto_mapping: true
+        dql:
+            string_functions:
+                JSON_EXTRACT: App\Doctrine\DQL\JsonExtract
+                DATE: App\Doctrine\DQL\Date
         mappings:
             App:
                 type: attribute
@@ -20,8 +31,6 @@ doctrine:
                 dir: '%kernel.project_dir%/src/Entity'
                 prefix: 'App\Entity'
                 alias: App
-        controller_resolver:
-            auto_mapping: false
 
 when@test:
     doctrine:

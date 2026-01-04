@@ -21,3 +21,59 @@ services:
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
+
+    # Stripe services configuration
+    App\Service\StripeService:
+        arguments:
+            $stripeSecretKey: '%env(STRIPE_SECRET_KEY)%'
+
+    App\Service\StripeCheckoutService:
+        arguments:
+            $successUrl: '%env(DEFAULT_URI)%/subscription/checkout/success'
+            $cancelUrl: '%env(DEFAULT_URI)%/subscription/checkout/cancel'
+
+    App\Controller\StripeWebhookController:
+        arguments:
+            $webhookSecret: '%env(STRIPE_WEBHOOK_SECRET)%'
+
+    App\Controller\SubscriptionController:
+        arguments:
+            $defaultUri: '%env(DEFAULT_URI)%'
+
+    App\Service\BrandingService:
+        arguments:
+            $projectDir: '%kernel.project_dir%'
+
+when@test:
+    services:
+        # Make services public for testing
+        App\Service\QuotaService:
+            public: true
+        App\Service\TeamInvitationService:
+            public: true
+        App\Service\TeamService:
+            public: true
+        App\Service\CardService:
+            public: true
+        App\Service\AccountService:
+            public: true
+        Symfony\Component\Mailer\MailerInterface:
+            public: true
+        
+        # Override Stripe services configuration for tests with dummy values
+        App\Service\StripeService:
+            arguments:
+                $stripeSecretKey: 'sk_test_dummy_key_for_testing'
+        
+        App\Service\StripeCheckoutService:
+            arguments:
+                $successUrl: 'http://localhost/subscription/checkout/success'
+                $cancelUrl: 'http://localhost/subscription/checkout/cancel'
+        
+        App\Controller\StripeWebhookController:
+            arguments:
+                $webhookSecret: 'whsec_test_dummy_secret_for_testing'
+        
+        App\Controller\SubscriptionController:
+            arguments:
+                $defaultUri: 'http://localhost'

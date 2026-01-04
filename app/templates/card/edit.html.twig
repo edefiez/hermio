@@ -1,0 +1,374 @@
+{% extends 'base_admin.html.twig' %}
+
+{% block title %}{{ 'card.edit.title'|trans }} - Hermio{% endblock %}
+
+{% block page_title %}{{ 'card.edit.title'|trans }}{% endblock %}
+
+{% block admin_content %}
+<div class="card shadow-sm mb-4">
+    <div class="card-header card-header-gradient">
+        <h1 class="h3 mb-0">
+            <i class="fas fa-edit me-2"></i>{{ 'card.edit.title'|trans }}
+        </h1>
+    </div>
+    <div class="card-body">
+        {# Secure Public URL Section #}
+                    <div class="card border-primary mb-4">
+                        <div class="card-header bg-light border-primary">
+                            <h3 class="h5 mb-0 text-primary">
+                                <i class="fas fa-lock me-2"></i>{{ 'card.security.secure_url'|trans }}
+            </h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="bg-white p-3 rounded border mb-3">
+                                <code class="text-break d-block">{{ app.request.schemeAndHttpHost }}{{ card.publicUrl }}</code>
+            </div>
+                            <div class="d-flex flex-wrap gap-2 mb-3">
+                <button type="button" class="btn btn-primary btn-sm" onclick="copyToClipboard('{{ app.request.schemeAndHttpHost }}{{ card.publicUrl|e('js') }}')">
+                                    <i class="fas fa-copy me-1"></i>{{ 'card.security.copy_url'|trans }}
+                </button>
+                <a href="{{ card.publicUrl }}" target="_blank" class="btn btn-secondary btn-sm">
+                                    <i class="fas fa-external-link-alt me-1"></i>{{ 'card.view'|trans }}
+                </a>
+                                <form method="post" action="{{ path('app_card_regenerate_key', {id: card.id}) }}" class="d-inline" onsubmit="return confirm('{{ 'card.security.regenerate_key_confirm'|trans }}');">
+                    <input type="hidden" name="_token" value="{{ csrf_token('regenerate' ~ card.id) }}">
+                    <button type="submit" class="btn btn-warning btn-sm">
+                                        <i class="fas fa-sync-alt me-1"></i>{{ 'card.security.regenerate_key'|trans }}
+                    </button>
+                </form>
+            </div>
+                            <div class="alert alert-warning mb-0">
+                                <i class="fas fa-exclamation-triangle me-2"></i>{{ 'card.security.warning'|trans }}
+                            </div>
+            </div>
+        </div>
+
+        {# Flash messages #}
+        {% for label, messages in app.flashes %}
+            {% for message in messages %}
+                            <div class="alert alert-{{ label == 'error' ? 'danger' : label }} alert-dismissible fade show" role="alert">
+                    {{ message|trans }}
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            {% endfor %}
+        {% endfor %}
+
+                    {{ form_start(form, {'attr': {'class': 'needs-validation', 'novalidate': 'novalidate'}}) }}
+
+                        {# Informations principales #}
+                        <div class="card mb-4">
+                            <div class="card-header bg-light">
+                                <h3 class="h5 mb-0">
+                                    <i class="fas fa-user me-2"></i>{{ 'card.basic_info'|trans|default('Informations principales') }}
+                                </h3>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        {{ form_label(form.name, null, {'label_attr': {'class': 'form-label'}}) }}
+                                        {{ form_widget(form.name, {'attr': {'class': 'form-control' ~ (form.name.vars.errors|length > 0 ? ' is-invalid' : '')}}) }}
+                                        {% if form.name.vars.errors|length > 0 %}
+                                            <div class="invalid-feedback d-block">
+                                                {{ form_errors(form.name) }}
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        {{ form_label(form.email, null, {'label_attr': {'class': 'form-label'}}) }}
+                                        {{ form_widget(form.email, {'attr': {'class': 'form-control' ~ (form.email.vars.errors|length > 0 ? ' is-invalid' : '')}}) }}
+                                        {% if form.email.vars.errors|length > 0 %}
+                                            <div class="invalid-feedback d-block">
+                                                {{ form_errors(form.email) }}
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        {{ form_label(form.phone, null, {'label_attr': {'class': 'form-label'}}) }}
+                                        {{ form_widget(form.phone, {'attr': {'class': 'form-control' ~ (form.phone.vars.errors|length > 0 ? ' is-invalid' : '')}}) }}
+                                        {% if form.phone.vars.errors|length > 0 %}
+                                            <div class="invalid-feedback d-block">
+                                                {{ form_errors(form.phone) }}
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        {{ form_label(form.company, null, {'label_attr': {'class': 'form-label'}}) }}
+                                        {{ form_widget(form.company, {'attr': {'class': 'form-control' ~ (form.company.vars.errors|length > 0 ? ' is-invalid' : '')}}) }}
+                                        {% if form.company.vars.errors|length > 0 %}
+                                            <div class="invalid-feedback d-block">
+                                                {{ form_errors(form.company) }}
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    {{ form_label(form.title, null, {'label_attr': {'class': 'form-label'}}) }}
+                                    {{ form_widget(form.title, {'attr': {'class': 'form-control' ~ (form.title.vars.errors|length > 0 ? ' is-invalid' : '')}}) }}
+                                    {% if form.title.vars.errors|length > 0 %}
+                                        <div class="invalid-feedback d-block">
+                                            {{ form_errors(form.title) }}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                                <div class="mb-3">
+                                    {{ form_label(form.bio, null, {'label_attr': {'class': 'form-label'}}) }}
+                                    {{ form_widget(form.bio, {'attr': {'class': 'form-control' ~ (form.bio.vars.errors|length > 0 ? ' is-invalid' : ''), 'rows': '5'}}) }}
+                                    {% if form.bio.vars.errors|length > 0 %}
+                                        <div class="invalid-feedback d-block">
+                                            {{ form_errors(form.bio) }}
+                                        </div>
+                                    {% endif %}
+                                    <small class="form-text text-muted">{{ 'card.bio.help'|trans|default('Décrivez-vous en quelques mots') }}</small>
+                                </div>
+                                <div class="mb-3">
+                                    {{ form_label(form.website, null, {'label_attr': {'class': 'form-label'}}) }}
+                                    {{ form_widget(form.website, {'attr': {'class': 'form-control' ~ (form.website.vars.errors|length > 0 ? ' is-invalid' : '')}}) }}
+                                    {% if form.website.vars.errors|length > 0 %}
+                                        <div class="invalid-feedback d-block">
+                                            {{ form_errors(form.website) }}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+
+                        {# Réseaux sociaux #}
+                        <div class="card mb-4">
+                            <div class="card-header bg-light">
+                                <h3 class="h5 mb-0">
+                                    <i class="fas fa-share-alt me-2"></i>{{ 'card.social.title'|trans }}
+                                </h3>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        {{ form_label(form.linkedin, null, {'label_attr': {'class': 'form-label'}}) }}
+                                        {{ form_widget(form.linkedin, {'attr': {'class': 'form-control' ~ (form.linkedin.vars.errors|length > 0 ? ' is-invalid' : '')}}) }}
+                                        {% if form.linkedin.vars.errors|length > 0 %}
+                                            <div class="invalid-feedback d-block">
+                                                {{ form_errors(form.linkedin) }}
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        {{ form_label(form.instagram, null, {'label_attr': {'class': 'form-label'}}) }}
+                                        {{ form_widget(form.instagram, {'attr': {'class': 'form-control' ~ (form.instagram.vars.errors|length > 0 ? ' is-invalid' : '')}}) }}
+                                        {% if form.instagram.vars.errors|length > 0 %}
+                                            <div class="invalid-feedback d-block">
+                                                {{ form_errors(form.instagram) }}
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        {{ form_label(form.tiktok, null, {'label_attr': {'class': 'form-label'}}) }}
+                                        {{ form_widget(form.tiktok, {'attr': {'class': 'form-control' ~ (form.tiktok.vars.errors|length > 0 ? ' is-invalid' : '')}}) }}
+                                        {% if form.tiktok.vars.errors|length > 0 %}
+                                            <div class="invalid-feedback d-block">
+                                                {{ form_errors(form.tiktok) }}
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        {{ form_label(form.facebook, null, {'label_attr': {'class': 'form-label'}}) }}
+                                        {{ form_widget(form.facebook, {'attr': {'class': 'form-control' ~ (form.facebook.vars.errors|length > 0 ? ' is-invalid' : '')}}) }}
+                                        {% if form.facebook.vars.errors|length > 0 %}
+                                            <div class="invalid-feedback d-block">
+                                                {{ form_errors(form.facebook) }}
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        {{ form_label(form.x, null, {'label_attr': {'class': 'form-label'}}) }}
+                                        {{ form_widget(form.x, {'attr': {'class': 'form-control' ~ (form.x.vars.errors|length > 0 ? ' is-invalid' : '')}}) }}
+                                        {% if form.x.vars.errors|length > 0 %}
+                                            <div class="invalid-feedback d-block">
+                                                {{ form_errors(form.x) }}
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        {{ form_label(form.bluebirds, null, {'label_attr': {'class': 'form-label'}}) }}
+                                        {{ form_widget(form.bluebirds, {'attr': {'class': 'form-control' ~ (form.bluebirds.vars.errors|length > 0 ? ' is-invalid' : '')}}) }}
+                                        {% if form.bluebirds.vars.errors|length > 0 %}
+                                            <div class="invalid-feedback d-block">
+                                                {{ form_errors(form.bluebirds) }}
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+            <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        {{ form_label(form.snapchat, null, {'label_attr': {'class': 'form-label'}}) }}
+                                        {{ form_widget(form.snapchat, {'attr': {'class': 'form-control' ~ (form.snapchat.vars.errors|length > 0 ? ' is-invalid' : '')}}) }}
+                                        {% if form.snapchat.vars.errors|length > 0 %}
+                                            <div class="invalid-feedback d-block">
+                                                {{ form_errors(form.snapchat) }}
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        {{ form_label(form.planity, null, {'label_attr': {'class': 'form-label'}}) }}
+                                        {{ form_widget(form.planity, {'attr': {'class': 'form-control' ~ (form.planity.vars.errors|length > 0 ? ' is-invalid' : '')}}) }}
+                                        {% if form.planity.vars.errors|length > 0 %}
+                                            <div class="invalid-feedback d-block">
+                                                {{ form_errors(form.planity) }}
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    {{ form_label(form.other, null, {'label_attr': {'class': 'form-label'}}) }}
+                                    {{ form_widget(form.other, {'attr': {'class': 'form-control' ~ (form.other.vars.errors|length > 0 ? ' is-invalid' : '')}}) }}
+                                    {% if form.other.vars.errors|length > 0 %}
+                                        <div class="invalid-feedback d-block">
+                                            {{ form_errors(form.other) }}
+                                        </div>
+                                    {% endif %}
+                </div>
+                </div>
+            </div>
+
+                        {# Assignations d'équipe #}
+            {% if isEnterprise and canManageAssignments and assignmentForm %}
+                            <div class="card mb-4">
+                                <div class="card-header bg-light">
+                                    <h3 class="h5 mb-0">
+                                        <i class="fas fa-users me-2"></i>{{ 'card.assignments.title'|trans }}
+                                    </h3>
+                                </div>
+                                <div class="card-body">
+                                    <p class="text-muted mb-3">{{ 'card.assignments.description'|trans }}</p>
+
+                    {% if currentAssignments|length > 0 %}
+                                        <div class="mb-3">
+                                            <strong class="d-block mb-2">{{ 'card.assignments.current'|trans }}:</strong>
+                                            <ul class="list-group">
+                                {% for assignment in currentAssignments %}
+                                                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                                                        <span>{{ assignment.teamMember.email }}</span>
+                                                        <span class="badge bg-info">{{ assignment.teamMember.role.getDisplayName()|trans }}</span>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    {% endif %}
+
+                                    {{ form_start(assignmentForm, {'action': path('app_card_edit', {id: card.id}), 'method': 'POST', 'attr': {'class': 'mt-3'}}) }}
+                                        <div class="mb-3">
+                                            {{ form_label(assignmentForm.teamMembers, null, {'label_attr': {'class': 'form-label'}}) }}
+                                            {{ form_widget(assignmentForm.teamMembers, {'attr': {'class': 'form-select' ~ (assignmentForm.teamMembers.vars.errors|length > 0 ? ' is-invalid' : '')}}) }}
+                                            {% if assignmentForm.teamMembers.vars.errors|length > 0 %}
+                                                <div class="invalid-feedback d-block">
+                                                    {{ form_errors(assignmentForm.teamMembers) }}
+                                                </div>
+                                            {% endif %}
+                                        </div>
+                        {{ form_row(assignmentForm._token) }}
+                                        <button type="submit" class="btn btn-primary">
+                                            <i class="fas fa-user-plus me-1"></i>{{ 'card.assignments.assign'|trans }}
+                                        </button>
+                    {{ form_end(assignmentForm) }}
+                                </div>
+                </div>
+            {% elseif isEnterprise and not canManageAssignments and currentAssignments|length > 0 %}
+                            <div class="card mb-4">
+                                <div class="card-header bg-light">
+                                    <h3 class="h5 mb-0">
+                                        <i class="fas fa-users me-2"></i>{{ 'card.assignments.title'|trans }}
+                                    </h3>
+                                </div>
+                                <div class="card-body">
+                                    <strong class="d-block mb-2">{{ 'card.assignments.current'|trans }}:</strong>
+                                    <ul class="list-group">
+                            {% for assignment in currentAssignments %}
+                                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                                <span>{{ assignment.teamMember.email }}</span>
+                                                <span class="badge bg-info">{{ assignment.teamMember.role.getDisplayName()|trans }}</span>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            {% endif %}
+
+        {# Actions - MUST be inside the form before form_end #}
+        <div class="d-flex gap-2 justify-content-end mt-4">
+            <a href="{{ path('app_card_index') }}" class="btn btn-secondary">
+                <i class="fas fa-times me-1"></i>{{ 'card.cancel'|trans }}
+            </a>
+            <button type="submit" class="btn btn-primary">
+                <i class="fas fa-save me-1"></i>{{ 'card.save'|trans }}
+            </button>
+        </div>
+
+        {{ form_end(form) }}
+    </div>
+</div>
+
+<script>
+function showNotification(message, type = 'success') {
+    const alertDiv = document.createElement('div');
+    alertDiv.className = `alert alert-${type} alert-dismissible fade show position-fixed top-0 start-50 translate-middle-x mt-3`;
+    alertDiv.style.zIndex = '9999';
+    alertDiv.setAttribute('role', 'alert');
+    alertDiv.innerHTML = `
+        ${message}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    `;
+    document.body.appendChild(alertDiv);
+
+    // Auto-dismiss after 3 seconds
+    setTimeout(() => {
+        const bsAlert = new bootstrap.Alert(alertDiv);
+        bsAlert.close();
+    }, 3000);
+}
+
+function copyToClipboard(text) {
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(function() {
+            showNotification('{{ 'card.security.url_copied'|trans }}', 'success');
+        }, function(err) {
+            console.error('Could not copy text: ', err);
+            fallbackCopyTextToClipboard(text);
+        });
+    } else {
+        fallbackCopyTextToClipboard(text);
+    }
+}
+
+function fallbackCopyTextToClipboard(text) {
+    var textArea = document.createElement("textarea");
+    textArea.value = text;
+    textArea.style.position = "fixed";
+    textArea.style.top = 0;
+    textArea.style.left = 0;
+    textArea.style.width = '2em';
+    textArea.style.height = '2em';
+    textArea.style.padding = 0;
+    textArea.style.border = 'none';
+    textArea.style.outline = 'none';
+    textArea.style.boxShadow = 'none';
+    textArea.style.background = 'transparent';
+    document.body.appendChild(textArea);
+    textArea.focus();
+    textArea.select();
+    try {
+        var successful = document.execCommand('copy');
+        if (successful) {
+            showNotification('{{ 'card.security.url_copied'|trans }}', 'success');
+        }
+    } catch (err) {
+        console.error('Fallback: Could not copy text: ', err);
+        showNotification('{{ 'card.security.copy_error'|trans|default('Erreur lors de la copie') }}', 'danger');
+    }
+    document.body.removeChild(textArea);
+}
+</script>
+{% endblock %}

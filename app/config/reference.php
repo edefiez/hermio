@@ -297,7 +297,7 @@ namespace Symfony\Component\DependencyInjection\Loader\Configurator;
  *         },
  *     },
  *     translator?: bool|array{ // Translator configuration
- *         enabled?: bool, // Default: false
+ *         enabled?: bool, // Default: true
  *         fallbacks?: list<scalar|null>,
  *         logging?: bool, // Default: false
  *         formatter?: scalar|null, // Default: "translator.formatter.default"
@@ -1079,7 +1079,7 @@ namespace Symfony\Component\DependencyInjection\Loader\Configurator;
  *         enable_native_lazy_objects?: bool, // Deprecated: The "enable_native_lazy_objects" option is deprecated and will be removed in DoctrineBundle 4.0, as native lazy objects are now always enabled. // Default: true
  *         controller_resolver?: bool|array{
  *             enabled?: bool, // Default: true
- *             auto_mapping?: bool, // Deprecated: The "auto_mapping" option is deprecated and will be removed in DoctrineBundle 4.0, as it only accepts `false` since 3.0. // Set to true to enable using route placeholders as lookup criteria when the primary key doesn't match the argument name // Default: false
+ *             auto_mapping?: bool, // Deprecated: The "doctrine.orm.controller_resolver.auto_mapping.auto_mapping" option is deprecated and will be removed in DoctrineBundle 4.0, as it only accepts `false` since 3.0. // Set to true to enable using route placeholders as lookup criteria when the primary key doesn't match the argument name // Default: false
  *             evict_cache?: bool, // Set to true to fetch the entity from the database instead of using the cache, if any // Default: false
  *         },
  *         entity_managers?: array<string, array{ // Default: []
@@ -1244,6 +1244,14 @@ namespace Symfony\Component\DependencyInjection\Loader\Configurator;
  *     script_attributes?: array<string, scalar|null>,
  *     link_attributes?: array<string, scalar|null>,
  * }
+ * @psalm-type WebProfilerConfig = array{
+ *     toolbar?: bool|array{ // Profiler toolbar configuration
+ *         enabled?: bool, // Default: false
+ *         ajax_replace?: bool, // Replace toolbar on AJAX requests // Default: false
+ *     },
+ *     intercept_redirects?: bool, // Default: false
+ *     excluded_ajax_paths?: scalar|null, // Default: "^/((index|app(_[\\w]+)?)\\.php/)?_wdt"
+ * }
  * @psalm-type ConfigType = array{
  *     imports?: ImportsConfig,
  *     parameters?: ParametersConfig,
@@ -1265,6 +1273,7 @@ namespace Symfony\Component\DependencyInjection\Loader\Configurator;
  *         twig?: TwigConfig,
  *         maker?: MakerConfig,
  *         webpack_encore?: WebpackEncoreConfig,
+ *         web_profiler?: WebProfilerConfig,
  *     },
  *     "when@prod"?: array{
  *         imports?: ImportsConfig,
@@ -1287,6 +1296,7 @@ namespace Symfony\Component\DependencyInjection\Loader\Configurator;
  *         doctrine_migrations?: DoctrineMigrationsConfig,
  *         twig?: TwigConfig,
  *         webpack_encore?: WebpackEncoreConfig,
+ *         web_profiler?: WebProfilerConfig,
  *     },
  *     ...<string, ExtensionType|array{ // extra keys must follow the when@%env% pattern or match an extension alias
  *         imports?: ImportsConfig,

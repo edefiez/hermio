@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="{{ app.request.locale }}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{{ 'auth.title'|trans }} - Hermio{% endblock %}</title>
+    
+    {% block stylesheets %}
+        {# Use the 'auth' entry point for authentication pages #}
+        {{ encore_entry_link_tags('auth') }}
+    {% endblock %}
+</head>
+<body class="auth-page">
+    {# Skip to main content link for accessibility #}
+    <a href="#main-content" class="skip-to-content">{{ 'accessibility.skip_to_content'|trans }}</a>
+    
+    <div class="auth-container">
+        {# FORM COLUMN (Left side on desktop, top on mobile) #}
+        <div class="auth-form-column" role="main" aria-label="{{ 'auth.form.aria_label'|trans }}">
+            <div class="auth-form-wrapper" id="main-content">
+                {% block form_content %}
+                    {# Form content will be provided by child templates (login.html.twig, register.html.twig) #}
+                {% endblock %}
+            </div>
+        </div>
+        
+        {# ILLUSTRATION COLUMN (Right side on desktop, bottom/hidden on mobile) #}
+        <div class="auth-illustration-column" role="complementary" aria-label="{{ 'auth.illustration.aria_label'|trans }}">
+            {% block illustration %}
+                <div class="auth-illustration-wrapper">
+                    <img src="{{ asset('build/images/auth-illustration.svg') }}" 
+                         alt="" 
+                         class="auth-illustration"
+                         role="presentation">
+                    <p class="auth-illustration-tagline">
+                        {{ 'auth.illustration.tagline'|trans }}
+                    </p>
+                </div>
+            {% endblock %}
+        </div>
+    </div>
+    
+    {% block javascripts %}
+        {{ encore_entry_script_tags('auth') }}
+    {% endblock %}
+</body>
+</html>

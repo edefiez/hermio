@@ -1,0 +1,794 @@
+nav:
+  login: "Login"
+  register: "Register"
+  main: "Main Navigation"
+  dashboard: "Dashboard"
+  my_cards: "My Cards"
+  account: "Account"
+  profile: "Profile"
+  branding: "Branding"
+  collapse: "Collapse"
+  expand: "Expand"
+  toggle: "Toggle navigation"
+  skip_to_content: "Skip to main content"
+
+home:
+  meta:
+    title: "Hermio - Create and Share Your Digital Business Cards via QR Code"
+    description: "Hermio allows you to easily create professional digital business cards and share them via QR code. Perfect for professionals, teams, and businesses."
+  hero:
+    title: "Your Digital Business Card, Always with You"
+    subtitle: "Create, customize, and share your professional business card with a simple QR code. Simple, modern, and effective."
+    cta_primary: "Create my card"
+    cta_secondary: "Learn more"
+  how_it_works:
+    title: "How it works"
+    subtitle: "Create your professional card in 3 simple steps"
+    step1:
+      title: "Create your card"
+      description: "Fill in your professional information: name, email, phone, social networks, and more."
+    step2:
+      title: "Customize your style"
+      description: "Add your logo, choose your brand colors to reflect your professional identity."
+    step3:
+      title: "Share via QR code"
+      description: "Generate your unique QR code and share it on your materials: paper card, email, website, social media."
+  features:
+    title: "Everything you need"
+    subtitle: "Features designed for modern professionals"
+    digital_card:
+      title: "Digital business card"
+      description: "Create an elegant and responsive professional card, accessible from any device."
+    qr_code:
+      title: "QR code generator"
+      description: "Get a unique QR code for each card, ready to be printed or shared digitally."
+    multilingual:
+      title: "Multilingual profiles"
+      description: "Your cards display in French and English based on your visitors' language."
+    branding:
+      title: "Custom branding"
+      description: "Add your logo and brand colors for a consistent image (Pro & Enterprise)."
+    analytics:
+      title: "Scan statistics"
+      description: "Track how many times your QR code is scanned and measure your impact."
+    team:
+      title: "Team management"
+      description: "Manage all your team's cards in one place (Enterprise only)."
+  pricing:
+    title: "Simple and transparent pricing"
+    subtitle: "Choose the plan that fits your needs"
+    cta: "See all pricing"
+    free:
+      name: "Free"
+      price: "$0"
+      period: "forever"
+      feature1: "1 digital business card"
+      feature2: "QR code included"
+      feature3: "Community support"
+      cta: "Start for free"
+    pro:
+      name: "Pro"
+      price: "$9"
+      period: "per month"
+      badge: "Popular"
+      feature1: "10 business cards"
+      feature2: "Custom branding"
+      feature3: "Advanced analytics"
+      feature4: "Priority support"
+      cta: "Try Pro"
+    enterprise:
+      name: "Enterprise"
+      price: "$29"
+      period: "per month"
+      feature1: "Unlimited cards"
+      feature2: "Team management"
+      feature3: "Custom templates"
+      feature4: "Dedicated support"
+      feature5: "API integration"
+      cta: "Contact sales"
+  faq:
+    title: "Frequently Asked Questions"
+    subtitle: "Everything you need to know about Hermio"
+    q1:
+      question: "Is my data secure?"
+      answer: "Absolutely. We use the latest security standards to protect your data. All connections are encrypted via HTTPS and your information is stored securely in certified data centers."
+    q2:
+      question: "How do I share my QR code?"
+      answer: "Once your card is created, you can download your QR code in high resolution. Print it on your paper business cards, add it to your email signature, or share it directly on social media."
+    q3:
+      question: "What's the difference between free and paid?"
+      answer: "The free plan allows you to create 1 card with basic features. Paid plans offer more cards, custom branding, advanced statistics, and for Enterprise, complete team management."
+    q4:
+      question: "What languages are supported?"
+      answer: "Your business cards are automatically available in French and English. The interface automatically adapts to your visitors' browser language for an optimal experience."
+    q5:
+      question: "Is it mobile compatible?"
+      answer: "Yes, completely! Your business cards are fully responsive and display perfectly on all devices: smartphones, tablets, and computers. QR code scanning works with any scanning app."
+    q6:
+      question: "Can I manage my team's cards?"
+      answer: "Yes, with the Enterprise plan. You can invite team members, manage their cards, and control access. Perfect for companies wanting to centralize their digital business card management."
+  footer:
+    about: "About"
+    about_description: "Hermio is the modern solution for creating and sharing your digital business cards via QR code. Ideal for professionals, teams, and businesses."
+    product: "Product"
+    features: "Features"
+    pricing: "Pricing"
+    enterprise: "Enterprise"
+    support: "Support"
+    help: "Help"
+    contact: "Contact"
+    legal: "Legal"
+    privacy: "Privacy"
+    terms: "Terms of Service"
+    copyright: "© %year% Hermio. All rights reserved."
+    social_title: "Follow us"
+
+account:
+  my_plan:
+    title: "My Subscription Plan"
+  plan:
+    type: "Plan Type"
+    free: "Free"
+    pro: "Pro"
+    enterprise: "Enterprise"
+    activated: "Plan Activated"
+    last_modified: "Last Modified"
+    current: "Current Plan"
+  quota:
+    limit: "Quota Limit"
+    unlimited: "Unlimited"
+    usage: "Current Usage"
+    used: "used"
+    cards: "card(s)"
+    summary: "Quota Summary"
+    exceeded: "Quota limit exceeded"
+    exceeded_message: "You have reached your quota limit of %limit% card(s). You currently have %current_usage% card(s)."
+    upgrade:
+      pro: "Upgrade to Pro (10 cards)"
+      enterprise: "Upgrade to Enterprise (unlimited)"
+      suggestion_free: "Upgrade to Pro (10 cards) or Enterprise (unlimited) to create more cards."
+      suggestion_pro: "Upgrade to Enterprise (unlimited) to create more cards."
+  management:
+    title: "Account Management"
+    overview: "Account Overview"
+    actions: "Actions"
+  email: "Email"
+  back_to_account: "Back to Account"
+  back_to_profile: "Back to Profile"
+  view_plan_details: "View Plan Details"
+  error:
+    quota_exceeded: "Cannot create more content: quota limit exceeded"
+  plan_type: "Subscription Plan"
+  confirm_downgrade: "I confirm this downgrade"
+  downgrade:
+    warning: "Warning: This user has {count} cards, but the {new} plan only allows {limit} cards. Please confirm to proceed."
+    confirmation_required: "You must confirm this downgrade as it will exceed the new plan's quota limit"
+  save: "Save Changes"
+
+subscription:
+  upgrade:
+    title: "Upgrade Your Plan"
+    pro: "Upgrade to Pro"
+    enterprise: "Upgrade to Enterprise"
+  checkout:
+    success: "Payment successful! Your subscription will be activated shortly."
+    cancel: "Checkout was cancelled. Your plan remains unchanged."
+  pricing:
+    pro: "Pro Plan"
+    enterprise: "Enterprise Plan"
+  manage:
+    title: "Manage Subscription"
+  status:
+    label: "Status"
+    active: "Active"
+    inactive: "Inactive"
+    cancelled: "Cancelled"
+    trialing: "Trialing"
+    past_due: "Past Due"
+    canceled: "Canceled"
+    unpaid: "Unpaid"
+    info: "Info"
+  plan:
+    type: "Plan Type"
+  current_period_start: "Current Period Start"
+  next_billing: "Next Billing Date"
+  canceled_at: "Canceled At"
+  created_at: "Created At"
+  cancelled:
+    message: "Your subscription will be cancelled on %date%"
+  management:
+    actions: "Management Actions"
+  portal:
+    button: "Manage Subscription & Payment"
+    info: "Customer Portal"
+    description: "Use the Customer Portal to update your payment method, view invoices, and manage your subscription settings."
+  view_payments: "View Payment History"
+  back_to_plan: "Back to Plan"
+  back_to_management: "Back to Management"
+  payments:
+    title: "Payment History"
+    empty: "You have no payment history yet."
+    date: "Date"
+    amount: "Amount"
+    plan: "Plan"
+    status_label: "Status"
+    id: "Payment ID"
+    status:
+      succeeded: "Succeeded"
+      failed: "Failed"
+      pending: "Pending"
+      canceled: "Canceled"
+  payment:
+    date: "Date"
+    amount: "Amount"
+    plan: "Plan"
+    status: "Status"
+    id: "Payment ID"
+
+admin:
+  account:
+    list: "Account Management"
+    statistics: "Statistics"
+    total_users: "Total Users"
+    plan_counts: "Plan Distribution"
+    filter: "Filter by Plan"
+    all: "All Plans"
+    accounts: "Accounts"
+    user_email: "User Email"
+    plan: "Plan"
+    created: "Created"
+    actions: "Actions"
+    view: "View"
+    no_accounts: "No accounts found"
+    details: "Account Details"
+    user_info: "User Information"
+    user_id: "User ID"
+    user_status: "Status"
+    current_plan: "Current Plan"
+    change_plan: "Change Plan"
+    modified_by: "Modified By"
+    warning: "Warning"
+    back_to_list: "Back to List"
+    plan_changed: "Plan successfully changed to %planType%"
+  webhook:
+    title: "Webhook Logs"
+    stats:
+      total: "Total Events"
+      successful: "Successful"
+      failed: "Failed"
+      success_rate: "Success Rate"
+    alert:
+      critical: "Critical Alert"
+      critical_message: "Multiple webhook failures detected in the last hour. Immediate attention required."
+      recent_failures: "⚠️ Recent Failures Detected"
+      recent_failures_message: "%count% failures in the last 24 hours (Success rate: %rate%%)"
+    trend:
+      title: "Failure Rate Trend (Last 7 Days)"
+    filter:
+      status: "Status"
+      event_type: "Event Type"
+      all: "All"
+      success: "Success"
+      failed: "Failed"
+      apply: "Apply"
+      clear: "Clear"
+    event_type_distribution: "Event Type Distribution"
+    event:
+      id: "ID"
+      stripe_id: "Stripe Event ID"
+      type: "Event Type"
+      status: "Status"
+      processed_at: "Processed At"
+      error: "Error"
+      actions: "Actions"
+    status:
+      success: "Success"
+      failed: "Failed"
+    view_details: "View Details"
+    view_failed: "View Failed Events"
+    no_events: "No webhook events found"
+    back_to_list: "Back to List"
+    details:
+      title: "Webhook Event Details"
+      stripe_event_id: "Stripe Event ID"
+      event_type: "Event Type"
+      status: "Status"
+      processed_at: "Processed At"
+      error_message: "Error Message"
+    failed:
+      title: "Failed Webhook Events"
+      warning: "⚠️ Warning"
+      count: "Found %count% failed events"
+      none: "No failed events found"
+
+card:
+  create:
+    title: "Create Digital Card"
+    button: "Create Card"
+  edit:
+    title: "Edit Card"
+  edit_button: "Edit"
+  delete:
+    confirm: "Are you sure you want to delete this card?"
+  delete_button: "Delete"
+  search:
+    placeholder: "Search cards by name, email, or company..."
+    label: "Search cards"
+    no_results: "No cards found matching your search."
+  count: "Total cards"
+  list:
+    title: "My Cards"
+    empty: "You haven't created any cards yet."
+  view: "View Card"
+  save: "Save"
+  cancel: "Cancel"
+  back_to_list: "Back to Cards"
+  public_url: "Public URL"
+  created_at: "Created"
+  updated:
+    success: "Card updated successfully"
+  deleted:
+    success: "Card deleted successfully"
+  created:
+    success: "Card created successfully. Public URL: /c/%slug%"
+  unnamed: "Unnamed Card"
+  quota:
+    exceeded: "You have reached your quota limit. Upgrade your plan to create more cards."
+    info: "Quota"
+  form:
+    name: "Name"
+    email: "Email"
+    phone: "Phone"
+    company: "Company"
+    title: "Job Title"
+    bio: "Bio"
+    website: "Website"
+  name:
+    label: "Name"
+    placeholder: "Your full name"
+    required: "Name is required"
+    max_length: "Name cannot exceed 255 characters"
+  email:
+    label: "Email"
+    placeholder: "your.email@example.com"
+    invalid: "Please enter a valid email address"
+  phone:
+    label: "Phone"
+    placeholder: "+1234567890"
+    max_length: "Phone cannot exceed 50 characters"
+  company:
+    label: "Company"
+    placeholder: "Company Name"
+    max_length: "Company name cannot exceed 255 characters"
+  title:
+    label: "Job Title"
+    placeholder: "Your job title"
+    max_length: "Job title cannot exceed 255 characters"
+  bio:
+    label: "Bio"
+    title: "About"
+    placeholder: "Tell us about yourself..."
+    max_length: "Bio cannot exceed 1000 characters"
+    help: "Describe yourself in a few words"
+  basic_info: "Basic Information"
+  website:
+    label: "Website"
+    placeholder: "https://yourwebsite.com"
+    invalid: "Please enter a valid URL"
+  linkedin:
+    placeholder: "https://linkedin.com/in/yourprofile"
+    invalid: "Please enter a valid LinkedIn URL"
+  twitter:
+    placeholder: "https://twitter.com/yourhandle"
+    invalid: "Please enter a valid Twitter URL"
+  slug:
+    invalid_format: "Slug must contain only lowercase letters, numbers, and hyphens"
+  public:
+    title: "Digital Card"
+  preview:
+    open: "Open card preview"
+  qr_code:
+    title: "QR Code"
+    view: "View QR Code"
+    instructions: "Scan this QR code with your mobile device to view this card"
+  assignments:
+    title: "Card Assignments"
+    description: "Assign this card to team members so they can manage it"
+    current: "Current Assignments"
+    team_members: "Team Members"
+    assign.submit: "Assign Card"
+    assign: "Assign Card"
+    unassign: "Unassign"
+    unassign.confirm: "Are you sure you want to unassign this card from this team member?"
+    assign.success: "Card assigned to team member(s) successfully"
+    success: "Card assigned to team member(s) successfully"
+    removed: "Card assignment removed successfully"
+    unassign.success: "Card assignment removed successfully"
+    assign.denied: "You do not have permission to assign this card"
+    none: "No assignments"
+    count: "cards"
+  access:
+    denied: "You do not have access to this card"
+  # Feature 008: Download functionality
+  download:
+    label: "Download Contact"
+    error: "Unable to generate contact card. Please try again later."
+  security:
+    regenerate_key: "Regenerate Access Key"
+    regenerate_key_confirm: "Are you sure? This will invalidate the current public URL."
+    regenerate_key_success: "Access key regenerated successfully. Please share the new URL."
+    warning: "⚠️ Keep this URL secure. Anyone with this link can view your card."
+    secure_url: "Secure Public URL"
+    copy_url: "Copy URL"
+    url_copied: "URL copied to clipboard!"
+    copy_error: "Error copying URL"
+  label:
+    email: "Email"
+    phone: "Phone"
+    website: "Website"
+  action:
+    call: "Call"
+    email: "Email"
+    call.short: "Call"
+    email.short: "Email"
+  social:
+    title: "Social Media"
+    instagram:
+      label: "Instagram"
+      placeholder: "https://instagram.com/yourprofile"
+      aria: "Visit Instagram profile"
+    tiktok:
+      label: "TikTok"
+      placeholder: "https://tiktok.com/@yourhandle"
+      aria: "Visit TikTok profile"
+    facebook:
+      label: "Facebook"
+      placeholder: "https://facebook.com/yourprofile"
+      aria: "Visit Facebook profile"
+    x:
+      label: "X (Twitter)"
+      placeholder: "https://x.com/yourhandle"
+      aria: "Visit X profile"
+    bluebirds:
+      label: "Bluebirds"
+      placeholder: "https://bluebirds.app/yourprofile"
+      aria: "Visit Bluebirds profile"
+    snapchat:
+      label: "Snapchat"
+      placeholder: "https://snapchat.com/add/yourhandle"
+      aria: "Visit Snapchat profile"
+    planity:
+      label: "Planity"
+      placeholder: "https://planity.com/yourprofile"
+      aria: "Visit Planity profile"
+    linkedin:
+      label: "LinkedIn"
+      placeholder: "https://linkedin.com/in/yourprofile"
+      aria: "Visit LinkedIn profile"
+    other:
+      label: "Other"
+      placeholder: "https://yourprofile.com"
+      aria: "Visit profile"
+  powered_by: "Powered by Hermio"
+
+branding:
+  title: "Branding Configuration"
+  access_denied: "Branding customization is only available for Pro and Enterprise plans"
+  upgrade: "Upgrade Now"
+  preview:
+    title: "Live Preview"
+  colors:
+    title: "Brand Colors"
+  primary_color: "Primary Color"
+  secondary_color: "Secondary Color"
+  logo:
+    title: "Logo"
+    position: "Logo Position"
+    size: "Logo Size"
+    remove: "Remove Logo"
+    remove.confirm: "Are you sure you want to remove the logo?"
+    position.top_left: "Top Left"
+    position.top_center: "Top Center"
+    position.top_right: "Top Right"
+    position.center: "Center"
+    position.bottom_left: "Bottom Left"
+    position.bottom_center: "Bottom Center"
+    position.bottom_right: "Bottom Right"
+    size.small: "Small"
+    size.medium: "Medium"
+    size.large: "Large"
+    current: "Current logo"
+    help: "Upload a PNG, JPG, or SVG file (max 5MB)"
+
+  save: "Save Branding"
+  save.success: "Branding configuration saved successfully"
+  template:
+    title: "Custom Template (Enterprise Only)"
+    description: "Customize your public card page template. Your template must extend 'public/card.html.twig' and can override specific blocks."
+    content: "Template Content"
+    save: "Save Template"
+    save.success: "Custom template saved successfully"
+    save.error: "Failed to save template. Please check the template syntax."
+    reset: "Reset to Default Template"
+    reset.confirm: "Are you sure you want to reset your custom template? This action cannot be undone."
+    reset.success: "Template reset to default successfully"
+    reset.error: "Failed to reset template"
+    too_large: "Template content must not exceed 50KB"
+  logo.remove.success: "Logo removed successfully"
+  reset: "Reset All Branding"
+  reset.success: "Branding configuration reset successfully"
+  reset.error: "Failed to reset branding configuration"
+  reset.confirm: "Are you sure you want to reset all branding configuration? This will remove colors, logo, and custom templates. This action cannot be undone."
+  reset.confirmation_required: "You must confirm to reset branding configuration"
+  color.invalid_format: "Color must be in hex format (#RRGGBB)"
+  logo.invalid_type: "Logo must be a PNG, JPG, JPEG, or SVG file"
+  logo.too_large: "Logo file size must not exceed 5MB"
+  logo.position.invalid: "Invalid logo position"
+  logo.size.invalid: "Invalid logo size"
+  template.invalid_syntax: "Invalid Twig template syntax"
+  template.must_extend_base: "Template must extend 'public/card.html.twig'"
+  template.dangerous_function: "Template contains dangerous functions"
+  template.access_denied: "Template customization is only available for Enterprise plans"
+  validation.error: "Please correct the errors below"
+  upload.error: "Logo upload failed. Please try again."
+  primary_color_picker:
+    picker: "Choose primary color"
+    help: "Choose a color or enter a hex code (e.g., #FF5733)"
+  secondary_color_picker:
+    picker: "Choose secondary color"
+    help: "Choose a color or enter a hex code (e.g., #6c757d)"
+  color:
+    accessibility:
+      title: "Color Accessibility"
+      help: "For better accessibility, use colors with a contrast ratio of at least 4.5:1 (WCAG AA) or 7:1 (WCAG AAA) against a white background."
+      warning:
+        primary: "Warning: Primary color contrast ratio is %s:1 (%s). For better accessibility, aim for at least 4.5:1 (WCAG AA) or 7:1 (WCAG AAA)."
+        secondary: "Warning: Secondary color contrast ratio is %s:1 (%s). For better accessibility, aim for at least 4.5:1 (WCAG AA) or 7:1 (WCAG AAA)."
+      info: "Color contrast meets WCAG accessibility standards"
+
+team:
+  title: "Team Management"
+  access_denied: "Team features are only available for Enterprise plans"
+  upgrade: "Upgrade to Enterprise"
+  members:
+    title: "Team Members"
+    email: "Email"
+    role: "Role"
+    status: "Status"
+    joined: "Joined"
+    last_activity: "Last Activity"
+    actions: "Actions"
+    empty: "No team members yet"
+    count: "Team Members (%count%)"
+    no_activity: "No activity yet"
+    assigned_by: "Assigned by"
+  invite:
+    title: "Invite Team Member"
+    email: "Email Address"
+    role: "Role"
+    submit: "Send Invitation"
+    success: "Team member invitation sent successfully"
+    duplicate: "This user has already been invited to this team"
+    invalid_email: "Invalid email address"
+    rate_limit_hour: "Rate limit exceeded: Maximum 10 invitations per hour. Please try again later."
+    rate_limit_day: "Rate limit exceeded: Maximum 50 invitations per day. Please try again tomorrow."
+    cannot_resend: "Cannot resend invitation: invitation is not in pending status"
+    resend: "Resend Invitation"
+    resend.success: "Invitation resent successfully"
+  role:
+    admin: "Administrator"
+    member: "Member"
+    change: "Change Role"
+    change.submit: "Update Role"
+    change.success: "Team member role updated successfully"
+    change.denied: "Only account owners can change team member roles"
+  remove: "Remove"
+  remove.confirm: "Are you sure you want to remove this team member? They will lose access to all account resources."
+  remove.success: "Team member removed successfully"
+  remove.denied: "Only account owners can remove team members"
+  invitation:
+    title: "Team Invitation"
+    message: "You have been invited to join the team for account: %account%"
+    role: "Role: %role%"
+    login_required: "You must be logged in to accept this invitation"
+    login: "Log In"
+    email_mismatch: "This invitation was sent to %expected%, but you are logged in as %actual%. Please log in with the correct email address."
+    accept: "Accept Invitation"
+    decline: "Decline Invitation"
+    expired: "This invitation has expired. Please contact the account owner for a new invitation."
+    already_processed: "This invitation has already been processed"
+    invalid: "Invalid or already processed invitation"
+    accept.success: "You have successfully joined the team"
+    decline.success: "Invitation declined"
+    expires_on: "This invitation expires on"
+    ignore_message: "If you did not expect this invitation, you can safely ignore this email."
+    automated_message: "This is an automated message from Hermio. Please do not reply to this email."
+  status:
+    pending: "Pending"
+    accepted: "Accepted"
+    declined: "Declined"
+    expired: "Expired"
+    revoked: "Revoked"
+  can_manage: "You can manage team members"
+  cannot_manage: "You do not have permission to manage team members"
+
+# ============================================================================
+# AUTHENTICATION PAGES (Back-Office Theme Redesign)
+# ============================================================================
+auth:
+  title: "Authentication"
+  form:
+    aria_label: "Authentication form"
+  illustration:
+    aria_label: "Hermio branding"
+    tagline: "Your professional identity, one scan away"
+
+  login:
+    title: "Login to Hermio"
+    subtitle: "Access your digital business cards"
+    email_label: "Email Address"
+    email_placeholder: "you@example.com"
+    email_help: "Enter your registered email address"
+    password_label: "Password"
+    password_placeholder: "Enter your password"
+    password_help: "Enter your account password"
+    remember_me: "Remember me"
+    submit: "Sign In"
+    forgot_password: "Forgot your password?"
+    no_account: "Don't have an account?"
+    register_link: "Create one now"
+
+  register:
+    title: "Create Your Account"
+    subtitle: "Start creating digital business cards"
+    email_label: "Email Address"
+    email_placeholder: "you@example.com"
+    email_help: "Enter a valid email address"
+    password_label: "Password"
+    password_placeholder: "Choose a secure password"
+    password_help: "Minimum 8 characters"
+    confirm_password_label: "Confirm Password"
+    confirm_password_placeholder: "Re-enter your password"
+    confirm_password_help: "Passwords must match"
+    submit: "Create Account"
+    have_account: "Already have an account?"
+    login_link: "Sign in here"
+    terms: "By creating an account, you agree to our <a href=\"%terms_url%\">Terms of Service</a> and <a href=\"%privacy_url%\">Privacy Policy</a>."
+
+# ============================================================================
+# ACCESSIBILITY
+# ============================================================================
+accessibility:
+  skip_to_content: "Skip to main content"
+
+# ============================================================================
+# DASHBOARD COMPONENTS
+# ============================================================================
+dashboard:
+  title: "Dashboard"
+  cards:
+    account_overview: "Account Overview"
+    plan_summary: "My Plan"
+    card_stats: "Card Statistics"
+    recent_activity: "Recent Activity"
+  account:
+    email: "Email"
+    plan: "Current Plan"
+    quota: "Quota"
+    joined: "Member Since"
+  actions:
+    view_details: "View Details"
+    upgrade_plan: "Upgrade Plan"
+    manage_cards: "Manage Cards"
+  plan:
+    title: "Plan"
+    unlimited: "Unlimited"
+    limited: "Limited"
+  usage:
+    title: "Card Usage"
+  quick_actions:
+    title: "Quick Actions"
+  activity:
+    event: "Event"
+    date: "Date/Time"
+    status: "Status"
+    login: "Login"
+    logout: "Logout"
+    registration: "Registration"
+    success: "Success"
+    failed: "Failed"
+  welcome: "Welcome back"
+  member_since: "Member since"
+  days: "days"
+  total_cards: "Total Cards"
+  active: "active"
+  view_all: "View All"
+  analytics:
+    title: "QR Code Analytics"
+    total_scans: "Total Scans"
+    tracked_cards: "Tracked Cards"
+    avg_per_day: "Avg Scans/Day"
+    scans_per_day: "Scans Per Day (Last 30 Days)"
+    top_cards: "Most Scanned Cards"
+    rank: "Rank"
+    card_name: "Card Name"
+    slug: "Slug"
+    scans: "Scans"
+    locked: "Feature Locked"
+    upgrade_title: "Unlock Advanced Analytics"
+    upgrade_message: "Track your QR code scans, view daily statistics, and see which cards perform best. Upgrade to Enterprise plan to access these powerful insights."
+    upgrade_button: "Upgrade to Enterprise"
+
+header:
+  user_menu:
+    profile: "Profile"
+    logout: "Logout"
+
+error:
+  access_denied:
+    title: "Access Denied"
+    message: "This card requires a valid access key to be viewed."
+    reason: "Why am I seeing this?"
+    invalid_key: "The access key is missing or invalid. Please check the URL you received."
+    help: "What can I do?"
+    check_url: "Verify the complete URL including the access key parameter (?k=...)"
+    check_link: "Make sure you're using the most recent link shared with you"
+
+common:
+  loading: "Loading..."
+  contact_owner: "Contact the card owner to request a new link"
+  back_home: "Back to Home"
+
+terms:
+  title: "Terms and Conditions of Use"
+  section1:
+    title: "1. Purpose"
+    content: "These Terms and Conditions of Use (hereinafter the \"Terms\") define the conditions under which professional users (hereinafter the \"User\") access and use the virtual business card SaaS service (hereinafter the \"Service\").<br><br>Any use of the Service implies unreserved acceptance of these Terms."
+  section2:
+    title: "2. Legal Information"
+    subtitle: "Service Publisher"
+    content: "The Service is published by a simplified joint-stock company (SAS) registered under SIREN number 919 984 757.<br><ul class='mt-2'><li>Legal form: Simplified joint-stock company (SAS)</li><li>SIRET (registered office): 919 984 757 00014</li><li>Intra-community VAT number: FR91919984757</li><li>Activity (NAF / APE): Computer programming (6201Z)</li><li>Creation date: October 4, 2022</li><li>Registered office address: 14 rue Bausset, 75015 Paris, France</li><li>Director: Eric DEFIEZ</li></ul>"
+    hosting_title: "Hosting"
+    hosting_content: "The Service is hosted by:<br><ul class='mt-2'><li>OVH SAS</li><li>Address: 2 rue Kellermann, 59100 Roubaix, France</li><li>Phone: 1007</li><li>Website: www.ovh.com</li></ul>"
+  section3:
+    title: "3. Service Description"
+    content: "The Service is a SaaS application exclusively intended for professional use, allowing in particular:<br><ul class='mt-2'><li>the creation and management of a virtual business card,</li><li>the sharing of professional information,</li><li>the download of a contact file in VCF format,</li><li>the generation of QR codes allowing access to the virtual card.</li></ul><br>The Service does not offer content publicly generated by users."
+  section4:
+    title: "4. Service Access"
+    content: "Access to the Service is reserved for professionals with the necessary legal capacity.<br><br>The User must create a personal account and undertakes to provide accurate and up-to-date information.<br><br>Login credentials are strictly personal and confidential. Any use of the account is deemed to be carried out by the User."
+  section5:
+    title: "5. Financial Terms"
+    content: "The Service is accessible through free and/or paid plans, in the form of subscriptions.<br><br>Payments are processed by a secure third-party payment provider. Payment data is never stored by the Publisher."
+  section6:
+    title: "6. Intellectual Property"
+    content: "The entire Service, its technical components, software, algorithms, interfaces, databases, texts, graphics, logos and content is protected by intellectual property law and remains the exclusive property of the Publisher, unless otherwise stated.<br><br>Any unauthorized reproduction, representation, modification, extraction or exploitation of all or part of the Service is strictly prohibited.<br><br>No resale, provision to third parties or separate commercial exploitation of the Service is authorized without the prior written consent of the Publisher."
+    qr_title: "QR Codes"
+    qr_content: "QR codes generated via the Service are exclusively intended for professional use by the User, in particular for printing and distributing business cards.<br><br>The User benefits from a non-exclusive, non-transferable and non-assignable right to use the generated QR codes, limited to the duration of their subscription and the use strictly provided for by the Service."
+  section7:
+    title: "7. Liability and Limitation of Liability"
+    content: "The Service is provided in SaaS mode and accessible via the Internet.<br><br>The Publisher is bound by an obligation of means."
+    availability_title: "Availability"
+    availability_content: "The Publisher does not guarantee continuous or error-free availability of the Service. Temporary interruptions may occur in particular for maintenance operations, updates or due to technical constraints.<br><br>The Publisher cannot be held responsible for unavailability resulting in particular from:<br><ul class='mt-2'><li>telecommunications networks,</li><li>the host or third-party services,</li><li>force majeure events.</li></ul>"
+    data_title: "User Data and Content"
+    data_content: "The User is solely responsible for the data, information and content that they enter, use or disseminate via the Service.<br><br>The Publisher does not guarantee the accuracy, completeness or legal compliance of the data provided by the User."
+    limitation_title: "Limitation"
+    limitation_content: "The Publisher's liability is strictly limited to direct, personal and certain damages.<br><br>Indirect damages are expressly excluded, including:<br><ul class='mt-2'><li>loss of revenue,</li><li>loss of customers,</li><li>loss of commercial opportunities,</li><li>loss of data,</li><li>commercial or image damage.</li></ul><br>In any event, the Publisher's total financial liability is capped at the amount excluding taxes actually paid by the User for their subscription during the twelve (12) months preceding the triggering event."
+  section8:
+    title: "8. Strictly Professional Use (B2B)"
+    content: "The Service is exclusively intended for professional users acting in the context of their commercial, industrial, artisanal or liberal activity.<br><br>Consequently:<br><ul class='mt-2'><li>the provisions of the Consumer Code are not applicable,</li><li>no right of withdrawal is applicable,</li><li>the User expressly acknowledges acting for professional purposes.</li></ul><br>Any use of the Service by a consumer or non-professional is prohibited."
+  section9:
+    title: "9. Personal Data"
+    content: "Personal data is processed in accordance with current regulations.<br><br>The methods of collection, processing and protection of data are detailed in the Privacy Policy, accessible on the site."
+  section10:
+    title: "10. Termination"
+    content: "The User may terminate their subscription at any time.<br><br>Termination takes effect at the end of the current subscription period. The User retains access to the Service until that date.<br><br>No pro rata refund is made, unless otherwise provided by contract."
+  section11:
+    title: "11. Modification of Terms"
+    content: "The Publisher reserves the right to modify these Terms at any time.<br><br>The applicable Terms are those in force on the date of use of the Service."
+  section12:
+    title: "12. Applicable Law and Jurisdiction"
+    content: "These Terms are governed by French law.<br><br>In the event of a dispute relating to their interpretation or execution, and in the absence of an amicable resolution, the courts of the jurisdiction of the Publisher's registered office shall have sole jurisdiction."
+  section13:
+    title: "13. Contact"
+    content: "For any questions regarding these Terms or the Service, the User may contact the Publisher using the contact details mentioned in article 2."
+

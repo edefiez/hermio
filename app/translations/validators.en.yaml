@@ -1,0 +1,26 @@
+# Validators - English Translations
+# Validation messages for forms
+
+# Authentication
+"Please enter your email address": "Please enter your email address"
+"Please enter a password": "Please enter a password"
+"Your password should be at least {{ limit }} characters": "Your password should be at least {{ limit }} characters"
+"Your password must contain at least one uppercase letter, one lowercase letter, one number, and one special character (@$!%*?&)": "Your password must contain at least one uppercase letter, one lowercase letter, one number, and one special character (@$!%*?&)"
+"You must agree to our terms and conditions.": "You must agree to our terms and conditions."
+"An account with this email already exists": "An account with this email already exists"
+
+# Card validation
+"card.name.required": "Name is required"
+"card.name.max_length": "Name cannot exceed 255 characters"
+"card.phone.max_length": "Phone cannot exceed 50 characters"
+"card.company.max_length": "Company name cannot exceed 255 characters"
+"card.title.max_length": "Job title cannot exceed 255 characters"
+"card.bio.max_length": "Bio cannot exceed 1000 characters"
+"card.slug.invalid_format": "Slug must contain only lowercase letters, numbers, and hyphens"
+
+# Branding validation
+"branding.color.invalid_format": "Color must be in hex format (#RRGGBB)"
+"branding.logo.invalid_type": "Logo must be a PNG, JPG, JPEG, or SVG file"
+"branding.logo.position.invalid": "Invalid logo position"
+"branding.logo.size.invalid": "Invalid logo size"
+"branding.template.too_large": "Template content must not exceed 50KB"

@@ -1,0 +1,26 @@
+{% extends 'base_public.html.twig' %}
+
+{% block title %}{{ card.content.name|default('card.public.title'|trans) }} - Hermio{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('public-card') }}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+{% endblock %}
+
+{% block body %}
+<div class="public-card-container">
+    {% include 'card/_content.html.twig' with {'showDownloadButton': true} %}
+
+    {# Fixed Download Button - Mobile Only #}
+    <a href="{{ path('public_card_download', {slug: card.slug}) }}"
+       class="btn btn-download btn-download-mobile d-md-none"
+       style="background-color: {{ branding and branding.primaryColor ? branding.primaryColor : '#007bff' }};"
+       aria-label="{{ 'card.download.label'|trans }}">
+        <i class="bi bi-download"></i>
+        <span>{{ 'card.download.label'|trans }}</span>
+    </a>
+</div>
+{% endblock %}
+
+

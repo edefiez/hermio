@@ -1,46 +1,84 @@
-{% extends 'base.html.twig' %}
+{% extends 'auth/_base.html.twig' %}
 
-{% block title %}Login - Hermio{% endblock %}
+{% block title %}{{ 'auth.login.title'|trans }} - Hermio{% endblock %}
 
-{% block body %}
-<div class="auth-container">
-    <div class="auth-card">
-        <h1>Login</h1>
+{% block form_content %}
+    {# Login Form Title #}
+    <h1 class="auth-form-title">{{ 'auth.login.title'|trans }}</h1>
+    <p class="auth-form-subtitle">{{ 'auth.login.subtitle'|trans }}</p>
 
-        {% if error %}
-            <div class="alert alert-danger">
-                {{ error.messageKey|trans(error.messageData, 'security') }}
-            </div>
-        {% endif %}
-
-        <form method="post" action="{{ path('app_login') }}">
-            <div class="form-group">
-                <label for="username">Email:</label>
-                <input type="email" id="username" name="_username" value="{{ last_username }}" 
-                       class="form-control" required autofocus autocomplete="email">
-            </div>
-
-            <div class="form-group">
-                <label for="password">Password:</label>
-                <input type="password" id="password" name="_password" 
-                       class="form-control" required autocomplete="current-password">
-            </div>
-
-            <div class="form-group">
-                <label>
-                    <input type="checkbox" name="_remember_me"> Remember me
-                </label>
-            </div>
-
-            <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
-
-            <button type="submit" class="btn btn-primary">Login</button>
-        </form>
-
-        <div class="auth-links">
-            <p>Don't have an account? <a href="{{ path('app_register') }}">Register here</a></p>
-            <p><a href="#">Forgot your password?</a></p>
+    {# Error Alert #}
+    {% if error %}
+        <div class="alert alert-danger" role="alert" aria-live="polite">
+            <i class="fas fa-exclamation-circle me-2"></i>
+            {{ error.messageKey|trans(error.messageData, 'security') }}
         </div>
+    {% endif %}
+
+    {# Login Form #}
+    <form method="post" action="{{ path('app_login') }}" class="auth-form" novalidate>
+        {# Email Field #}
+        <div class="mb-3">
+            <label for="username" class="form-label">{{ 'auth.login.email_label'|trans }}</label>
+            <input type="email" 
+                   id="username" 
+                   name="_username" 
+                   value="{{ last_username }}" 
+                   class="form-control" 
+                   required 
+                   autofocus 
+                   autocomplete="email"
+                   aria-describedby="username-help"
+                   placeholder="{{ 'auth.login.email_placeholder'|trans }}">
+            <small id="username-help" class="form-text text-muted visually-hidden">
+                {{ 'auth.login.email_help'|trans }}
+            </small>
+        </div>
+
+        {# Password Field #}
+        <div class="mb-3">
+            <label for="password" class="form-label">{{ 'auth.login.password_label'|trans }}</label>
+            <input type="password" 
+                   id="password" 
+                   name="_password" 
+                   class="form-control" 
+                   required 
+                   autocomplete="current-password"
+                   aria-describedby="password-help"
+                   placeholder="{{ 'auth.login.password_placeholder'|trans }}">
+            <small id="password-help" class="form-text text-muted visually-hidden">
+                {{ 'auth.login.password_help'|trans }}
+            </small>
+        </div>
+
+        {# Remember Me Checkbox #}
+        <div class="mb-3 form-check">
+            <input type="checkbox" 
+                   class="form-check-input" 
+                   id="remember_me" 
+                   name="_remember_me">
+            <label class="form-check-label" for="remember_me">
+                {{ 'auth.login.remember_me'|trans }}
+            </label>
+        </div>
+
+        {# CSRF Token #}
+        <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+
+        {# Submit Button #}
+        <button type="submit" class="btn btn-primary">
+            <i class="fas fa-sign-in-alt me-2"></i>
+            {{ 'auth.login.submit'|trans }}
+        </button>
+    </form>
+
+    {# Forgot Password Link #}
+    <a href="#" class="auth-forgot-password">{{ 'auth.login.forgot_password'|trans }}</a>
+
+    {# Footer Links #}
+    <div class="auth-form-footer">
+        <p>{{ 'auth.login.no_account'|trans }}</p>
+        <a href="{{ path('app_register') }}">{{ 'auth.login.register_link'|trans }}</a>
     </div>
-</div>
 {% endblock %}
+

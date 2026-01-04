@@ -1,0 +1,23 @@
+// ============================================================================
+// AUTHENTICATION PAGES STYLES
+// ============================================================================
+// Styles specific to login and registration pages
+// Uses the two-column layout pattern with form + illustration
+
+@import 'design-tokens';
+@import '~bootstrap/scss/bootstrap';
+
+// Import component styles
+@import 'components/auth-layout';
+@import 'components/illustration';
+
+// ============================================================================
+// AUTHENTICATION BASE STYLES
+// ============================================================================
+
+// Global authentication page background
+body.auth-page {
+  background: $hermio-bg-auth-form;
+  font-family: $hermio-font-sans;
+  color: $hermio-gray-900;
+}

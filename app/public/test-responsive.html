@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Responsive Home Page</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        }
+
+        .test-container {
+            padding: 20px;
+            background: #f5f5f5;
+        }
+
+        .test-header {
+            background: white;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .device-info {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .iframe-container {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .device-selector {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .device-btn {
+            padding: 10px 20px;
+            border: 2px solid #4F46E5;
+            background: white;
+            color: #4F46E5;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .device-btn:hover,
+        .device-btn.active {
+            background: #4F46E5;
+            color: white;
+        }
+
+        .preview-frame {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background: white;
+            margin: 0 auto;
+            transition: all 0.3s;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        iframe {
+            width: 100%;
+            border: none;
+            border-radius: 8px;
+        }
+
+        .checklist {
+            background: white;
+            padding: 20px;
+            margin-top: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .checklist h2 {
+            margin-bottom: 15px;
+            color: #333;
+        }
+
+        .check-item {
+            padding: 8px 0;
+            color: #666;
+        }
+
+        .check-item::before {
+            content: "✓ ";
+            color: #4F46E5;
+            font-weight: bold;
+            margin-right: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <div class="test-header">
+            <h1>🎨 Test Responsive - Page d'accueil Hermio</h1>
+            <div class="device-info">
+                Largeur actuelle : <strong id="currentWidth">-</strong>px |
+                Hauteur : <strong id="currentHeight">-</strong>px
+            </div>
+        </div>
+
+        <div class="iframe-container">
+            <div class="device-selector">
+                <button class="device-btn active" onclick="setDevice(1920, 1080, this)">🖥️ Desktop (1920px)</button>
+                <button class="device-btn" onclick="setDevice(1440, 900, this)">💻 Laptop (1440px)</button>
+                <button class="device-btn" onclick="setDevice(1024, 768, this)">📱 iPad Pro (1024px)</button>
+                <button class="device-btn" onclick="setDevice(768, 1024, this)">📱 iPad (768px)</button>
+                <button class="device-btn" onclick="setDevice(390, 844, this)">📱 iPhone 14 Pro (390px)</button>
+                <button class="device-btn" onclick="setDevice(375, 667, this)">📱 iPhone SE (375px)</button>
+                <button class="device-btn" onclick="setDevice(320, 568, this)">📱 iPhone 5 (320px)</button>
+            </div>
+
+            <div class="preview-frame" id="previewFrame">
+                <iframe id="testFrame" src="http://localhost:8010/" height="800"></iframe>
+            </div>
+        </div>
+
+        <div class="checklist">
+            <h2>✅ Points à vérifier</h2>
+            <div class="check-item">La section hero prend toute la largeur avec son gradient</div>
+            <div class="check-item">Les sections colorées (section-light) prennent toute la largeur</div>
+            <div class="check-item">Le contenu est centré dans un container max-width: 1200px</div>
+            <div class="check-item">Les grilles s'adaptent : 3 colonnes → 2 colonnes → 1 colonne</div>
+            <div class="check-item">Les boutons sont adaptés sur mobile (pleine largeur < 480px)</div>
+            <div class="check-item">Les cartes (features, pricing, steps) sont lisibles sur tous écrans</div>
+            <div class="check-item">Le texte reste lisible (taille de police adaptée)</div>
+            <div class="check-item">Les espacements (padding, gap) sont réduits sur mobile</div>
+            <div class="check-item">Aucun défilement horizontal sur mobile</div>
+            <div class="check-item">Les animations fonctionnent correctement</div>
+        </div>
+    </div>
+
+    <script>
+        function setDevice(width, height, btn) {
+            const frame = document.getElementById('previewFrame');
+            const iframe = document.getElementById('testFrame');
+
+            frame.style.maxWidth = width + 'px';
+            iframe.style.height = height + 'px';
+
+            document.querySelectorAll('.device-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+
+            updateDimensions();
+        }
+
+        function updateDimensions() {
+            const frame = document.getElementById('previewFrame');
+            document.getElementById('currentWidth').textContent = frame.offsetWidth;
+            document.getElementById('currentHeight').textContent = document.getElementById('testFrame').offsetHeight;
+        }
+
+        window.addEventListener('load', updateDimensions);
+        window.addEventListener('resize', updateDimensions);
+
+        // Initial load
+        setDevice(1920, 1080, document.querySelector('.device-btn'));
+    </script>
+</body>
+</html>
+

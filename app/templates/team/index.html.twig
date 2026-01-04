@@ -1,0 +1,154 @@
+{% extends 'base_admin.html.twig' %}
+
+{% block title %}{{ 'team.title'|trans }} - Hermio{% endblock %}
+
+{% block page_title %}{{ 'team.title'|trans }}{% endblock %}
+
+{% block admin_content %}
+<div class="profile-container">
+    <div class="profile-card">
+        <h1>{{ 'team.title'|trans }}</h1>
+
+        {# Flash messages #}
+        {% for label, messages in app.flashes %}
+            {% for message in messages %}
+                <div class="alert alert-{{ label == 'error' ? 'danger' : label }}" role="alert">
+                    {{ message|trans }}
+                </div>
+            {% endfor %}
+        {% endfor %}
+
+        {% if not isEnterprise %}
+            <div class="alert alert-warning">
+                {{ 'team.access_denied'|trans }}
+                <a href="{{ path('app_subscription_manage') }}" class="btn btn-primary" style="margin-left: 10px;">
+                    {{ 'team.upgrade'|trans }}
+                </a>
+            </div>
+        {% else %}
+            {% if canManageTeam %}
+                <div class="form-section" style="margin-bottom: 30px;">
+                    <h2>{{ 'team.invite.title'|trans }}</h2>
+                    {{ form_start(invitationForm, {'action': path('app_team_index'), 'method': 'POST'}) }}
+                        {# Display form errors #}
+                        {% if not invitationForm.vars.valid %}
+                            <div class="alert alert-danger" role="alert">
+                                <ul style="margin-top: 10px; margin-bottom: 0;">
+                                    {% for error in invitationForm.vars.errors %}
+                                        <li>{{ error.message }}</li>
+                                    {% endfor %}
+                                    {% for child in invitationForm.children %}
+                                        {% for error in child.vars.errors %}
+                                            <li>{{ error.message }}</li>
+                                        {% endfor %}
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        {% endif %}
+
+                        {{ form_row(invitationForm.email) }}
+                        {{ form_row(invitationForm.role) }}
+                        {{ form_row(invitationForm._token) }}
+                        <button type="submit" class="btn btn-primary">{{ 'team.invite.submit'|trans }}</button>
+                    {{ form_end(invitationForm) }}
+                </div>
+            {% endif %}
+
+            <div class="team-members-section">
+                <h2>{{ 'team.members.title'|trans }} ({{ teamMembers|length }})</h2>
+
+                {% if teamMembers|length > 0 %}
+                    <table class="table" style="width: 100%; border-collapse: collapse; margin-top: 20px;">
+                        <thead>
+                            <tr style="border-bottom: 2px solid #dee2e6;">
+                                <th style="padding: 12px; text-align: left;">{{ 'team.members.email'|trans }}</th>
+                                <th style="padding: 12px; text-align: left;">{{ 'team.members.role'|trans }}</th>
+                                <th style="padding: 12px; text-align: left;">{{ 'team.members.status'|trans }}</th>
+                                <th style="padding: 12px; text-align: left;">{{ 'team.members.joined'|trans }}</th>
+                                {% if canManageTeam %}
+                                    <th style="padding: 12px; text-align: left;">{{ 'team.members.last_activity'|trans }}</th>
+                                    <th style="padding: 12px; text-align: left;">{{ 'card.assignments.title'|trans }}</th>
+                                    <th style="padding: 12px; text-align: left;">{{ 'team.members.actions'|trans }}</th>
+                                {% endif %}
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for member in teamMembers %}
+                                <tr style="border-bottom: 1px solid #dee2e6;">
+                                    <td style="padding: 12px;">{{ member.email }}</td>
+                                    <td style="padding: 12px;">{{ member.role.getDisplayName()|trans }}</td>
+                                    <td style="padding: 12px;">
+                                        <span class="badge badge-{{ member.invitationStatus == 'accepted' ? 'success' : (member.invitationStatus == 'pending' ? 'warning' : 'secondary') }}">
+                                            {{ ('team.status.' ~ member.invitationStatus)|trans }}
+                                        </span>
+                                    </td>
+                                    <td style="padding: 12px;">
+                                        {% if member.joinedAt %}
+                                            {{ member.joinedAt|date('Y-m-d H:i') }}
+                                        {% else %}
+                                            N/A
+                                        {% endif %}
+                                    </td>
+                                    {% if canManageTeam %}
+                                        <td style="padding: 12px;">
+                                            {% if member.lastActivityAt %}
+                                                {{ member.lastActivityAt|date('Y-m-d H:i') }}
+                                            {% else %}
+                                                {{ 'team.members.no_activity'|trans }}
+                                            {% endif %}
+                                        </td>
+                                        <td style="padding: 12px;">
+                                            {% if teamOverview and teamOverview.assignmentCounts[member.id] is defined %}
+                                                <span class="badge bg-info text-dark">
+                                                    {{ teamOverview.assignmentCounts[member.id] }} {{ 'card.assignments.count'|trans }}
+                                                </span>
+                                            {% else %}
+                                                <span class="badge bg-secondary text-white">0</span>
+                                            {% endif %}
+                                        </td>
+                                        <td style="padding: 12px;">
+                                            {% if member.invitationStatus == 'accepted' and isAccountOwner %}
+                                                <div style="display: flex; gap: 10px; align-items: center;">
+                                                    {# Role change form #}
+                                                    <form method="post" action="{{ path('app_team_change_role', {id: member.id}) }}" style="display: inline;">
+                                                        <input type="hidden" name="_token" value="{{ csrf_token('team_role_change') }}">
+                                                        <select name="role[role]" onchange="this.form.submit()" style="padding: 5px; border: 1px solid #ddd; border-radius: 4px;">
+                                                            <option value="{{ constant('App\\Enum\\TeamRole::ADMIN').value }}" {% if member.role == constant('App\\Enum\\TeamRole::ADMIN') %}selected{% endif %}>
+                                                                {{ 'team.role.admin'|trans }}
+                                                            </option>
+                                                            <option value="{{ constant('App\\Enum\\TeamRole::MEMBER').value }}" {% if member.role == constant('App\\Enum\\TeamRole::MEMBER') %}selected{% endif %}>
+                                                                {{ 'team.role.member'|trans }}
+                                                            </option>
+                                                        </select>
+                                                    </form>
+
+                                                    {# Remove button #}
+                                                    <form method="post" action="{{ path('app_team_remove', {id: member.id}) }}" style="display: inline;" onsubmit="return confirm('{{ 'team.remove.confirm'|trans }}');">
+                                                        <input type="hidden" name="_token" value="{{ csrf_token('team_remove' ~ member.id) }}">
+                                                        <button type="submit" class="btn btn-danger" style="padding: 5px 10px; font-size: 12px;">{{ 'team.remove'|trans }}</button>
+                                                    </form>
+                                                </div>
+                                            {% elseif member.invitationStatus == 'pending' and isAccountOwner %}
+                                                {# Resend invitation button #}
+                                                <form method="post" action="{{ path('app_team_resend_invitation', {id: member.id}) }}" style="display: inline;">
+                                                    <input type="hidden" name="_token" value="{{ csrf_token('resend_invitation' ~ member.id) }}">
+                                                    <button type="submit" class="btn btn-secondary btn-sm">{{ 'team.invite.resend'|trans }}</button>
+                                                </form>
+                                            {% elseif member.invitationStatus == 'accepted' %}
+                                                <span style="color: #6c757d;">{{ 'team.can_manage'|trans }}</span>
+                                            {% endif %}
+                                        </td>
+                                    {% endif %}
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                {% else %}
+                    <p style="color: #6c757d; margin-top: 20px;">{{ 'team.members.empty'|trans }}</p>
+                {% endif %}
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
+

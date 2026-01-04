@@ -1,0 +1,102 @@
+{% extends 'base_admin.html.twig' %}
+
+{% block title %}{{ 'admin.account.details'|trans }} - Hermio{% endblock %}
+
+{% block page_title %}{{ 'admin.account.details'|trans }}{% endblock %}
+
+{% block admin_content %}
+<div class="profile-container">
+    <h1>{{ 'admin.account.details'|trans }}</h1>
+
+    <div class="profile-card">
+        <h2>{{ 'admin.account.user_info'|trans }}</h2>
+        <div class="profile-info">
+            <dl>
+                <dt>{{ 'account.email'|trans }}</dt>
+                <dd>{{ user.email }}</dd>
+                
+                <dt>{{ 'admin.account.user_id'|trans }}</dt>
+                <dd>{{ user.id }}</dd>
+                
+                <dt>{{ 'admin.account.user_status'|trans }}</dt>
+                <dd>
+                    <span class="badge badge-{{ user.status == 'active' ? 'success' : 'warning' }}">
+                        {{ user.status|upper }}
+                    </span>
+                </dd>
+            </dl>
+        </div>
+    </div>
+
+    <div class="profile-card">
+        <h2>{{ 'admin.account.current_plan'|trans }}</h2>
+        <div class="profile-info">
+            <dl>
+                <dt>{{ 'account.plan.type'|trans }}</dt>
+                <dd>
+                    <strong>{{ planType.getDisplayName() }}</strong>
+                    <span class="badge badge-{{ planType == constant('App\\Enum\\PlanType::FREE') ? 'warning' : (planType == constant('App\\Enum\\PlanType::PRO') ? 'success' : 'primary') }}">
+                        {{ planType.value }}
+                    </span>
+                </dd>
+                
+                <dt>{{ 'account.quota.limit'|trans }}</dt>
+                <dd>
+                    {% if quotaLimit is null %}
+                        {{ 'account.quota.unlimited'|trans }}
+                    {% else %}
+                        {{ quotaLimit }} {{ 'account.quota.cards'|trans }}
+                    {% endif %}
+                </dd>
+                
+                <dt>{{ 'account.quota.usage'|trans }}</dt>
+                <dd><strong>{{ currentUsage }}</strong> {{ 'account.quota.cards'|trans }}</dd>
+                
+                <dt>{{ 'account.plan.activated'|trans }}</dt>
+                <dd>{{ account.createdAt|date('Y-m-d H:i:s') }}</dd>
+                
+                {% if account.updatedAt %}
+                <dt>{{ 'account.plan.last_modified'|trans }}</dt>
+                <dd>{{ account.updatedAt|date('Y-m-d H:i:s') }}</dd>
+                {% endif %}
+                
+                {% if account.updatedBy %}
+                <dt>{{ 'admin.account.modified_by'|trans }}</dt>
+                <dd>{{ account.updatedBy }}</dd>
+                {% endif %}
+            </dl>
+        </div>
+    </div>
+
+    {% if downgradeWarning %}
+    <div class="alert alert-warning">
+        <strong>{{ 'admin.account.warning'|trans }}</strong><br>
+        {{ downgradeWarning }}
+    </div>
+    {% endif %}
+
+    <div class="profile-card">
+        <h2>{{ 'admin.account.change_plan'|trans }}</h2>
+        {{ form_start(form, {'attr': {'class': 'plan-change-form'}}) }}
+            {{ form_row(form.planType) }}
+            
+            {% if not canDowngrade and downgradeWarning %}
+            <div class="alert alert-warning" style="margin: 15px 0;">
+                {{ 'account.downgrade.warning'|trans({
+                    'count': currentUsage,
+                    'limit': quotaLimit,
+                    'new': form.planType.vars.choices[form.planType.vars.value]|default('')
+                }) }}
+                {{ form_row(form.confirmDowngrade) }}
+            </div>
+            {% endif %}
+            
+            <div style="margin-top: 20px;">
+                <button type="submit" class="btn btn-primary">{{ 'account.save'|trans }}</button>
+                <a href="{{ path('app_admin_account_index') }}" class="btn btn-secondary">{{ 'admin.account.back_to_list'|trans }}</a>
+            </div>
+        {{ form_end(form) }}
+    </div>
+</div>
+{% endblock %}
+

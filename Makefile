@@ -5,7 +5,7 @@
 # Les commandes sont exécutées à l'intérieur du conteneur 'app'.
 # ==============================================================================
 
-.PHONY: help up down restart logs shell rebuild install update test cc migrate make-migration yarn-install yarn-dev yarn-watch yarn-watch-stop yarn-build
+.PHONY: help up down restart logs shell rebuild install update test test-all test-unit test-functional test-integration cc migrate make-migration fixtures yarn-install yarn-dev yarn-watch yarn-watch-stop yarn-build
 
 # --- Aide ---------------------------------------------------------------------
 help:
@@ -27,9 +27,14 @@ help:
 	@echo "    \033[33mcc\033[0m          - Vide le cache de Symfony."
 	@echo "    \033[33mmigrate\033[0m     - Exécute les migrations Doctrine."
 	@echo "    \033[33mmake-migration\033[0m - Crée une nouvelle migration Doctrine."
+	@echo "    \033[33mfixtures\033[0m    - Charge les fixtures dans la base de données."
 	@echo ""
 	@echo "  Tests & Qualité:"
-	@echo "    \033[35mtest\033[0m        - Lance les tests PHPUnit (avec reset DB auto)."
+	@echo "    \033[35mtest\033[0m        - Lance les tests unitaires (recommandé, 50 tests fonctionnels)."
+	@echo "    \033[35mtest-all\033[0m    - Lance tous les tests (unitaires + fonctionnels + intégration)."
+	@echo "    \033[35mtest-unit\033[0m    - Lance uniquement les tests unitaires."
+	@echo "    \033[35mtest-functional\033[0m - Lance uniquement les tests fonctionnels (nécessite config)."
+	@echo "    \033[35mtest-integration\033[0m - Lance uniquement les tests d'intégration (nécessite config)."
 	@echo "    \033[35mtest-db-reset\033[0m - Réinitialise la base de données de test."
 	@echo "    \033[35mtest-db-init\033[0m  - Initialise la base de données de test."
 	@echo "    \033[35mtest-db-fixtures\033[0m - Charge les fixtures de test."
@@ -38,12 +43,13 @@ help:
 	@echo "    \033[35mlint\033[0m        - Lance l'analyse statique avec PHPStan."
 	@echo "    \033[35mcs-fix\033[0m      - Corrige le style du code avec PHP-CS-Fixer."
 	@echo ""
-	@echo "  Frontend (Yarn):"
-	@echo "    \033[34myarn-install\033[0m- Installe les dépendances frontend."
-	@echo "    \033[34myarn-dev\033[0m    - Compile les assets pour le développement."
-	@echo "    \033[34myarn-watch\033[0m  - Compile et surveille les changements des assets."
-	@echo "    \033[34myarn-watch-stop\033[0m - Arrête la surveillance des assets."
-	@echo "    \033[34myarn-build\033[0m  - Compile les assets pour la production."
+	@echo "  Frontend (npm/webpack):"
+	@echo "    \033[34mnpm-install\033[0m - Installe les dépendances frontend."
+	@echo "    \033[34mnpm-dev\033[0m     - Compile les assets pour le développement."
+	@echo "    \033[34mnpm-watch\033[0m   - Compile et surveille les changements des assets."
+	@echo "    \033[34mnpm-watch-stop\033[0m - Arrête la surveillance des assets."
+	@echo "    \033[34mnpm-build\033[0m   - Compile les assets pour la production."
+	@echo "    \033[90m(yarn-* disponibles comme alias)\033[0m"
 	@echo ""
 
 # --- Commandes Docker ---------------------------------------------------------
@@ -101,42 +107,61 @@ make-migration:
 	@echo "📝 Création d'une nouvelle migration..."
 	docker compose exec app php bin/console make:migration
 
+fixtures:
+	@echo "📦 Chargement des fixtures..."
+	docker compose exec app php bin/console doctrine:fixtures:load --no-interaction
+
 # --- Commandes de Tests & Qualité ---------------------------------------------
 test:
+	@echo "✅ Lancement des tests unitaires (tests fonctionnels/intégration en configuration)..."
+	@$(MAKE) test-unit
+
+test-all:
 	@echo "✅ Préparation de la base de données de test..."
 	@$(MAKE) test-db-reset
-	@echo "✅ Lancement des tests PHPUnit..."
-	docker compose exec app php vendor/bin/phpunit
+	@echo "✅ Lancement de tous les tests PHPUnit..."
+	docker compose exec app php bin/phpunit
+
+test-unit:
+	@echo "🧪 Lancement des tests unitaires..."
+	docker compose exec app php bin/phpunit tests/Unit/ --testdox
+
+test-functional:
+	@echo "🔧 Préparation de la base de données de test..."
+	@$(MAKE) test-db-init
+	@echo "🌐 Lancement des tests fonctionnels..."
+	docker compose exec app php bin/phpunit tests/Functional/ --testdox
+
+test-integration:
+	@echo "🔧 Préparation de la base de données de test..."
+	@$(MAKE) test-db-init
+	@echo "🔗 Lancement des tests d'intégration..."
+	docker compose exec app php bin/phpunit tests/Integration/ --testdox
 
 test-db-reset:
 	@echo "🔄 Réinitialisation de la base de données de test..."
-	@docker compose exec app bash -c "cd /var/www/symfony && \
-		bin/console doctrine:database:drop --env=test --force --if-exists && \
-		bin/console doctrine:database:create --env=test && \
-		bin/console doctrine:migrations:migrate --env=test --no-interaction && \
-		bin/console doctrine:fixtures:load --env=test --no-interaction"
+	@docker compose exec app php bin/console doctrine:database:drop --env=test --force --if-exists
+	@docker compose exec app php bin/console doctrine:database:create --env=test
+	@docker compose exec app php bin/console doctrine:migrations:migrate --env=test --no-interaction
+	@docker compose exec app php bin/console cache:clear --env=test
 
 test-db-init:
 	@echo "🚀 Initialisation de la base de données de test..."
-	@docker compose exec app bash -c "cd /var/www/symfony && \
-		bin/console doctrine:database:create --env=test --if-not-exists && \
-		bin/console doctrine:migrations:migrate --env=test --no-interaction && \
-#		bin/console doctrine:fixtures:load --env=test --no-interaction"
+	@docker compose exec app php bin/console doctrine:database:create --env=test --if-not-exists
+	@docker compose exec app php bin/console doctrine:migrations:migrate --env=test --no-interaction
+	@docker compose exec app php bin/console cache:clear --env=test
 
 test-db-fixtures:
 	@echo "📦 Chargement des fixtures de test..."
-	@docker compose exec app bash -c "cd /var/www/symfony && \
-		bin/console doctrine:fixtures:load --env=test --no-interaction"
+	@docker compose exec app php bin/console doctrine:fixtures:load --env=test --no-interaction
 
 test-db-migrate:
 	@echo "🔄 Exécution des migrations de test..."
-	@docker compose exec app bash -c "cd /var/www/symfony && \
-		bin/console doctrine:migrations:migrate --env=test --no-interaction"
+	@docker compose exec app php bin/console doctrine:migrations:migrate --env=test --no-interaction
 
 test-db-check:
 	@echo "🔍 Vérification de la base de données de test..."
-	@docker compose exec app bash -c "cd /var/www/symfony && \
-		bin/console doctrine:query:sql 'SELECT DATABASE()' --env=test"
+	@docker compose exec app php bin/console doctrine:query:sql 'SELECT DATABASE()' --env=test
 
 cs-fix:
 	@echo "🎨 Correction du style de code avec PHP-CS-Fixer..."
@@ -147,30 +172,37 @@ lint:
 	docker compose exec app vendor/bin/phpstan analyse src
 
 
-# --- Commandes Frontend (Yarn) ------------------------------------------------
-yarn-install:
-	@echo "📦 Installation des dépendances Yarn..."
-	docker compose exec app bash -c "cd /var/www/symfony && yarn install"
+# --- Commandes Frontend (npm) ------------------------------------------------
+npm-install:
+	@echo "📦 Installation des dépendances npm..."
+	docker compose exec app npm install
 
-yarn-dev:
+npm-dev:
 	@echo "🎨 Compilation des assets en mode développement..."
-	docker compose exec app bash -c "cd /var/www/symfony && NODE_OPTIONS=--openssl-legacy-provider yarn dev"
+	docker compose exec app npm run dev
 
-yarn-watch:
+npm-watch:
 	@echo "👀 Surveillance des assets..."
-	docker compose exec app bash -c "cd /var/www/symfony && NODE_OPTIONS=--openssl-legacy-provider yarn watch"
+	docker compose exec app npm run watch
 
-yarn-watch-stop:
+npm-watch-stop:
 	@echo "🛑 Arrêt de la surveillance des assets..."
-	@docker compose exec app bash -c "pkill -f 'yarn watch' || true"
-	@echo "✅ Processus yarn watch arrêtés"
+	@docker compose exec app bash -c "pkill -f 'npm run watch' || true"
+	@echo "✅ Processus npm watch arrêtés"
 
-yarn-build:
+npm-build:
 	@echo "📦 Compilation des assets pour la production..."
-	docker compose exec app bash -c "cd /var/www/symfony && NODE_OPTIONS=--openssl-legacy-provider yarn build"
+	docker compose exec app npm run build
+
+# Alias pour compatibilité (yarn -> npm)
+yarn-install: npm-install
+yarn-dev: npm-dev
+yarn-watch: npm-watch
+yarn-watch-stop: npm-watch-stop
+yarn-build: npm-build
 
 # --- Sync des vendors ---------------------------------------------
 sync-vendors:
 	@echo "🔄 Synchronisation des vendors Composer..."
-	docker compose cp app:/var/www/symfony/vendor app/symfony
+	docker compose cp app:/app/vendor ./app/vendor
 # Fin du Makefile

@@ -1,0 +1,794 @@
+nav:
+  login: "Connexion"
+  register: "S'inscrire"
+  main: "Navigation principale"
+  dashboard: "Tableau de bord"
+  my_cards: "Mes cartes"
+  account: "Compte"
+  profile: "Profil"
+  branding: "Branding"
+  collapse: "Réduire"
+  expand: "Développer"
+  toggle: "Basculer la navigation"
+  skip_to_content: "Aller au contenu principal"
+
+home:
+  meta:
+    title: "Hermio - Créez et Partagez Vos Cartes de Visite Numériques par QR Code"
+    description: "Hermio vous permet de créer facilement des cartes de visite numériques professionnelles et de les partager via QR code. Idéal pour professionnels, équipes et entreprises."
+  hero:
+    title: "Votre Carte de Visite Numérique, Partout avec Vous"
+    subtitle: "Créez, personnalisez et partagez votre carte de visite professionnelle grâce à un simple QR code. Simple, moderne et efficace."
+    cta_primary: "Créer ma carte"
+    cta_secondary: "En savoir plus"
+  how_it_works:
+    title: "Comment ça marche ?"
+    subtitle: "Créez votre carte professionnelle en 3 étapes simples"
+    step1:
+      title: "Créez votre carte"
+      description: "Renseignez vos informations professionnelles : nom, email, téléphone, réseaux sociaux et plus encore."
+    step2:
+      title: "Personnalisez votre style"
+      description: "Ajoutez votre logo, choisissez vos couleurs de marque pour refléter votre identité professionnelle."
+    step3:
+      title: "Partagez via QR code"
+      description: "Générez votre QR code unique et partagez-le sur vos supports : carte papier, email, site web, réseaux sociaux."
+  features:
+    title: "Tout ce dont vous avez besoin"
+    subtitle: "Des fonctionnalités pensées pour les professionnels modernes"
+    digital_card:
+      title: "Carte de visite numérique"
+      description: "Créez une carte professionnelle élégante et responsive, accessible depuis n'importe quel appareil."
+    qr_code:
+      title: "Générateur de QR code"
+      description: "Obtenez un QR code unique pour chaque carte, prêt à être imprimé ou partagé numériquement."
+    multilingual:
+      title: "Profils multilingues"
+      description: "Vos cartes s'affichent en français et anglais selon la langue de vos visiteurs."
+    branding:
+      title: "Branding personnalisé"
+      description: "Ajoutez votre logo et vos couleurs de marque pour une image cohérente (Pro & Enterprise)."
+    analytics:
+      title: "Statistiques de scans"
+      description: "Suivez combien de fois votre QR code est scanné et mesurez votre impact."
+    team:
+      title: "Gestion d'équipe"
+      description: "Gérez les cartes de toute votre équipe en un seul endroit (Enterprise uniquement)."
+  pricing:
+    title: "Tarifs simples et transparents"
+    subtitle: "Choisissez le plan qui correspond à vos besoins"
+    cta: "Voir tous les tarifs"
+    free:
+      name: "Gratuit"
+      price: "0€"
+      period: "pour toujours"
+      feature1: "1 carte de visite numérique"
+      feature2: "QR code inclus"
+      feature3: "Support communautaire"
+      cta: "Commencer gratuitement"
+    pro:
+      name: "Pro"
+      price: "9€"
+      period: "par mois"
+      badge: "Populaire"
+      feature1: "10 cartes de visite"
+      feature2: "Branding personnalisé"
+      feature3: "Statistiques avancées"
+      feature4: "Support prioritaire"
+      cta: "Essayer Pro"
+    enterprise:
+      name: "Enterprise"
+      price: "29€"
+      period: "par mois"
+      feature1: "Cartes illimitées"
+      feature2: "Gestion d'équipe"
+      feature3: "Templates personnalisés"
+      feature4: "Support dédié"
+      feature5: "API d'intégration"
+      cta: "Contacter les ventes"
+  faq:
+    title: "Questions Fréquentes"
+    subtitle: "Tout ce que vous devez savoir sur Hermio"
+    q1:
+      question: "Mes données sont-elles sécurisées ?"
+      answer: "Absolument. Nous utilisons les dernières normes de sécurité pour protéger vos données. Toutes les connexions sont chiffrées via HTTPS et vos informations sont stockées de manière sécurisée dans des centres de données certifiés."
+    q2:
+      question: "Comment partager mon QR code ?"
+      answer: "Une fois votre carte créée, vous pouvez télécharger votre QR code en haute résolution. Imprimez-le sur vos cartes de visite papier, ajoutez-le à votre signature email, ou partagez-le directement sur les réseaux sociaux."
+    q3:
+      question: "Quelle est la différence entre gratuit et payant ?"
+      answer: "Le plan gratuit vous permet de créer 1 carte avec les fonctionnalités de base. Les plans payants offrent plus de cartes, le branding personnalisé, des statistiques avancées et pour Enterprise, la gestion d'équipe complète."
+    q4:
+      question: "Quelles langues sont supportées ?"
+      answer: "Vos cartes de visite sont automatiquement disponibles en français et en anglais. L'interface s'adapte automatiquement à la langue du navigateur de vos visiteurs pour une expérience optimale."
+    q5:
+      question: "Est-ce compatible mobile ?"
+      answer: "Oui, complètement ! Vos cartes de visite sont entièrement responsive et s'affichent parfaitement sur tous les appareils : smartphones, tablettes et ordinateurs. Le scan QR code fonctionne avec n'importe quelle application de scan."
+    q6:
+      question: "Puis-je gérer les cartes de mon équipe ?"
+      answer: "Oui, avec le plan Enterprise. Vous pouvez inviter des membres d'équipe, gérer leurs cartes, et contrôler les accès. Parfait pour les entreprises qui souhaitent centraliser la gestion de leurs cartes de visite numériques."
+  footer:
+    about: "À propos"
+    about_description: "Hermio est la solution moderne pour créer et partager vos cartes de visite numériques par QR code. Idéal pour les professionnels, équipes et entreprises."
+    product: "Produit"
+    features: "Fonctionnalités"
+    pricing: "Tarifs"
+    enterprise: "Entreprise"
+    support: "Support"
+    help: "Aide"
+    contact: "Contact"
+    legal: "Légal"
+    privacy: "Confidentialité"
+    terms: "Conditions d'utilisation"
+    copyright: "© %year% Hermio. Tous droits réservés."
+    social_title: "Suivez-nous"
+
+account:
+  my_plan:
+    title: "Mon Plan d'Abonnement"
+  plan:
+    type: "Type de Plan"
+    free: "Gratuit"
+    pro: "Pro"
+    enterprise: "Entreprise"
+    activated: "Plan Activé"
+    last_modified: "Dernière Modification"
+    current: "Plan Actuel"
+  quota:
+    limit: "Limite de Quota"
+    unlimited: "Illimité"
+    usage: "Utilisation Actuelle"
+    used: "utilisé"
+    cards: "carte(s)"
+    summary: "Résumé du Quota"
+    exceeded: "Limite de quota dépassée"
+    exceeded_message: "Vous avez atteint votre limite de quota de %limit% carte(s). Vous avez actuellement %current_usage% carte(s)."
+    upgrade:
+      pro: "Passer à Pro (10 cartes)"
+      enterprise: "Passer à Entreprise (illimité)"
+      suggestion_free: "Passez à Pro (10 cartes) ou Entreprise (illimité) pour créer plus de cartes."
+      suggestion_pro: "Passez à Entreprise (illimité) pour créer plus de cartes."
+  management:
+    title: "Gestion du Compte"
+    overview: "Aperçu du Compte"
+    actions: "Actions"
+  email: "Email"
+  back_to_account: "Retour au Compte"
+  back_to_profile: "Retour au Profil"
+  view_plan_details: "Voir les Détails du Plan"
+  error:
+    quota_exceeded: "Impossible de créer plus de contenu : limite de quota dépassée"
+  plan_type: "Plan d'Abonnement"
+  confirm_downgrade: "Je confirme ce downgrade"
+  downgrade:
+    warning: "Attention : Cet utilisateur a {count} cartes, mais le plan {new} n'autorise que {limit} cartes. Veuillez confirmer pour continuer."
+    confirmation_required: "Vous devez confirmer ce downgrade car il dépassera la limite de quota du nouveau plan"
+  save: "Enregistrer les Modifications"
+
+subscription:
+  upgrade:
+    title: "Mettre à Niveau Votre Plan"
+    pro: "Passer à Pro"
+    enterprise: "Passer à Entreprise"
+  checkout:
+    success: "Paiement réussi ! Votre abonnement sera activé sous peu."
+    cancel: "Le checkout a été annulé. Votre plan reste inchangé."
+  pricing:
+    pro: "Plan Pro"
+    enterprise: "Plan Entreprise"
+  manage:
+    title: "Gérer l'Abonnement"
+  status:
+    label: "Statut"
+    active: "Actif"
+    inactive: "Inactif"
+    cancelled: "Annulé"
+    trialing: "Essai"
+    past_due: "En Retard"
+    canceled: "Annulé"
+    unpaid: "Impayé"
+    info: "Info"
+  plan:
+    type: "Type de Plan"
+  current_period_start: "Début de la Période Actuelle"
+  next_billing: "Prochaine Date de Facturation"
+  canceled_at: "Annulé Le"
+  created_at: "Créé Le"
+  cancelled:
+    message: "Votre abonnement sera annulé le %date%"
+  management:
+    actions: "Actions de Gestion"
+  portal:
+    button: "Gérer l'Abonnement et le Paiement"
+    info: "Portail Client"
+    description: "Utilisez le Portail Client pour mettre à jour votre méthode de paiement, consulter vos factures et gérer les paramètres de votre abonnement."
+  view_payments: "Voir l'Historique des Paiements"
+  back_to_plan: "Retour au Plan"
+  back_to_management: "Retour à la Gestion"
+  payments:
+    title: "Historique des Paiements"
+    empty: "Vous n'avez pas encore d'historique de paiement."
+    date: "Date"
+    amount: "Montant"
+    plan: "Plan"
+    status_label: "Statut"
+    id: "ID de Paiement"
+    status:
+      succeeded: "Réussi"
+      failed: "Échoué"
+      pending: "En Attente"
+      canceled: "Annulé"
+  payment:
+    date: "Date"
+    amount: "Montant"
+    plan: "Plan"
+    status: "Statut"
+    id: "ID de Paiement"
+
+admin:
+  account:
+    list: "Gestion des Comptes"
+    statistics: "Statistiques"
+    total_users: "Total Utilisateurs"
+    plan_counts: "Répartition des Plans"
+    filter: "Filtrer par Plan"
+    all: "Tous les Plans"
+    accounts: "Comptes"
+    user_email: "Email Utilisateur"
+    plan: "Plan"
+    created: "Créé"
+    actions: "Actions"
+    view: "Voir"
+    no_accounts: "Aucun compte trouvé"
+    details: "Détails du Compte"
+    user_info: "Informations Utilisateur"
+    user_id: "ID Utilisateur"
+    user_status: "Statut"
+    current_plan: "Plan Actuel"
+    change_plan: "Changer le Plan"
+    modified_by: "Modifié Par"
+    warning: "Attention"
+    back_to_list: "Retour à la Liste"
+    plan_changed: "Plan modifié avec succès vers %planType%"
+  webhook:
+    title: "Logs des Webhooks"
+    stats:
+      total: "Total des Événements"
+      successful: "Réussis"
+      failed: "Échoués"
+      success_rate: "Taux de Réussite"
+    alert:
+      critical: "Alerte Critique"
+      critical_message: "Plusieurs échecs de webhook détectés dans la dernière heure. Attention immédiate requise."
+      recent_failures: "⚠️ Échecs Récents Détectés"
+      recent_failures_message: "%count% échecs dans les dernières 24 heures (Taux de réussite: %rate%%)"
+    trend:
+      title: "Tendance du Taux d'Échec (7 Derniers Jours)"
+    filter:
+      status: "Statut"
+      event_type: "Type d'Événement"
+      all: "Tous"
+      success: "Réussi"
+      failed: "Échoué"
+      apply: "Appliquer"
+      clear: "Effacer"
+    event_type_distribution: "Répartition par Type d'Événement"
+    event:
+      id: "ID"
+      stripe_id: "ID Événement Stripe"
+      type: "Type d'Événement"
+      status: "Statut"
+      processed_at: "Traité Le"
+      error: "Erreur"
+      actions: "Actions"
+    status:
+      success: "Réussi"
+      failed: "Échoué"
+    view_details: "Voir les Détails"
+    view_failed: "Voir les Événements Échoués"
+    no_events: "Aucun événement webhook trouvé"
+    back_to_list: "Retour à la Liste"
+    details:
+      title: "Détails de l'Événement Webhook"
+      stripe_event_id: "ID Événement Stripe"
+      event_type: "Type d'Événement"
+      status: "Statut"
+      processed_at: "Traité Le"
+      error_message: "Message d'Erreur"
+    failed:
+      title: "Événements Webhook Échoués"
+      warning: "⚠️ Attention"
+      count: "%count% événements échoués trouvés"
+      none: "Aucun événement échoué trouvé"
+
+card:
+  create:
+    title: "Créer une Carte Numérique"
+    button: "Créer une Carte"
+  edit:
+    title: "Modifier la Carte"
+  edit_button: "Modifier"
+  delete:
+    confirm: "Êtes-vous sûr de vouloir supprimer cette carte ?"
+  delete_button: "Supprimer"
+  search:
+    placeholder: "Rechercher des cartes par nom, email ou entreprise..."
+    label: "Rechercher des cartes"
+    no_results: "Aucune carte ne correspond à votre recherche."
+  count: "Total de cartes"
+  list:
+    title: "Mes Cartes"
+    empty: "Vous n'avez pas encore créé de cartes."
+  view: "Voir la Carte"
+  save: "Enregistrer"
+  cancel: "Annuler"
+  back_to_list: "Retour aux Cartes"
+  public_url: "URL Publique"
+  created_at: "Créé"
+  updated:
+    success: "Carte mise à jour avec succès"
+  deleted:
+    success: "Carte supprimée avec succès"
+  created:
+    success: "Carte créée avec succès. URL publique : /c/%slug%"
+  unnamed: "Carte Sans Nom"
+  quota:
+    exceeded: "Vous avez atteint votre limite de quota. Améliorez votre plan pour créer plus de cartes."
+    info: "Quota"
+  form:
+    name: "Nom"
+    email: "Email"
+    phone: "Téléphone"
+    company: "Entreprise"
+    title: "Titre du Poste"
+    bio: "Biographie"
+    website: "Site Web"
+  name:
+    label: "Nom du titulaire"
+    placeholder: "Votre nom complet"
+    required: "Le nom est requis"
+    max_length: "Le nom ne peut pas dépasser 255 caractères"
+  email:
+    label: "Email"
+    placeholder: "votre.email@exemple.com"
+    invalid: "Veuillez entrer une adresse email valide"
+  phone:
+    label: "Téléphone"
+    placeholder: "+33123456789"
+    max_length: "Le téléphone ne peut pas dépasser 50 caractères"
+  company:
+    label: "Entreprise"
+    placeholder: "Nom de l'Entreprise"
+    max_length: "Le nom de l'entreprise ne peut pas dépasser 255 caractères"
+  title:
+    label: "Titre du Poste"
+    placeholder: "Votre titre de poste"
+    max_length: "Le titre ne peut pas dépasser 255 caractères"
+  bio:
+    label: "Biographie"
+    placeholder: "Parlez-nous de vous..."
+    max_length: "La biographie ne peut pas dépasser 1000 caractères"
+    title: "À propos"
+    help: "Décrivez-vous en quelques mots"
+  basic_info: "Informations principales"
+  website:
+    label: "Site Internet"
+    placeholder: "https://votresite.com"
+    invalid: "Veuillez entrer une URL valide"
+  linkedin:
+    placeholder: "https://linkedin.com/in/votreprofil"
+    invalid: "Veuillez entrer une URL LinkedIn valide"
+  twitter:
+    placeholder: "https://twitter.com/votrecompte"
+    invalid: "Veuillez entrer une URL Twitter valide"
+  slug:
+    invalid_format: "Le slug doit contenir uniquement des lettres minuscules, des chiffres et des tirets"
+  public:
+    title: "Carte Numérique"
+  preview:
+    open: "Ouvrir l'aperçu de la carte"
+  qr_code:
+    title: "Code QR"
+    view: "Voir le Code QR"
+    instructions: "Scannez ce code QR avec votre appareil mobile pour voir cette carte"
+  assignments:
+    title: "Assignations de Cartes"
+    description: "Assignez cette carte aux membres d'équipe pour qu'ils puissent la gérer"
+    current: "Assignations Actuelles"
+    team_members: "Membres d'Équipe"
+    assign.submit: "Assigner la Carte"
+    assign: "Assigner la Carte"
+    unassign: "Désassigner"
+    unassign.confirm: "Êtes-vous sûr de vouloir désassigner cette carte de ce membre d'équipe ?"
+    assign.success: "Carte assignée aux membres d'équipe avec succès"
+    success: "Carte assignée aux membres d'équipe avec succès"
+    removed: "Assignation de carte supprimée avec succès"
+    unassign.success: "Assignation de carte supprimée avec succès"
+    assign.denied: "Vous n'avez pas la permission d'assigner cette carte"
+    none: "Aucune assignation"
+    count: "cartes"
+  access:
+    denied: "Vous n'avez pas accès à cette carte"
+  # Feature 008: Fonctionnalité de téléchargement
+  download:
+    label: "Télécharger le Contact"
+    error: "Impossible de générer la carte de contact. Veuillez réessayer plus tard."
+  security:
+    regenerate_key: "Régénérer la Clé d'Accès"
+    regenerate_key_confirm: "Êtes-vous sûr ? Cela invalidera l'URL publique actuelle."
+    regenerate_key_success: "Clé d'accès régénérée avec succès. Veuillez partager la nouvelle URL."
+    warning: "⚠️ Gardez cette URL sécurisée. Toute personne avec ce lien peut voir votre carte."
+    secure_url: "URL Publique Sécurisée"
+    copy_url: "Copier l'URL"
+    url_copied: "URL copiée dans le presse-papiers !"
+    copy_error: "Erreur lors de la copie de l'URL"
+  label:
+    email: "Email"
+    phone: "Téléphone"
+    website: "Site Web"
+  action:
+    call: "Appeler"
+    email: "Envoyer un Email"
+    call.short: "Appeler"
+    email.short: "Email"
+  social:
+    title: "Réseaux Sociaux"
+    instagram:
+      label: "Instagram"
+      placeholder: "https://instagram.com/votreprofil"
+      aria: "Visiter le profil Instagram"
+    tiktok:
+      label: "TikTok"
+      placeholder: "https://tiktok.com/@votrecompte"
+      aria: "Visiter le profil TikTok"
+    facebook:
+      label: "Facebook"
+      placeholder: "https://facebook.com/votreprofil"
+      aria: "Visiter le profil Facebook"
+    x:
+      label: "X (Twitter)"
+      placeholder: "https://x.com/votrecompte"
+      aria: "Visiter le profil X"
+    bluebirds:
+      label: "Bluebirds"
+      placeholder: "https://bluebirds.app/votreprofil"
+      aria: "Visiter le profil Bluebirds"
+    snapchat:
+      label: "Snapchat"
+      placeholder: "https://snapchat.com/add/votrecompte"
+      aria: "Visiter le profil Snapchat"
+    planity:
+      label: "Planity"
+      placeholder: "https://planity.com/votreprofil"
+      aria: "Visiter le profil Planity"
+    linkedin:
+      label: "LinkedIn"
+      placeholder: "https://linkedin.com/in/votreprofil"
+      aria: "Visiter le profil LinkedIn"
+    other:
+      label: "Autre"
+      placeholder: "https://votreprofil.com"
+      aria: "Visiter le profil"
+  powered_by: "Propulsé par Hermio"
+
+branding:
+  title: "Configuration du Branding"
+  access_denied: "La personnalisation du branding est uniquement disponible pour les plans Pro et Entreprise"
+  upgrade: "Mettre à Niveau"
+  preview:
+    title: "Aperçu en temps réel"
+  colors:
+    title: "Couleurs de Marque"
+  primary_color: "Couleur Principale"
+  secondary_color: "Couleur Secondaire"
+  logo:
+    title: "Logo"
+    position: "Position du Logo"
+    size: "Taille du Logo"
+    remove: "Supprimer le Logo"
+    remove.confirm: "Êtes-vous sûr de vouloir supprimer le logo ?"
+    position.top_left: "Haut Gauche"
+    position.top_center: "Haut Centre"
+    position.top_right: "Haut Droite"
+    position.center: "Centre"
+    position.bottom_left: "Bas Gauche"
+    position.bottom_center: "Bas Centre"
+    position.bottom_right: "Bas Droite"
+    size.small: "Petit"
+    size.medium: "Moyen"
+    size.large: "Grand"
+    current: "Logo actuel"
+    help: "Téléchargez un fichier PNG, JPG ou SVG (max 5MB)"
+
+  save: "Enregistrer le Branding"
+  save.success: "Configuration du branding enregistrée avec succès"
+  template:
+    title: "Template Personnalisé (Entreprise Uniquement)"
+    description: "Personnalisez le template de votre page de carte publique. Votre template doit étendre 'public/card.html.twig' et peut surcharger des blocs spécifiques."
+    content: "Contenu du Template"
+    save: "Enregistrer le Template"
+    save.success: "Template personnalisé enregistré avec succès"
+    save.error: "Échec de l'enregistrement du template. Veuillez vérifier la syntaxe du template."
+    reset: "Réinitialiser au Template par Défaut"
+    reset.confirm: "Êtes-vous sûr de vouloir réinitialiser votre template personnalisé ? Cette action ne peut pas être annulée."
+    reset.success: "Template réinitialisé au template par défaut avec succès"
+    reset.error: "Échec de la réinitialisation du template"
+    too_large: "Le contenu du template ne doit pas dépasser 50KB"
+  logo.remove.success: "Logo supprimé avec succès"
+  reset: "Réinitialiser Tout le Branding"
+  reset.success: "Configuration du branding réinitialisée avec succès"
+  reset.error: "Échec de la réinitialisation de la configuration du branding"
+  reset.confirm: "Êtes-vous sûr de vouloir réinitialiser toute la configuration du branding ? Cela supprimera les couleurs, le logo et les templates personnalisés. Cette action ne peut pas être annulée."
+  reset.confirmation_required: "Vous devez confirmer pour réinitialiser la configuration du branding"
+  color.invalid_format: "La couleur doit être au format hexadécimal (#RRGGBB)"
+  logo.invalid_type: "Le logo doit être un fichier PNG, JPG, JPEG ou SVG"
+  logo.too_large: "La taille du fichier logo ne doit pas dépasser 5MB"
+  logo.position.invalid: "Position du logo invalide"
+  logo.size.invalid: "Taille du logo invalide"
+  template.invalid_syntax: "Syntaxe Twig du template invalide"
+  template.must_extend_base: "Le template doit étendre 'public/card.html.twig'"
+  template.dangerous_function: "Le template contient des fonctions dangereuses"
+  template.access_denied: "La personnalisation des templates est uniquement disponible pour les plans Entreprise"
+  validation.error: "Veuillez corriger les erreurs ci-dessous"
+  upload.error: "L'upload du logo a échoué. Veuillez réessayer."
+  primary_color_picker:
+    picker: "Choisir la couleur principale"
+    help: "Choisissez une couleur ou entrez un code hexadécimal (ex: #FF5733)"
+  secondary_color_picker:
+    picker: "Choisir la couleur secondaire"
+    help: "Choisissez une couleur ou entrez un code hexadécimal (ex: #6c757d)"
+
+  color:
+    accessibility:
+      title: "Accessibilité des couleurs"
+      help: "Pour améliorer l'accessibilité, utilisez des couleurs avec un ratio de contraste d'au moins 4,5:1 (WCAG AA) ou 7:1 (WCAG AAA) par rapport au fond blanc."
+      warning:
+        primary: "Avertissement : Le ratio de contraste de la couleur principale est de %s:1 (%s). Pour une meilleure accessibilité, visez au moins 4,5:1 (WCAG AA) ou 7:1 (WCAG AAA)."
+        secondary: "Avertissement : Le ratio de contraste de la couleur secondaire est de %s:1 (%s). Pour une meilleure accessibilité, visez au moins 4,5:1 (WCAG AA) ou 7:1 (WCAG AAA)."
+      info: "Le contraste des couleurs respecte les standards d'accessibilité WCAG"
+
+team:
+  title: "Gestion d'Équipe"
+  access_denied: "Les fonctionnalités d'équipe sont uniquement disponibles pour les plans Entreprise"
+  upgrade: "Passer à Entreprise"
+  members:
+    title: "Membres d'Équipe"
+    email: "Email"
+    role: "Rôle"
+    status: "Statut"
+    joined: "Rejoint"
+    last_activity: "Dernière Activité"
+    actions: "Actions"
+    empty: "Aucun membre d'équipe pour le moment"
+    count: "Membres d'Équipe (%count%)"
+    no_activity: "Aucune activité pour le moment"
+    assigned_by: "Assigné par"
+  invite:
+    title: "Inviter un Membre d'Équipe"
+    email: "Adresse Email"
+    role: "Rôle"
+    submit: "Envoyer l'Invitation"
+    success: "Invitation de membre d'équipe envoyée avec succès"
+    duplicate: "Cet utilisateur a déjà été invité dans cette équipe"
+    invalid_email: "Adresse email invalide"
+    rate_limit_hour: "Limite de débit dépassée : Maximum 10 invitations par heure. Veuillez réessayer plus tard."
+    rate_limit_day: "Limite de débit dépassée : Maximum 50 invitations par jour. Veuillez réessayer demain."
+    cannot_resend: "Impossible de renvoyer l'invitation : l'invitation n'est pas en attente"
+    resend: "Renvoyer l'invitation"
+    resend.success: "Invitation renvoyée avec succès"
+  role:
+    admin: "Administrateur"
+    member: "Membre"
+    change: "Changer le Rôle"
+    change.submit: "Mettre à Jour le Rôle"
+    change.success: "Rôle du membre d'équipe mis à jour avec succès"
+    change.denied: "Seuls les propriétaires de compte peuvent changer les rôles des membres d'équipe"
+  remove: "Supprimer"
+  remove.confirm: "Êtes-vous sûr de vouloir supprimer ce membre d'équipe ? Il perdra l'accès à toutes les ressources du compte."
+  remove.success: "Membre d'équipe supprimé avec succès"
+  remove.denied: "Seuls les propriétaires de compte peuvent supprimer les membres d'équipe"
+  invitation:
+    title: "Invitation d'Équipe"
+    message: "Vous avez été invité à rejoindre l'équipe du compte : %account%"
+    role: "Rôle : %role%"
+    login_required: "Vous devez être connecté pour accepter cette invitation"
+    login: "Se Connecter"
+    email_mismatch: "Cette invitation a été envoyée à %expected%, mais vous êtes connecté en tant que %actual%. Veuillez vous connecter avec la bonne adresse email."
+    accept: "Accepter l'Invitation"
+    decline: "Refuser l'Invitation"
+    expired: "Cette invitation a expiré. Veuillez contacter le propriétaire du compte pour une nouvelle invitation."
+    already_processed: "Cette invitation a déjà été traitée"
+    invalid: "Invitation invalide ou déjà traitée"
+    accept.success: "Vous avez rejoint l'équipe avec succès"
+    decline.success: "Invitation refusée"
+    expires_on: "Cette invitation expire le"
+    ignore_message: "Si vous n'attendiez pas cette invitation, vous pouvez ignorer cet e-mail en toute sécurité."
+    automated_message: "Ceci est un message automatique de Hermio. Veuillez ne pas répondre à cet e-mail."
+  status:
+    pending: "En Attente"
+    accepted: "Accepté"
+    declined: "Refusé"
+    expired: "Expiré"
+    revoked: "Révoqué"
+  can_manage: "Vous pouvez gérer les membres d'équipe"
+  cannot_manage: "Vous n'avez pas la permission de gérer les membres d'équipe"
+
+# ============================================================================
+# PAGES D'AUTHENTIFICATION (Refonte du thème back-office)
+# ============================================================================
+auth:
+  title: "Authentification"
+  form:
+    aria_label: "Formulaire d'authentification"
+  illustration:
+    aria_label: "Image de marque Hermio"
+    tagline: "Votre identité professionnelle, en un scan"
+
+  login:
+    title: "Connexion à Hermio"
+    subtitle: "Accédez à vos cartes de visite numériques"
+    email_label: "Adresse e-mail"
+    email_placeholder: "vous@exemple.com"
+    email_help: "Entrez votre adresse e-mail enregistrée"
+    password_label: "Mot de passe"
+    password_placeholder: "Entrez votre mot de passe"
+    password_help: "Entrez le mot de passe de votre compte"
+    remember_me: "Se souvenir de moi"
+    submit: "Se connecter"
+    forgot_password: "Mot de passe oublié ?"
+    no_account: "Vous n'avez pas de compte ?"
+    register_link: "Créer un compte maintenant"
+
+  register:
+    title: "Créer votre compte"
+    subtitle: "Commencez à créer des cartes de visite numériques"
+    email_label: "Adresse e-mail"
+    email_placeholder: "vous@exemple.com"
+    email_help: "Entrez une adresse e-mail valide"
+    password_label: "Mot de passe"
+    password_placeholder: "Choisissez un mot de passe sécurisé"
+    password_help: "Minimum 8 caractères"
+    confirm_password_label: "Confirmer le mot de passe"
+    confirm_password_placeholder: "Ressaisissez votre mot de passe"
+    confirm_password_help: "Les mots de passe doivent correspondre"
+    submit: "Créer un compte"
+    have_account: "Vous avez déjà un compte ?"
+    login_link: "Connectez-vous ici"
+    terms: "En créant un compte, vous acceptez nos <a href=\"%terms_url%\">Conditions d'utilisation</a> et notre <a href=\"%privacy_url%\">Politique de confidentialité</a>."
+
+# ============================================================================
+# ACCESSIBILITÉ
+# ============================================================================
+accessibility:
+  skip_to_content: "Aller au contenu principal"
+
+# ============================================================================
+# COMPOSANTS DU TABLEAU DE BORD
+# ============================================================================
+dashboard:
+  title: "Tableau de bord"
+  cards:
+    account_overview: "Aperçu du compte"
+    plan_summary: "Mon forfait"
+    card_stats: "Statistiques des cartes"
+    recent_activity: "Activité récente"
+  account:
+    email: "E-mail"
+    plan: "Forfait actuel"
+    quota: "Quota"
+    joined: "Membre depuis"
+  actions:
+    view_details: "Voir les détails"
+    upgrade_plan: "Mettre à niveau le forfait"
+    manage_cards: "Gérer les cartes"
+  plan:
+    title: "Plan"
+    unlimited: "Illimité"
+    limited: "Limité"
+  usage:
+    title: "Utilisation des cartes"
+  quick_actions:
+    title: "Actions rapides"
+  activity:
+    event: "Événement"
+    date: "Date/Heure"
+    status: "Statut"
+    login: "Connexion"
+    logout: "Déconnexion"
+    registration: "Inscription"
+    success: "Réussi"
+    failed: "Échoué"
+  welcome: "Bon retour"
+  member_since: "Membre depuis"
+  days: "jours"
+  total_cards: "Total des cartes"
+  active: "actives"
+  view_all: "Voir tout"
+  analytics:
+    title: "Statistiques des QR Codes"
+    total_scans: "Scans Totaux"
+    tracked_cards: "Cartes Suivies"
+    avg_per_day: "Moy. Scans/Jour"
+    scans_per_day: "Scans par Jour (30 Derniers Jours)"
+    top_cards: "Cartes les Plus Flashées"
+    rank: "Rang"
+    card_name: "Nom de la Carte"
+    slug: "Identifiant"
+    scans: "Scans"
+    locked: "Fonctionnalité Verrouillée"
+    upgrade_title: "Débloquez les Statistiques Avancées"
+    upgrade_message: "Suivez les scans de vos QR codes, visualisez les statistiques quotidiennes et découvrez quelles cartes performent le mieux. Passez au plan Enterprise pour accéder à ces analyses puissantes."
+    upgrade_button: "Passer à Enterprise"
+
+header:
+  user_menu:
+    profile: "Profil"
+    logout: "Déconnexion"
+
+error:
+  access_denied:
+    title: "Accès Refusé"
+    message: "Cette carte nécessite une clé d'accès valide pour être consultée."
+    reason: "Pourquoi je vois cela ?"
+    invalid_key: "La clé d'accès est manquante ou invalide. Veuillez vérifier l'URL que vous avez reçue."
+    help: "Que puis-je faire ?"
+    check_url: "Vérifiez l'URL complète incluant le paramètre de clé d'accès (?k=...)"
+
+common:
+  loading: "Chargement..."
+  check_link: "Assurez-vous d'utiliser le lien le plus récent qui vous a été partagé"
+  contact_owner: "Contactez le propriétaire de la carte pour demander un nouveau lien"
+  back_home: "Retour à l'accueil"
+
+terms:
+  title: "Conditions Générales d'Utilisation"
+  section1:
+    title: "1. Objet"
+    content: "Les présentes Conditions Générales d'Utilisation (ci-après les « CGU ») ont pour objet de définir les conditions dans lesquelles les utilisateurs professionnels (ci-après « l'Utilisateur ») accèdent et utilisent le service SaaS de carte de visite virtuelle (ci-après le « Service »).<br><br>Toute utilisation du Service implique l'acceptation sans réserve des présentes CGU."
+  section2:
+    title: "2. Informations légales"
+    subtitle: "Éditeur du Service"
+    content: "Le Service est édité par une société par actions simplifiée (SAS) immatriculée sous le numéro SIREN 919 984 757.<br><ul class='mt-2'><li>Forme juridique : Société par actions simplifiée (SAS)</li><li>SIRET (siège social) : 919 984 757 00014</li><li>Numéro de TVA intracommunautaire : FR91919984757</li><li>Activité (NAF / APE) : Programmation informatique (6201Z)</li><li>Date de création : 04 octobre 2022</li><li>Adresse du siège social : 14 rue Bausset, 75015 Paris, France</li><li>Dirigeant : Eric DEFIEZ</li></ul>"
+    hosting_title: "Hébergement"
+    hosting_content: "Le Service est hébergé par :<br><ul class='mt-2'><li>OVH SAS</li><li>Adresse : 2 rue Kellermann, 59100 Roubaix, France</li><li>Téléphone : 1007</li><li>Site web : www.ovh.com</li></ul>"
+  section3:
+    title: "3. Description du Service"
+    content: "Le Service est une application SaaS destinée exclusivement à un usage professionnel, permettant notamment :<br><ul class='mt-2'><li>la création et la gestion d'une carte de visite virtuelle,</li><li>le partage d'informations professionnelles,</li><li>le téléchargement d'une fiche contact au format VCF,</li><li>la génération de QR codes permettant l'accès à la carte virtuelle.</li></ul><br>Le Service ne propose pas de contenus générés publiquement par les utilisateurs."
+  section4:
+    title: "4. Accès au Service"
+    content: "L'accès au Service est réservé aux professionnels disposant de la capacité juridique nécessaire.<br><br>L'Utilisateur doit créer un compte personnel et s'engage à fournir des informations exactes et à jour.<br><br>Les identifiants de connexion sont strictement personnels et confidentiels. Toute utilisation du compte est réputée effectuée par l'Utilisateur."
+  section5:
+    title: "5. Conditions financières"
+    content: "Le Service est accessible selon des formules gratuites et/ou payantes, sous forme d'abonnements.<br><br>Les paiements sont traités par un prestataire de paiement tiers sécurisé. Les données de paiement ne sont à aucun moment stockées par l'Éditeur."
+  section6:
+    title: "6. Propriété intellectuelle"
+    content: "L'ensemble du Service, de ses composants techniques, logiciels, algorithmes, interfaces, bases de données, textes, graphismes, logos et contenus est protégé par le droit de la propriété intellectuelle et demeure la propriété exclusive de l'Éditeur, sauf mention contraire.<br><br>Toute reproduction, représentation, modification, extraction ou exploitation non autorisée de tout ou partie du Service est strictement interdite.<br><br>Aucune revente, mise à disposition de tiers ou exploitation commerciale distincte du Service n'est autorisée sans accord écrit préalable de l'Éditeur."
+    qr_title: "QR codes"
+    qr_content: "Les QR codes générés via le Service sont destinés exclusivement à un usage professionnel par l'Utilisateur, notamment pour l'impression et la diffusion de cartes de visite.<br><br>L'Utilisateur bénéficie d'un droit d'usage non exclusif, non cessible et non transférable des QR codes générés, limité à la durée de son abonnement et à l'usage strictement prévu par le Service."
+  section7:
+    title: "7. Responsabilité et limitation de responsabilité"
+    content: "Le Service est fourni en mode SaaS et accessible via Internet.<br><br>L'Éditeur est tenu à une obligation de moyens."
+    availability_title: "Disponibilité"
+    availability_content: "L'Éditeur ne garantit pas une disponibilité continue ou sans erreur du Service. Des interruptions temporaires peuvent survenir notamment pour des opérations de maintenance, de mise à jour ou en raison de contraintes techniques.<br><br>L'Éditeur ne saurait être tenu responsable des indisponibilités résultant notamment :<br><ul class='mt-2'><li>des réseaux de télécommunication,</li><li>de l'hébergeur ou de services tiers,</li><li>de cas de force majeure.</li></ul>"
+    data_title: "Données et contenus de l'Utilisateur"
+    data_content: "L'Utilisateur est seul responsable des données, informations et contenus qu'il saisit, exploite ou diffuse via le Service.<br><br>L'Éditeur ne garantit ni l'exactitude, ni l'exhaustivité, ni la conformité légale des données fournies par l'Utilisateur."
+    limitation_title: "Limitation"
+    limitation_content: "La responsabilité de l'Éditeur est strictement limitée aux dommages directs, personnels et certains.<br><br>Sont expressément exclus les dommages indirects, notamment :<br><ul class='mt-2'><li>pertes de chiffre d'affaires,</li><li>pertes de clientèle,</li><li>pertes d'opportunités commerciales,</li><li>pertes de données,</li><li>préjudices commerciaux ou d'image.</li></ul><br>En tout état de cause, la responsabilité financière totale de l'Éditeur est plafonnée au montant hors taxes effectivement payé par l'Utilisateur au titre de son abonnement au cours des douze (12) derniers mois précédant le fait générateur."
+  section8:
+    title: "8. Utilisation strictement professionnelle (B2B)"
+    content: "Le Service est exclusivement destiné à des utilisateurs professionnels agissant dans le cadre de leur activité commerciale, industrielle, artisanale ou libérale.<br><br>En conséquence :<br><ul class='mt-2'><li>les dispositions du Code de la consommation ne sont pas applicables,</li><li>aucun droit de rétractation n'est applicable,</li><li>l'Utilisateur reconnaît expressément agir à des fins professionnelles.</li></ul><br>Toute utilisation du Service par un consommateur ou un non-professionnel est interdite."
+  section9:
+    title: "9. Données personnelles"
+    content: "Les données personnelles sont traitées conformément à la réglementation en vigueur.<br><br>Les modalités de collecte, de traitement et de protection des données sont détaillées dans la Politique de confidentialité, accessible sur le site."
+  section10:
+    title: "10. Résiliation"
+    content: "L'Utilisateur peut résilier son abonnement à tout moment.<br><br>La résiliation prend effet à l'issue de la période d'abonnement en cours. L'Utilisateur conserve l'accès au Service jusqu'à cette échéance.<br><br>Aucun remboursement prorata temporis n'est effectué, sauf disposition contractuelle contraire."
+  section11:
+    title: "11. Modification des CGU"
+    content: "L'Éditeur se réserve le droit de modifier les présentes CGU à tout moment.<br><br>Les CGU applicables sont celles en vigueur à la date d'utilisation du Service."
+  section12:
+    title: "12. Droit applicable et juridiction compétente"
+    content: "Les présentes CGU sont régies par le droit français.<br><br>En cas de litige relatif à leur interprétation ou à leur exécution, et à défaut de résolution amiable, les tribunaux du ressort du siège social de l'Éditeur seront seuls compétents."
+  section13:
+    title: "13. Contact"
+    content: "Pour toute question relative aux présentes CGU ou au Service, l'Utilisateur peut contacter l'Éditeur via les coordonnées mentionnées à l'article 2."

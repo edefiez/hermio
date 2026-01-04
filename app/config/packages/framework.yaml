@@ -8,6 +8,22 @@ framework:
     #esi: true
     #fragments: true
 
+    # Translator configuration
+    translator:
+        default_path: '%kernel.project_dir%/translations'
+        fallbacks:
+            - en
+
+    # Trusted proxies configuration (for ngrok, reverse proxies, etc.)
+    # Configuration is handled in Kernel.php for dev environment
+    # In production, you can set trusted_proxies here with specific IPs
+    # trusted_proxies: ['1.2.3.4', '5.6.7.8']
+    trusted_headers:
+        - x-forwarded-for
+        - x-forwarded-port
+        - x-forwarded-proto
+        - x-forwarded-host
+
 when@test:
     framework:
         test: true
