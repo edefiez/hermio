@@ -12,11 +12,10 @@ body.admin-layout-body {
 // Admin Layout Container
 .admin-layout {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     min-height: 100vh;
     background-color: #f8f9fa;
     position: relative;
-    padding-bottom: 60px; // Space for fixed footer
 }
 
 // Ensure Symfony Web Debug Toolbar is always visible
@@ -38,13 +37,12 @@ body.admin-layout-body {
     background: #fff;
     border-right: 1px solid #dee2e6;
     position: fixed;
-    height: calc(100vh - 60px); // Subtract footer height
+    height: 100vh;
     top: 0;
     left: 0;
     z-index: 1000;
     overflow-y: auto;
     transition: width 0.35s ease-in-out, min-width 0.35s ease-in-out, max-width 0.35s ease-in-out, transform 0.35s ease-in-out;
-    isolation: isolate; // Create stacking context to prevent footer overlap
 
     // Ensure width can be changed by CSS (but allow override when collapsed)
     min-width: 250px;
@@ -86,11 +84,13 @@ body.admin-layout-body {
 
     .sidebar-header {
         background: #fff;
+        flex-shrink: 0;
 
-        h5 {
+        .sidebar-title {
             font-size: 1rem;
             font-weight: 600;
             color: #212529;
+            transition: opacity 0.2s ease-in-out;
         }
 
         .sidebar-collapse-btn {
@@ -100,11 +100,16 @@ body.admin-layout-body {
             background: none;
             padding: 0.25rem 0.5rem;
             font-size: 0.875rem;
+            transition: all 0.2s ease-in-out;
 
             &:hover {
                 color: #495057;
                 background-color: #f8f9fa;
                 border-radius: 0.25rem;
+            }
+
+            i {
+                transition: transform 0.2s ease-in-out;
             }
         }
     }
@@ -136,28 +141,14 @@ body.admin-layout-body {
             width: 18px;
             text-align: center;
             font-size: 0.875rem;
+            flex-shrink: 0;
         }
 
         span {
             font-size: 0.875rem;
-        }
-    }
-
-    // Sidebar Footer (Collapse Button)
-    .sidebar-footer {
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        background: #fff;
-    }
-
-    .sidebar-collapse-btn {
-        color: #6c757d;
-        text-decoration: none;
-
-        &:hover {
-            color: #495057;
+            transition: opacity 0.2s ease-in-out;
+            white-space: nowrap;
+            overflow: hidden;
         }
     }
 }
@@ -210,7 +201,9 @@ body.admin-layout-body {
     .admin-layout.sidebar-collapsed #adminSidebar .nav-link span,
     body.sidebar-collapsed .admin-layout .admin-sidebar .nav-link span,
     body.sidebar-collapsed .admin-layout #adminSidebar .nav-link span {
-        display: none !important;
+        opacity: 0 !important;
+        width: 0 !important;
+        overflow: hidden !important;
     }
 
     // Hide titles when collapsed
@@ -224,34 +217,41 @@ body.admin-layout-body {
     }
 
     // Hide sidebar header title when collapsed
-    .admin-sidebar.sidebar-collapsed .sidebar-header h5,
-    #adminSidebar.sidebar-collapsed .sidebar-header h5,
-    .admin-layout.sidebar-collapsed .admin-sidebar .sidebar-header h5,
-    .admin-layout.sidebar-collapsed #adminSidebar .sidebar-header h5,
-    body.sidebar-collapsed .admin-layout .admin-sidebar .sidebar-header h5,
-    body.sidebar-collapsed .admin-layout #adminSidebar .sidebar-header h5 {
-        display: none !important;
+    .admin-sidebar.sidebar-collapsed .sidebar-header .sidebar-title,
+    #adminSidebar.sidebar-collapsed .sidebar-header .sidebar-title,
+    .admin-layout.sidebar-collapsed .admin-sidebar .sidebar-header .sidebar-title,
+    .admin-layout.sidebar-collapsed #adminSidebar .sidebar-header .sidebar-title,
+    body.sidebar-collapsed .admin-layout .admin-sidebar .sidebar-header .sidebar-title,
+    body.sidebar-collapsed .admin-layout #adminSidebar .sidebar-header .sidebar-title {
+        opacity: 0 !important;
+        width: 0 !important;
+        overflow: hidden !important;
     }
 
-    // Hide collapse text when collapsed
-    .admin-sidebar.sidebar-collapsed .sidebar-footer .collapse-text,
-    #adminSidebar.sidebar-collapsed .sidebar-footer .collapse-text,
-    .admin-layout.sidebar-collapsed .admin-sidebar .sidebar-footer .collapse-text,
-    .admin-layout.sidebar-collapsed #adminSidebar .sidebar-footer .collapse-text,
-    body.sidebar-collapsed .admin-layout .admin-sidebar .sidebar-footer .collapse-text,
-    body.sidebar-collapsed .admin-layout #adminSidebar .sidebar-footer .collapse-text {
-        display: none !important;
+    // Rotate collapse button icon when collapsed
+    .admin-sidebar.sidebar-collapsed .sidebar-collapse-btn i,
+    #adminSidebar.sidebar-collapsed .sidebar-collapse-btn i,
+    .admin-layout.sidebar-collapsed .admin-sidebar .sidebar-collapse-btn i,
+    .admin-layout.sidebar-collapsed #adminSidebar .sidebar-collapse-btn i,
+    body.sidebar-collapsed .admin-layout .admin-sidebar .sidebar-collapse-btn i,
+    body.sidebar-collapsed .admin-layout #adminSidebar .sidebar-collapse-btn i {
+        transform: rotate(180deg) !important;
+    }
+
+    // Center nav links when collapsed
+    .admin-sidebar.sidebar-collapsed .nav-link,
+    #adminSidebar.sidebar-collapsed .nav-link,
+    .admin-layout.sidebar-collapsed .admin-sidebar .nav-link,
+    .admin-layout.sidebar-collapsed #adminSidebar .nav-link,
+    body.sidebar-collapsed .admin-layout .admin-sidebar .nav-link,
+    body.sidebar-collapsed .admin-layout #adminSidebar .nav-link {
+        justify-content: center !important;
+        padding: 0.625rem 0.5rem !important;
     }
 
     // Adjust content margin when sidebar is collapsed
     .admin-layout.sidebar-collapsed .admin-content,
     body.sidebar-collapsed .admin-layout .admin-content {
-        margin-left: 80px !important;
-    }
-
-    // Adjust footer margin when sidebar is collapsed
-    .admin-layout.sidebar-collapsed .admin-footer,
-    body.sidebar-collapsed .admin-layout .admin-footer {
         margin-left: 80px !important;
     }
 }
@@ -262,8 +262,9 @@ body.admin-layout-body {
     margin-left: 250px;
     display: flex;
     flex-direction: column;
-    min-height: calc(100vh - 60px); // Subtract footer height
+    min-height: 100vh;
     transition: margin-left 0.35s ease-in-out;
+    position: relative;
 
     @media (max-width: 991.98px) {
         margin-left: 0;
@@ -278,9 +279,8 @@ body.admin-layout-body {
     padding: 0 1.5rem;
     position: sticky;
     top: 0;
-    z-index: 1040; // Increased to be above .admin-main (1001) and Bootstrap dropdowns (1000)
+    z-index: 100;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-    isolation: isolate; // Create a new stacking context for dropdowns
     overflow: visible; // Allow dropdowns to overflow
 
     .admin-header-content {
@@ -316,12 +316,12 @@ body.admin-layout-body {
         // Ensure dropdown menus are above everything
         .dropdown {
             position: relative;
-            z-index: 1050; // Higher than header and main content
+            z-index: 200;
             display: inline-block; // Permet au dropdown de s'adapter à la taille du bouton
         }
 
         .dropdown-menu {
-            z-index: 1051 !important; // Higher than dropdown container
+            z-index: 201 !important; // Higher than dropdown container
             position: absolute !important;
             top: 50% !important; // Positionné au milieu du bouton
             left: auto !important;
@@ -368,14 +368,14 @@ body.admin-layout-body {
     background: #f8f9fa;
     overflow-y: auto;
     overflow-x: hidden;
+    padding-bottom: 2rem;
 
     // Ensure content doesn't overflow
     max-width: 100%;
 
     // Position and z-index to ensure content is above sidebar (1000)
     position: relative;
-    z-index: 1001;
-    isolation: isolate; // Create a new stacking context
+    z-index: 1;
 }
 
 // Admin Footer
@@ -384,18 +384,17 @@ body.admin-layout-body {
     height: 60px;
     background: #222;
     border-top: 1px solid #333;
-    margin-left: 250px; // Start after sidebar
+    margin-left: 0;
     transition: margin-left 0.35s ease-in-out;
-    position: fixed;
+    position: relative;
     bottom: 0;
     left: 0;
     right: 0;
-    z-index: 1050 !important; // Always above sidebar (1000), content (1001), and header (1040)
+    z-index: 1;
     display: flex;
     align-items: center;
     flex-shrink: 0;
     color: white;
-    isolation: isolate; // Create new stacking context
 
     p {
         color: white;
