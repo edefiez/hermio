@@ -37,7 +37,8 @@ class CardController extends AbstractController
         private CardViewRepository $cardViewRepository,
         private TeamService $teamService,
         private TeamMemberRepository $teamMemberRepository,
-        private EntityManagerInterface $entityManager
+        private EntityManagerInterface $entityManager,
+        private \App\Service\BrandingService $brandingService
     ) {
     }
 
@@ -459,10 +460,15 @@ class CardController extends AbstractController
         $publicUrl = $request->getSchemeAndHttpHost() . $baseUrl . $separator . 'qr=1';
         $qrCodeData = $this->qrCodeService->generateQrCodeBase64($publicUrl);
 
+        // Get account branding for custom colors
+        $account = $user->getAccount();
+        $branding = $account ? $this->brandingService->getBrandingForAccount($account) : null;
+
         return $this->render('card/qr_code.html.twig', [
             'card' => $card,
             'qrCodeData' => $qrCodeData,
             'publicUrl' => $publicUrl,
+            'branding' => $branding,
         ]);
     }
 
