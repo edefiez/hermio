@@ -5,43 +5,31 @@
 {% block page_title %}{{ 'card.create.title'|trans }}{% endblock %}
 
 {% block admin_content %}
-<div class="profile-container">
-    <div class="profile-card">
-        <h1>{{ 'card.create.title'|trans }}</h1>
-
+<div class="card shadow-sm mb-4">
+    <div class="card-header card-header-gradient">
+        <h1 class="h3 mb-0">
+            <i class="fas fa-plus me-2"></i>{{ 'card.create.title'|trans }}
+        </h1>
+    </div>
+    <div class="card-body">
+        {# Quota Information #}
         {% if quotaLimit %}
-            <div class="alert alert-info">
-                <p>
-                    {{ 'card.quota.info'|trans }}:
-                    {{ currentUsage }} / {{ quotaLimit }} {{ 'account.quota.cards'|trans }}
-                </p>
+            <div class="alert alert-info mb-4">
+                <i class="fas fa-info-circle me-2"></i>{{ 'card.quota.info'|trans }}:
+                {{ currentUsage }} / {{ quotaLimit }} {{ 'account.quota.cards'|trans }}
             </div>
         {% endif %}
 
-        {{ form_start(form, {'attr': {'class': 'card-form'}}) }}
-            {{ form_row(form.name) }}
-            {{ form_row(form.email) }}
-            {{ form_row(form.phone) }}
-            {{ form_row(form.company) }}
-            {{ form_row(form.title) }}
-            {{ form_row(form.bio) }}
-            {{ form_row(form.website) }}
+        {% include 'card/_form_flash_messages.html.twig' %}
 
-            <h3 style="margin-top: 30px;">{{ 'card.social.title'|trans }}</h3>
-            {{ form_row(form.linkedin) }}
-            {{ form_row(form.instagram) }}
-            {{ form_row(form.tiktok) }}
-            {{ form_row(form.facebook) }}
-            {{ form_row(form.x) }}
-            {{ form_row(form.bluebirds) }}
-            {{ form_row(form.snapchat) }}
-            {{ form_row(form.planity) }}
-            {{ form_row(form.other) }}
+        {{ form_start(form, {'attr': {'class': 'needs-validation', 'novalidate': 'novalidate'}}) }}
 
-            <div style="margin-top: 30px; display: flex; gap: 15px;">
-                <button type="submit" class="btn btn-primary">{{ 'card.save'|trans }}</button>
-                <a href="{{ path('app_card_index') }}" class="btn btn-secondary">{{ 'card.cancel'|trans }}</a>
-            </div>
+            {% include 'card/_form_basic_info.html.twig' %}
+
+            {% include 'card/_form_social_networks.html.twig' %}
+
+            {% include 'card/_form_actions.html.twig' %}
+
         {{ form_end(form) }}
     </div>
 </div>

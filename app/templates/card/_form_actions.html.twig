@@ -1,0 +1,9 @@
+{# Actions - MUST be inside the form before form_end #}
+<div class="d-flex gap-2 justify-content-end mt-4">
+    <a href="{{ path('app_card_index') }}" class="btn btn-secondary">
+        <i class="fas fa-times me-1"></i>{{ 'card.cancel'|trans }}
+    </a>
+    <button type="submit" class="btn btn-primary">
+        <i class="fas fa-save me-1"></i>{{ 'card.save'|trans }}
+    </button>
+</div>
