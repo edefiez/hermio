@@ -18,8 +18,12 @@ import './silktide-consent-manager.js';
 import { initConsentManager } from './consent-config.js';
 
 // Initialize consent manager when DOM is ready
+// Skip initialization on pages with data-no-cookie-consent attribute
 document.addEventListener('DOMContentLoaded', function() {
-    initConsentManager();
+    // Check if the body has the data-no-cookie-consent attribute
+    if (!document.body.hasAttribute('data-no-cookie-consent')) {
+        initConsentManager();
+    }
 });
 // Import Bootstrap CSS
 import './styles/bootstrap-custom.scss';
