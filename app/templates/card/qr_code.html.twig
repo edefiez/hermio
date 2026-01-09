@@ -4,28 +4,214 @@
 
 {% block page_title %}{{ 'card.qr_code.title'|trans }}{% endblock %}
 
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+        /* Wallet Card Styles */
+        .wallet-card-container {
+            min-height: calc(100vh - 200px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem 1rem;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e8ecf1 100%);
+        }
+        
+        .wallet-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            width: 100%;
+            max-width: 380px;
+            aspect-ratio: 1.586 / 1; /* Standard wallet card ratio (similar to credit card) */
+            padding: 2rem;
+            color: white;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        
+        /* Decorative elements for wallet card look */
+        .wallet-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 300px;
+            height: 300px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            z-index: 0;
+        }
+        
+        .wallet-card::after {
+            content: '';
+            position: absolute;
+            bottom: -30%;
+            left: -10%;
+            width: 200px;
+            height: 200px;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 50%;
+            z-index: 0;
+        }
+        
+        .wallet-card-content {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            justify-content: space-between;
+        }
+        
+        .wallet-card-header {
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+        
+        .wallet-card-header h1 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin: 0 0 0.5rem 0;
+            color: white;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+        
+        .wallet-card-name {
+            font-size: 1rem;
+            font-weight: 500;
+            color: rgba(255, 255, 255, 0.95);
+            margin: 0;
+        }
+        
+        .wallet-card-qr {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex: 1;
+            padding: 1rem 0;
+        }
+        
+        .wallet-card-qr img {
+            max-width: 180px;
+            width: 100%;
+            height: auto;
+            background: white;
+            padding: 0.75rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+        
+        .wallet-card-footer {
+            text-align: center;
+        }
+        
+        .wallet-card-instructions {
+            font-size: 0.75rem;
+            color: rgba(255, 255, 255, 0.8);
+            margin: 0 0 0.5rem 0;
+            line-height: 1.4;
+        }
+        
+        .wallet-card-url {
+            font-size: 0.7rem;
+            color: rgba(255, 255, 255, 0.7);
+            word-break: break-all;
+            margin: 0;
+        }
+        
+        .wallet-card-url a {
+            color: rgba(255, 255, 255, 0.9);
+            text-decoration: none;
+        }
+        
+        .wallet-card-url a:hover {
+            color: white;
+            text-decoration: underline;
+        }
+        
+        .back-button-container {
+            text-align: center;
+            margin-top: 2rem;
+        }
+        
+        .back-button-container .btn {
+            background: white;
+            color: #667eea;
+            border: none;
+            padding: 0.75rem 2rem;
+            border-radius: 10px;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-block;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .back-button-container .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+            color: #667eea;
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 480px) {
+            .wallet-card {
+                max-width: 340px;
+                padding: 1.5rem;
+            }
+            
+            .wallet-card-qr img {
+                max-width: 160px;
+            }
+            
+            .wallet-card-header h1 {
+                font-size: 1.1rem;
+            }
+        }
+        
+        @media (min-width: 768px) {
+            .wallet-card {
+                max-width: 420px;
+            }
+            
+            .wallet-card-qr img {
+                max-width: 200px;
+            }
+        }
+    </style>
+{% endblock %}
+
 {% block admin_content %}
-<div class="profile-container">
-    <div class="profile-card" style="text-align: center;">
-        <h1>{{ 'card.qr_code.title'|trans }}</h1>
-        
-        <p><strong>{{ card.content.name|default('card.unnamed'|trans) }}</strong></p>
-        
-        <div style="margin: 30px 0;">
-            <img src="{{ qrCodeData }}" alt="QR Code" style="max-width: 300px; border: 1px solid #ddd; padding: 10px; background: white;">
+<div class="wallet-card-container">
+    <div>
+        <div class="wallet-card">
+            <div class="wallet-card-content">
+                <div class="wallet-card-header">
+                    <h1>{{ 'card.qr_code.title'|trans }}</h1>
+                    <p class="wallet-card-name">{{ card.content.name|default('card.unnamed'|trans) }}</p>
+                </div>
+                
+                <div class="wallet-card-qr">
+                    <img src="{{ qrCodeData }}" alt="QR Code">
+                </div>
+                
+                <div class="wallet-card-footer">
+                    <p class="wallet-card-instructions">
+                        {{ 'card.qr_code.instructions'|trans }}
+                    </p>
+                    <p class="wallet-card-url">
+                        <a href="{{ publicUrl }}" target="_blank">{{ publicUrl }}</a>
+                    </p>
+                </div>
+            </div>
         </div>
         
-        <p>
-            <strong>{{ 'card.public_url'|trans }}:</strong><br>
-            <a href="{{ publicUrl }}" target="_blank">{{ publicUrl }}</a>
-        </p>
-        
-        <p style="color: #666; font-size: 0.9em;">
-            {{ 'card.qr_code.instructions'|trans }}
-        </p>
-        
-        <div style="margin-top: 30px;">
-            <a href="{{ path('app_card_index') }}" class="btn btn-secondary">{{ 'card.back_to_list'|trans }}</a>
+        <div class="back-button-container">
+            <a href="{{ path('app_card_index') }}" class="btn">{{ 'card.back_to_list'|trans }}</a>
         </div>
     </div>
 </div>
