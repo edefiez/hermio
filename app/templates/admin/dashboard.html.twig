@@ -3,26 +3,41 @@
 {% block page_title %}{{ 'dashboard.title'|trans }}{% endblock %}
 
 {% block admin_content %}
-<div class="dashboard-container">
+<div class="dashboard-container" style="padding: 2rem;">
     {# Welcome Section #}
     <div class="row mb-4">
         <div class="col-12">
-            <div class="card shadow-sm border-0">
+            <div class="card shadow-sm border-0" style="border-radius: 12px; background: white;">
                 <div class="card-body p-4">
                     <div class="d-flex align-items-center justify-content-between flex-wrap">
                         <div>
-                            <h2 class="mb-1">{{ 'dashboard.welcome'|trans|default('Welcome back') }}, {{ app.user.email }}</h2>
-                            <p class="text-muted mb-0">
+                            <h1 class="mb-2" style="font-size: 1.75rem; font-weight: 600; color: #212529;">
+                                {{ 'dashboard.welcome'|trans|default('Bienvenue') }}, {{ app.user.email }}
+                            </h1>
+                            <p class="text-muted mb-0" style="font-size: 0.875rem;">
                                 {% if memberSince %}
-                                    {{ 'dashboard.member_since'|trans|default('Member since') }} {{ memberSince|date('F Y') }}
+                                    {{ 'dashboard.member_since'|trans|default('Membre depuis') }} {{ memberSince|date('F Y')|replace({
+                                        'January': 'janvier',
+                                        'February': 'février',
+                                        'March': 'mars',
+                                        'April': 'avril',
+                                        'May': 'mai',
+                                        'June': 'juin',
+                                        'July': 'juillet',
+                                        'August': 'août',
+                                        'September': 'septembre',
+                                        'October': 'octobre',
+                                        'November': 'novembre',
+                                        'December': 'décembre'
+                                    }) }}
                                     {% if daysSince > 0 %}
-                                        <span class="badge bg-secondary ms-2">{{ daysSince }} {{ 'dashboard.days'|trans|default('days') }}</span>
+                                        <span class="badge bg-secondary ms-2">{{ daysSince }} {{ 'dashboard.days'|trans|default('jours') }}</span>
                                     {% endif %}
                                 {% endif %}
                             </p>
                         </div>
                         <div class="mt-2 mt-md-0">
-                            <a href="{{ path('app_card_create') }}" class="btn btn-primary btn-lg">
+                            <a href="{{ path('app_card_create') }}" class="btn btn-primary" style="padding: 0.5rem 1.5rem; font-weight: 500; border-radius: 8px;">
                                 <i class="fas fa-plus me-2"></i>{{ 'card.create.button'|trans }}
                             </a>
                         </div>
@@ -35,23 +50,23 @@
     {# Statistics Cards #}
     <div class="row g-4 mb-4">
         {# Plan Card #}
-        <div class="col-6">
-            <div class="card shadow-sm h-100 border-0">
-                <div class="card-header card-header-gradient text-white">
-                    <h5 class="card-title mb-0">
+        <div class="col-md-6 col-12 mb-3">
+            <div class="card shadow-sm h-100 border-0" style="border-radius: 12px; background: white;">
+                <div class="card-header card-header-gradient text-white" style="border-radius: 12px 12px 0 0;">
+                    <h5 class="card-title mb-0" style="font-size: 1rem; font-weight: 600;">
                         <i class="fas fa-crown me-2"></i>{{ 'dashboard.plan.title'|trans }}
                     </h5>
                 </div>
-                <div class="card-body">
-                    <h3 class="mb-2">{{ planType.getDisplayName()|trans }}</h3>
+                <div class="card-body p-4">
+                    <h2 class="mb-2" style="font-size: 2rem; font-weight: 700; color: #212529;">{{ planType.getDisplayName()|trans }}</h2>
                     {% if isUnlimited %}
-                        <p class="text-muted mb-3">
+                        <p class="text-muted mb-3" style="font-size: 0.875rem;">
                             <i class="fas fa-infinity me-1"></i>{{ 'dashboard.plan.unlimited'|trans }}
                         </p>
                     {% else %}
-                        <p class="text-muted mb-3">{{ 'dashboard.plan.limited'|trans }}</p>
+                        <p class="text-muted mb-3" style="font-size: 0.875rem;">{{ 'dashboard.plan.limited'|trans }}</p>
                     {% endif %}
-                    <a href="{{ path('app_account_my_plan') }}" class="btn btn-sm btn-outline-primary w-100">
+                    <a href="{{ path('app_account_my_plan') }}" class="btn btn-sm btn-outline-primary w-100" style="border-radius: 8px; font-weight: 500;">
                         <i class="fas fa-info-circle me-1"></i>{{ 'account.view_plan_details'|trans }}
                     </a>
                 </div>
@@ -59,19 +74,19 @@
         </div>
 
         {# Quick Actions Card #}
-        <div class="col-6">
-            <div class="card shadow-sm h-100 border-0">
-                <div class="card-header bg-success text-white">
-                    <h5 class="card-title mb-0">
+        <div class="col-md-6 col-12 mb-3">
+            <div class="card shadow-sm h-100 border-0" style="border-radius: 12px; background: white;">
+                <div class="card-header" style="background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%); border-radius: 12px 12px 0 0;">
+                    <h5 class="card-title mb-0 text-white" style="font-size: 1rem; font-weight: 600;">
                         <i class="fas fa-bolt me-2"></i>{{ 'dashboard.quick_actions.title'|trans }}
                     </h5>
                 </div>
-                <div class="card-body">
+                <div class="card-body p-4">
                     <div class="d-grid gap-2">
-                        <a href="{{ path('app_card_create') }}" class="btn btn-primary btn-sm">
+                        <a href="{{ path('app_card_create') }}" class="btn btn-primary btn-sm" style="border-radius: 8px; font-weight: 500;">
                             <i class="fas fa-plus me-1"></i>{{ 'card.create.button'|trans }}
                         </a>
-                        <a href="{{ path('app_account_index') }}" class="btn btn-outline-secondary btn-sm">
+                        <a href="{{ path('app_account_index') }}" class="btn btn-outline-secondary btn-sm" style="border-radius: 8px; font-weight: 500;">
                             <i class="fas fa-user-circle me-1"></i>{{ 'nav.account'|trans }}
                         </a>
                     </div>
@@ -80,37 +95,37 @@
         </div>
 
         {# Card Usage Card #}
-        <div class="col-6">
-            <div class="card shadow-sm h-100 border-0">
-                <div class="card-header bg-primary text-white">
-                    <h5 class="card-title mb-0">
+        <div class="col-md-6 col-12 mb-3">
+            <div class="card shadow-sm h-100 border-0" style="border-radius: 12px; background: white;">
+                <div class="card-header" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 12px 12px 0 0;">
+                    <h5 class="card-title mb-0 text-white" style="font-size: 1rem; font-weight: 600;">
                         <i class="fas fa-id-card me-2"></i>{{ 'dashboard.usage.title'|trans }}
                     </h5>
                 </div>
-                <div class="card-body">
-                    <h3 class="mb-2">
+                <div class="card-body p-4">
+                    <h2 class="mb-2" style="font-size: 2rem; font-weight: 700; color: #212529;">
                         {{ currentUsage }} / {{ quotaLimit ?? '∞' }}
-                    </h3>
+                    </h2>
                     {% if usagePercentage is not null %}
-                        <div class="progress mb-2" style="height: 24px;">
+                        <div class="progress mb-2" style="height: 24px; border-radius: 12px;">
                             <div class="progress-bar
                                 {% if usagePercentage >= 100 %}bg-danger
                                 {% elseif usagePercentage >= 80 %}bg-warning
                                 {% else %}bg-success
                                 {% endif %}"
                                 role="progressbar"
-                                style="width: {{ usagePercentage }}%"
+                                style="width: {{ usagePercentage }}%; border-radius: 12px;"
                                 aria-valuenow="{{ usagePercentage }}"
                                 aria-valuemin="0"
                                 aria-valuemax="100">
                                 <strong>{{ usagePercentage|round }}%</strong>
                             </div>
                         </div>
-                        <small class="text-muted d-block mb-3">{{ 'account.quota.used'|trans }}</small>
+                        <small class="text-muted d-block mb-3" style="font-size: 0.875rem;">{{ 'account.quota.used'|trans }}</small>
                     {% else %}
-                        <p class="text-muted mb-3">{{ 'account.quota.unlimited'|trans }}</p>
+                        <p class="text-muted mb-3" style="font-size: 0.875rem;">{{ 'account.quota.unlimited'|trans }}</p>
                     {% endif %}
-                    <a href="{{ path('app_card_index') }}" class="btn btn-sm btn-outline-primary w-100">
+                    <a href="{{ path('app_card_index') }}" class="btn btn-sm btn-outline-primary w-100" style="border-radius: 8px; font-weight: 500;">
                         <i class="fas fa-list me-1"></i>{{ 'nav.my_cards'|trans }}
                     </a>
                 </div>
@@ -118,19 +133,19 @@
         </div>
 
         {# Total Cards Card #}
-        <div class="col-6">
-            <div class="card shadow-sm h-100 border-0">
-                <div class="card-header bg-info text-white">
-                    <h5 class="card-title mb-0">
+        <div class="col-md-6 col-12 mb-3">
+            <div class="card shadow-sm h-100 border-0" style="border-radius: 12px; background: white;">
+                <div class="card-header" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); border-radius: 12px 12px 0 0;">
+                    <h5 class="card-title mb-0 text-white" style="font-size: 1rem; font-weight: 600;">
                         <i class="fas fa-layer-group me-2"></i>{{ 'dashboard.total_cards'|trans|default('Total Cards') }}
                     </h5>
                 </div>
-                <div class="card-body">
-                    <h3 class="mb-2">{{ totalCards }}</h3>
-                    <p class="text-muted mb-3">
+                <div class="card-body p-4">
+                    <h2 class="mb-2" style="font-size: 2rem; font-weight: 700; color: #212529;">{{ totalCards }}</h2>
+                    <p class="text-muted mb-3" style="font-size: 0.875rem;">
                         <i class="fas fa-check-circle text-success me-1"></i>{{ activeCards }} {{ 'dashboard.active'|trans|default('active') }}
                     </p>
-                    <a href="{{ path('app_card_index') }}" class="btn btn-sm btn-outline-info w-100">
+                    <a href="{{ path('app_card_index') }}" class="btn btn-sm btn-outline-info w-100" style="border-radius: 8px; font-weight: 500;">
                         <i class="fas fa-eye me-1"></i>{{ 'dashboard.view_all'|trans|default('View All') }}
                     </a>
                 </div>
@@ -142,36 +157,36 @@
     {% if analytics %}
     <div class="row mb-4">
         <div class="col-12">
-            <div class="card shadow-sm">
-                <div class="card-header bg-gradient" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
-                    <h5 class="card-title mb-0 text-white">
+            <div class="card shadow-sm border-0" style="border-radius: 12px; background: white;">
+                <div class="card-header card-header-gradient text-white" style="border-radius: 12px 12px 0 0;">
+                    <h5 class="card-title mb-0 text-white" style="font-size: 1rem; font-weight: 600;">
                         <i class="fas fa-chart-line me-2"></i>{{ 'dashboard.analytics.title'|trans|default('QR Code Analytics') }}
                     </h5>
                 </div>
-                <div class="card-body">
+                <div class="card-body p-4">
                     {# Analytics Summary Stats #}
                     <div class="row mb-4">
-                        <div class="col-md-4">
-                            <div class="card bg-light h-100">
-                                <div class="card-body text-center">
-                                    <h2 class="mb-2 text-primary">{{ analytics.totalScans }}</h2>
-                                    <p class="text-muted mb-0">{{ 'dashboard.analytics.total_scans'|trans|default('Total Scans') }}</p>
+                        <div class="col-md-4 col-12 mb-3">
+                            <div class="card shadow-sm border-0 h-100" style="border-radius: 12px; background: white;">
+                                <div class="card-body p-4 text-center">
+                                    <h2 class="mb-2" style="font-size: 2rem; font-weight: 700; color: #212529;">{{ analytics.totalScans }}</h2>
+                                    <p class="text-muted mb-0" style="font-size: 0.875rem; font-weight: 500;">{{ 'dashboard.analytics.total_scans'|trans|default('Total Scans') }}</p>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-4">
-                            <div class="card bg-light h-100">
-                                <div class="card-body text-center">
-                                    <h2 class="mb-2 text-success">{{ analytics.cardCount }}</h2>
-                                    <p class="text-muted mb-0">{{ 'dashboard.analytics.tracked_cards'|trans|default('Tracked Cards') }}</p>
+                        <div class="col-md-4 col-12 mb-3">
+                            <div class="card shadow-sm border-0 h-100" style="border-radius: 12px; background: white;">
+                                <div class="card-body p-4 text-center">
+                                    <h2 class="mb-2" style="font-size: 2rem; font-weight: 700; color: #212529;">{{ analytics.cardCount }}</h2>
+                                    <p class="text-muted mb-0" style="font-size: 0.875rem; font-weight: 500;">{{ 'dashboard.analytics.tracked_cards'|trans|default('Tracked Cards') }}</p>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-4">
-                            <div class="card bg-light h-100">
-                                <div class="card-body text-center">
-                                    <h2 class="mb-2 text-info">{{ (analytics.totalScans / 30)|round(1) }}</h2>
-                                    <p class="text-muted mb-0">{{ 'dashboard.analytics.avg_per_day'|trans|default('Avg Scans/Day') }}</p>
+                        <div class="col-md-4 col-12 mb-3">
+                            <div class="card shadow-sm border-0 h-100" style="border-radius: 12px; background: white;">
+                                <div class="card-body p-4 text-center">
+                                    <h2 class="mb-2" style="font-size: 2rem; font-weight: 700; color: #212529;">{{ (analytics.totalScans / 30)|round(1) }}</h2>
+                                    <p class="text-muted mb-0" style="font-size: 0.875rem; font-weight: 500;">{{ 'dashboard.analytics.avg_per_day'|trans|default('Avg Scans/Day') }}</p>
                                 </div>
                             </div>
                         </div>
@@ -179,14 +194,14 @@
 
                     {# Scans Per Day Chart #}
                     <div class="mb-4">
-                        <h6 class="mb-3">{{ 'dashboard.analytics.scans_per_day'|trans|default('Scans Per Day (Last 30 Days)') }}</h6>
+                        <h6 class="mb-3" style="font-size: 1rem; font-weight: 600; color: #212529;">{{ 'dashboard.analytics.scans_per_day'|trans|default('Scans Per Day (Last 30 Days)') }}</h6>
                         <canvas id="scansPerDayChart" style="max-height: 300px;"></canvas>
                     </div>
 
                     {# Top Cards Table #}
                     {% if analytics.topCards|length > 0 %}
                     <div>
-                        <h6 class="mb-3">{{ 'dashboard.analytics.top_cards'|trans|default('Most Scanned Cards') }}</h6>
+                        <h6 class="mb-3" style="font-size: 1rem; font-weight: 600; color: #212529;">{{ 'dashboard.analytics.top_cards'|trans|default('Most Scanned Cards') }}</h6>
                         <div class="table-responsive">
                             <table class="table table-hover">
                                 <thead>
@@ -240,19 +255,19 @@
     {% if showUpgradePrompt %}
     <div class="row mb-4">
         <div class="col-12">
-            <div class="card shadow-sm border-warning">
-                <div class="card-header bg-warning text-dark">
-                    <h5 class="card-title mb-0">
+            <div class="card shadow-sm border-0" style="border-radius: 12px; background: white; border: 2px solid #ffc107;">
+                <div class="card-header bg-warning text-dark" style="border-radius: 12px 12px 0 0;">
+                    <h5 class="card-title mb-0" style="font-size: 1rem; font-weight: 600;">
                         <i class="fas fa-lock me-2"></i>{{ 'dashboard.analytics.locked'|trans|default('Analytics Feature Locked') }}
                     </h5>
                 </div>
-                <div class="card-body text-center py-5">
+                <div class="card-body text-center py-5 p-4">
                     <i class="fas fa-chart-bar fa-4x text-warning mb-3"></i>
-                    <h4 class="mb-3">{{ 'dashboard.analytics.upgrade_title'|trans|default('Unlock Advanced Analytics') }}</h4>
-                    <p class="text-muted mb-4">
+                    <h4 class="mb-3" style="font-size: 1.5rem; font-weight: 600; color: #212529;">{{ 'dashboard.analytics.upgrade_title'|trans|default('Unlock Advanced Analytics') }}</h4>
+                    <p class="text-muted mb-4" style="font-size: 0.875rem;">
                         {{ 'dashboard.analytics.upgrade_message'|trans|default('Track your QR code scans, view daily statistics, and see which cards perform best. Upgrade to Enterprise plan to access these powerful insights.') }}
                     </p>
-                    <a href="{{ path('app_account_my_plan') }}" class="btn btn-warning btn-lg">
+                    <a href="{{ path('app_account_my_plan') }}" class="btn btn-warning" style="padding: 0.5rem 1.5rem; font-weight: 500; border-radius: 8px;">
                         <i class="fas fa-crown me-2"></i>{{ 'dashboard.analytics.upgrade_button'|trans|default('Upgrade to Enterprise') }}
                     </a>
                 </div>
@@ -265,13 +280,13 @@
     {% if recentActivity|length > 0 %}
     <div class="row">
         <div class="col-12">
-            <div class="card shadow-sm">
-                <div class="card-header bg-light">
-                    <h5 class="card-title mb-0">
+            <div class="card shadow-sm border-0" style="border-radius: 12px; background: white;">
+                <div class="card-header bg-light" style="border-radius: 12px 12px 0 0;">
+                    <h5 class="card-title mb-0" style="font-size: 1rem; font-weight: 600; color: #212529;">
                         <i class="fas fa-clock me-2"></i>{{ 'dashboard.cards.recent_activity'|trans }}
                     </h5>
                 </div>
-                <div class="card-body">
+                <div class="card-body p-4">
                     <div class="table-responsive">
                         <table class="table table-hover mb-0">
                             <thead>

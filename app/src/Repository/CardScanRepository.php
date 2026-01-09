@@ -132,4 +132,29 @@ class CardScanRepository extends ServiceEntityRepository
             ->getQuery()
             ->getSingleScalarResult();
     }
+
+    /**
+     * Get monthly scans for multiple cards
+     * 
+     * @param array<int> $cardIds
+     * @param \DateTimeInterface $startDate
+     * @param \DateTimeInterface $endDate
+     */
+    public function getMonthlyScansForCards(array $cardIds, \DateTimeInterface $startDate, \DateTimeInterface $endDate): int
+    {
+        if (empty($cardIds)) {
+            return 0;
+        }
+
+        return (int) $this->createQueryBuilder('cs')
+            ->select('COUNT(cs.id)')
+            ->where('cs.card IN (:cardIds)')
+            ->andWhere('cs.scannedAt >= :startDate')
+            ->andWhere('cs.scannedAt <= :endDate')
+            ->setParameter('cardIds', $cardIds)
+            ->setParameter('startDate', $startDate)
+            ->setParameter('endDate', $endDate)
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
 }

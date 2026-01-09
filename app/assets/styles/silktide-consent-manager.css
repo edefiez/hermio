@@ -52,11 +52,7 @@ Focus Styles
 #stcm-wrapper #stcm-modal button:focus,
 #stcm-wrapper #stcm-icon:focus {
   outline: none;
-  box-shadow: 0 0 0 2px var(--backgroundColor), 0 0 0 4px #ffffff;
-  border-radius: 5px;
-}
-
-#stcm-wrapper #stcm-icon:focus {
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.3), 0 0 0 4px rgba(255, 255, 255, 0.5);
   border-radius: 50%;
 }
 
@@ -64,9 +60,9 @@ Focus Styles
 General Styles
 -------------------------------- */
 #stcm-wrapper .stcm-button {
-  color: var(--backgroundColor);
-  background-color: var(--primaryColor);
-  border: 2px solid var(--primaryColor);
+  color: #ffffff;
+  background-color: rgba(255, 255, 255, 0.2);
+  border: 2px solid rgba(255, 255, 255, 0.3);
   padding: 10px 20px;
   text-decoration: none;
   text-align: center;
@@ -75,21 +71,33 @@ General Styles
   line-height: 24px;
   cursor: pointer;
   border-radius: 5px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+#stcm-wrapper .stcm-button-primary {
+  background-color: rgba(255, 255, 255, 0.95);
+  color: #4F46E5;
+  border-color: rgba(255, 255, 255, 0.95);
 }
 
 #stcm-wrapper .stcm-button-primary:hover {
-  background-color: var(--backgroundColor);
-  color: var(--primaryColor);
+  background-color: #ffffff;
+  color: #4F46E5;
+  border-color: #ffffff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
 }
 
 #stcm-wrapper .stcm-button-secondary {
-  background-color: var(--backgroundColor);
-  color: var(--primaryColor);
+  background-color: transparent;
+  color: #ffffff;
+  border-color: rgba(255, 255, 255, 0.5);
 }
 
 #stcm-wrapper .stcm-button-secondary:hover {
-  background-color: var(--primaryColor);
-  color: var(--backgroundColor);
+  background-color: rgba(255, 255, 255, 0.15);
+  color: #ffffff;
+  border-color: rgba(255, 255, 255, 0.7);
 }
 
 /* --------------------------------
@@ -97,8 +105,8 @@ Banner
 -------------------------------- */
 #stcm-banner {
   font-family: var(--fontFamily);
-  color: var(--textColor);
-  background-color: var(--backgroundColor);
+  color: white;
+  background: linear-gradient(135deg, #4F46E5 0%, #EC4899 100%);
   box-sizing: border-box;
   padding: 32px;
   border-radius: 12px;
@@ -106,21 +114,22 @@ Banner
   border: 0px;
   position: fixed;
   bottom: 16px;
-  right: 16px;
+  left: 50%;
+  right: auto;
   width: 600px;
   overflow: auto;
   max-width: calc(100% - 32px);
   max-height: calc(100vh - 32px);
-  transform: translate(0, -20px);
+  transform: translate(-50%, -20px);
   opacity: 0;
-  animation: stcm-slide-down 350ms ease-out;
+  animation: stcm-slide-down-bottom-center 350ms ease-out forwards;
   animation-delay: 0.3s;
   box-shadow: -5px 5px 10px 0px #00000012, 0px 0px 50px 0px #0000001a;
 }
 
 #stcm-banner.stcm-loaded {
   opacity: 1;
-  transform: none;
+  transform: translate(-50%, 0);
   animation: none;
 }
 
@@ -158,7 +167,7 @@ Banner
   border: none;
   padding: 15px 0px;
   background-color: transparent;
-  color: var(--primaryColor);
+  color: rgba(255, 255, 255, 0.9);
   cursor: pointer;
   font-size: 16px;
 }
@@ -170,25 +179,25 @@ Banner
 }
 
 #stcm-banner .stcm-preferences-button span:hover {
-  color: var(--textColor);
+  color: #ffffff;
 }
 
 #stcm-banner p {
   font-size: 16px;
   line-height: 24px;
-  color: var(--textColor);
+  color: rgba(255, 255, 255, 0.95);
   margin: 0px 0px 15px;
 }
 
 #stcm-banner a {
   display: inline-block;
-  color: var(--primaryColor);
+  color: rgba(255, 255, 255, 0.9);
   text-decoration: underline;
-  background-color: var(--backgroundColor);
+  background-color: transparent;
 }
 
 #stcm-banner a:hover {
-  color: var(--textColor);
+  color: #ffffff;
 }
 
 #stcm-banner a.stcm-logo {
@@ -241,10 +250,10 @@ Modal
   animation: stcm-slide-up-center 350ms ease-out forwards;
   box-shadow: -5px 5px 10px 0px #00000012, 0px 0px 50px 0px #0000001a;
   font-family: var(--fontFamily);
-  color: var(--textColor);
+  color: white;
   flex-direction: column;
   padding: 30px;
-  background-color: var(--backgroundColor);
+  background: linear-gradient(135deg, #4F46E5 0%, #EC4899 100%);
   border-radius: 12px;
   box-sizing: border-box;
 }
@@ -262,7 +271,7 @@ Modal - Header
 
 #stcm-modal h1 {
   font-family: var(--fontFamily);
-  color: var(--textColor);
+  color: white;
   font-size: 24px;
   font-weight: 500;
   margin: 0px;
@@ -273,12 +282,18 @@ Modal - Header
   border: none;
   padding: 13px;
   cursor: pointer;
-  background: var(--backgroundColor);
-  color: var(--primaryColor);
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+  border-radius: 50%;
+  transition: background-color 0.2s ease;
+}
+
+#stcm-modal .stcm-modal-close:hover {
+  background: rgba(255, 255, 255, 0.2);
 }
 
 #stcm-modal .stcm-modal-close svg {
-  fill: var(--primaryColor);
+  fill: white;
 }
 
 /* --------------------------------
@@ -295,15 +310,15 @@ Modal - Content
 }
 
 #stcm-modal section::-webkit-scrollbar-thumb {
-  background-color: var(--textColor); /* Color of the scrollbar thumb */
+  background-color: rgba(255, 255, 255, 0.3); /* Color of the scrollbar thumb */
   border-radius: 10px; /* Rounded corners for the thumb */
 }
 
 #stcm-modal p {
   font-size: 16px;
   line-height: 24px;
-  color: var(--textColor);
-  opacity: 0.6;
+  color: rgba(255, 255, 255, 0.9);
+  opacity: 0.9;
   margin: 0px 0px 15px;
 }
 
@@ -325,7 +340,7 @@ Modal - Content
   padding: 0px;
   margin: 0px 0px 10px;
   font-weight: 700;
-  color: var(--textColor);
+  color: white;
   font-size: 16px;
 }
 
@@ -350,7 +365,7 @@ Modal - Switches
 
 #stcm-modal .stcm-toggle:focus-within {
   outline: none;
-  box-shadow: 0 0 0 2px var(--backgroundColor), 0 0 0 4px #ffffff;
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.3), 0 0 0 4px rgba(255, 255, 255, 0.5);
   border-radius: 25px;
 }
 
@@ -365,7 +380,7 @@ Modal - Switches
   display: block;
   height: 34px;
   width: 74px;
-  background: var(--textColor);
+  background: rgba(255, 255, 255, 0.3);
   border-radius: 25px;
 }
 
@@ -376,7 +391,7 @@ Modal - Switches
   display: block;
   height: 30px;
   width: 30px;
-  background: var(--backgroundColor);
+  background: white;
   border-radius: 50%;
   transition: left 150ms ease-out;
 }
@@ -386,7 +401,7 @@ Modal - Switches
   text-transform: uppercase;
   font-size: 15px;
   font-weight: 500;
-  color: var(--backgroundColor);
+  color: white;
   position: absolute;
   top: 5px;
   right: 8px;
@@ -403,7 +418,7 @@ Modal - Switches
 
 /* Checked Switch Styles */
 #stcm-modal .stcm-toggle input:checked + .stcm-toggle-track {
-  background: var(--primaryColor);
+  background: rgba(255, 255, 255, 0.5);
 }
 
 #stcm-modal .stcm-toggle input:checked ~ .stcm-toggle-thumb {
@@ -446,6 +461,7 @@ Modal - Footer
 #stcm-modal footer a {
   margin-left: auto;
   padding: 0;
+  color: rgba(255, 255, 255, 0.9);
 }
 
 #stcm-modal footer a.stcm-credit-link {
@@ -454,6 +470,7 @@ Modal - Footer
 
 #stcm-modal footer a.stcm-credit-link:hover {
   text-decoration: underline;
+  color: white;
 }
 
 /* Cookie Icon */
@@ -469,11 +486,17 @@ Modal - Footer
   border-radius: 50%;
   padding: 0px;
   border: none;
-  background-color: var(--iconColor);
+  background: linear-gradient(135deg, #4F46E5 0%, #EC4899 100%);
   cursor: pointer;
-  box-shadow: 0px 0px 6px 0px #0000001a;
+  box-shadow: 0px 4px 12px rgba(79, 70, 229, 0.4), 0px 0px 6px rgba(236, 72, 153, 0.2);
   pointer-events: auto;
   animation: stcm-fade-in 0.3s ease-in-out forwards;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+#stcm-icon:hover {
+  transform: scale(1.1);
+  box-shadow: 0px 6px 16px rgba(79, 70, 229, 0.5), 0px 0px 10px rgba(236, 72, 153, 0.3);
 }
 
 #stcm-icon.stcm-pos-bottom-right {
@@ -482,7 +505,7 @@ Modal - Footer
 }
 
 #stcm-icon svg {
-  fill: var(--iconBackgroundColor);
+  fill: white;
 }
 
 /* --------------------------------

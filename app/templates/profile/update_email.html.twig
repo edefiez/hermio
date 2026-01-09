@@ -1,10 +1,12 @@
-{% extends 'base.html.twig' %}
+{% extends 'base_admin.html.twig' %}
 
 {% block title %}Update Email - Hermio{% endblock %}
 
-{% block body %}
-<div class="auth-container">
-    <div class="auth-card">
+{% block page_title %}{{ 'nav.settings'|trans }} - Update Email{% endblock %}
+
+{% block admin_content %}
+<div class="profile-container">
+    <div class="profile-card">
         <h1>Update Email Address</h1>
         
         <p style="color: #666; margin-bottom: 20px;">
@@ -24,11 +26,11 @@
                 {{ form_errors(form.currentPassword) }}
             </div>
 
-            <button type="submit" class="btn btn-primary" style="width: 100%;">Update Email</button>
+            <button type="submit" class="btn btn-primary">Update Email</button>
         {{ form_end(form) }}
 
-        <div class="auth-links">
-            <p><a href="{{ path('app_profile') }}">Back to Profile</a></p>
+        <div class="profile-actions" style="margin-top: 20px;">
+            <a href="{{ path('app_profile') }}" class="btn btn-secondary">Back to Profile</a>
         </div>
     </div>
 </div>

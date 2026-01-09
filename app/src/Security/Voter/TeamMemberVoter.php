@@ -9,6 +9,7 @@ use App\Entity\User;
 use App\Enum\TeamRole;
 use App\Repository\TeamMemberRepository;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
+use Symfony\Component\Security\Core\Authorization\Voter\Vote;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 
 class TeamMemberVoter extends Voter
@@ -31,7 +32,7 @@ class TeamMemberVoter extends Voter
         ]);
     }
 
-    protected function voteOnAttribute(string $attribute, mixed $subject, TokenInterface $token, ?\Symfony\Component\Security\Core\Authorization\Voter\Vote $vote = null): bool
+    protected function voteOnAttribute(string $attribute, mixed $subject, TokenInterface $token, ?Vote $vote = null): bool
     {
         $user = $token->getUser();
 

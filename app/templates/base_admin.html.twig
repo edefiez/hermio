@@ -4,6 +4,16 @@
 
 {% block body_attr %}class="bg-light admin-layout-body"{% endblock %}
 
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+        /* Hide base footer in admin layout */
+        body.admin-layout-body .footer {
+            display: none !important;
+        }
+    </style>
+{% endblock %}
+
 {% block body_wrapper %}
 <div class="admin-layout">
     {% include 'admin/_sidebar.html.twig' %}
@@ -33,6 +43,18 @@
             {% block admin_content %}{% endblock %}
         </main>
     </div>
+    {# Footer - Full width #}
+    <footer class="admin-footer">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12 text-center py-3">
+                    <p class="mb-0" style="font-size: 0.875rem; color: white;">
+                        &copy; {{ 'now'|date('Y') }} Hermio. {{ 'footer.all_rights_reserved'|trans }}.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </footer>
 </div>
 {% endblock %}
 

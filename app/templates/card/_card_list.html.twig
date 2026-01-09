@@ -4,71 +4,136 @@
 <div style="display:none;" data-has-more="{{ hasMore ? 'true' : 'false' }}" data-total-cards="{{ totalCards }}"></div>
 {% endif %}
 
+{# Grid View #}
 {% for card in cards %}
-    <div class="col-md-6 col-12 mt-4 card-item d-flex">
-        <div class="card w-100 d-flex flex-column">
-            <div class="card-header bg-light">
-                <h5 style="margin-top: 0; margin-bottom: 0;">
-                    {{ card.content.name|default('card.unnamed'|trans) }}
-                </h5>
-                {% if card.content.title or card.content.company %}
-                    <div class="text-muted" style="font-size: 0.9rem; margin-top: 0.25rem;">
-                        {% if card.content.title %}
-                            <span>{{ card.content.title }}</span>
-                        {% endif %}
-                        {% if card.content.title and card.content.company %}
-                            <span> • </span>
-                        {% endif %}
-                        {% if card.content.company %}
-                            <span>{{ card.content.company }}</span>
-                        {% endif %}
-                    </div>
-                {% endif %}
+    {% set name = card.content.name|default('card.unnamed'|trans) %}
+    {% set initials = name|split(' ')|map(n => n|first|upper)|join('')|slice(0, 2) %}
+    {% set colors = [
+        'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+        'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)',
+        'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)',
+        'linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)',
+        'linear-gradient(135deg, #fa709a 0%, #fee140 100%)',
+        'linear-gradient(135deg, #30cfd0 0%, #330867 100%)',
+        'linear-gradient(135deg, #a8edea 0%, #fed6e3 100%)',
+        'linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%)',
+        'linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%)',
+        'linear-gradient(135deg, #ff8a80 0%, #ea6100 100%)'
+    ] %}
+    {% set cardColor = colors[loop.index0 % colors|length] %}
+    {% set publicUrl = app.request.schemeAndHttpHost ~ card.publicUrl %}
+    {% set shortUrl = 'cards.app/' ~ card.slug %}
+    
+    {# Grid View Card #}
+    <div class="col-md-4 col-12 mb-4 card-item card-item-grid">
+        <div class="card shadow-sm border-0 h-100" style="border-radius: 12px; overflow: hidden; background: white;">
+            {# Colored Header #}
+            <div style="height: 80px; background: {{ cardColor }}; position: relative;">
             </div>
-            <div class="card-body d-flex flex-column">
-                <p>
-                    <strong>
-                        <i class="fas fa-lock" style="color: #007bff;"></i>
-                        {{ 'card.security.secure_url'|trans }}:
-                    </strong><br>
-                    <small style="word-break: break-all;">
-                        <a href="{{ app.request.schemeAndHttpHost }}{{ card.publicUrl }}"
-                           target="_blank"
-                           rel="noopener noreferrer"
-                           style="color: #007bff; text-decoration: none;"
-                           title="{{ 'card.preview.open'|trans|default('Open card preview') }}">
-                            {{ app.request.schemeAndHttpHost }}{{ card.publicUrl }}
-                            <i class="fas fa-external-link-alt" style="font-size: 0.75em; margin-left: 3px;"></i>
-                        </a>
-                    </small>
+            
+            <div class="card-body p-4" style="position: relative; margin-top: -40px;">
+                {# Avatar Circle #}
+                <div class="d-flex justify-content-center mb-3">
+                    <div style="width: 80px; height: 80px; background: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 8px rgba(0,0,0,0.1); border: 4px solid white;">
+                        <span style="font-size: 1.5rem; font-weight: 600; color: #495057;">{{ initials }}</span>
+                    </div>
+                </div>
+                
+                {# Name #}
+                <h5 class="text-center mb-2" style="font-weight: 600; color: #212529;">{{ name }}</h5>
+                
+                {# URL #}
+                <p class="text-center mb-3" style="font-size: 0.875rem; color: #6c757d;">
+                    <a href="{{ publicUrl }}" target="_blank" rel="noopener noreferrer" style="color: #6c757d; text-decoration: none;">
+                        {{ shortUrl }}
+                        <i class="fas fa-external-link-alt ms-1" style="font-size: 0.75em;"></i>
+                    </a>
                 </p>
-                {% if isEnterprise and cardAssignments[card.id] is defined and cardAssignments[card.id]|length > 0 %}
-                    <p style="margin-top: 10px;">
-                        <strong>{{ 'card.assignments.current'|trans }}:</strong>
-                        {% for assignment in cardAssignments[card.id] %}
-                            <span class="badge bg-info text-white" style="margin-right: 5px;" title="{{ 'team.members.assigned_by'|trans }}: {{ assignment.assignedBy.email }}">
-                            {{ assignment.teamMember.email }}
-                            <small>({{ assignment.teamMember.role.getDisplayName()|trans }})</small>
-                        </span>
-                        {% endfor %}
-                    </p>
-                {% elseif isEnterprise and canManageAssignments %}
-                    <p style="margin-top: 10px; color: #6c757d; font-size: 14px;">
-                        {{ 'card.assignments.none'|trans }}
-                    </p>
-                {% endif %}
-                <p>
-                    <small>{{ 'card.created_at'|trans }}: {{ card.createdAt|date('Y-m-d H:i:s') }}</small>
+                
+                {# Created Date #}
+                <p class="text-center mb-3" style="font-size: 0.875rem; color: #6c757d;">
+                    Créée le {{ card.createdAt|date('d') }} 
+                    {% set month = card.createdAt|date('n') %}
+                    {% set months = ['', 'janvier', 'février', 'mars', 'avril', 'mai', 'juin', 'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre'] %}
+                    {{ months[month] }} 
+                    {{ card.createdAt|date('Y') }}
                 </p>
-                <div style="display: flex; gap: 10px; margin-top: auto; justify-content: center; align-items: stretch;">
-                    <a href="{{ path('app_card_edit', {id: card.id}) }}" class="btn btn-secondary" style="flex: 1; text-align: center;">{{ 'card.edit_button'|trans }}</a>
-                    <a href="{{ path('app_card_qr_code', {id: card.id}) }}" class="btn btn-info" style="flex: 1; text-align: center;">{{ 'card.qr_code.view'|trans }}</a>
+                
+                {# Actions #}
+                <div class="d-flex justify-content-center gap-2 mb-3">
+                    <a href="{{ publicUrl }}" target="_blank" class="btn btn-primary btn-sm" style="border-radius: 8px; padding: 0.5rem 1rem;">
+                        Voir
+                    </a>
+                </div>
+                
+                {# Action Icons #}
+                <div class="d-flex justify-content-center gap-3" style="border-top: 1px solid #e9ecef; padding-top: 1rem;">
+                    <a href="{{ path('app_card_qr_code', {id: card.id}) }}" class="text-decoration-none" title="QR Code" style="color: #6c757d;">
+                        <i class="fas fa-qrcode" style="font-size: 1.25rem;"></i>
+                    </a>
+                    <a href="{{ path('app_card_edit', {id: card.id}) }}" class="text-decoration-none" title="Modifier" style="color: #6c757d;">
+                        <i class="fas fa-pencil-alt" style="font-size: 1.25rem;"></i>
+                    </a>
                     {% if card.user == app.user %}
-                        <form method="post" action="{{ path('app_card_delete', {id: card.id}) }}" style="flex: 1;" onsubmit="return confirm('{{ 'card.delete.confirm'|trans }}');">
+                        <form method="post" action="{{ path('app_card_delete', {id: card.id}) }}" class="d-inline" onsubmit="return confirm('{{ 'card.delete.confirm'|trans }}');">
                             <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ card.id) }}">
-                            <button type="submit" class="btn btn-danger" style="width: 100%; height: 100%;">{{ 'card.delete_button'|trans }}</button>
+                            <button type="submit" class="btn btn-link p-0 text-decoration-none" title="Supprimer" style="color: #dc3545; border: none; background: none;">
+                                <i class="fas fa-trash" style="font-size: 1.25rem;"></i>
+                            </button>
                         </form>
                     {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {# List View Table Row #}
+    <div class="col-12 card-item card-item-list" style="display: none;">
+        <div class="card shadow-sm border-0 mb-2" style="border-radius: 8px; background: {% if loop.index0 % 2 == 0 %}#ffffff{% else %}#f8f9fa{% endif %};">
+            <div class="card-body p-3">
+                <div class="row align-items-center">
+                    <div class="col-md-2 col-3">
+                        <div class="d-flex align-items-center">
+                            <div style="width: 50px; height: 50px; background: {{ cardColor }}; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 12px;">
+                                <span style="font-size: 1.125rem; font-weight: 600; color: white;">{{ initials }}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-4">
+                        <h6 class="mb-0" style="font-weight: 600; color: #212529;">{{ name }}</h6>
+                        <small class="text-muted" style="font-size: 0.875rem;">
+                            Créée le {{ card.createdAt|date('d') }} 
+                            {% set month = card.createdAt|date('n') %}
+                            {% set months = ['', 'janvier', 'février', 'mars', 'avril', 'mai', 'juin', 'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre'] %}
+                            {{ months[month] }} 
+                            {{ card.createdAt|date('Y') }}
+                        </small>
+                    </div>
+                    <div class="col-md-4 col-5">
+                        <a href="{{ publicUrl }}" target="_blank" rel="noopener noreferrer" style="color: #6c757d; text-decoration: none; font-size: 0.875rem;">
+                            {{ shortUrl }}
+                            <i class="fas fa-external-link-alt ms-1" style="font-size: 0.75em;"></i>
+                        </a>
+                    </div>
+                    <div class="col-md-3 col-12 d-flex justify-content-end gap-2 mt-2 mt-md-0">
+                        <a href="{{ publicUrl }}" target="_blank" class="btn btn-primary btn-sm" style="border-radius: 8px; padding: 0.375rem 0.75rem;">
+                            Voir
+                        </a>
+                        <a href="{{ path('app_card_qr_code', {id: card.id}) }}" class="btn btn-outline-secondary btn-sm" title="QR Code" style="border-radius: 8px; padding: 0.375rem 0.75rem;">
+                            <i class="fas fa-qrcode"></i>
+                        </a>
+                        <a href="{{ path('app_card_edit', {id: card.id}) }}" class="btn btn-outline-secondary btn-sm" title="Modifier" style="border-radius: 8px; padding: 0.375rem 0.75rem;">
+                            <i class="fas fa-pencil-alt"></i>
+                        </a>
+                        {% if card.user == app.user %}
+                            <form method="post" action="{{ path('app_card_delete', {id: card.id}) }}" class="d-inline" onsubmit="return confirm('{{ 'card.delete.confirm'|trans }}');">
+                                <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ card.id) }}">
+                                <button type="submit" class="btn btn-outline-danger btn-sm" title="Supprimer" style="border-radius: 8px; padding: 0.375rem 0.75rem;">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </form>
+                        {% endif %}
+                    </div>
                 </div>
             </div>
         </div>

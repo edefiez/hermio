@@ -9,6 +9,8 @@ use App\Form\CardAssignmentFormType;
 use App\Form\CardFormType;
 use App\Repository\CardAssignmentRepository;
 use App\Repository\CardRepository;
+use App\Repository\CardScanRepository;
+use App\Repository\CardViewRepository;
 use App\Repository\TeamMemberRepository;
 use App\Service\CardService;
 use App\Service\QrCodeService;
@@ -31,6 +33,8 @@ class CardController extends AbstractController
         private QrCodeService $qrCodeService,
         private CardRepository $cardRepository,
         private CardAssignmentRepository $cardAssignmentRepository,
+        private CardScanRepository $cardScanRepository,
+        private CardViewRepository $cardViewRepository,
         private TeamService $teamService,
         private TeamMemberRepository $teamMemberRepository,
         private EntityManagerInterface $entityManager
@@ -51,6 +55,35 @@ class CardController extends AbstractController
         // Get first 10 cards for initial load
         $cards = $this->cardService->searchAccessibleCardsForUser($user, null, 10, 0);
         $totalCards = $this->cardService->countAccessibleCardsForUser($user);
+
+        // Get all accessible card IDs for statistics
+        $allCardIds = [];
+        if ($totalCards > 0) {
+            $allAccessibleCards = $this->cardService->searchAccessibleCardsForUser($user, null, 1000, 0);
+            $allCardIds = array_map(fn($c) => $c->getId(), $allAccessibleCards);
+        }
+
+        // Calculate statistics
+        $totalScans = 0;
+        $monthlyViews = 0;
+        $monthlyScans = 0;
+        
+        if (!empty($allCardIds)) {
+            // Total scans for all cards
+            $totalScans = $this->cardScanRepository->getTotalScansForCards($allCardIds);
+            
+            // Monthly views and scans (current month)
+            $startOfMonth = new \DateTime('first day of this month');
+            $startOfMonth->setTime(0, 0, 0);
+            $endOfMonth = new \DateTime('last day of this month');
+            $endOfMonth->setTime(23, 59, 59);
+            
+            // Monthly views
+            $monthlyViews = $this->cardViewRepository->getMonthlyViewsForCards($allCardIds, $startOfMonth, $endOfMonth);
+            
+            // Monthly scans
+            $monthlyScans = $this->cardScanRepository->getMonthlyScansForCards($allCardIds, $startOfMonth, $endOfMonth);
+        }
 
         // Get assignments for each card (for display) - optimized to avoid N+1
         $cardAssignments = [];
@@ -88,6 +121,9 @@ class CardController extends AbstractController
             'canManageAssignments' => $canManageAssignments,
             'isEnterprise' => $account && $account->getPlanType()->value === 'enterprise',
             'totalCards' => $totalCards,
+            'totalScans' => $totalScans,
+            'monthlyViews' => $monthlyViews,
+            'monthlyScans' => $monthlyScans,
         ]);
     }
 
@@ -417,7 +453,10 @@ class CardController extends AbstractController
             throw $this->createAccessDeniedException('card.access.denied');
         }
 
-        $publicUrl = $request->getSchemeAndHttpHost() . $card->getPublicUrl();
+        // Generate URL with qr=1 parameter to track scans
+        $baseUrl = $card->getPublicUrl();
+        $separator = str_contains($baseUrl, '?') ? '&' : '?';
+        $publicUrl = $request->getSchemeAndHttpHost() . $baseUrl . $separator . 'qr=1';
         $qrCodeData = $this->qrCodeService->generateQrCodeBase64($publicUrl);
 
         return $this->render('card/qr_code.html.twig', [

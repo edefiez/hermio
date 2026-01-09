@@ -60,7 +60,7 @@ export function initConsentManager() {
                 },
             },
             prompt: {
-                position: 'bottomRight' // Options: 'center', 'bottomLeft', 'bottomCenter', 'bottomRight'
+                position: 'bottomCenter' // Options: 'center', 'bottomLeft', 'bottomCenter', 'bottomRight'
             },
             icon: {
                 position: 'bottomLeft' // Options: 'bottomLeft', 'bottomRight'

@@ -8,6 +8,7 @@ use App\Service\CardService;
 use App\Service\ScanTrackingService;
 use App\Service\TemplateResolverService;
 use App\Service\VCardService;
+use App\Service\ViewTrackingService;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -24,7 +25,8 @@ class PublicCardController extends AbstractController
         private VCardService $vcardService,
         private LoggerInterface $logger,
         private CardService $cardService,
-        private ScanTrackingService $scanTrackingService
+        private ScanTrackingService $scanTrackingService,
+        private ViewTrackingService $viewTrackingService
     ) {
     }
 
@@ -47,15 +49,31 @@ class PublicCardController extends AbstractController
             ], new Response('', Response::HTTP_FORBIDDEN));
         }
 
-        // Track the scan
+        // Detect if access is from QR code scan
+        $isQrCodeScan = $request->query->get('qr') === '1' || $request->query->get('source') === 'qr';
+
+        // Always track the view (every card access is a view)
         try {
-            $this->scanTrackingService->trackScan($card, $request);
+            $this->viewTrackingService->trackView($card, $request);
         } catch (\Exception $e) {
             // Log error but don't block the user from viewing the card
-            $this->logger->error('Failed to track card scan', [
+            $this->logger->error('Failed to track card view', [
                 'slug' => $slug,
                 'error' => $e->getMessage(),
             ]);
+        }
+
+        // Additionally track as scan if accessed via QR code
+        if ($isQrCodeScan) {
+            try {
+                $this->scanTrackingService->trackScan($card, $request);
+            } catch (\Exception $e) {
+                // Log error but don't block the user from viewing the card
+                $this->logger->error('Failed to track card scan', [
+                    'slug' => $slug,
+                    'error' => $e->getMessage(),
+                ]);
+            }
         }
 
         $publicUrl = '/c/' . $slug;

@@ -122,6 +122,7 @@ home:
     terms: "Terms of Service"
     copyright: "© %year% Hermio. All rights reserved."
     social_title: "Follow us"
+    all_rights_reserved: "All rights reserved"
 
 account:
   my_plan:

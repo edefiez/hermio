@@ -76,7 +76,13 @@
                 </button>
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav ms-auto">
-                        {% if is_granted('ROLE_USER') %}
+                        {# Sur la page d'accueil, si connecté, afficher un lien vers le dashboard #}
+                        {% if is_granted('ROLE_USER') and app.request.attributes.get('_route') == 'app_home' %}
+                            <li class="nav-item">
+                                <a href="{{ path('app_dashboard') }}" class="nav-link">{{ 'nav.dashboard'|trans|default('Dashboard') }}</a>
+                            </li>
+                        {# Sur les autres pages, si connecté, afficher le menu complet #}
+                        {% elseif is_granted('ROLE_USER') %}
                             <li class="nav-item">
                                 <a href="{{ path('app_card_index') }}" class="nav-link">{{ 'card.list.title'|trans }}</a>
                             </li>
@@ -106,6 +112,7 @@
                             <li class="nav-item">
                                 <a href="{{ path('app_logout') }}" class="nav-link">Logout</a>
                             </li>
+                        {# Si non connecté, afficher Login/Register #}
                         {% else %}
                             <li class="nav-item">
                                 <a href="{{ path('app_login') }}" class="nav-link">{{ 'nav.login'|trans }}</a>

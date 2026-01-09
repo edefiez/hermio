@@ -1,81 +1,126 @@
 {% extends 'base_admin.html.twig' %}
 
-{% block title %}{{ 'card.list.title'|trans }} - Hermio{% endblock %}
+{% block title %}Mes Cartes de Visite - Hermio{% endblock %}
 
-{% block page_title %}{{ 'card.list.title'|trans }}{% endblock %}
+{% block page_title %}{% endblock %}
 
 {% block admin_content %}
-<div class="container" style="padding-bottom: 3rem;">
-    <div class="card">
-        <div class="card-header">
-            <div class="row align-items-center">
-                <div class="col-md-6 col-12">
-                    <h2>{{ 'card.list.title'|trans }}</h2>
-                    <p class="mb-0">
-                        <strong>{{ 'account.quota.usage'|trans }}:</strong>
-                        {{ currentUsage }} /
-                        {% if quotaLimit %}
-                            {{ quotaLimit }} {{ 'account.quota.cards'|trans }}
-                        {% else %}
-                            {{ 'account.quota.unlimited'|trans }}
-                        {% endif %}
-                    </p>
+<div class="cards-dashboard-container" style="padding: 2rem;">
+    {# Header with title and create button #}
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div class="d-flex align-items-center">
+            <i class="fas fa-id-card me-2" style="font-size: 1.5rem; color: #007bff;"></i>
+            <h1 class="mb-0" style="font-size: 1.75rem; font-weight: 600;">Mes Cartes de Visite</h1>
+        </div>
+        {% if canCreateMore %}
+            <a href="{{ path('app_card_create') }}" class="btn btn-primary" style="padding: 0.5rem 1.5rem; font-weight: 500;">
+                <i class="fas fa-plus me-2"></i>Nouvelle Carte
+            </a>
+        {% else %}
+            <div class="alert alert-warning mb-0">
+                {{ 'card.quota.exceeded'|trans }}
+                <a href="{{ path('app_account_my_plan') }}">{{ 'account.view_plan_details'|trans }}</a>
+            </div>
+        {% endif %}
+    </div>
+
+    {# Statistics Cards #}
+    <div class="row mb-4">
+        <div class="col-md-4 col-12 mb-3">
+            <div class="card shadow-sm border-0" style="border-radius: 12px; background: white;">
+                <div class="card-body p-4">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <p class="text-muted mb-1" style="font-size: 0.875rem; font-weight: 500;">Total des Cartes</p>
+                            <h2 class="mb-0" style="font-size: 2rem; font-weight: 700; color: #212529;">{{ totalCards }}</h2>
+                        </div>
+                        <div style="width: 56px; height: 56px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 12px; display: flex; align-items: center; justify-content: center;">
+                            <i class="fas fa-id-card text-white" style="font-size: 1.5rem;"></i>
+                        </div>
+                    </div>
                 </div>
-                <div class="col-md-6 col-12 mt-2 mt-md-0">
-                    {% if canCreateMore %}
-                        <div class="d-flex justify-content-end">
-                            <a href="{{ path('app_card_create') }}" class="btn btn-primary">{{ 'card.create.button'|trans }}</a>
+            </div>
+        </div>
+        <div class="col-md-4 col-12 mb-3">
+            <div class="card shadow-sm border-0" style="border-radius: 12px; background: white;">
+                <div class="card-body p-4">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <p class="text-muted mb-1" style="font-size: 0.875rem; font-weight: 500;">Vues ce mois</p>
+                            <h2 class="mb-0" style="font-size: 2rem; font-weight: 700; color: #212529;">{{ monthlyViews }}</h2>
                         </div>
-                    {% else %}
-                        <div class="alert alert-warning mb-0">
-                            {{ 'card.quota.exceeded'|trans }}
-                            <a href="{{ path('app_account_my_plan') }}">{{ 'account.view_plan_details'|trans }}</a>
+                        <div style="width: 56px; height: 56px; background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%); border-radius: 12px; display: flex; align-items: center; justify-content: center;">
+                            <i class="fas fa-eye text-white" style="font-size: 1.5rem;"></i>
                         </div>
-                    {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 col-12 mb-3">
+            <div class="card shadow-sm border-0" style="border-radius: 12px; background: white;">
+                <div class="card-body p-4">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <p class="text-muted mb-1" style="font-size: 0.875rem; font-weight: 500;">Scans QR Code</p>
+                            <h2 class="mb-0" style="font-size: 2rem; font-weight: 700; color: #212529;">{{ monthlyScans }}</h2>
+                        </div>
+                        <div style="width: 56px; height: 56px; background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); border-radius: 12px; display: flex; align-items: center; justify-content: center;">
+                            <i class="fas fa-qrcode text-white" style="font-size: 1.5rem;"></i>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
-    {# Search Bar #}
+    {# Search and Filter Bar #}
     {% if totalCards > 0 %}
-        <div class="card mt-3">
-            <div class="card-body">
+        <div class="card shadow-sm border-0 mb-4" style="border-radius: 12px; background: white;">
+            <div class="card-body p-3">
                 <div class="row align-items-center">
-                    <div class="col-md-8 col-12">
+                    <div class="col-md-8 col-12 mb-2 mb-md-0">
                         <div class="position-relative">
-                            <i class="fas fa-search position-absolute" style="left: 12px; top: 50%; transform: translateY(-50%); color: #6c757d; z-index: 2;"></i>
+                            <i class="fas fa-search position-absolute" style="left: 16px; top: 50%; transform: translateY(-50%); color: #6c757d; z-index: 2;"></i>
                             <input type="text"
                                    id="card-search"
-                                   class="form-control ps-5 pe-5"
-                                   placeholder="{{ 'card.search.placeholder'|trans|default('Search cards by name, email, or company...') }}"
-                                   aria-label="{{ 'card.search.label'|trans|default('Search cards') }}"
-                                   style="user-select: text !important; caret-color: auto !important; cursor: text !important;">
-                            <div id="search-spinner" class="position-absolute" style="right: 12px; top: 50%; transform: translateY(-50%); display: none; z-index: 2;">
+                                   class="form-control ps-5"
+                                   placeholder="Rechercher une carte..."
+                                   aria-label="Rechercher une carte"
+                                   style="border-radius: 8px; border: 1px solid #e0e0e0; padding: 0.625rem 1rem; padding-right: 80px; user-select: text !important; caret-color: auto !important; cursor: text !important;">
+                            <div id="search-clear" class="position-absolute" style="right: 50px; top: 50%; transform: translateY(-50%); z-index: 10; cursor: pointer; padding: 4px; background: white; border-radius: 50%; width: 24px; height: 24px; display: none; align-items: center; justify-content: center; box-shadow: 0 1px 3px rgba(0,0,0,0.1);" title="Effacer la recherche">
+                                <i class="fas fa-times" style="color: #6c757d; font-size: 0.875rem; transition: color 0.2s ease;"></i>
+                            </div>
+                            <div id="search-spinner" class="position-absolute" style="right: 16px; top: 50%; transform: translateY(-50%); display: none; z-index: 2;">
                                 <div class="spinner-border spinner-border-sm text-primary" role="status">
-                                    <span class="visually-hidden">Loading...</span>
+                                    <span class="visually-hidden">Chargement...</span>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-4 col-12 mt-2 mt-md-0">
-                        <span id="card-count" class="text-muted">
-                            {{ 'card.count'|trans|default('Total cards') }}: <strong id="card-total">{{ totalCards }}</strong>
-                        </span>
+                    <div class="col-md-4 col-12 d-flex justify-content-end align-items-center">
+                        <div class="btn-group" role="group" aria-label="Toggle view">
+                            <button type="button" class="btn btn-outline-secondary view-toggle active" data-view="grid" style="border-radius: 8px 0 0 8px; padding: 0.625rem 0.875rem;">
+                                <i class="fas fa-th"></i>
+                            </button>
+                            <button type="button" class="btn btn-outline-secondary view-toggle" data-view="list" style="border-radius: 0 8px 8px 0; padding: 0.625rem 0.875rem;">
+                                <i class="fas fa-list"></i>
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     {% endif %}
 
-    {# Cards Container #}
-    <div class="row" id="cards-container">
+    {# Cards Grid/List #}
+    <div class="row" id="cards-container" data-view="grid">
         {% if cards|length > 0 %}
             {% include 'card/_card_list.html.twig' %}
         {% else %}
-            <div class="col-12 mt-4">
-                <div class="alert alert-info" id="no-cards-message">
-                    <p>{{ 'card.list.empty'|trans }}</p>
+            <div class="col-12">
+                <div class="card shadow-sm border-0 text-center p-5" style="border-radius: 12px; background: white;">
+                    <i class="fas fa-id-card mb-3" style="font-size: 3rem; color: #dee2e6;"></i>
+                    <p class="text-muted mb-3">{{ 'card.list.empty'|trans }}</p>
                     {% if canCreateMore %}
                         <a href="{{ path('app_card_create') }}" class="btn btn-primary">{{ 'card.create.button'|trans }}</a>
                     {% endif %}
@@ -87,15 +132,16 @@
     {# Loading Indicator #}
     <div class="text-center mt-4" id="loading-indicator" style="display: none;">
         <div class="spinner-border text-primary" role="status">
-            <span class="visually-hidden">{{ 'common.loading'|trans|default('Loading...') }}</span>
+            <span class="visually-hidden">Chargement...</span>
         </div>
     </div>
 
     {# No Results Message Template (hidden) #}
     <div id="no-results-template" style="display: none;">
-        <div class="col-12 mt-4">
-            <div class="alert alert-info">
-                <p>{{ 'card.search.no_results'|trans|default('No cards found matching your search.') }}</p>
+        <div class="col-12">
+            <div class="card shadow-sm border-0 text-center p-5" style="border-radius: 12px; background: white;">
+                <i class="fas fa-search mb-3" style="font-size: 3rem; color: #dee2e6;"></i>
+                <p class="text-muted">Aucune carte trouvée correspondant à votre recherche.</p>
             </div>
         </div>
     </div>
@@ -104,103 +150,182 @@
     <div id="scroll-trigger" style="height: 1px;" data-offset="{{ cards|length }}" data-has-more="{{ totalCards > cards|length ? 'true' : 'false' }}"></div>
 </div>
 
+<style>
+    .cards-dashboard-container {
+        background: #f8f9fa;
+        min-height: 100vh;
+    }
+
+    .card-item {
+        animation: fadeInUp 0.4s ease-out;
+    }
+
+    .card-item:nth-child(even) {
+        animation-delay: 0.1s;
+    }
+
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .view-toggle.active {
+        background-color: #007bff;
+        color: white;
+        border-color: #007bff;
+    }
+
+    .card-item-list {
+        transition: background-color 0.2s ease;
+    }
+
+    #card-search {
+        user-select: text !important;
+        caret-color: auto !important;
+        cursor: text !important;
+        pointer-events: auto !important;
+        position: relative !important;
+        z-index: 10 !important;
+    }
+
+    #card-search:focus {
+        outline: 2px solid #0d6efd !important;
+        outline-offset: -2px !important;
+        border-color: #0d6efd !important;
+    }
+
+    #search-clear:hover i {
+        color: #dc3545 !important;
+    }
+</style>
+
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     const searchInput = document.getElementById('card-search');
     const searchSpinner = document.getElementById('search-spinner');
+    const searchClear = document.getElementById('search-clear');
     const cardsContainer = document.getElementById('cards-container');
     const scrollTrigger = document.getElementById('scroll-trigger');
     const loadingIndicator = document.getElementById('loading-indicator');
-    const cardTotal = document.getElementById('card-total');
     const noResultsTemplate = document.getElementById('no-results-template');
     const apiUrl = {{ path('app_card_api_search')|json_encode|raw }};
+    const viewToggles = document.querySelectorAll('.view-toggle');
 
     let currentQuery = '';
     let currentOffset = 0;
     let hasMore = scrollTrigger ? scrollTrigger.dataset.hasMore === 'true' : false;
     let isLoading = false;
     let searchTimeout = null;
+    let currentView = 'grid';
 
-    // Add CSS animations
-    const style = document.createElement('style');
-    style.textContent = `
-        /* Force input to be interactive */
-        #card-search {
-            user-select: text !important;
-            caret-color: auto !important;
-            cursor: text !important;
-            pointer-events: auto !important;
-            position: relative !important;
-            z-index: 10 !important;
+    // View toggle functionality
+    function switchView(view) {
+        currentView = view;
+        cardsContainer.setAttribute('data-view', view);
+        
+        if (view === 'list') {
+            cardsContainer.className = 'row flex-column';
+            document.querySelectorAll('.card-item-grid').forEach(item => {
+                item.style.display = 'none';
+            });
+            document.querySelectorAll('.card-item-list').forEach(item => {
+                item.style.display = 'block';
+            });
+        } else {
+            cardsContainer.className = 'row';
+            document.querySelectorAll('.card-item-grid').forEach(item => {
+                item.style.display = 'block';
+            });
+            document.querySelectorAll('.card-item-list').forEach(item => {
+                item.style.display = 'none';
+            });
         }
+    }
 
-        #card-search:focus {
-            outline: 2px solid #0d6efd !important;
-            outline-offset: -2px !important;
-        }
+    viewToggles.forEach(toggle => {
+        toggle.addEventListener('click', function() {
+            viewToggles.forEach(t => t.classList.remove('active'));
+            this.classList.add('active');
+            switchView(this.dataset.view);
+        });
+    });
 
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
+    // Function to toggle clear button visibility
+    function toggleClearButton() {
+        if (searchClear && searchInput) {
+            const hasValue = searchInput.value.trim() !== '';
+            if (hasValue) {
+                searchClear.style.display = 'flex';
+            } else {
+                searchClear.style.display = 'none';
             }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .card-item {
-            animation: fadeInUp 0.4s ease-out;
-        }
-
-        .card-item:nth-child(even) {
-            animation-delay: 0.1s;
-        }
-
-        @keyframes pulse {
-            0%, 100% {
-                opacity: 1;
-            }
-            50% {
-                opacity: 0.5;
-            }
-        }
-
-        .skeleton-loader {
-            animation: pulse 1.5s ease-in-out infinite;
-            background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
-            background-size: 200% 100%;
-            animation: shimmer 1.5s infinite;
-        }
-
-        @keyframes shimmer {
-            0% {
-                background-position: -200% 0;
-            }
-            100% {
-                background-position: 200% 0;
+            // Also hide spinner when showing clear button
+            if (hasValue && searchSpinner) {
+                searchSpinner.style.display = 'none';
             }
         }
-    `;
-    document.head.appendChild(style);
+    }
+
+    // Clear search functionality
+    if (searchClear && searchInput) {
+        searchClear.addEventListener('click', function() {
+            searchInput.value = '';
+            searchInput.focus();
+            toggleClearButton();
+            currentQuery = '';
+            currentOffset = 0;
+            hasMore = true;
+            loadCards(true);
+        });
+    }
 
     // Search functionality with debounce
     if (searchInput) {
+        // Initial check for clear button visibility
+        toggleClearButton();
+
         searchInput.addEventListener('input', function() {
             clearTimeout(searchTimeout);
+            
+            const hasValue = searchInput.value.trim() !== '';
+            
+            // Show/hide clear button immediately
+            if (hasValue) {
+                if (searchClear) searchClear.style.display = 'flex';
+                if (searchSpinner) searchSpinner.style.display = 'none';
+            } else {
+                if (searchClear) searchClear.style.display = 'none';
+            }
 
-            // Show spinner immediately when typing
-            if (searchSpinner && searchInput.value.trim() !== '') {
+            // Show spinner when searching (after debounce)
+            if (hasValue && searchSpinner) {
                 searchSpinner.style.display = 'block';
+                if (searchClear) searchClear.style.display = 'none';
+            } else if (searchSpinner) {
+                searchSpinner.style.display = 'none';
             }
 
             searchTimeout = setTimeout(function() {
                 currentQuery = searchInput.value.trim();
                 currentOffset = 0;
                 hasMore = true;
+                
+                // After search completes, show clear button and hide spinner
+                if (searchSpinner) {
+                    searchSpinner.style.display = 'none';
+                }
+                if (searchClear && currentQuery !== '') {
+                    searchClear.style.display = 'flex';
+                }
+                
                 loadCards(true);
-            }, 300); // 300ms debounce
+            }, 300);
         });
     }
 
@@ -219,50 +344,17 @@ document.addEventListener('DOMContentLoaded', function() {
         observer.observe(scrollTrigger);
     }
 
-    // Create skeleton loaders for smooth loading experience
-    function createSkeletonLoaders(count) {
-        let html = '';
-        for (let i = 0; i < count; i++) {
-            html += `
-                <div class="col-6 mt-4">
-                    <div class="card">
-                        <div class="card-header bg-light">
-                            <div class="skeleton-loader" style="height: 24px; width: 60%; border-radius: 4px;"></div>
-                        </div>
-                        <div class="card-body">
-                            <div class="skeleton-loader mb-3" style="height: 20px; width: 100%; border-radius: 4px;"></div>
-                            <div class="skeleton-loader mb-3" style="height: 20px; width: 80%; border-radius: 4px;"></div>
-                            <div class="skeleton-loader mb-3" style="height: 20px; width: 40%; border-radius: 4px;"></div>
-                            <div class="d-flex gap-2 mt-3">
-                                <div class="skeleton-loader" style="height: 38px; flex: 1; border-radius: 8px;"></div>
-                                <div class="skeleton-loader" style="height: 38px; flex: 1; border-radius: 8px;"></div>
-                                <div class="skeleton-loader" style="height: 38px; flex: 1; border-radius: 8px;"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            `;
-        }
-        return html;
-    }
-
     function loadCards(replace) {
         if (isLoading) return;
 
         isLoading = true;
 
-        // Show spinner in search input
         if (searchSpinner && currentQuery) {
             searchSpinner.style.display = 'block';
         }
 
         if (loadingIndicator) {
             loadingIndicator.style.display = 'block';
-        }
-
-        // Add skeleton loaders for better UX
-        if (replace) {
-            cardsContainer.innerHTML = createSkeletonLoaders(2);
         }
 
         const url = new URL(apiUrl, window.location.origin);
@@ -292,13 +384,13 @@ document.addEventListener('DOMContentLoaded', function() {
 
                 if (newCards.length > 0) {
                     newCards.forEach(function(card, index) {
-                        // Add staggered animation delay
                         card.style.animationDelay = (index * 0.05) + 's';
                         cardsContainer.appendChild(card);
                     });
+                    // Apply current view after adding cards
+                    switchView(currentView);
                     currentOffset += newCards.length;
                 } else if (replace) {
-                    // No results - clone and append the no results template
                     if (noResultsTemplate) {
                         const noResults = noResultsTemplate.cloneNode(true);
                         noResults.style.display = '';
@@ -307,29 +399,9 @@ document.addEventListener('DOMContentLoaded', function() {
                     }
                 }
 
-                // Update hasMore flag
                 const hasMoreAttr = doc.querySelector('[data-has-more]');
                 hasMore = hasMoreAttr ? hasMoreAttr.dataset.hasMore === 'true' : false;
 
-                // Update total count with animation
-                const totalAttr = doc.querySelector('[data-total-cards]');
-                if (totalAttr && cardTotal) {
-                    const newTotal = totalAttr.dataset.totalCards;
-                    if (cardTotal.textContent !== newTotal) {
-                        cardTotal.style.transition = 'all 0.3s ease';
-                        cardTotal.style.transform = 'scale(1.2)';
-                        cardTotal.style.color = '#0d6efd';
-                        setTimeout(function() {
-                            cardTotal.textContent = newTotal;
-                            setTimeout(function() {
-                                cardTotal.style.transform = 'scale(1)';
-                                cardTotal.style.color = '';
-                            }, 100);
-                        }, 150);
-                    }
-                }
-
-                // Hide spinners with smooth transition
                 if (loadingIndicator) {
                     loadingIndicator.style.display = 'none';
                 }
@@ -339,6 +411,9 @@ document.addEventListener('DOMContentLoaded', function() {
                         searchSpinner.style.display = 'none';
                     }, 300);
                 }
+
+                // Update clear button visibility
+                toggleClearButton();
 
                 isLoading = false;
             })
@@ -350,122 +425,11 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (searchSpinner) {
                     searchSpinner.style.display = 'none';
                 }
+                // Update clear button visibility
+                toggleClearButton();
                 isLoading = false;
             });
     }
 });
 </script>
-
-{# Diagnostic script for debugging sidebar issues #}
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    console.log('[DEBUG] Testing card-search accessibility');
-    const searchInput = document.getElementById('card-search');
-    const sidebar = document.getElementById('adminSidebar');
-
-    if (searchInput && sidebar) {
-        const inputRect = searchInput.getBoundingClientRect();
-        const sidebarRect = sidebar.getBoundingClientRect();
-        const sidebarStyles = window.getComputedStyle(sidebar);
-
-        console.log('[DEBUG] Search Input:', {
-            left: inputRect.left,
-            top: inputRect.top,
-            width: inputRect.width,
-            height: inputRect.height,
-            zIndex: window.getComputedStyle(searchInput).zIndex,
-            pointerEvents: window.getComputedStyle(searchInput).pointerEvents
-        });
-
-        console.log('[DEBUG] Sidebar:', {
-            left: sidebarRect.left,
-            top: sidebarRect.top,
-            width: sidebarRect.width,
-            transform: sidebarStyles.transform,
-            visibility: sidebarStyles.visibility,
-            pointerEvents: sidebarStyles.pointerEvents,
-            zIndex: sidebarStyles.zIndex,
-            hasShowClass: sidebar.classList.contains('show')
-        });
-
-        // Check if sidebar overlaps input
-        const overlaps = !(inputRect.right < sidebarRect.left ||
-                          inputRect.left > sidebarRect.right ||
-                          inputRect.bottom < sidebarRect.top ||
-                          inputRect.top > sidebarRect.bottom);
-
-        console.log('[DEBUG] Sidebar overlaps input:', overlaps);
-
-        if (overlaps && sidebarStyles.pointerEvents !== 'none') {
-            console.warn('[DEBUG] ⚠️ PROBLEM: Sidebar overlaps input and has pointer-events:', sidebarStyles.pointerEvents);
-        } else {
-            console.log('[DEBUG] ✅ Input should be accessible');
-        }
-
-        // NEW: Test what element is actually at the input position
-        const centerX = inputRect.left + inputRect.width / 2;
-        const centerY = inputRect.top + inputRect.height / 2;
-        const elementAtPoint = document.elementFromPoint(centerX, centerY);
-
-        console.log('[DEBUG] Element at input center point:', {
-            element: elementAtPoint,
-            tagName: elementAtPoint?.tagName,
-            id: elementAtPoint?.id,
-            className: elementAtPoint?.className,
-            isInputItself: elementAtPoint === searchInput
-        });
-
-        if (elementAtPoint !== searchInput) {
-            console.error('[DEBUG] ❌ BLOCKER FOUND: Element blocking input:', elementAtPoint);
-            console.error('[DEBUG] Blocker styles:', {
-                zIndex: window.getComputedStyle(elementAtPoint).zIndex,
-                position: window.getComputedStyle(elementAtPoint).position,
-                pointerEvents: window.getComputedStyle(elementAtPoint).pointerEvents,
-                background: window.getComputedStyle(elementAtPoint).background
-            });
-        } else {
-            console.log('[DEBUG] ✅ Input is the top element at its position');
-        }
-
-        // Test if input can actually be focused
-        console.log('[DEBUG] Testing focus capability...');
-        console.log('[DEBUG] Input attributes:', {
-            disabled: searchInput.disabled,
-            readOnly: searchInput.readOnly,
-            tabIndex: searchInput.tabIndex,
-            type: searchInput.type
-        });
-
-        // Try to focus the input
-        searchInput.focus();
-
-        setTimeout(function() {
-            console.log('[DEBUG] After focus attempt:', {
-                hasFocus: document.activeElement === searchInput,
-                activeElement: document.activeElement,
-                inputValue: searchInput.value
-            });
-
-            if (document.activeElement !== searchInput) {
-                console.error('[DEBUG] ❌ INPUT CANNOT RECEIVE FOCUS!');
-                console.error('[DEBUG] Active element is:', document.activeElement);
-
-                // Try to force focus with click
-                console.log('[DEBUG] Trying to force focus with click...');
-                searchInput.click();
-
-                setTimeout(function() {
-                    console.log('[DEBUG] After click:', {
-                        hasFocus: document.activeElement === searchInput,
-                        activeElement: document.activeElement
-                    });
-                }, 100);
-            } else {
-                console.log('[DEBUG] ✅ Input successfully focused');
-            }
-        }, 100);
-    }
-});
-</script>
 {% endblock %}
-
