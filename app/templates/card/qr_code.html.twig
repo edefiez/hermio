@@ -6,6 +6,10 @@
 
 {% block stylesheets %}
     {{ parent() }}
+    {# Set branding colors with fallback to default purple gradient #}
+    {% set primaryColor = branding and branding.primaryColor ? branding.primaryColor : '#667eea' %}
+    {% set secondaryColor = branding and branding.secondaryColor ? branding.secondaryColor : '#764ba2' %}
+    
     <style>
         /* Wallet Card Styles */
         .wallet-card-container {
@@ -18,7 +22,7 @@
         }
         
         .wallet-card {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, {{ primaryColor }} 0%, {{ secondaryColor }} 100%);
             border-radius: 20px;
             box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
             width: 100%;
@@ -141,7 +145,7 @@
         
         .back-button-container .btn {
             background: white;
-            color: #667eea;
+            color: {{ primaryColor }};
             border: none;
             padding: 0.75rem 2rem;
             border-radius: 10px;
@@ -155,7 +159,7 @@
         .back-button-container .btn:hover {
             transform: translateY(-2px);
             box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
-            color: #667eea;
+            color: {{ primaryColor }};
         }
         
         /* Responsive adjustments */
