@@ -24,6 +24,7 @@ Encore
     .addEntry('home', './assets/home.js')
     .addStyleEntry('public-card', './assets/styles/public-card.scss')
     .addEntry('auth', './assets/auth.js')
+    .addEntry('admin', './assets/admin.js')
 
     // When enabled, Webpack "splits" your files into smaller pieces for greater optimization.
     .splitEntryChunks()
@@ -61,6 +62,12 @@ Encore
 
     // enables Sass/SCSS support
     .enableSassLoader()
+
+    // Copy SmartAdmin assets
+    .copyFiles([
+        {from: './assets/smartadmin/webfonts', to: 'webfonts/[path][name].[ext]'},
+        {from: './assets/smartadmin/plugins', to: 'plugins/[path][name].[ext]'},
+    ])
 
     // uncomment if you use TypeScript
     //.enableTypeScriptLoader()

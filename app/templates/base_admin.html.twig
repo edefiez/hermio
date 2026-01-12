@@ -1,60 +1,77 @@
-{% extends 'base.html.twig' %}
+<!DOCTYPE html>
+<html lang="{{ app.request.locale }}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>{% block title %}{{ 'admin.title'|trans|default('Admin') }} - Hermio{% endblock %}</title>
+    
+    {% block stylesheets %}
+        {{ encore_entry_link_tags('admin') }}
+    {% endblock %}
+</head>
 
-{% block navbar %}{% endblock %}
+<body>
 
-{% block body_attr %}class="bg-light admin-layout-body"{% endblock %}
+<div class="app-wrap">
 
-{% block stylesheets %}
-    {{ parent() }}
-    <style>
-        /* Hide base footer in admin layout */
-        body.admin-layout-body .footer {
-            display: none !important;
-        }
-    </style>
-{% endblock %}
+    {% include 'admin/_smartadmin_header.html.twig' %}
 
-{% block body_wrapper %}
-<div class="admin-layout">
-    {% include 'admin/_sidebar.html.twig' %}
-    <div class="admin-content">
-        {% include 'admin/_header.html.twig' %}
-        <a href="#main-content" class="visually-hidden-focusable btn btn-primary position-absolute" style="top: 1rem; left: 1rem; z-index: 9999;">{{ 'nav.skip_to_content'|trans|default('Skip to main content') }}</a>
-        <main id="main-content" class="admin-main" role="main">
-            {% for label, messages in app.flashes %}
-                {% for message in messages %}
-                    {# Skip contrast warnings - they are handled specifically in branding template #}
-                    {% if not (label == 'warning' and message is iterable and message.type is defined) %}
-                        <div class="alert alert-{{ label == 'error' ? 'danger' : label }} alert-dismissible fade show" role="alert">
-                            {% if message is iterable and message.message is defined %}
-                                {% if message.message is not iterable %}
-                                    {{ message.message|trans }}
-                                {% else %}
-                                    {{ message|join(', ') }}
-                                {% endif %}
-                            {% else %}
-                                {{ message|trans }}
-                            {% endif %}
-                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                        </div>
+    {% include 'admin/_smartadmin_sidebar.html.twig' %}
+
+    <main class="app-body">
+
+        <div class="app-content">
+
+            <div class="content-wrapper">
+
+                {% block page_title_block %}
+                    {% if block('page_title') is defined %}
+                    <div class="page-title-wrapper mb-4">
+                        <h1 class="page-title">{% block page_title %}{% endblock %}</h1>
+                        {% if block('page_subtitle') is defined %}
+                        <p class="page-subtitle">{% block page_subtitle %}{% endblock %}</p>
+                        {% endif %}
+                    </div>
                     {% endif %}
-                {% endfor %}
-            {% endfor %}
-            {% block admin_content %}{% endblock %}
-        </main>
-    </div>
-    {# Footer - Full width #}
-    <footer class="admin-footer">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-12 text-center py-3">
-                    <p class="mb-0" style="font-size: 0.875rem; color: white;">
-                        &copy; {{ 'now'|date('Y') }} Hermio. {{ 'footer.all_rights_reserved'|trans }}.
-                    </p>
+                {% endblock %}
+
+                <div class="main-content">
+                    {% for label, messages in app.flashes %}
+                        {% for message in messages %}
+                            {# Skip contrast warnings - they are handled specifically in branding template #}
+                            {% if not (label == 'warning' and message is iterable and message.type is defined) %}
+                                <div class="alert alert-{{ label == 'error' ? 'danger' : label }} alert-dismissible fade show" role="alert">
+                                    {% if message is iterable and message.message is defined %}
+                                        {% if message.message is not iterable %}
+                                            {{ message.message|trans }}
+                                        {% else %}
+                                            {{ message|join(', ') }}
+                                        {% endif %}
+                                    {% else %}
+                                        {{ message|trans }}
+                                    {% endif %}
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                </div>
+                            {% endif %}
+                        {% endfor %}
+                    {% endfor %}
+                    
+                    {% block content %}{% endblock %}
                 </div>
             </div>
+
         </div>
-    </footer>
+
+        {% include "admin/_smartadmin_footer.html.twig" %}
+
+    </main>
+
 </div>
+
+{% block scripts %}
+    {{ encore_entry_script_tags('admin') }}
 {% endblock %}
+
+</body>
+</html>
 
