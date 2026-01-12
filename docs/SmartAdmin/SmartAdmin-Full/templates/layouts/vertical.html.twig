@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		{% include 'partials/app-meta-title.html.twig' %}
+
+		{% block stylesheets %}{% endblock %}
+
+		{% include 'partials/app-head-css.html.twig' %}
+	</head>
+
+	<body>
+
+		<div class="app-wrap">
+
+			{% include 'partials/app-header.html.twig' %}
+
+			{% include 'partials/app-sidebar.html.twig' %}
+
+			<main class="app-body">
+
+				<div class="app-content">
+
+					<div class="content-wrapper">
+
+						   {% include 'partials/app-pagetitle.html.twig' %}
+
+						   <div class="main-content {{ contentClass ?? '' }}"> 
+                           
+                              {% block content %}{% endblock content %}
+
+							</div>
+						</div>
+
+					</div>
+
+					{% include "partials/app-footer.html.twig" %}
+
+				</main>
+
+				{% include "partials/app-drawer.html.twig" %}
+
+				{% include "partials/app-settings.html.twig" %}
+
+			</div>
+
+			{% include "partials/app-scripts.html.twig" %}
+
+			{% block scripts %}{% endblock %}
+
+		</body>
+
+	</html>

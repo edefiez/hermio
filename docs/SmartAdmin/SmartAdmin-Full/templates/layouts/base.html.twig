@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		{% include 'partials/app-meta-title.html.twig' %}
+
+		{% block stylesheets %}{% endblock %}
+
+		{% include 'partials/app-head-css.html.twig' %}
+	</head>
+
+	<body {% block body_attribute %}{% endblock %}>
+	
+		{% block content %}{% endblock %}
+
+		{% block scripts %}{% endblock %}
+
+	</body>
+</html>

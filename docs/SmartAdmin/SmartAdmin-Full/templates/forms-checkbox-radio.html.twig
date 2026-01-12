@@ -1,0 +1,291 @@
+{% extends 'layouts/vertical.html.twig' %}
+
+{% set pageTitle = "Checkbox & Radio" %}
+{% set pageSubTitle1 = "Design" %}
+{% set pageSubTitle2 = "Forms" %}
+{% set pageSubText = "Checkboxes and radio buttons form elements with support for custom designs using classes like <code>.form-check</code> and <code>.form-check-input</code>." %}
+
+{% block content %}
+
+	<div class="main-content">
+		<div class="row">
+			<div class="col-xl-6">
+				<div class="panel panel-icon" id="panel-1">
+					<div class="panel-hdr">
+						<h2>
+							Checkbox
+							<span class="fw-300">
+								<i>inputs</i>
+							</span>
+						</h2>
+						<div class="panel-toolbar">
+							<button class="btn btn-panel" data-action="panel-collapse" data-bs-offset="0,10" data-bs-original-title="Toggle" data-bs-placement="top" data-bs-toggle="tooltip" type="button">
+								<svg class="sa-icon">
+									<use class="panel-collapsed-icon" href="/img/sprite.svg#minus-circle"></use>
+									<use class="panel-expand-icon" href="/img/sprite.svg#plus-circle"></use>
+								</svg>
+							</button>
+							<button class="btn btn-panel" data-action="panel-fullscreen" data-bs-offset="0,10" data-bs-original-title="Fullscreen" data-bs-placement="top" data-bs-toggle="tooltip" type="button">
+								<svg class="sa-icon">
+									<use href="/icons/sprite.svg#stop-circle"></use>
+								</svg>
+							</button>
+							<button class="btn btn-panel" data-action="panel-close" data-bs-offset="0,10" data-bs-original-title="Close" data-bs-placement="top" data-bs-toggle="tooltip" type="button">
+								<svg class="sa-icon">
+									<use href="/icons/sprite.svg#x-circle"></use>
+								</svg>
+							</button>
+						</div>
+					</div>
+					<div class="panel-container show">
+						<div class="panel-content">
+							<div class="panel-tag">
+								Add
+								<code>.form-check</code>
+								wrapper to your
+								<code>input</code>
+								and
+								<code>label</code>
+								to create a custom checkbox component. You can add
+								<code>.rounded-circle</code>
+								to the input to make it circular.
+							</div>
+							<button class="btn btn-outline-danger mb-g" data-toggle="button" id="js-checkbox-toggle" type="button">Change to CIRCLE</button>
+							<h5 class="frame-heading">Block alignment</h5>
+							<div class="frame-wrap">
+								<div class="demo demo-checkbox">
+									<div class="form-check">
+										<input class="form-check-input" id="defaultUnchecked" type="checkbox"/>
+										<label class="form-check-label" for="defaultUnchecked">Unchecked</label>
+									</div>
+									<div class="form-check">
+										<input checked="" class="form-check-input" id="defaultChecked" type="checkbox"/>
+										<label class="form-check-label" for="defaultChecked">Checked</label>
+									</div>
+									<div class="form-check">
+										<input checked="" class="form-check-input" id="defaultIndeterminate" type="checkbox"/>
+										<label class="form-check-label" for="defaultIndeterminate">Indeterminate</label>
+									</div>
+									<div class="form-check">
+										<input class="form-check-input" disabled="" id="defaultUncheckedDisabled" type="checkbox"/>
+										<label class="form-check-label" for="defaultUncheckedDisabled">Unchecked &amp; disabled</label>
+									</div>
+									<div class="form-check">
+										<input checked="" class="form-check-input" disabled="" id="defaultCheckedDisabled" type="checkbox"/>
+										<label class="form-check-label" for="defaultCheckedDisabled">Checked &amp; disabled</label>
+									</div>
+								</div>
+							</div>
+							<h5 class="frame-heading">Inline alignment</h5>
+							<div class="frame-wrap demo-checkbox">
+								<div class="form-check form-check-inline">
+									<input class="form-check-input" id="defaultInline1" type="checkbox"/>
+									<label class="form-check-label" for="defaultInline1">Unchecked</label>
+								</div>
+								<div class="form-check form-check-inline">
+									<input checked="" class="form-check-input" id="defaultInline2" type="checkbox"/>
+									<label class="form-check-label" for="defaultInline2">Checked</label>
+								</div>
+								<div class="form-check form-check-inline">
+									<input class="form-check-input" disabled="" id="defaultInlined" type="checkbox"/>
+									<label class="form-check-label" for="defaultInlined">Disabled</label>
+								</div>
+								<div class="form-check form-check-inline">
+									<input checked="" class="form-check-input" disabled="" id="defaultInline3" type="checkbox"/>
+									<label class="form-check-label" for="defaultInline3">Checked &amp; disabled</label>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-xl-6">
+				<div class="panel panel-icon" id="panel-2">
+					<div class="panel-hdr">
+						<h2>
+							Radio
+							<span class="fw-300">
+								<i>inputs</i>
+							</span>
+						</h2>
+						<div class="panel-toolbar">
+							<button class="btn btn-panel" data-action="panel-collapse" data-bs-offset="0,10" data-bs-original-title="Toggle" data-bs-placement="top" data-bs-toggle="tooltip" type="button">
+								<svg class="sa-icon">
+									<use class="panel-collapsed-icon" href="/img/sprite.svg#minus-circle"></use>
+									<use class="panel-expand-icon" href="/img/sprite.svg#plus-circle"></use>
+								</svg>
+							</button>
+							<button class="btn btn-panel" data-action="panel-fullscreen" data-bs-offset="0,10" data-bs-original-title="Fullscreen" data-bs-placement="top" data-bs-toggle="tooltip" type="button">
+								<svg class="sa-icon">
+									<use href="/icons/sprite.svg#stop-circle"></use>
+								</svg>
+							</button>
+							<button class="btn btn-panel" data-action="panel-close" data-bs-offset="0,10" data-bs-original-title="Close" data-bs-placement="top" data-bs-toggle="tooltip" type="button">
+								<svg class="sa-icon">
+									<use href="/icons/sprite.svg#x-circle"></use>
+								</svg>
+							</button>
+						</div>
+					</div>
+					<div class="panel-container show">
+						<div class="panel-content">
+							<div class="panel-tag">
+								Add
+								<code>.form-check</code>
+								wrapper to your
+								<code>input</code>
+								and
+								<code>label</code>
+								to
+																                                                create a custom radio component. You can add
+								<code>.rounded</code>
+								to change it to a rounded radio
+							</div>
+							<button class="btn btn-outline-danger mb-g" data-toggle="button" id="js-radio-toggle" type="button">Change to ROUNDED</button>
+							<h5 class="frame-heading">Block alignment</h5>
+							<div class="frame-wrap">
+								<div class="demo demo-radio">
+									<div class="form-check">
+										<input class="form-check-input" id="defaultUncheckedRadio" name="defaultExampleRadios" type="radio"/>
+										<label class="form-check-label" for="defaultUncheckedRadio">Unchecked</label>
+									</div>
+									<div class="form-check">
+										<input checked="" class="form-check-input" id="defaultCheckedRadio" name="defaultExampleRadios" type="radio"/>
+										<label class="form-check-label" for="defaultCheckedRadio">Checked</label>
+									</div>
+									<div class="form-check">
+										<input class="form-check-input active" id="defaultUncheckedRadio2" name="defaultExampleRadios" type="radio"/>
+										<label class="form-check-label" for="defaultUncheckedRadio2">Unchecked</label>
+									</div>
+									<div class="form-check">
+										<input class="form-check-input" disabled="" id="defaultUncheckedDisabledRadio2" name="defaultExampleRadios1" type="radio"/>
+										<label class="form-check-label" for="defaultUncheckedDisabledRadio2">Disabled</label>
+									</div>
+									<div class="form-check">
+										<input checked="" class="form-check-input" disabled="" id="defaultCheckedDisabledRadio2" name="defaultCheckedDisabledRadio2" type="radio"/>
+										<label class="form-check-label" for="defaultCheckedDisabledRadio2">Checked &amp; disabled</label>
+									</div>
+								</div>
+							</div>
+							<h5 class="frame-heading">Inline alignment</h5>
+							<div class="frame-wrap demo-radio">
+								<div class="form-check form-check-inline">
+									<input class="form-check-input" id="defaultInline1Radio" name="inlineDefaultRadiosExample" type="radio"/>
+									<label class="form-check-label" for="defaultInline1Radio">Unchecked</label>
+								</div>
+								<div class="form-check form-check-inline">
+									<input checked="" class="form-check-input" id="defaultInline2Radio" name="inlineDefaultRadiosExample" type="radio"/>
+									<label class="form-check-label" for="defaultInline2Radio">Checked</label>
+								</div>
+								<div class="form-check form-check-inline">
+									<input class="form-check-input" disabled="" id="defaultInline4Radio" name="inlineDefaultRadiosExample2" type="radio"/>
+									<label class="form-check-label" for="defaultInline4Radio">Disabled</label>
+								</div>
+								<div class="form-check form-check-inline">
+									<input checked="" class="form-check-input" disabled="" id="defaultInline3Radio" name="inlineDefaultRadiosExample2" type="radio"/>
+									<label class="form-check-label" for="defaultInline3Radio">Checked &amp; disabled</label>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-xl-12">
+				<div class="panel panel-icon" id="panel-3">
+					<div class="panel-hdr">
+						<h2>
+							Switch
+							<span class="fw-300">
+								<i>radio and checkbox</i>
+							</span>
+						</h2>
+						<div class="panel-toolbar">
+							<button class="btn btn-panel" data-action="panel-collapse" data-bs-offset="0,10" data-bs-original-title="Toggle" data-bs-placement="top" data-bs-toggle="tooltip" type="button">
+								<svg class="sa-icon">
+									<use class="panel-collapsed-icon" href="/img/sprite.svg#minus-circle"></use>
+									<use class="panel-expand-icon" href="/img/sprite.svg#plus-circle"></use>
+								</svg>
+							</button>
+							<button class="btn btn-panel" data-action="panel-fullscreen" data-bs-offset="0,10" data-bs-original-title="Fullscreen" data-bs-placement="top" data-bs-toggle="tooltip" type="button">
+								<svg class="sa-icon">
+									<use href="/icons/sprite.svg#stop-circle"></use>
+								</svg>
+							</button>
+							<button class="btn btn-panel" data-action="panel-close" data-bs-offset="0,10" data-bs-original-title="Close" data-bs-placement="top" data-bs-toggle="tooltip" type="button">
+								<svg class="sa-icon">
+									<use href="/icons/sprite.svg#x-circle"></use>
+								</svg>
+							</button>
+						</div>
+					</div>
+					<div class="panel-container show">
+						<div class="panel-content">
+							<div class="panel-tag">
+								A switch has the markup of a custom checkbox but uses
+								<code>.form-switch</code>
+								to render a toggle switch. Switches also support the
+								<code>disabled</code>
+								attribute
+							</div>
+							<div class="row">
+								<div class="col-xl-6">
+									<h5 class="frame-heading">
+										Switch checkbox
+									</h5>
+									<div class="frame-wrap demo">
+										<div class="demo">
+											<div class="form-check form-switch">
+												<input class="form-check-input" id="customSwitch1" type="checkbox"/>
+												<label class="form-check-label" for="customSwitch1">Unchecked</label>
+											</div>
+											<div class="form-check form-switch">
+												<input checked="" class="form-check-input" id="customSwitch2" type="checkbox"/>
+												<label class="form-check-label" for="customSwitch2">Checked</label>
+											</div>
+											<div class="form-check form-switch">
+												<input class="form-check-input" disabled="" id="customSwitchd" type="checkbox"/>
+												<label class="form-check-label" for="customSwitchd">Disabled</label>
+											</div>
+											<div class="form-check form-switch">
+												<input checked="" class="form-check-input" disabled="" id="customSwitch3" type="checkbox"/>
+												<label class="form-check-label" for="customSwitch3">Checked &amp; disabled</label>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="col-xl-6">
+									<h5 class="frame-heading">Switch Radio</h5>
+									<div class="frame-wrap demo">
+										<div class="demo">
+											<div class="form-check form-switch">
+												<input class="form-check-input" id="customSwitch1radio" name="defaultSwitchRadioExample" type="radio"/>
+												<label class="form-check-label" for="customSwitch1radio">Unchecked</label>
+											</div>
+											<div class="form-check form-switch">
+												<input checked="" class="form-check-input" id="customSwitch2radio" name="defaultSwitchRadioExample" type="radio"/>
+												<label class="form-check-label" for="customSwitch2radio">Checked</label>
+											</div>
+											<div class="form-check form-switch">
+												<input class="form-check-input" disabled="" id="customSwitchdradio" name="defaultSwitchRadioExample2" type="radio"/>
+												<label class="form-check-label" for="customSwitchdradio">Disabled</label>
+											</div>
+											<div class="form-check form-switch">
+												<input checked="" class="form-check-input" disabled="" id="customSwitch3radio" name="defaultSwitchRadioExample2" type="radio"/>
+												<label class="form-check-label" for="customSwitch3radio">Checked &amp; disabled</label>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+{% endblock %}
+
+{% block scripts %}
+	 <script src="/scripts/pages/checkboxandradio.js"></script>
+{% endblock %}

@@ -1,0 +1,47 @@
+{
+    "name": "smartadmin",
+    "scripts": {
+        "dev": "gulp",
+        "build": "gulp build"
+    },
+    "dependencies": {
+        "@highlightjs/cdn-assets": "^11.11.1",
+        "apexcharts": "^5.2.0",
+        "bootstrap": "^5.3.7",
+        "easy-pie-chart": "^2.1.7",
+        "fullcalendar": "^6.1.18",
+        "jquery": "^3.7.1",
+        "jsvectormap": "^1.7.0",
+        "masonry-layout": "^4.2.2",
+        "node-waves": "^0.7.6",
+        "peity": "^3.3.0",
+        "sortablejs": "^1.15.6",
+        "three": "0.121.1",
+        "vanta": "^0.5.24"
+    },
+    "devDependencies": {
+        "@popperjs/core": "^2.11.8",
+        "browser-sync": "^3.0.3",
+        "cheerio": "^1.1.0",
+        "clean-css": "^5.3.1",
+        "del": "^6.1.1",  
+        "gulp": "^4.0.2",
+        "gulp-autoprefixer": "^8.0.0",
+        "gulp-clean-css": "^4.2.0",
+        "gulp-concat": "^2.6.1",
+        "gulp-file-include": "^2.3.0",
+        "gulp-htmlmin": "^5.0.1",
+        "gulp-if": "^3.0.0",
+        "gulp-newer": "^1.4.0",
+        "gulp-prettify": "^0.5.0",
+        "gulp-rename": "^2.0.0",
+        "gulp-replace": "^1.1.4",
+        "gulp-rtlcss": "^2.0.0",
+        "gulp-sass": "^5.1.0",
+        "gulp-sourcemaps": "^3.0.0",
+        "gulp-svgo": "^2.2.1",
+        "gulp-uglify": "^3.0.2",
+        "sass": "1.77.6",
+        "svgo": "^3.3.2"
+    }
+}
