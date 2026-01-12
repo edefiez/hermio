@@ -9,26 +9,41 @@
     {# Set branding colors with fallback to default purple gradient #}
     {% set primaryColor = branding and branding.primaryColor ? branding.primaryColor : '#667eea' %}
     {% set secondaryColor = branding and branding.secondaryColor ? branding.secondaryColor : '#764ba2' %}
-    
+
     <style>
         /* Wallet Card Styles */
         .wallet-card-container {
             min-height: calc(100vh - 200px);
-            display: flex;
-            align-items: center;
-            justify-content: center;
             padding: 2rem 1rem;
             background: linear-gradient(135deg, #f5f7fa 0%, #e8ecf1 100%);
         }
-        
+
+        .wallet-card-wrapper {
+            width: 100%;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .qr-content-row {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .qr-card-column {
+            width: 100%;
+        }
+
+        .download-column {
+            width: 100%;
+        }
+
         .wallet-card {
             background: linear-gradient(135deg, {{ primaryColor }} 0%, {{ secondaryColor }} 100%);
             border-radius: 20px;
             box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
             width: 100%;
-            max-width: 380px;
-            min-height: 240px; /* Fallback for browsers without aspect-ratio support */
-            aspect-ratio: 1.586 / 1; /* Standard wallet card ratio (similar to credit card) */
+            min-height: 500px;
             padding: 2rem;
             color: white;
             position: relative;
@@ -36,8 +51,9 @@
             display: flex;
             flex-direction: column;
             justify-content: space-between;
+            height: 100%;
         }
-        
+
         /* Decorative elements for wallet card look */
         .wallet-card::before {
             content: '';
@@ -50,7 +66,7 @@
             border-radius: 50%;
             z-index: 0;
         }
-        
+
         .wallet-card::after {
             content: '';
             position: absolute;
@@ -62,7 +78,7 @@
             border-radius: 50%;
             z-index: 0;
         }
-        
+
         .wallet-card-content {
             position: relative;
             z-index: 1;
@@ -71,78 +87,109 @@
             height: 100%;
             justify-content: space-between;
         }
-        
+
         .wallet-card-header {
             text-align: center;
-            margin-bottom: 1rem;
+            margin-bottom: 1.5rem;
         }
-        
+
+        .wallet-card-logo {
+            max-width: 140px;
+            max-height: 80px;
+            width: auto;
+            height: auto;
+            margin: 0 auto 0.75rem;
+            display: block;
+            object-fit: contain;
+            filter: brightness(0) invert(1);
+        }
+
+        .wallet-card-company {
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin: 0 0 0.5rem 0;
+            color: white;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
         .wallet-card-header h1 {
-            font-size: 1.25rem;
+            font-size: 1.2rem;
             font-weight: 600;
             margin: 0 0 0.5rem 0;
             color: white;
             text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
         }
-        
+
         .wallet-card-name {
-            font-size: 1rem;
+            font-size: 1.2rem;
             font-weight: 500;
             color: rgba(255, 255, 255, 0.95);
-            margin: 0;
+            margin: 0 0 0.5rem 0;
         }
-        
+
+        .wallet-card-title {
+            font-size: 1rem;
+            font-weight: 400;
+            color: rgba(255, 255, 255, 0.85);
+            margin: 0;
+            font-style: italic;
+        }
+
         .wallet-card-qr {
             display: flex;
             justify-content: center;
             align-items: center;
             flex: 1;
-            padding: 1rem 0;
+            padding: 1.5rem 0;
         }
-        
+
         .wallet-card-qr img {
-            max-width: 180px;
+            max-width: 280px;
             width: 100%;
             height: auto;
             background: white;
-            padding: 0.75rem;
+            padding: 1rem;
             border-radius: 12px;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
         }
-        
+
         .wallet-card-footer {
             text-align: center;
+            margin-top: 1.5rem;
         }
-        
+
         .wallet-card-instructions {
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.9);
+            margin: 0 0 0.75rem 0;
+            line-height: 1.5;
+        }
+
+        .wallet-card-url {
             font-size: 0.75rem;
             color: rgba(255, 255, 255, 0.8);
-            margin: 0 0 0.5rem 0;
-            line-height: 1.4;
-        }
-        
-        .wallet-card-url {
-            font-size: 0.7rem;
-            color: rgba(255, 255, 255, 0.7);
             word-break: break-all;
             margin: 0;
         }
-        
+
         .wallet-card-url a {
             color: rgba(255, 255, 255, 0.9);
             text-decoration: none;
         }
-        
+
         .wallet-card-url a:hover {
             color: white;
             text-decoration: underline;
         }
-        
+
         .back-button-container {
             text-align: center;
             margin-top: 2rem;
+            width: 100%;
         }
-        
+
         .back-button-container .btn {
             background: white;
             color: {{ primaryColor }};
@@ -155,70 +202,333 @@
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
             transition: all 0.3s ease;
         }
-        
+
         .back-button-container .btn:hover {
             transform: translateY(-2px);
             box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
             color: {{ primaryColor }};
         }
-        
-        /* Responsive adjustments */
-        @media (max-width: 480px) {
-            .wallet-card {
-                max-width: 340px;
-                padding: 1.5rem;
-            }
-            
-            .wallet-card-qr img {
-                max-width: 160px;
-            }
-            
-            .wallet-card-header h1 {
-                font-size: 1.1rem;
+
+        /* Download Section */
+        .download-section {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            height: 100%;
+        }
+
+        .download-section h2 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin: 0 0 1rem 0;
+            color: #333;
+        }
+
+        .download-section p {
+            color: #666;
+            margin-bottom: 1.5rem;
+        }
+
+        .resolution-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        @media (max-width: 576px) {
+            .resolution-grid {
+                grid-template-columns: 1fr;
             }
         }
-        
-        @media (min-width: 768px) {
-            .wallet-card {
-                max-width: 420px;
+
+        .resolution-card {
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            padding: 1.25rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            background: white;
+        }
+
+        .resolution-card:hover {
+            border-color: {{ primaryColor }};
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .resolution-card .resolution-name {
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+            color: #333;
+        }
+
+        .resolution-card .resolution-size {
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 1rem;
+        }
+
+        .resolution-card .btn-download-group {
+            margin-top: 0.75rem;
+        }
+
+        .resolution-card .btn-download {
+            background: linear-gradient(135deg, {{ primaryColor }} 0%, {{ secondaryColor }} 100%);
+            color: white;
+            border: none;
+            padding: 0.6rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+
+        .resolution-card .btn-download:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .resolution-card .dropdown-toggle::after {
+            margin-left: 0.5rem;
+        }
+
+        .resolution-card .dropdown-menu {
+            width: 100%;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            border: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .resolution-card .dropdown-item {
+            padding: 0.6rem 1rem;
+            display: flex;
+            align-items: center;
+            transition: all 0.2s ease;
+        }
+
+        .resolution-card .dropdown-item i {
+            width: 24px;
+            margin-right: 0.75rem;
+            color: {{ primaryColor }};
+        }
+
+        .resolution-card .dropdown-item:hover {
+            background: linear-gradient(135deg, {{ primaryColor }} 0%, {{ secondaryColor }} 100%);
+            color: white;
+        }
+
+        .resolution-card .dropdown-item:hover i {
+            color: white;
+        }
+
+        .resolution-card .dropdown-item small {
+            display: block;
+            font-size: 0.75rem;
+            opacity: 0.8;
+            margin-top: 0.15rem;
+        }
+
+        .plan-badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-left: 0.5rem;
+        }
+
+        .plan-badge.free {
+            background: #e3f2fd;
+            color: #1976d2;
+        }
+
+        .plan-badge.pro {
+            background: #f3e5f5;
+            color: #7b1fa2;
+        }
+
+        .plan-badge.enterprise {
+            background: #e8f5e9;
+            color: #388e3c;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 767px) {
+            .qr-content-row {
+                flex-direction: column;
             }
-            
+
+            .qr-card-column,
+            .download-column {
+                width: 100%;
+            }
+
+            .wallet-card {
+                margin-bottom: 2rem;
+            }
+        }
+
+        @media (min-width: 768px) {
+            .qr-content-row {
+                flex-direction: row;
+                align-items: stretch;
+            }
+
+            .qr-card-column {
+                width: 50%;
+                flex: 0 0 50%;
+            }
+
+            .download-column {
+                width: 50%;
+                flex: 0 0 50%;
+            }
+
+            .wallet-card-logo {
+                max-width: 160px;
+                max-height: 90px;
+            }
+
             .wallet-card-qr img {
-                max-width: 200px;
+                max-width: 320px;
+            }
+        }
+
+        @media (min-width: 1200px) {
+            .wallet-card-logo {
+                max-width: 180px;
+                max-height: 100px;
+            }
+
+            .wallet-card-qr img {
+                max-width: 350px;
             }
         }
     </style>
 {% endblock %}
 
 {% block admin_content %}
-<div class="wallet-card-container">
-    <div>
-        <div class="wallet-card">
-            <div class="wallet-card-content">
-                <div class="wallet-card-header">
-                    <h1>{{ 'card.qr_code.title'|trans }}</h1>
-                    <p class="wallet-card-name">{{ card.content.name|default('card.unnamed'|trans) }}</p>
+    <div class="wallet-card-container">
+        <div class="wallet-card-wrapper">
+            <div class="qr-content-row">
+                <div class="qr-card-column">
+                    <div class="wallet-card">
+                        <div class="wallet-card-content">
+                            <div class="wallet-card-header">
+                                {% if branding and branding.logoFilename %}
+                                    <img src="{{ asset('uploads/branding/logos/' ~ branding.logoFilename) }}" alt="{{ card.content.company|default('Logo') }}" class="wallet-card-logo">
+                                {% elseif card.content.company %}
+                                    <p class="wallet-card-company">{{ card.content.company }}</p>
+                                {% endif %}
+
+                                <p class="wallet-card-name">{{ card.content.name|default('card.unnamed'|trans) }}</p>
+
+                                {% if card.content.title %}
+                                    <p class="wallet-card-title">{{ card.content.title }}</p>
+                                {% endif %}
+                            </div>
+
+                            <div class="wallet-card-qr">
+                                <img src="{{ qrCodeData }}" alt="QR Code">
+                            </div>
+
+                            <div class="wallet-card-footer">
+                                <p class="wallet-card-instructions">
+                                    {{ 'card.qr_code.instructions'|trans }}
+                                </p>
+                                <p class="wallet-card-url">
+                                    <a href="{{ publicUrl }}" target="_blank">{{ publicUrl }}</a>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                
-                <div class="wallet-card-qr">
-                    <img src="{{ qrCodeData }}" alt="QR Code">
-                </div>
-                
-                <div class="wallet-card-footer">
-                    <p class="wallet-card-instructions">
-                        {{ 'card.qr_code.instructions'|trans }}
-                    </p>
-                    <p class="wallet-card-url">
-                        <a href="{{ publicUrl }}" target="_blank">{{ publicUrl }}</a>
-                    </p>
+
+                <div class="download-column">
+                    <div class="download-section">
+                        <h2>
+                            <i class="fas fa-download me-2"></i>{{ 'card.qr_code.download.title'|trans }}
+                            <span class="plan-badge {{ planType.value }}">{{ planType.getDisplayName() }}</span>
+                        </h2>
+                        {% if planType.value == 'free' %}
+                            <div class="alert alert-info">
+                                <i class="fas fa-info-circle me-2"></i>
+                                {{ 'card.qr_code.upgrade.message'|trans }}
+                                <a href="{{ path('app_subscription_manage') }}" class="alert-link">{{ 'card.qr_code.upgrade.link'|trans }}</a>
+                            </div>
+                        {% endif %}
+
+                        {% if planType.value == 'pro' %}
+                            <div class="alert alert-warning mt-3">
+                                <i class="fas fa-star me-2"></i>
+                                <strong>{{ 'card.qr_code.upgrade.pro.title'|trans }}</strong>
+                                {{ 'card.qr_code.upgrade.pro.message'|trans }}
+                                <a href="{{ path('app_subscription_manage') }}" class="alert-link">{{ 'card.qr_code.upgrade.link'|trans }}</a>
+                            </div>
+                        {% endif %}
+
+                        <p>{{ 'card.qr_code.download.description'|trans }}</p>
+
+                        <div class="resolution-grid">
+                            {% for resolutionKey, size in availableResolutions %}
+                                <div class="resolution-card">
+                                    <div class="resolution-name">
+                                        {% if resolutionKey == 'low' %}
+                                            <i class="fas fa-mobile-alt me-1"></i>{{ 'card.qr_code.resolution.low'|trans }}
+                                        {% elseif resolutionKey == 'medium' %}
+                                            <i class="fas fa-desktop me-1"></i>{{ 'card.qr_code.resolution.medium'|trans }}
+                                        {% elseif resolutionKey == 'high' %}
+                                            <i class="fas fa-tv me-1"></i>{{ 'card.qr_code.resolution.high'|trans }}
+                                        {% elseif resolutionKey == 'ultra' %}
+                                            <i class="fas fa-expand me-1"></i>{{ 'card.qr_code.resolution.ultra'|trans }}
+                                        {% elseif resolutionKey == 'print' %}
+                                            <i class="fas fa-print me-1"></i>{{ 'card.qr_code.resolution.print'|trans }}
+                                        {% endif %}
+                                    </div>
+                                    <div class="resolution-size">{{ size }}px × {{ size }}px</div>
+
+                                    <div class="btn-download-group">
+                                        <div class="btn-group w-100" role="group">
+                                            <button type="button"
+                                                    class="btn btn-download dropdown-toggle"
+                                                    data-bs-toggle="dropdown"
+                                                    aria-expanded="false">
+                                                <i class="fas fa-download me-2"></i>{{ 'card.qr_code.download.button'|trans }}
+                                            </button>
+                                            <ul class="dropdown-menu">
+                                                {% for format in availableFormats %}
+                                                    <li>
+                                                        <a class="dropdown-item"
+                                                           href="{{ path('app_card_qr_code_download', {id: card.id, resolution: resolutionKey, format: format}) }}">
+                                                            {% set iconTranslationKey = 'card.qr_code.format.' ~ format ~ '.icon' %}
+                                                            <i class="fas {{ iconTranslationKey|trans }}"></i>
+                                                            <div>
+                                                                <strong>{{ format|upper }}</strong>
+                                                                {% set descriptionTranslationKey = 'card.qr_code.format.' ~ format ~ '.description' %}
+                                                                <small>{{ descriptionTranslationKey|trans }}</small>
+                                                            </div>
+                                                        </a>
+                                                    </li>
+                                                {% endfor %}
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
-        
-        <div class="back-button-container">
-            <a href="{{ path('app_card_index') }}" class="btn">{{ 'card.back_to_list'|trans }}</a>
+
+            <div class="back-button-container">
+                <a href="{{ path('app_card_index') }}" class="btn">{{ 'card.back_to_list'|trans }}</a>
+            </div>
         </div>
     </div>
-</div>
 {% endblock %}
 

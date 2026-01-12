@@ -19,12 +19,19 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libpng-dev \
     libjpeg-dev \
     libfreetype6-dev \
+    libmagickwand-dev \
+    ghostscript \
     unzip \
     nodejs \
  && docker-php-ext-configure gd --with-freetype --with-jpeg \
  && docker-php-ext-install -j"$(nproc)" intl opcache pdo pdo_mysql zip gd \
+ && pecl install imagick \
+ && docker-php-ext-enable imagick \
  && npm install -g npm@latest \
  && rm -rf /var/lib/apt/lists/*
+
+# Copy ImageMagick policy configuration
+COPY devops/docker/app/imagemagick-policy.xml /etc/ImageMagick-6/policy.xml
 
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 

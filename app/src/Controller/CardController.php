@@ -20,6 +20,8 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
+use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
@@ -68,20 +70,20 @@ class CardController extends AbstractController
         $totalScans = 0;
         $monthlyViews = 0;
         $monthlyScans = 0;
-        
+
         if (!empty($allCardIds)) {
             // Total scans for all cards
             $totalScans = $this->cardScanRepository->getTotalScansForCards($allCardIds);
-            
+
             // Monthly views and scans (current month)
             $startOfMonth = new \DateTime('first day of this month');
             $startOfMonth->setTime(0, 0, 0);
             $endOfMonth = new \DateTime('last day of this month');
             $endOfMonth->setTime(23, 59, 59);
-            
+
             // Monthly views
             $monthlyViews = $this->cardViewRepository->getMonthlyViewsForCards($allCardIds, $startOfMonth, $endOfMonth);
-            
+
             // Monthly scans
             $monthlyScans = $this->cardScanRepository->getMonthlyScansForCards($allCardIds, $startOfMonth, $endOfMonth);
         }
@@ -121,6 +123,7 @@ class CardController extends AbstractController
             'canCreateMore' => $canCreateMore,
             'canManageAssignments' => $canManageAssignments,
             'isEnterprise' => $account && $account->getPlanType()->value === 'enterprise',
+            'planType' => $account?->getPlanType(),
             'totalCards' => $totalCards,
             'totalScans' => $totalScans,
             'monthlyViews' => $monthlyViews,
@@ -134,7 +137,7 @@ class CardController extends AbstractController
         /** @var \App\Entity\User $user */
         $user = $this->getUser();
         $account = $user->getAccount();
-        
+
         $query = $request->query->get('q');
         $offset = (int) $request->query->get('offset', 0);
         $limit = 10;
@@ -168,7 +171,7 @@ class CardController extends AbstractController
         }
 
         $hasMore = ($offset + count($cards)) < $totalCards;
-        
+
         return $this->render('card/_card_list.html.twig', [
             'cards' => $cards,
             'cardAssignments' => $cardAssignments,
@@ -464,12 +467,103 @@ class CardController extends AbstractController
         $account = $user->getAccount();
         $branding = $account ? $this->brandingService->getBrandingForAccount($account) : null;
 
+        // Get available resolutions for the user's plan
+        $planType = $account->getPlanType();
+        $availableResolutions = $this->qrCodeService->getAvailableResolutions($planType);
+        $availableFormats = $this->qrCodeService->getAvailableFormats($planType);
+
         return $this->render('card/qr_code.html.twig', [
             'card' => $card,
             'qrCodeData' => $qrCodeData,
             'publicUrl' => $publicUrl,
             'branding' => $branding,
+            'availableResolutions' => $availableResolutions,
+            'availableFormats' => $availableFormats,
+            'planType' => $planType,
         ]);
+    }
+
+    #[Route('/{id}/qr-code/download', name: 'app_card_qr_code_download', methods: ['GET'])]
+    public function downloadQrCode(int $id, Request $request): Response
+    {
+        /** @var \App\Entity\User $user */
+        $user = $this->getUser();
+        $card = $this->cardRepository->find($id);
+
+        if (!$card) {
+            throw $this->createNotFoundException('Card not found');
+        }
+
+        if (!$this->cardService->canAccessCard($card, $user)) {
+            throw $this->createAccessDeniedException('card.access.denied');
+        }
+
+        // Get plan type and available resolutions
+        $account = $user->getAccount();
+
+        if (!$account) {
+            throw $this->createAccessDeniedException('No account found for user');
+        }
+
+        $planType = $account->getPlanType();
+        $availableResolutions = $this->qrCodeService->getAvailableResolutions($planType);
+        $availableFormats = $this->qrCodeService->getAvailableFormats($planType);
+
+        // Get requested resolution (default to 'low')
+        $resolution = $request->query->get('resolution', 'low');
+
+        // Validate resolution is available for this plan
+        if (!isset($availableResolutions[$resolution])) {
+            $this->addFlash('error', 'Cette résolution n\'est pas disponible pour votre plan.');
+            return $this->redirectToRoute('app_card_qr_code', ['id' => $id]);
+        }
+
+        $size = $availableResolutions[$resolution];
+        $format = $request->query->get('format', 'png');
+
+        // Validate format is available for this plan
+        if (!in_array($format, $availableFormats, true)) {
+            $this->addFlash('error', 'Ce format n\'est pas disponible pour votre plan.');
+            return $this->redirectToRoute('app_card_qr_code', ['id' => $id]);
+        }
+
+        // Generate URL with qr=1 parameter
+        $baseUrl = $card->getPublicUrl();
+        $separator = str_contains($baseUrl, '?') ? '&' : '?';
+        $publicUrl = $request->getSchemeAndHttpHost() . $baseUrl . $separator . 'qr=1';
+
+        try {
+            $file = $this->qrCodeService->generateFromUrl($publicUrl, $card->getId(), $format, $size);
+
+            $fileName = sprintf(
+                'qrcode-%s-%s-%s.%s',
+                $card->getSlug(),
+                $resolution,
+                date('Y-m-d'),
+                $format
+            );
+
+            $contentType = match($format) {
+                'png' => 'image/png',
+                'jpeg' => 'image/jpeg',
+                'svg' => 'image/svg+xml',
+                'pdf' => 'application/pdf',
+                'eps' => 'application/postscript',
+                default => 'application/octet-stream',
+            };
+
+            $response = new BinaryFileResponse($file);
+            $response->headers->set('Content-Type', $contentType);
+            $response->setContentDisposition(
+                ResponseHeaderBag::DISPOSITION_ATTACHMENT,
+                $fileName
+            );
+
+            return $response;
+        } catch (\Exception $e) {
+            $this->addFlash('error', 'Erreur lors de la génération du QR code: ' . $e->getMessage());
+            return $this->redirectToRoute('app_card_qr_code', ['id' => $id]);
+        }
     }
 
     #[Route('/{id}/regenerate-key', name: 'app_card_regenerate_key', methods: ['POST'])]

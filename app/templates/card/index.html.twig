@@ -41,36 +41,63 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-4 col-12 mb-3">
-            <div class="card shadow-sm border-0" style="border-radius: 12px; background: white;">
-                <div class="card-body p-4">
-                    <div class="d-flex justify-content-between align-items-center">
-                        <div>
-                            <p class="text-muted mb-1" style="font-size: 0.875rem; font-weight: 500;">Vues ce mois</p>
-                            <h2 class="mb-0" style="font-size: 2rem; font-weight: 700; color: #212529;">{{ monthlyViews }}</h2>
-                        </div>
-                        <div style="width: 56px; height: 56px; background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%); border-radius: 12px; display: flex; align-items: center; justify-content: center;">
-                            <i class="fas fa-eye text-white" style="font-size: 1.5rem;"></i>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4 col-12 mb-3">
-            <div class="card shadow-sm border-0" style="border-radius: 12px; background: white;">
-                <div class="card-body p-4">
-                    <div class="d-flex justify-content-between align-items-center">
-                        <div>
-                            <p class="text-muted mb-1" style="font-size: 0.875rem; font-weight: 500;">Scans QR Code</p>
-                            <h2 class="mb-0" style="font-size: 2rem; font-weight: 700; color: #212529;">{{ monthlyScans }}</h2>
-                        </div>
-                        <div style="width: 56px; height: 56px; background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); border-radius: 12px; display: flex; align-items: center; justify-content: center;">
-                            <i class="fas fa-qrcode text-white" style="font-size: 1.5rem;"></i>
+
+        {% if planType and planType.value == 'free' %}
+            {# Message d'upgrade pour les utilisateurs FREE #}
+            <div class="col-md-8 col-12 mb-3">
+                <div class="card shadow-sm border-0" style="border-radius: 12px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                    <div class="card-body p-4">
+                        <div class="d-flex align-items-center justify-content-between text-white flex-wrap">
+                            <div class="flex-grow-1 mb-3 mb-md-0">
+                                <h5 class="mb-2" style="font-weight: 600;">
+                                    <i class="fas fa-chart-line me-2"></i>Débloquez les statistiques avancées
+                                </h5>
+                                <p class="mb-0" style="font-size: 0.95rem; opacity: 0.95;">
+                                    Passez au plan Pro ou Enterprise pour suivre les vues de vos cartes et les scans de QR code en temps réel.
+                                </p>
+                            </div>
+                            <div class="ms-md-3">
+                                <a href="{{ path('app_subscription_manage') }}" class="btn btn-light" style="padding: 0.5rem 1.5rem; font-weight: 600; border-radius: 8px; white-space: nowrap;">
+                                    <i class="fas fa-arrow-up me-1"></i>Mettre à niveau
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
+        {% else %}
+            {# Statistiques pour les plans PRO et ENTERPRISE #}
+            <div class="col-md-4 col-12 mb-3">
+                <div class="card shadow-sm border-0" style="border-radius: 12px; background: white;">
+                    <div class="card-body p-4">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <p class="text-muted mb-1" style="font-size: 0.875rem; font-weight: 500;">Vues ce mois</p>
+                                <h2 class="mb-0" style="font-size: 2rem; font-weight: 700; color: #212529;">{{ monthlyViews }}</h2>
+                            </div>
+                            <div style="width: 56px; height: 56px; background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%); border-radius: 12px; display: flex; align-items: center; justify-content: center;">
+                                <i class="fas fa-eye text-white" style="font-size: 1.5rem;"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 col-12 mb-3">
+                <div class="card shadow-sm border-0" style="border-radius: 12px; background: white;">
+                    <div class="card-body p-4">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <p class="text-muted mb-1" style="font-size: 0.875rem; font-weight: 500;">Scans QR Code</p>
+                                <h2 class="mb-0" style="font-size: 2rem; font-weight: 700; color: #212529;">{{ monthlyScans }}</h2>
+                            </div>
+                            <div style="width: 56px; height: 56px; background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); border-radius: 12px; display: flex; align-items: center; justify-content: center;">
+                                <i class="fas fa-qrcode text-white" style="font-size: 1.5rem;"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
     </div>
 
     {# Search and Filter Bar #}
@@ -228,7 +255,7 @@ document.addEventListener('DOMContentLoaded', function() {
     function switchView(view) {
         currentView = view;
         cardsContainer.setAttribute('data-view', view);
-        
+
         if (view === 'list') {
             cardsContainer.className = 'row flex-column';
             document.querySelectorAll('.card-item-grid').forEach(item => {
@@ -292,9 +319,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
         searchInput.addEventListener('input', function() {
             clearTimeout(searchTimeout);
-            
+
             const hasValue = searchInput.value.trim() !== '';
-            
+
             // Show/hide clear button immediately
             if (hasValue) {
                 if (searchClear) searchClear.style.display = 'flex';
@@ -315,7 +342,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 currentQuery = searchInput.value.trim();
                 currentOffset = 0;
                 hasMore = true;
-                
+
                 // After search completes, show clear button and hide spinner
                 if (searchSpinner) {
                     searchSpinner.style.display = 'none';
@@ -323,7 +350,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (searchClear && currentQuery !== '') {
                     searchClear.style.display = 'flex';
                 }
-                
+
                 loadCards(true);
             }, 300);
         });

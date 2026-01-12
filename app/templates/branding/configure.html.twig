@@ -121,16 +121,16 @@
                                                 <input type="color"
                                                        id="primaryColorPicker"
                                                        class="form-control form-control-color"
-                                                       value="{{ branding and branding.primaryColor ? branding.primaryColor : '#FF5733' }}"
+                                                       value="{{ branding and branding.primaryColor ? branding.primaryColor : '#007BFF' }}"
                                                        title="{{ 'branding.primary_color_picker.picker'|trans|default('Choose primary color') }}"
                                                        style="width: 60px; height: 38px; cursor: pointer;">
                                                 <span class="input-group-text">
-                                                    <i class="fas fa-circle" id="primaryColorPreview" style="color: {{ branding and branding.primaryColor ? branding.primaryColor : '#FF5733' }};"></i>
+                                                    <i class="fas fa-circle" id="primaryColorPreview" style="color: {{ branding and branding.primaryColor ? branding.primaryColor : '#007BFF' }};"></i>
                                                 </span>
                                                 {{ form_widget(form.primaryColor, {
                                                     'attr': {
                                                         'class': 'form-control' ~ (form.primaryColor.vars.errors|length > 0 ? ' is-invalid' : ''),
-                                                        'placeholder': '#FF5733',
+                                                        'placeholder': '#007BFF',
                                                         'pattern': '^#[0-9A-Fa-f]{6}$',
                                                         'maxlength': 7,
                                                         'aria-describedby': 'primaryColorHelp',
@@ -145,7 +145,7 @@
                                                 {% endif %}
                                             </div>
                                             <small id="primaryColorHelp" class="form-text text-muted">
-                                                {{ 'branding.primary_color_picker.help'|trans|default('Choose a color or enter a hex code (e.g., #FF5733)') }}
+                                                {{ 'branding.primary_color_picker.help'|trans|default('Choose a color or enter a hex code (e.g., #007BFF)') }}
                                             </small>
                                         </div>
 

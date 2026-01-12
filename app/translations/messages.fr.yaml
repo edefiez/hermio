@@ -392,6 +392,35 @@ card:
     title: "Code QR"
     view: "Voir le Code QR"
     instructions: "Scannez ce code QR avec votre appareil mobile pour voir cette carte"
+    download:
+      title: "Télécharger le Code QR"
+      description: "Téléchargez votre code QR dans différentes résolutions et formats pour l'utiliser sur vos supports de communication"
+      button: "Télécharger"
+    resolution:
+      low: "Basse"
+      medium: "Moyenne"
+      high: "Haute"
+      ultra: "Ultra"
+      print: "Impression"
+    format:
+      png:
+        icon: "fa-file-image"
+        description: "Format standard, qualité optimale"
+      jpeg:
+        icon: "fa-file-image"
+        description: "Format compressé, fichier plus léger"
+      svg:
+        icon: "fa-vector-square"
+        description: "Format vectoriel, redimensionnable sans perte"
+      eps:
+        icon: "fa-print"
+        description: "Format professionnel pour impression"
+    upgrade:
+      message: "Passez à un plan supérieur pour débloquer des résolutions plus élevées et des formats supplémentaires."
+      link: "Mettre à niveau maintenant"
+      pro:
+        title: "Passez au plan Enterprise"
+        message: "Débloquez les résolutions Ultra (2000px) et Impression (4000px), ainsi que le format EPS professionnel pour vos supports imprimés."
   assignments:
     title: "Assignations de Cartes"
     description: "Assignez cette carte aux membres d'équipe pour qu'ils puissent la gérer"
@@ -534,7 +563,7 @@ branding:
   upload.error: "L'upload du logo a échoué. Veuillez réessayer."
   primary_color_picker:
     picker: "Choisir la couleur principale"
-    help: "Choisissez une couleur ou entrez un code hexadécimal (ex: #FF5733)"
+    help: "Choisissez une couleur ou entrez un code hexadécimal (ex: #007BFF)"
   secondary_color_picker:
     picker: "Choisir la couleur secondaire"
     help: "Choisissez une couleur ou entrez un code hexadécimal (ex: #6c757d)"

@@ -22,7 +22,7 @@ class BrandingFormType extends AbstractType
                 'label' => 'branding.primary_color',
                 'attr' => [
                     'class' => 'form-control',
-                    'placeholder' => '#FF5733',
+                    'placeholder' => '#007BFF',
                     'pattern' => '^#[0-9A-Fa-f]{6}$',
                     'maxlength' => 7,
                 ],

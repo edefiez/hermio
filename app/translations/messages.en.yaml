@@ -392,6 +392,35 @@ card:
     title: "QR Code"
     view: "View QR Code"
     instructions: "Scan this QR code with your mobile device to view this card"
+    download:
+      title: "Download QR Code"
+      description: "Download your QR code in different resolutions and formats to use on your communication materials"
+      button: "Download"
+    resolution:
+      low: "Low"
+      medium: "Medium"
+      high: "High"
+      ultra: "Ultra"
+      print: "Print"
+    format:
+      png:
+        icon: "fa-file-image"
+        description: "Standard format, optimal quality"
+      jpeg:
+        icon: "fa-file-image"
+        description: "Compressed format, smaller file size"
+      svg:
+        icon: "fa-vector-square"
+        description: "Vector format, scalable without quality loss"
+      eps:
+        icon: "fa-print"
+        description: "Professional format for printing"
+    upgrade:
+      message: "Upgrade to a higher plan to unlock higher resolutions and additional formats."
+      link: "Upgrade now"
+      pro:
+        title: "Upgrade to Enterprise"
+        message: "Unlock Ultra (2000px) and Print (4000px) resolutions, as well as professional EPS format for your printed materials."
   assignments:
     title: "Card Assignments"
     description: "Assign this card to team members so they can manage it"
@@ -534,7 +563,7 @@ branding:
   upload.error: "Logo upload failed. Please try again."
   primary_color_picker:
     picker: "Choose primary color"
-    help: "Choose a color or enter a hex code (e.g., #FF5733)"
+    help: "Choose a color or enter a hex code (e.g., #007BFF)"
   secondary_color_picker:
     picker: "Choose secondary color"
     help: "Choose a color or enter a hex code (e.g., #6c757d)"
