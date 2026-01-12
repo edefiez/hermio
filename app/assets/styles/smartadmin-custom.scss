@@ -1,0 +1,32 @@
+/**
+ * SmartAdmin Custom Styles for Hermio
+ * This file contains customizations to adapt SmartAdmin theme to Hermio
+ */
+
+// Override SmartAdmin variables if needed
+// Add Hermio-specific customizations here
+
+// Ensure proper font paths
+$sa-font-path: '/build/webfonts' !default;
+
+// Custom styles for Hermio branding
+.app-logo {
+    // Customize logo styles if needed
+}
+
+// Footer customization
+.app-footer {
+    .app-footer-content {
+        // Customize footer content
+    }
+}
+
+// Sidebar customization
+.app-sidebar {
+    // Customize sidebar if needed
+}
+
+// Header customization
+.app-header {
+    // Customize header if needed
+}
