@@ -204,6 +204,18 @@
         <div class="container-xxl">
             <h2 class="section-title">{{ 'home.pricing.title'|trans }}</h2>
             <p class="section-subtitle">{{ 'home.pricing.subtitle'|trans }}</p>
+            
+            {# Billing Toggle #}
+            <div class="d-flex justify-content-center mb-5">
+                <div class="btn-group" role="group" aria-label="Billing period">
+                    <input type="radio" class="btn-check" name="billingPeriod" id="billingMonthly" autocomplete="off" checked>
+                    <label class="btn btn-outline-primary" for="billingMonthly">{{ 'home.pricing.monthly'|trans }}</label>
+                    
+                    <input type="radio" class="btn-check" name="billingPeriod" id="billingYearly" autocomplete="off">
+                    <label class="btn btn-outline-primary" for="billingYearly">{{ 'home.pricing.yearly'|trans }}</label>
+                </div>
+            </div>
+            
             <div class="row g-4 justify-content-center align-items-stretch">
                 <div class="col-12 col-md-6 col-lg-4">
                     <div class="card h-100 border-0 shadow d-flex flex-column">
@@ -216,7 +228,6 @@
                             <ul class="list-unstyled text-start mb-4 flex-grow-1">
                                 <li class="mb-3 fs-6"><i class="fas fa-check-circle text-success me-2"></i> {{ 'home.pricing.free.feature1'|trans }}</li>
                                 <li class="mb-3 fs-6"><i class="fas fa-check-circle text-success me-2"></i> {{ 'home.pricing.free.feature2'|trans }}</li>
-                                <li class="mb-3 fs-6"><i class="fas fa-check-circle text-success me-2"></i> {{ 'home.pricing.free.feature3'|trans }}</li>
                             </ul>
                             <div class="mt-auto">
                                 <a href="{{ path('app_register') }}" class="btn btn-outline-primary btn-lg w-100 py-3">{{ 'home.pricing.free.cta'|trans }}</a>
@@ -232,14 +243,24 @@
                         <div class="card-body text-center p-4 p-lg-5 d-flex flex-column">
                             <div class="pricing-header mb-4">
                                 <h3 class="card-title h3 mb-3">{{ 'home.pricing.pro.name'|trans }}</h3>
-                                <div class="display-3 fw-bold text-primary mb-2">{{ 'home.pricing.pro.price'|trans }}</div>
-                                <p class="text-muted fs-5 mb-0">{{ 'home.pricing.pro.period'|trans }}</p>
+                                <div class="display-3 fw-bold text-primary mb-2">
+                                    <span class="price-monthly">5€</span>
+                                    <span class="price-yearly" style="display: none;">50€</span>
+                                </div>
+                                <p class="text-muted fs-5 mb-0">
+                                    <span class="period-monthly">{{ 'home.pricing.per_month'|trans }}</span>
+                                    <span class="period-yearly" style="display: none;">{{ 'home.pricing.per_year'|trans }}</span>
+                                </p>
                             </div>
                             <ul class="list-unstyled text-start mb-4 flex-grow-1">
                                 <li class="mb-3 fs-6"><i class="fas fa-check-circle text-success me-2"></i> {{ 'home.pricing.pro.feature1'|trans }}</li>
                                 <li class="mb-3 fs-6"><i class="fas fa-check-circle text-success me-2"></i> {{ 'home.pricing.pro.feature2'|trans }}</li>
                                 <li class="mb-3 fs-6"><i class="fas fa-check-circle text-success me-2"></i> {{ 'home.pricing.pro.feature3'|trans }}</li>
                                 <li class="mb-3 fs-6"><i class="fas fa-check-circle text-success me-2"></i> {{ 'home.pricing.pro.feature4'|trans }}</li>
+                                <li class="mb-3 fs-6"><i class="fas fa-plus text-black me-2"></i> 
+                                    <span class="option-monthly">{{ 'home.pricing.pro.option_monthly'|trans }}</span>
+                                    <span class="option-yearly" style="display: none;">{{ 'home.pricing.pro.option_yearly'|trans }}</span>
+                                </li>
                             </ul>
                             <div class="mt-auto">
                                 <a href="{{ path('app_register') }}" class="btn btn-primary btn-lg w-100 py-3">{{ 'home.pricing.pro.cta'|trans }}</a>
@@ -251,19 +272,30 @@
                     <div class="card h-100 border-0 shadow d-flex flex-column">
                         <div class="card-body text-center p-4 p-lg-5 d-flex flex-column">
                             <div class="pricing-header mb-4">
-                                <h3 class="card-title h3 mb-3">{{ 'home.pricing.enterprise.name'|trans }}</h3>
-                                <div class="display-3 fw-bold text-primary mb-2">{{ 'home.pricing.enterprise.price'|trans }}</div>
-                                <p class="text-muted fs-5 mb-0">{{ 'home.pricing.enterprise.period'|trans }}</p>
+                                <h3 class="card-title h3 mb-3">{{ 'home.pricing.business.name'|trans }}</h3>
+                                <div class="display-3 fw-bold text-primary mb-2">
+                                    <span class="price-monthly">15€</span>
+                                    <span class="price-yearly" style="display: none;">150€</span>
+                                </div>
+                                <p class="text-muted fs-5 mb-0">
+                                    <span class="period-monthly">{{ 'home.pricing.per_month'|trans }}</span>
+                                    <span class="period-yearly" style="display: none;">{{ 'home.pricing.per_year'|trans }}</span>
+                                </p>
                             </div>
                             <ul class="list-unstyled text-start mb-4 flex-grow-1">
-                                <li class="mb-3 fs-6"><i class="fas fa-check-circle text-success me-2"></i> {{ 'home.pricing.enterprise.feature1'|trans }}</li>
-                                <li class="mb-3 fs-6"><i class="fas fa-check-circle text-success me-2"></i> {{ 'home.pricing.enterprise.feature2'|trans }}</li>
-                                <li class="mb-3 fs-6"><i class="fas fa-check-circle text-success me-2"></i> {{ 'home.pricing.enterprise.feature3'|trans }}</li>
-                                <li class="mb-3 fs-6"><i class="fas fa-check-circle text-success me-2"></i> {{ 'home.pricing.enterprise.feature4'|trans }}</li>
-                                <li class="mb-3 fs-6"><i class="fas fa-check-circle text-success me-2"></i> {{ 'home.pricing.enterprise.feature5'|trans }}</li>
+                                <li class="mb-3 fs-6"><i class="fas fa-check-circle text-success me-2"></i> {{ 'home.pricing.business.feature1'|trans }}</li>
+                                <li class="mb-3 fs-6"><i class="fas fa-check-circle text-success me-2"></i> {{ 'home.pricing.business.feature2'|trans }}</li>
+                                <li class="mb-3 fs-6"><i class="fas fa-check-circle text-success me-2"></i> {{ 'home.pricing.business.feature3'|trans }}</li>
+                                <li class="mb-3 fs-6"><i class="fas fa-check-circle text-success me-2"></i> {{ 'home.pricing.business.feature4'|trans }}</li>
+                                <li class="mb-3 fs-6"><i class="fas fa-check-circle text-success me-2"></i> {{ 'home.pricing.business.feature5'|trans }}</li>
+                                <li class="mb-3 fs-6"><i class="fas fa-check-circle text-success me-2"></i> {{ 'home.pricing.business.feature6'|trans }}</li>
+                                <li class="mb-3 fs-6"><i class="fas fa-plus text-dark me-2"></i> 
+                                    <span class="option-monthly">{{ 'home.pricing.business.option_monthly'|trans }}</span>
+                                    <span class="option-yearly" style="display: none;">{{ 'home.pricing.business.option_yearly'|trans }}</span>
+                                </li>
                             </ul>
                             <div class="mt-auto">
-                                <a href="{{ path('app_register') }}" class="btn btn-outline-primary btn-lg w-100 py-3">{{ 'home.pricing.enterprise.cta'|trans }}</a>
+                                <a href="{{ path('app_register') }}" class="btn btn-outline-primary btn-lg w-100 py-3">{{ 'home.pricing.business.cta'|trans }}</a>
                             </div>
                         </div>
                     </div>
@@ -271,6 +303,77 @@
             </div>
         </div>
     </section>
+{#    <section class="section py-5" id="pricing">#}
+{#        <div class="container-xxl">#}
+{#            <h2 class="section-title">{{ 'home.pricing.title'|trans }}</h2>#}
+{#            <p class="section-subtitle">{{ 'home.pricing.subtitle'|trans }}</p>#}
+{#            <div class="row g-4 justify-content-center align-items-stretch">#}
+{#                <div class="col-12 col-md-6 col-lg-4">#}
+{#                    <div class="card h-100 border-0 shadow d-flex flex-column">#}
+{#                        <div class="card-body text-center p-4 p-lg-5 d-flex flex-column">#}
+{#                            <div class="pricing-header mb-4">#}
+{#                                <h3 class="card-title h3 mb-3">{{ 'home.pricing.free.name'|trans }}</h3>#}
+{#                                <div class="display-3 fw-bold text-primary mb-2">{{ 'home.pricing.free.price'|trans }}</div>#}
+{#                                <p class="text-muted fs-5 mb-0">{{ 'home.pricing.free.period'|trans }}</p>#}
+{#                            </div>#}
+{#                            <ul class="list-unstyled text-start mb-4 flex-grow-1">#}
+{#                                <li class="mb-3 fs-6"><i class="fas fa-check-circle text-success me-2"></i> {{ 'home.pricing.free.feature1'|trans }}</li>#}
+{#                                <li class="mb-3 fs-6"><i class="fas fa-check-circle text-success me-2"></i> {{ 'home.pricing.free.feature2'|trans }}</li>#}
+{#                                <li class="mb-3 fs-6"><i class="fas fa-check-circle text-success me-2"></i> {{ 'home.pricing.free.feature3'|trans }}</li>#}
+{#                            </ul>#}
+{#                            <div class="mt-auto">#}
+{#                                <a href="{{ path('app_register') }}" class="btn btn-outline-primary btn-lg w-100 py-3">{{ 'home.pricing.free.cta'|trans }}</a>#}
+{#                            </div>#}
+{#                        </div>#}
+{#                    </div>#}
+{#                </div>#}
+{#                <div class="col-12 col-md-6 col-lg-4">#}
+{#                    <div class="card h-100 border-0 shadow-lg d-flex flex-column" style="transform: scale(1.05);">#}
+{#                        <div class="card-header text-white text-center py-3" style="background: linear-gradient(135deg, #4F46E5 0%, #EC4899 100%);">#}
+{#                            <span class="badge bg-white text-primary fs-6 px-3 py-2">{{ 'home.pricing.pro.badge'|trans }}</span>#}
+{#                        </div>#}
+{#                        <div class="card-body text-center p-4 p-lg-5 d-flex flex-column">#}
+{#                            <div class="pricing-header mb-4">#}
+{#                                <h3 class="card-title h3 mb-3">{{ 'home.pricing.pro.name'|trans }}</h3>#}
+{#                                <div class="display-3 fw-bold text-primary mb-2">{{ 'home.pricing.pro.price'|trans }}</div>#}
+{#                                <p class="text-muted fs-5 mb-0">{{ 'home.pricing.pro.period'|trans }}</p>#}
+{#                            </div>#}
+{#                            <ul class="list-unstyled text-start mb-4 flex-grow-1">#}
+{#                                <li class="mb-3 fs-6"><i class="fas fa-check-circle text-success me-2"></i> {{ 'home.pricing.pro.feature1'|trans }}</li>#}
+{#                                <li class="mb-3 fs-6"><i class="fas fa-check-circle text-success me-2"></i> {{ 'home.pricing.pro.feature2'|trans }}</li>#}
+{#                                <li class="mb-3 fs-6"><i class="fas fa-check-circle text-success me-2"></i> {{ 'home.pricing.pro.feature3'|trans }}</li>#}
+{#                                <li class="mb-3 fs-6"><i class="fas fa-check-circle text-success me-2"></i> {{ 'home.pricing.pro.feature4'|trans }}</li>#}
+{#                            </ul>#}
+{#                            <div class="mt-auto">#}
+{#                                <a href="{{ path('app_register') }}" class="btn btn-primary btn-lg w-100 py-3">{{ 'home.pricing.pro.cta'|trans }}</a>#}
+{#                            </div>#}
+{#                        </div>#}
+{#                    </div>#}
+{#                </div>#}
+{#                <div class="col-12 col-md-6 col-lg-4">#}
+{#                    <div class="card h-100 border-0 shadow d-flex flex-column">#}
+{#                        <div class="card-body text-center p-4 p-lg-5 d-flex flex-column">#}
+{#                            <div class="pricing-header mb-4">#}
+{#                                <h3 class="card-title h3 mb-3">{{ 'home.pricing.enterprise.name'|trans }}</h3>#}
+{#                                <div class="display-3 fw-bold text-primary mb-2">{{ 'home.pricing.enterprise.price'|trans }}</div>#}
+{#                                <p class="text-muted fs-5 mb-0">{{ 'home.pricing.enterprise.period'|trans }}</p>#}
+{#                            </div>#}
+{#                            <ul class="list-unstyled text-start mb-4 flex-grow-1">#}
+{#                                <li class="mb-3 fs-6"><i class="fas fa-check-circle text-success me-2"></i> {{ 'home.pricing.enterprise.feature1'|trans }}</li>#}
+{#                                <li class="mb-3 fs-6"><i class="fas fa-check-circle text-success me-2"></i> {{ 'home.pricing.enterprise.feature2'|trans }}</li>#}
+{#                                <li class="mb-3 fs-6"><i class="fas fa-check-circle text-success me-2"></i> {{ 'home.pricing.enterprise.feature3'|trans }}</li>#}
+{#                                <li class="mb-3 fs-6"><i class="fas fa-check-circle text-success me-2"></i> {{ 'home.pricing.enterprise.feature4'|trans }}</li>#}
+{#                                <li class="mb-3 fs-6"><i class="fas fa-check-circle text-success me-2"></i> {{ 'home.pricing.enterprise.feature5'|trans }}</li>#}
+{#                            </ul>#}
+{#                            <div class="mt-auto">#}
+{#                                <a href="{{ path('app_register') }}" class="btn btn-outline-primary btn-lg w-100 py-3">{{ 'home.pricing.enterprise.cta'|trans }}</a>#}
+{#                            </div>#}
+{#                        </div>#}
+{#                    </div>#}
+{#                </div>#}
+{#            </div>#}
+{#        </div>#}
+{#    </section>#}
 
     {# FAQ Section #}
     <section class="section section-light py-5" id="faq">
@@ -365,5 +468,48 @@
 {% block javascripts %}
     {{ parent() }}
     {{ encore_entry_script_tags('home') }}
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const billingMonthly = document.getElementById('billingMonthly');
+            const billingYearly = document.getElementById('billingYearly');
+            
+            function updatePricing(isYearly) {
+                const priceMonthlyElements = document.querySelectorAll('.price-monthly');
+                const priceYearlyElements = document.querySelectorAll('.price-yearly');
+                const periodMonthlyElements = document.querySelectorAll('.period-monthly');
+                const periodYearlyElements = document.querySelectorAll('.period-yearly');
+                const optionMonthlyElements = document.querySelectorAll('.option-monthly');
+                const optionYearlyElements = document.querySelectorAll('.option-yearly');
+                
+                if (isYearly) {
+                    priceMonthlyElements.forEach(el => el.style.display = 'none');
+                    priceYearlyElements.forEach(el => el.style.display = 'inline');
+                    periodMonthlyElements.forEach(el => el.style.display = 'none');
+                    periodYearlyElements.forEach(el => el.style.display = 'inline');
+                    optionMonthlyElements.forEach(el => el.style.display = 'none');
+                    optionYearlyElements.forEach(el => el.style.display = 'inline');
+                } else {
+                    priceMonthlyElements.forEach(el => el.style.display = 'inline');
+                    priceYearlyElements.forEach(el => el.style.display = 'none');
+                    periodMonthlyElements.forEach(el => el.style.display = 'inline');
+                    periodYearlyElements.forEach(el => el.style.display = 'none');
+                    optionMonthlyElements.forEach(el => el.style.display = 'inline');
+                    optionYearlyElements.forEach(el => el.style.display = 'none');
+                }
+            }
+            
+            billingMonthly.addEventListener('change', function() {
+                if (this.checked) {
+                    updatePricing(false);
+                }
+            });
+            
+            billingYearly.addEventListener('change', function() {
+                if (this.checked) {
+                    updatePricing(true);
+                }
+            });
+        });
+    </script>
 {% endblock %}
 

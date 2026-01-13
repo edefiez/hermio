@@ -80,6 +80,15 @@ class VCardService
 
         $vcardString = $vcard->serialize();
 
+        // Ensure proper line endings (CRLF) for iOS compatibility
+        // Sabre VObject may use different line endings, normalize to CRLF
+        $vcardString = str_replace(["\r\n", "\n", "\r"], "\r\n", $vcardString);
+        
+        // Ensure the vCard ends with CRLF
+        if (!str_ends_with($vcardString, "\r\n")) {
+            $vcardString .= "\r\n";
+        }
+
         // Cache the result
         $cachedItem->set($vcardString);
         $cachedItem->expiresAfter(self::CACHE_TTL);

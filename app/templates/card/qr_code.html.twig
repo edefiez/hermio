@@ -240,6 +240,7 @@
             grid-template-columns: repeat(2, 1fr);
             gap: 1rem;
             margin-bottom: 1.5rem;
+            position: relative;
         }
 
         @media (max-width: 576px) {
@@ -256,12 +257,45 @@
             transition: all 0.3s ease;
             cursor: pointer;
             background: white;
+            position: relative;
+            z-index: 1;
         }
 
         .resolution-card:hover {
             border-color: {{ primaryColor }};
             transform: translateY(-2px);
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        /* When dropdown is open, elevate the card */
+        .resolution-card:has(.btn-group.show),
+        .resolution-card:has(.show) {
+            z-index: 1050 !important;
+            position: relative;
+        }
+
+        /* Ensure dropdown menu appears above all other cards */
+        .resolution-card .btn-group.show .dropdown-menu {
+            z-index: 9999 !important;
+            position: absolute !important;
+            background: white !important;
+            background-color: white !important;
+            opacity: 1 !important;
+        }
+
+        /* Lower z-index for cards that don't have open dropdown */
+        .resolution-card:not(:has(.show)) {
+            z-index: 1;
+        }
+
+        /* Ensure other cards stay behind when one dropdown is open */
+        .resolution-grid:has(.show) .resolution-card:not(:has(.show)) {
+            z-index: 1 !important;
+        }
+
+        /* Force dropdown to be on top of everything */
+        .resolution-card .dropdown-menu.show {
+            z-index: 10000 !important;
         }
 
         .resolution-card .resolution-name {
@@ -306,6 +340,38 @@
             border-radius: 8px;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
             border: 1px solid rgba(0, 0, 0, 0.1);
+            z-index: 1051 !important;
+            position: absolute !important;
+            margin-top: 0.25rem !important;
+            background: white !important;
+            background-color: white !important;
+        }
+
+        .resolution-card .btn-group {
+            position: relative;
+            z-index: 1;
+        }
+
+        .resolution-card .btn-group.show {
+            z-index: 1052;
+        }
+
+        .resolution-card .btn-group.show .dropdown-menu {
+            z-index: 1053 !important;
+        }
+
+        /* Force dropdown to be on top when shown */
+        .resolution-card .dropdown-menu.show {
+            z-index: 10000 !important;
+            position: absolute !important;
+            background: white !important;
+            background-color: white !important;
+        }
+
+        /* Ensure the card with open dropdown is above others */
+        .resolution-card:has(.dropdown-menu.show) {
+            z-index: 9999 !important;
+            position: relative;
         }
 
         .resolution-card .dropdown-item {
@@ -414,6 +480,63 @@
             }
         }
     </style>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Handle dropdown z-index to ensure it appears above other cards
+            const dropdownToggles = document.querySelectorAll('.resolution-card .dropdown-toggle');
+            
+            dropdownToggles.forEach(function(toggle) {
+                // Use Bootstrap dropdown events
+                toggle.addEventListener('show.bs.dropdown', function(e) {
+                    // Get the parent card
+                    const card = this.closest('.resolution-card');
+                    if (card) {
+                        // Elevate this card and its dropdown
+                        card.style.zIndex = '9999';
+                        card.style.position = 'relative';
+                        
+                        // Get the dropdown menu
+                        const dropdownMenu = card.querySelector('.dropdown-menu');
+                        if (dropdownMenu) {
+                            dropdownMenu.style.zIndex = '10000';
+                        }
+                        
+                        // Lower all other cards
+                        document.querySelectorAll('.resolution-card').forEach(function(otherCard) {
+                            if (otherCard !== card) {
+                                otherCard.style.zIndex = '1';
+                            }
+                        });
+                    }
+                });
+                
+                toggle.addEventListener('shown.bs.dropdown', function() {
+                    // Ensure dropdown is on top after it's shown
+                    const card = this.closest('.resolution-card');
+                    if (card) {
+                        const dropdownMenu = card.querySelector('.dropdown-menu');
+                        if (dropdownMenu) {
+                            dropdownMenu.style.zIndex = '10000';
+                        }
+                    }
+                });
+                
+                toggle.addEventListener('hide.bs.dropdown', function() {
+                    // Reset z-index when dropdown closes
+                    const card = this.closest('.resolution-card');
+                    if (card) {
+                        card.style.zIndex = '';
+                        card.style.position = '';
+                        const dropdownMenu = card.querySelector('.dropdown-menu');
+                        if (dropdownMenu) {
+                            dropdownMenu.style.zIndex = '';
+                        }
+                    }
+                });
+            });
+        });
+    </script>
 {% endblock %}
 
 {% block admin_content %}

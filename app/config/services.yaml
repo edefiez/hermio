@@ -44,6 +44,10 @@ services:
         arguments:
             $projectDir: '%kernel.project_dir%'
 
+    App\Controller\CardController:
+        arguments:
+            $projectDir: '%kernel.project_dir%'
+
 when@test:
     services:
         # Make services public for testing

@@ -40,7 +40,8 @@ class CardController extends AbstractController
         private TeamService $teamService,
         private TeamMemberRepository $teamMemberRepository,
         private EntityManagerInterface $entityManager,
-        private \App\Service\BrandingService $brandingService
+        private \App\Service\BrandingService $brandingService,
+        private string $projectDir
     ) {
     }
 
@@ -461,14 +462,25 @@ class CardController extends AbstractController
         $baseUrl = $card->getPublicUrl();
         $separator = str_contains($baseUrl, '?') ? '&' : '?';
         $publicUrl = $request->getSchemeAndHttpHost() . $baseUrl . $separator . 'qr=1';
-        $qrCodeData = $this->qrCodeService->generateQrCodeBase64($publicUrl);
 
         // Get account branding for custom colors
         $account = $user->getAccount();
         $branding = $account ? $this->brandingService->getBrandingForAccount($account) : null;
+        $planType = $account->getPlanType();
+
+        // Get logo path for Business plan (ENTERPRISE)
+        $logoPath = null;
+        if ($planType === \App\Enum\PlanType::ENTERPRISE && $branding && $branding->getLogoFilename()) {
+            $logoPath = $this->projectDir . '/public/uploads/branding/logos/' . $branding->getLogoFilename();
+            // Only use logo if file exists
+            if (!file_exists($logoPath)) {
+                $logoPath = null;
+            }
+        }
+
+        $qrCodeData = $this->qrCodeService->generateQrCodeBase64($publicUrl, 300, $logoPath);
 
         // Get available resolutions for the user's plan
-        $planType = $account->getPlanType();
         $availableResolutions = $this->qrCodeService->getAvailableResolutions($planType);
         $availableFormats = $this->qrCodeService->getAvailableFormats($planType);
 
@@ -532,8 +544,19 @@ class CardController extends AbstractController
         $separator = str_contains($baseUrl, '?') ? '&' : '?';
         $publicUrl = $request->getSchemeAndHttpHost() . $baseUrl . $separator . 'qr=1';
 
+        // Get branding for logo (Business plan only)
+        $branding = $account ? $this->brandingService->getBrandingForAccount($account) : null;
+        $logoPath = null;
+        if ($planType === \App\Enum\PlanType::ENTERPRISE && $branding && $branding->getLogoFilename()) {
+            $logoPath = $this->projectDir . '/public/uploads/branding/logos/' . $branding->getLogoFilename();
+            // Only use logo if file exists
+            if (!file_exists($logoPath)) {
+                $logoPath = null;
+            }
+        }
+
         try {
-            $file = $this->qrCodeService->generateFromUrl($publicUrl, $card->getId(), $format, $size);
+            $file = $this->qrCodeService->generateFromUrl($publicUrl, $card->getId(), $format, $size, $logoPath);
 
             $fileName = sprintf(
                 'qrcode-%s-%s-%s.%s',

@@ -116,13 +116,30 @@ class PublicCardController extends AbstractController
             // Generate filename
             $filename = $this->vcardService->generateFilename($card);
 
+            // Normalize line endings to CRLF for iOS compatibility
+            $vcardContent = str_replace(["\r\n", "\n", "\r"], "\r\n", $vcardContent);
+
             // Create response with vCard content
             $response = new Response($vcardContent);
 
-            // Set headers for vCard download
-            $response->headers->set('Content-Type', 'text/vcard; charset=utf-8');
-            $response->headers->set('Content-Disposition', sprintf('attachment; filename="%s"', $filename));
-            $response->headers->set('Cache-Control', 'public, max-age=3600'); // Cache for 1 hour
+            // Set headers for vCard download (iOS compatible)
+            // Use text/x-vcard which is better supported by iOS than text/vcard
+            $response->headers->set('Content-Type', 'text/x-vcard; charset=utf-8');
+            
+            // Use attachment disposition with proper encoding for iOS compatibility
+            // iOS requires the filename to be properly encoded
+            $encodedFilename = rawurlencode($filename);
+            $response->headers->set('Content-Disposition', sprintf(
+                'attachment; filename="%s"; filename*=UTF-8\'\'%s',
+                addslashes($filename),
+                $encodedFilename
+            ));
+            
+            // Additional headers for iOS compatibility
+            $response->headers->set('Content-Transfer-Encoding', 'binary');
+            $response->headers->set('Cache-Control', 'no-cache, must-revalidate');
+            $response->headers->set('Pragma', 'no-cache');
+            $response->headers->set('Expires', '0');
 
             return $response;
         } catch (NotFoundHttpException $e) {
