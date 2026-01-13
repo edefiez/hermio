@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ app.request.locale }}">
+<html lang="{{ app.request.locale|default('fr') }}">
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -121,29 +121,6 @@
                                 <a href="{{ path('app_register') }}" class="nav-link">{{ 'nav.register'|trans }}</a>
                             </li>
                         {% endif %}
-                        {# Language Selector #}
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="languageDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                <i class="fas fa-globe"></i>
-                                {% if app.request.locale == 'fr' %}
-                                    Français
-                                {% else %}
-                                    English
-                                {% endif %}
-                            </a>
-                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="languageDropdown">
-                                <li>
-                                    <a class="dropdown-item {% if app.request.locale == 'en' %}active{% endif %}" href="{{ path('app_change_locale', {'_locale': 'en'}) }}">
-                                        🇬🇧 English
-                                    </a>
-                                </li>
-                                <li>
-                                    <a class="dropdown-item {% if app.request.locale == 'fr' %}active{% endif %}" href="{{ path('app_change_locale', {'_locale': 'fr'}) }}">
-                                        🇫🇷 Français
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
                     </ul>
                 </div>
             </div>
@@ -164,12 +141,6 @@
             {% block body %}{% endblock %}
         </main>
         {% endblock %}
-
-        <footer class="footer">
-            <div class="container">
-                <p>&copy; {{ 'now'|date('Y') }} Hermio. All rights reserved.</p>
-            </div>
-        </footer>
 
         {% block javascripts %}
             {{ encore_entry_script_tags('app') }}

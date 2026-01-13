@@ -684,7 +684,7 @@ auth:
     submit: "Créer un compte"
     have_account: "Vous avez déjà un compte ?"
     login_link: "Connectez-vous ici"
-    terms: "En créant un compte, vous acceptez nos <a href=\"%terms_url%\">Conditions d'utilisation</a> et notre <a href=\"%privacy_url%\">Politique de confidentialité</a>."
+    terms: "J'accepte les Conditions Générales d'Utilisation"
 
 # ============================================================================
 # ACCESSIBILITÉ

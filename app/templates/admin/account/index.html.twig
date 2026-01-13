@@ -5,78 +5,122 @@
 {% block page_title %}{{ 'admin.account.list'|trans }}{% endblock %}
 
 {% block admin_content %}
-<div class="profile-container">
-    <h1>{{ 'admin.account.list'|trans }}</h1>
-
-    <div class="profile-card">
-        <h2>{{ 'admin.account.statistics'|trans }}</h2>
-        <div class="profile-info">
-            <dl>
-                <dt>{{ 'admin.account.total_users'|trans }}</dt>
-                <dd><strong>{{ totalUsers }}</strong></dd>
-                
-                <dt>{{ 'admin.account.plan_counts'|trans }}</dt>
-                <dd>
-                    Free: <strong>{{ planCounts.free }}</strong> | 
-                    Pro: <strong>{{ planCounts.pro }}</strong> | 
-                    Enterprise: <strong>{{ planCounts.enterprise }}</strong>
-                </dd>
-            </dl>
+<div class="cards-dashboard-container" style="padding: 2rem; background: #f8f9fa; min-height: 100vh;">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div class="d-flex align-items-center">
+            <i class="fas fa-users me-2" style="font-size: 1.5rem; color: #007bff;"></i>
+            <h1 class="mb-0" style="font-size: 1.75rem; font-weight: 600;">{{ 'admin.account.list'|trans }}</h1>
         </div>
     </div>
 
-    <div class="profile-card">
-        <h2>{{ 'admin.account.filter'|trans }}</h2>
-        <div style="margin-bottom: 20px;">
-            <a href="{{ path('app_admin_account_index') }}" class="btn btn-{{ currentFilter is null ? 'primary' : 'secondary' }}">
-                {{ 'admin.account.all'|trans }}
-            </a>
-            <a href="{{ path('app_admin_account_index', {plan: 'free'}) }}" class="btn btn-{{ currentFilter == 'free' ? 'primary' : 'secondary' }}">
-                Free
-            </a>
-            <a href="{{ path('app_admin_account_index', {plan: 'pro'}) }}" class="btn btn-{{ currentFilter == 'pro' ? 'primary' : 'secondary' }}">
-                Pro
-            </a>
-            <a href="{{ path('app_admin_account_index', {plan: 'enterprise'}) }}" class="btn btn-{{ currentFilter == 'enterprise' ? 'primary' : 'secondary' }}">
-                Enterprise
-            </a>
+    <div class="row mb-4">
+        <div class="col-md-4 col-12 mb-3">
+            <div class="card shadow-sm border-0" style="border-radius: 12px; background: white;">
+                <div class="card-body p-4">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <p class="text-muted mb-1" style="font-size: 0.875rem; font-weight: 500;">{{ 'admin.account.total_users'|trans }}</p>
+                            <h2 class="mb-0" style="font-size: 2rem; font-weight: 700; color: #212529;">{{ totalUsers }}</h2>
+                        </div>
+                        <div style="width: 56px; height: 56px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 12px; display: flex; align-items: center; justify-content: center;">
+                            <i class="fas fa-users text-white" style="font-size: 1.5rem;"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 col-12 mb-3">
+            <div class="card shadow-sm border-0" style="border-radius: 12px; background: white;">
+                <div class="card-body p-4">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <p class="text-muted mb-1" style="font-size: 0.875rem; font-weight: 500;">Free Plan</p>
+                            <h2 class="mb-0" style="font-size: 2rem; font-weight: 700; color: #212529;">{{ planCounts.free }}</h2>
+                        </div>
+                        <div style="width: 56px; height: 56px; background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); border-radius: 12px; display: flex; align-items: center; justify-content: center;">
+                            <i class="fas fa-user text-white" style="font-size: 1.5rem;"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 col-12 mb-3">
+            <div class="card shadow-sm border-0" style="border-radius: 12px; background: white;">
+                <div class="card-body p-4">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <p class="text-muted mb-1" style="font-size: 0.875rem; font-weight: 500;">Pro + Enterprise</p>
+                            <h2 class="mb-0" style="font-size: 2rem; font-weight: 700; color: #212529;">{{ planCounts.pro + planCounts.enterprise }}</h2>
+                        </div>
+                        <div style="width: 56px; height: 56px; background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%); border-radius: 12px; display: flex; align-items: center; justify-content: center;">
+                            <i class="fas fa-crown text-white" style="font-size: 1.5rem;"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
-    <div class="profile-card">
-        <h2>{{ 'admin.account.accounts'|trans }}</h2>
-        {% if accounts|length > 0 %}
-        <table class="activity-table">
-            <thead>
-                <tr>
-                    <th>{{ 'admin.account.user_email'|trans }}</th>
-                    <th>{{ 'admin.account.plan'|trans }}</th>
-                    <th>{{ 'admin.account.created'|trans }}</th>
-                    <th>{{ 'admin.account.actions'|trans }}</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for account in accounts %}
-                <tr>
-                    <td>{{ account.user.email }}</td>
-                    <td>
-                        <span class="badge badge-{{ account.planType == constant('App\\Enum\\PlanType::FREE') ? 'warning' : (account.planType == constant('App\\Enum\\PlanType::PRO') ? 'success' : 'primary') }}">
-                            {{ account.planType.getDisplayName() }}
-                        </span>
-                    </td>
-                    <td>{{ account.createdAt|date('Y-m-d H:i') }}</td>
-                    <td>
-                        <a href="{{ path('app_admin_account_show', {id: account.id}) }}" class="btn btn-primary" style="padding: 5px 10px; font-size: 14px;">
-                            {{ 'admin.account.view'|trans }}
-                        </a>
-                    </td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-        {% else %}
-        <p>{{ 'admin.account.no_accounts'|trans }}</p>
-        {% endif %}
+    <div class="card shadow-sm border-0 mb-4" style="border-radius: 12px; background: white;">
+        <div class="card-body p-4">
+            <h3 class="mb-3" style="font-size: 1.25rem; font-weight: 600;">{{ 'admin.account.filter'|trans }}</h3>
+            <div class="d-flex gap-2 flex-wrap">
+                <a href="{{ path('app_admin_account_index') }}" class="btn btn-{{ currentFilter is null ? 'primary' : 'secondary' }}" style="padding: 0.5rem 1.5rem; font-weight: 500; border-radius: 8px;">
+                    {{ 'admin.account.all'|trans }}
+                </a>
+                <a href="{{ path('app_admin_account_index', {plan: 'free'}) }}" class="btn btn-{{ currentFilter == 'free' ? 'primary' : 'secondary' }}" style="padding: 0.5rem 1.5rem; font-weight: 500; border-radius: 8px;">
+                    Free
+                </a>
+                <a href="{{ path('app_admin_account_index', {plan: 'pro'}) }}" class="btn btn-{{ currentFilter == 'pro' ? 'primary' : 'secondary' }}" style="padding: 0.5rem 1.5rem; font-weight: 500; border-radius: 8px;">
+                    Pro
+                </a>
+                <a href="{{ path('app_admin_account_index', {plan: 'enterprise'}) }}" class="btn btn-{{ currentFilter == 'enterprise' ? 'primary' : 'secondary' }}" style="padding: 0.5rem 1.5rem; font-weight: 500; border-radius: 8px;">
+                    Enterprise
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="card shadow-sm border-0" style="border-radius: 12px; background: white;">
+        <div class="card-body p-4">
+            <h3 class="mb-4" style="font-size: 1.25rem; font-weight: 600;">{{ 'admin.account.accounts'|trans }}</h3>
+            {% if accounts|length > 0 %}
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>{{ 'admin.account.user_email'|trans }}</th>
+                            <th>{{ 'admin.account.plan'|trans }}</th>
+                            <th>{{ 'admin.account.created'|trans }}</th>
+                            <th>{{ 'admin.account.actions'|trans }}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for account in accounts %}
+                        <tr>
+                            <td>{{ account.user.email }}</td>
+                            <td>
+                                <span class="badge badge-{{ account.planType == constant('App\\Enum\\PlanType::FREE') ? 'warning' : (account.planType == constant('App\\Enum\\PlanType::PRO') ? 'success' : 'primary') }}">
+                                    {{ account.planType.getDisplayName() }}
+                                </span>
+                            </td>
+                            <td>{{ account.createdAt|date('Y-m-d H:i') }}</td>
+                            <td>
+                                <a href="{{ path('app_admin_account_show', {id: account.id}) }}" class="btn btn-primary btn-sm" style="padding: 0.375rem 0.75rem; font-weight: 500; border-radius: 6px;">
+                                    {{ 'admin.account.view'|trans }}
+                                </a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% else %}
+            <p class="text-muted mb-0">{{ 'admin.account.no_accounts'|trans }}</p>
+            {% endif %}
+        </div>
     </div>
 </div>
 {% endblock %}

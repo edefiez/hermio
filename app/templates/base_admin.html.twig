@@ -1,50 +1,229 @@
-{% extends 'base.html.twig' %}
+<!DOCTYPE html>
+<html lang="{{ app.request.locale|default('fr') }}" data-bs-theme="light" class="set-nav-dark">
+<head>
+    <meta charset="utf-8">
+    <title>{% block title %}Hermio{% endblock %}</title>
+    <meta name="description" content="{% block meta_description %}Hermio Admin Dashboard{% endblock %}">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, maximum-scale=5">
 
-{% block navbar %}{% endblock %}
+    <!-- Standard favicon for browsers -->
+    <link rel="icon" href="{{ asset('build/images/favicon-32x32.png') }}" type="image/png" sizes="32x32">
+    <link rel="icon" href="{{ asset('build/images/favicon-16x16.png') }}" type="image/png" sizes="16x16">
 
-{% block body_attr %}class="bg-light admin-layout-body"{% endblock %}
+    <!-- Apple Touch Icon (iOS) -->
+    <link rel="apple-touch-icon" href="{{ asset('build/images/apple-touch-icon.png') }}" sizes="180x180">
 
-{% block stylesheets %}
-    {{ parent() }}
-    <style>
-        /* Hide base footer in admin layout */
-        body.admin-layout-body .footer {
-            display: none !important;
-        }
-    </style>
-{% endblock %}
+    <!-- Android/Chrome (Progressive Web App) -->
+    <link rel="icon" href="{{ asset('build/images/favicon-192x192.png') }}" type="image/png" sizes="192x192">
 
-{% block body_wrapper %}
-<div class="admin-layout">
-    {% include 'admin/_sidebar.html.twig' %}
-    <div class="admin-content">
+    <!-- Call App Mode on ios devices -->
+    <meta name="mobile-web-app-capable" content="yes">
+
+    <!-- Remove Tap Highlight on Windows Phone IE -->
+    <meta name="msapplication-tap-highlight" content="no">
+
+    {% block stylesheets %}
+        <!-- Vendor css -->
+        <link rel="stylesheet" media="screen, print" href="{{ asset('smartadmin/plugins/waves/waves.min.css') }}">
+
+        <!-- Base css -->
+        <link rel="stylesheet" media="screen, print" href="{{ asset('smartadmin/css/smartapp.min.css') }}">
+
+        <!-- Icons css-->
+        <link rel="stylesheet" media="screen, print" href="{{ asset('smartadmin/webfonts/smartadmin/sa-icons.css') }}">
+        <link rel="stylesheet" media="screen, print" href="{{ asset('smartadmin/webfonts/fontawesome/fontawesome.css') }}">
+
+        <!-- Save/Load functionality JavaScript -->
+        <script src="{{ asset('smartadmin/scripts/core/saveloadscript.js') }}"></script>
+
+        <style>
+            /* Ensure app-content takes full width */
+            .app-content {
+                width: 100% !important;
+                max-width: 100% !important;
+                padding: 0 !important;
+                margin: 0 !important;
+                margin-left: 0 !important;
+                margin-right: 0 !important;
+            }
+
+            /* Ensure cards-dashboard-container and dashboard-container take full width */
+            .cards-dashboard-container,
+            .dashboard-container {
+                width: 100% !important;
+                max-width: 100% !important;
+                margin-left: 0 !important;
+                margin-right: 0 !important;
+                padding-left: 0 !important;
+                padding-right: 0 !important;
+                min-height: 100vh !important;
+            }
+
+            /* Override any SmartAdmin content-wrapper styles */
+            .app-content .content-wrapper {
+                max-width: 100% !important;
+                width: 100% !important;
+                margin-left: 0 !important;
+                margin-right: 0 !important;
+                padding-left: 0 !important;
+                padding-right: 0 !important;
+            }
+
+            /* Override any container styles that might limit width */
+            .app-content > .container,
+            .app-content > .container-fluid,
+            .cards-dashboard-container > .container,
+            .cards-dashboard-container > .container-fluid,
+            .dashboard-container > .container,
+            .dashboard-container > .container-fluid {
+                max-width: 100% !important;
+                width: 100% !important;
+                padding-left: 2rem !important;
+                padding-right: 2rem !important;
+                margin-left: 0 !important;
+                margin-right: 0 !important;
+            }
+
+            /* Ensure rows take full width and align left */
+            .cards-dashboard-container .row,
+            .dashboard-container .row {
+                margin-left: 0 !important;
+                margin-right: 0 !important;
+                width: 100% !important;
+            }
+
+            /* Ensure all columns align left and take full width with uniform padding */
+            .cards-dashboard-container .col-12,
+            .dashboard-container .col-12,
+            .cards-dashboard-container [class*="col-"],
+            .dashboard-container [class*="col-"] {
+                padding-left: 2rem !important;
+                padding-right: 2rem !important;
+            }
+
+            /* Ensure all content inside containers is left-aligned */
+            .cards-dashboard-container > *,
+            .dashboard-container > * {
+                margin-left: 0 !important;
+                text-align: left !important;
+            }
+
+            /* Remove any left margin classes and standardize */
+            .cards-dashboard-container .ms-4,
+            .dashboard-container .ms-4,
+            .cards-dashboard-container .ms-5,
+            .dashboard-container .ms-5 {
+                margin-left: 0 !important;
+            }
+
+            /* Ensure cards and other elements align left */
+            .cards-dashboard-container .card,
+            .dashboard-container .card,
+            .cards-dashboard-container .d-flex,
+            .dashboard-container .d-flex {
+                margin-left: 0 !important;
+            }
+
+            /* Override any center alignment - keep only for specific cases like empty states */
+            .cards-dashboard-container .text-center:not(.card-empty),
+            .dashboard-container .text-center:not(.card-empty) {
+                text-align: left !important;
+            }
+
+            /* Ensure buttons and actions align left */
+            .cards-dashboard-container .btn-group,
+            .dashboard-container .btn-group {
+                justify-content: flex-start !important;
+            }
+
+            /* Ensure justify-content-between doesn't push content to edges */
+            .cards-dashboard-container .justify-content-between,
+            .dashboard-container .justify-content-between {
+                padding-left: 0 !important;
+                padding-right: 0 !important;
+            }
+
+            /* FontAwesome icons in sidebar */
+            .nav-menu .sa-icon.fas,
+            .nav-menu .sa-icon.far,
+            .nav-menu .sa-icon.fab {
+                width: 1.5rem;
+                height: 1.5rem;
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 1.25rem;
+                margin-right: 0.5rem;
+            }
+
+            /* Sidebar card illustration */
+            .sidebar-card-illustration {
+                width: 100%;
+                height: auto;
+                max-width: 100%;
+                object-fit: contain;
+                opacity: 0.9;
+            }
+
+            .logo-backdrop {
+                position: relative;
+                width: 100%;
+                overflow: hidden;
+            }
+        </style>
+    {% endblock %}
+</head>
+
+<body>
+
+<div class="app-wrap">
+
+    {% block header %}
         {% include 'admin/_header.html.twig' %}
-        <a href="#main-content" class="visually-hidden-focusable btn btn-primary position-absolute" style="top: 1rem; left: 1rem; z-index: 9999;">{{ 'nav.skip_to_content'|trans|default('Skip to main content') }}</a>
-        <main id="main-content" class="admin-main" role="main">
-            {% for label, messages in app.flashes %}
-                {% for message in messages %}
-                    {# Skip contrast warnings - they are handled specifically in branding template #}
-                    {% if not (label == 'warning' and message is iterable and message.type is defined) %}
-                        <div class="alert alert-{{ label == 'error' ? 'danger' : label }} alert-dismissible fade show" role="alert">
-                            {% if message is iterable and message.message is defined %}
-                                {% if message.message is not iterable %}
-                                    {{ message.message|trans }}
+    {% endblock %}
+
+    {% block sidebar %}
+        {% include 'admin/_sidebar.html.twig' %}
+    {% endblock %}
+
+    <div class="backdrop" data-action="toggle-swap" data-toggleclass="app-mobile-menu-open"></div>
+
+    {% block body %}
+            {% block flash_messages %}
+                <div class="ms-5 me-5">
+                {% for label, messages in app.flashes %}
+                    {% for message in messages %}
+                        {# Skip contrast warnings - they are handled specifically in branding template #}
+                        {% if not (label == 'warning' and message is iterable and message.type is defined) %}
+                        <div class="row">
+                            <div class="alert alert-{{ label == 'error' ? 'danger' : label }} alert-dismissible fade show" role="alert">
+                                {% if message is iterable and message.message is defined %}
+                                    {% if message.message is not iterable %}
+                                        {{ message.message|trans }}
+                                    {% else %}
+                                        {{ message|join(', ') }}
+                                    {% endif %}
                                 {% else %}
-                                    {{ message|join(', ') }}
+                                    {{ message|trans }}
                                 {% endif %}
-                            {% else %}
-                                {{ message|trans }}
-                            {% endif %}
-                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                        </div>
-                    {% endif %}
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
                 {% endfor %}
-            {% endfor %}
+                </div>
+            {% endblock %}
+        <main id="main-content" class="app-content" role="main">
+            <a href="#main-content" class="visually-hidden-focusable btn btn-primary position-absolute" style="top: 1rem; left: 1rem; z-index: 9999;">{{ 'nav.skip_to_content'|trans|default('Skip to main content') }}</a>
+
             {% block admin_content %}{% endblock %}
         </main>
-    </div>
+    {% endblock %}
+
     {# Footer - Full width #}
-    <footer class="admin-footer">
+    <footer class="app-footer">
         <div class="container-fluid">
             <div class="row">
                 <div class="col-12 text-center py-3">
@@ -55,6 +234,60 @@
             </div>
         </div>
     </footer>
+
 </div>
+
+{% block javascripts %}
+    <!-- Core scripts -->
+    <script src="{{ asset('smartadmin/plugins/bootstrap/bootstrap.bundle.min.js') }}"></script>
+    <script src="{{ asset('smartadmin/scripts/core/smartNavigation.js') }}"></script>
+    <script src="{{ asset('smartadmin/scripts/core/smartFilter.js') }}"></script>
+    <script src="{{ asset('smartadmin/scripts/core/smartSlimscroll.js') }}"></script>
+
+    <!-- Dependable scripts -->
+    <script src="{{ asset('smartadmin/plugins/sortablejs/Sortable.min.js') }}"></script>
+    <script src="{{ asset('smartadmin/plugins/waves/waves.min.js') }}"></script>
+
+    <!-- Chart.js for analytics charts -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <script>
+        // Make Chart.js globally available
+        if (typeof Chart !== 'undefined') {
+            window.Chart = Chart;
+        }
+    </script>
+
+    <!-- Patch smartApp.js to handle missing .main-content -->
+    <script>
+        // Override document.querySelector to return a safe object for .main-content
+        (function() {
+            const originalQuerySelector = document.querySelector;
+            document.querySelector = function(selector) {
+                const result = originalQuerySelector.call(document, selector);
+                // If querying for .main-content and it doesn't exist, return a safe dummy object
+                if (selector === '.main-content' && !result) {
+                    return {
+                        classList: {
+                            add: function() {},
+                            remove: function() {},
+                            toggle: function() {},
+                            contains: function() { return false; }
+                        },
+                        style: {},
+                        appendChild: function() {},
+                        removeChild: function() {},
+                        querySelector: function() { return null; },
+                        querySelectorAll: function() { return []; }
+                    };
+                }
+                return result;
+            };
+        })();
+    </script>
+
+    <!-- App.js -->
+    <script src="{{ asset('smartadmin/scripts/core/smartApp.js') }}"></script>
 {% endblock %}
 
+</body>
+</html>

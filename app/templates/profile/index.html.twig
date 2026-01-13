@@ -5,76 +5,116 @@
 {% block page_title %}{{ 'nav.settings'|trans }}{% endblock %}
 
 {% block admin_content %}
-<div class="profile-container">
-    <h1>Your Profile</h1>
+<div class="cards-dashboard-container" style="padding: 2rem; background: #f8f9fa; min-height: 100vh;">
+    <div class="row">
+        <div class="col-12">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <div class="d-flex align-items-center">
+                    <i class="fas fa-user me-2" style="font-size: 1.5rem; color: #007bff;"></i>
+                    <h1 class="mb-0" style="font-size: 1.75rem; font-weight: 600;">Your Profile</h1>
+                </div>
+            </div>
+        </div>
+    </div>
 
-    <div class="profile-card">
-        <div class="profile-info">
-            <h2>Account Information</h2>
-            <dl>
-                <dt>Email:</dt>
-                <dd>{{ user.email }}</dd>
-
-                <dt>Status:</dt>
-                <dd>
-                    <span class="badge badge-{{ user.status == 'active' ? 'success' : 'warning' }}">
-                        {{ user.status|upper }}
-                    </span>
-                </dd>
-
-                <dt>Email Verified:</dt>
-                <dd>
-                    {% if user.isEmailVerified %}
-                        <span class="badge bg-success text-white">✓ Verified</span>
-                    {% else %}
-                        <span class="badge bg-warning text-dark">✗ Not Verified</span>
-                    {% endif %}
-                </dd>
-
-                <dt>Member Since:</dt>
-                <dd>{{ user.createdAt|date('F j, Y') }}</dd>
-
-                {% if user.lastLoginAt %}
-                    <dt>Last Login:</dt>
-                    <dd>{{ user.lastLoginAt|date('F j, Y g:i A') }}</dd>
-                {% endif %}
-            </dl>
+    <div class="row">
+        <div class="col-12">
+            <div class="card shadow-sm border-0 mb-4" style="border-radius: 12px; background: white;">
+                <div class="card-body p-4">
+                    <h2 class="mb-4" style="font-size: 1.25rem; font-weight: 600;">Account Information</h2>
+                    <div class="row">
+                        <div class="col-md-6 col-12 mb-3">
+                            <p class="text-muted mb-1" style="font-size: 0.875rem; font-weight: 500;">Email:</p>
+                            <p class="mb-0" style="font-size: 1rem; font-weight: 500;">{{ user.email }}</p>
+                        </div>
+                        <div class="col-md-6 col-12 mb-3">
+                            <p class="text-muted mb-1" style="font-size: 0.875rem; font-weight: 500;">Status:</p>
+                            <p class="mb-0">
+                        <span class="badge badge-{{ user.status == 'active' ? 'success' : 'warning' }}">
+                            {{ user.status|upper }}
+                        </span>
+                            </p>
+                        </div>
+                        <div class="col-md-6 col-12 mb-3">
+                            <p class="text-muted mb-1" style="font-size: 0.875rem; font-weight: 500;">Email Verified:</p>
+                            <p class="mb-0">
+                                {% if user.isEmailVerified %}
+                                    <span class="badge bg-success text-white">✓ Verified</span>
+                                {% else %}
+                                    <span class="badge bg-warning text-dark">✗ Not Verified</span>
+                                {% endif %}
+                            </p>
+                        </div>
+                        <div class="col-md-6 col-12 mb-3">
+                            <p class="text-muted mb-1" style="font-size: 0.875rem; font-weight: 500;">Member Since:</p>
+                            <p class="mb-0" style="font-size: 1rem;">{{ user.createdAt|date('F j, Y') }}</p>
+                        </div>
+                        {% if user.lastLoginAt %}
+                            <div class="col-md-6 col-12 mb-3">
+                                <p class="text-muted mb-1" style="font-size: 0.875rem; font-weight: 500;">Last Login:</p>
+                                <p class="mb-0" style="font-size: 1rem;">{{ user.lastLoginAt|date('F j, Y g:i A') }}</p>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
     {% if activity_logs|length > 0 %}
-    <div class="activity-card">
-        <h2>Recent Activity</h2>
-        <table class="activity-table">
-            <thead>
-                <tr>
-                    <th>Event</th>
-                    <th>Date/Time</th>
-                    <th>IP Address</th>
-                    <th>Status</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for log in activity_logs %}
-                <tr>
-                    <td>{{ log.eventType|replace({'_': ' '})|title }}</td>
-                    <td>{{ log.timestamp|date('M j, Y g:i A') }}</td>
-                    <td>{{ log.ipAddress }}</td>
-                    <td>
-                        <span class="badge badge-{{ log.successful ? 'success' : 'danger' }}">
-                            {{ log.successful ? 'Success' : 'Failed' }}
-                        </span>
-                    </td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    </div>
+        <div class="row">
+            <div class="col-12">
+                <div class="card shadow-sm border-0 mb-4" style="border-radius: 12px; background: white;">
+                    <div class="card-body p-4">
+                        <h2 class="mb-4" style="font-size: 1.25rem; font-weight: 600;">Recent Activity</h2>
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                <tr>
+                                    <th>Event</th>
+                                    <th>Date/Time</th>
+                                    <th>IP Address</th>
+                                    <th>Status</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for log in activity_logs %}
+                                    <tr>
+                                        <td>{{ log.eventType|replace({'_': ' '})|title }}</td>
+                                        <td>{{ log.timestamp|date('M j, Y g:i A') }}</td>
+                                        <td>{{ log.ipAddress }}</td>
+                                        <td>
+                                <span class="badge badge-{{ log.successful ? 'success' : 'danger' }}">
+                                    {{ log.successful ? 'Success' : 'Failed' }}
+                                </span>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     {% endif %}
 
-    <div class="profile-actions">
-        <a href="{{ path('app_profile_change_password') }}" class="btn btn-secondary">Change Password</a>
-        <a href="{{ path('app_profile_update_email') }}" class="btn btn-secondary">Update Email</a>
+    <div class="row">
+        <div class="col-12">
+            <div class="card shadow-sm border-0" style="border-radius: 12px; background: white;">
+                <div class="card-body p-4">
+                    <h3 class="mb-3" style="font-size: 1.25rem; font-weight: 600;">Actions</h3>
+                    <div class="d-flex gap-2 flex-wrap">
+                        <a href="{{ path('app_profile_change_password') }}" class="btn btn-secondary" style="padding: 0.5rem 1.5rem; font-weight: 500; border-radius: 8px;">
+                            <i class="fas fa-key me-2"></i>Change Password
+                        </a>
+                        <a href="{{ path('app_profile_update_email') }}" class="btn btn-secondary" style="padding: 0.5rem 1.5rem; font-weight: 500; border-radius: 8px;">
+                            <i class="fas fa-envelope me-2"></i>Update Email
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 {% endblock %}

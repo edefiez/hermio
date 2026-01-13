@@ -14,14 +14,18 @@
         /* Wallet Card Styles */
         .wallet-card-container {
             min-height: calc(100vh - 200px);
-            padding: 2rem 1rem;
+            padding: 2rem;
             background: linear-gradient(135deg, #f5f7fa 0%, #e8ecf1 100%);
+            width: 100% !important;
+            max-width: 100% !important;
+            margin-left: 0 !important;
+            margin-right: 0 !important;
         }
 
         .wallet-card-wrapper {
-            width: 100%;
-            max-width: 1400px;
-            margin: 0 auto;
+            width: 100% !important;
+            max-width: 100% !important;
+            margin: 0 !important;
         }
 
         .qr-content-row {
@@ -413,122 +417,122 @@
 {% endblock %}
 
 {% block admin_content %}
-    <div class="wallet-card-container">
-        <div class="wallet-card-wrapper">
-            <div class="qr-content-row">
-                <div class="qr-card-column">
-                    <div class="wallet-card">
-                        <div class="wallet-card-content">
-                            <div class="wallet-card-header">
-                                {% if branding and branding.logoFilename %}
-                                    <img src="{{ asset('uploads/branding/logos/' ~ branding.logoFilename) }}" alt="{{ card.content.company|default('Logo') }}" class="wallet-card-logo">
-                                {% elseif card.content.company %}
-                                    <p class="wallet-card-company">{{ card.content.company }}</p>
-                                {% endif %}
+<div class="wallet-card-container" style="padding: 2rem;">
+    <div class="row mb-4">
+        <div class="col-md-6 col-12 mb-3">
+            <div class="wallet-card">
+                <div class="wallet-card-content">
+                    <div class="wallet-card-header">
+                        {% if branding and branding.logoFilename %}
+                            <img src="{{ asset('uploads/branding/logos/' ~ branding.logoFilename) }}" alt="{{ card.content.company|default('Logo') }}" class="wallet-card-logo">
+                        {% elseif card.content.company %}
+                            <p class="wallet-card-company">{{ card.content.company }}</p>
+                        {% endif %}
 
-                                <p class="wallet-card-name">{{ card.content.name|default('card.unnamed'|trans) }}</p>
+                        <p class="wallet-card-name">{{ card.content.name|default('card.unnamed'|trans) }}</p>
 
-                                {% if card.content.title %}
-                                    <p class="wallet-card-title">{{ card.content.title }}</p>
-                                {% endif %}
-                            </div>
-
-                            <div class="wallet-card-qr">
-                                <img src="{{ qrCodeData }}" alt="QR Code">
-                            </div>
-
-                            <div class="wallet-card-footer">
-                                <p class="wallet-card-instructions">
-                                    {{ 'card.qr_code.instructions'|trans }}
-                                </p>
-                                <p class="wallet-card-url">
-                                    <a href="{{ publicUrl }}" target="_blank">{{ publicUrl }}</a>
-                                </p>
-                            </div>
-                        </div>
+                        {% if card.content.title %}
+                            <p class="wallet-card-title">{{ card.content.title }}</p>
+                        {% endif %}
                     </div>
-                </div>
 
-                <div class="download-column">
-                    <div class="download-section">
-                        <h2>
-                            <i class="fas fa-download me-2"></i>{{ 'card.qr_code.download.title'|trans }}
-                            <span class="plan-badge {{ planType.value }}">{{ planType.getDisplayName() }}</span>
-                        </h2>
-                        {% if planType.value == 'free' %}
-                            <div class="alert alert-info">
-                                <i class="fas fa-info-circle me-2"></i>
-                                {{ 'card.qr_code.upgrade.message'|trans }}
-                                <a href="{{ path('app_subscription_manage') }}" class="alert-link">{{ 'card.qr_code.upgrade.link'|trans }}</a>
-                            </div>
-                        {% endif %}
+                    <div class="wallet-card-qr">
+                        <img src="{{ qrCodeData }}" alt="QR Code">
+                    </div>
 
-                        {% if planType.value == 'pro' %}
-                            <div class="alert alert-warning mt-3">
-                                <i class="fas fa-star me-2"></i>
-                                <strong>{{ 'card.qr_code.upgrade.pro.title'|trans }}</strong>
-                                {{ 'card.qr_code.upgrade.pro.message'|trans }}
-                                <a href="{{ path('app_subscription_manage') }}" class="alert-link">{{ 'card.qr_code.upgrade.link'|trans }}</a>
-                            </div>
-                        {% endif %}
-
-                        <p>{{ 'card.qr_code.download.description'|trans }}</p>
-
-                        <div class="resolution-grid">
-                            {% for resolutionKey, size in availableResolutions %}
-                                <div class="resolution-card">
-                                    <div class="resolution-name">
-                                        {% if resolutionKey == 'low' %}
-                                            <i class="fas fa-mobile-alt me-1"></i>{{ 'card.qr_code.resolution.low'|trans }}
-                                        {% elseif resolutionKey == 'medium' %}
-                                            <i class="fas fa-desktop me-1"></i>{{ 'card.qr_code.resolution.medium'|trans }}
-                                        {% elseif resolutionKey == 'high' %}
-                                            <i class="fas fa-tv me-1"></i>{{ 'card.qr_code.resolution.high'|trans }}
-                                        {% elseif resolutionKey == 'ultra' %}
-                                            <i class="fas fa-expand me-1"></i>{{ 'card.qr_code.resolution.ultra'|trans }}
-                                        {% elseif resolutionKey == 'print' %}
-                                            <i class="fas fa-print me-1"></i>{{ 'card.qr_code.resolution.print'|trans }}
-                                        {% endif %}
-                                    </div>
-                                    <div class="resolution-size">{{ size }}px × {{ size }}px</div>
-
-                                    <div class="btn-download-group">
-                                        <div class="btn-group w-100" role="group">
-                                            <button type="button"
-                                                    class="btn btn-download dropdown-toggle"
-                                                    data-bs-toggle="dropdown"
-                                                    aria-expanded="false">
-                                                <i class="fas fa-download me-2"></i>{{ 'card.qr_code.download.button'|trans }}
-                                            </button>
-                                            <ul class="dropdown-menu">
-                                                {% for format in availableFormats %}
-                                                    <li>
-                                                        <a class="dropdown-item"
-                                                           href="{{ path('app_card_qr_code_download', {id: card.id, resolution: resolutionKey, format: format}) }}">
-                                                            {% set iconTranslationKey = 'card.qr_code.format.' ~ format ~ '.icon' %}
-                                                            <i class="fas {{ iconTranslationKey|trans }}"></i>
-                                                            <div>
-                                                                <strong>{{ format|upper }}</strong>
-                                                                {% set descriptionTranslationKey = 'card.qr_code.format.' ~ format ~ '.description' %}
-                                                                <small>{{ descriptionTranslationKey|trans }}</small>
-                                                            </div>
-                                                        </a>
-                                                    </li>
-                                                {% endfor %}
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-                            {% endfor %}
-                        </div>
+                    <div class="wallet-card-footer">
+                        <p class="wallet-card-instructions">
+                            {{ 'card.qr_code.instructions'|trans }}
+                        </p>
+                        <p class="wallet-card-url">
+                            <a href="{{ publicUrl }}" target="_blank">{{ publicUrl }}</a>
+                        </p>
                     </div>
                 </div>
             </div>
+        </div>
+        <div class="col-md-6 col-12 mb-3">
+            <div class="download-section">
+                <h2>
+                    <i class="fas fa-download me-2"></i>{{ 'card.qr_code.download.title'|trans }}
+                    <span class="plan-badge {{ planType.value }}">{{ planType.getDisplayName() }}</span>
+                </h2>
+                {% if planType.value == 'free' %}
+                    <div class="alert alert-info">
+                        <i class="fas fa-info-circle me-2"></i>
+                        {{ 'card.qr_code.upgrade.message'|trans }}
+                        <a href="{{ path('app_subscription_manage') }}" class="alert-link">{{ 'card.qr_code.upgrade.link'|trans }}</a>
+                    </div>
+                {% endif %}
 
+                {% if planType.value == 'pro' %}
+                    <div class="alert alert-warning mt-3">
+                        <i class="fas fa-star me-2"></i>
+                        <strong>{{ 'card.qr_code.upgrade.pro.title'|trans }}</strong>
+                        {{ 'card.qr_code.upgrade.pro.message'|trans }}
+                        <a href="{{ path('app_subscription_manage') }}" class="alert-link">{{ 'card.qr_code.upgrade.link'|trans }}</a>
+                    </div>
+                {% endif %}
+
+                <p>{{ 'card.qr_code.download.description'|trans }}</p>
+
+                <div class="resolution-grid">
+                    {% for resolutionKey, size in availableResolutions %}
+                        <div class="resolution-card">
+                            <div class="resolution-name">
+                                {% if resolutionKey == 'low' %}
+                                    <i class="fas fa-mobile-alt me-1"></i>{{ 'card.qr_code.resolution.low'|trans }}
+                                {% elseif resolutionKey == 'medium' %}
+                                    <i class="fas fa-desktop me-1"></i>{{ 'card.qr_code.resolution.medium'|trans }}
+                                {% elseif resolutionKey == 'high' %}
+                                    <i class="fas fa-tv me-1"></i>{{ 'card.qr_code.resolution.high'|trans }}
+                                {% elseif resolutionKey == 'ultra' %}
+                                    <i class="fas fa-expand me-1"></i>{{ 'card.qr_code.resolution.ultra'|trans }}
+                                {% elseif resolutionKey == 'print' %}
+                                    <i class="fas fa-print me-1"></i>{{ 'card.qr_code.resolution.print'|trans }}
+                                {% endif %}
+                            </div>
+                            <div class="resolution-size">{{ size }}px × {{ size }}px</div>
+
+                            <div class="btn-download-group">
+                                <div class="btn-group w-100" role="group">
+                                    <button type="button"
+                                            class="btn btn-download dropdown-toggle"
+                                            data-bs-toggle="dropdown"
+                                            aria-expanded="false">
+                                        <i class="fas fa-download me-2"></i>{{ 'card.qr_code.download.button'|trans }}
+                                    </button>
+                                    <ul class="dropdown-menu">
+                                        {% for format in availableFormats %}
+                                            <li>
+                                                <a class="dropdown-item"
+                                                   href="{{ path('app_card_qr_code_download', {id: card.id, resolution: resolutionKey, format: format}) }}">
+                                                    {% set iconTranslationKey = 'card.qr_code.format.' ~ format ~ '.icon' %}
+                                                    <i class="fas {{ iconTranslationKey|trans }}"></i>
+                                                    <div>
+                                                        <strong>{{ format|upper }}</strong>
+                                                        {% set descriptionTranslationKey = 'card.qr_code.format.' ~ format ~ '.description' %}
+                                                        <small>{{ descriptionTranslationKey|trans }}</small>
+                                                    </div>
+                                                </a>
+                                            </li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
             <div class="back-button-container">
                 <a href="{{ path('app_card_index') }}" class="btn">{{ 'card.back_to_list'|trans }}</a>
             </div>
         </div>
     </div>
+</div>
 {% endblock %}
 

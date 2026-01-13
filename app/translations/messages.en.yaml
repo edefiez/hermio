@@ -683,7 +683,7 @@ auth:
     submit: "Create Account"
     have_account: "Already have an account?"
     login_link: "Sign in here"
-    terms: "By creating an account, you agree to our <a href=\"%terms_url%\">Terms of Service</a> and <a href=\"%privacy_url%\">Privacy Policy</a>."
+    terms: "By creating an account, you agree to our Terms of Service"
 
 # ============================================================================
 # ACCESSIBILITY

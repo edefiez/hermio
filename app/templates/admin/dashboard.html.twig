@@ -3,7 +3,7 @@
 {% block page_title %}{{ 'dashboard.title'|trans }}{% endblock %}
 
 {% block admin_content %}
-<div class="dashboard-container" style="padding: 2rem;">
+<div class="dashboard-container" style="padding: 2rem; background: #f8f9fa; min-height: 100vh;">
     {# Welcome Section #}
     <div class="row mb-4">
         <div class="col-12">
@@ -50,22 +50,24 @@
     {# Statistics Cards #}
     <div class="row g-4 mb-4">
         {# Plan Card #}
-        <div class="col-md-6 col-12 mb-3">
+        <div class="col-md-3 col-12 mb-3">
             <div class="card shadow-sm h-100 border-0" style="border-radius: 12px; background: white;">
-                <div class="card-header card-header-gradient text-white" style="border-radius: 12px 12px 0 0;">
-                    <h5 class="card-title mb-0" style="font-size: 1rem; font-weight: 600;">
+                <div class="card-header" style="background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%); border-radius: 12px 12px 0 0;">
+                    <h5 class="card-title mb-0 text-dark" style="font-size: 1rem; font-weight: 600;">
                         <i class="fas fa-crown me-2"></i>{{ 'dashboard.plan.title'|trans }}
                     </h5>
                 </div>
-                <div class="card-body p-4">
-                    <h2 class="mb-2" style="font-size: 2rem; font-weight: 700; color: #212529;">{{ planType.getDisplayName()|trans }}</h2>
-                    {% if isUnlimited %}
-                        <p class="text-muted mb-3" style="font-size: 0.875rem;">
-                            <i class="fas fa-infinity me-1"></i>{{ 'dashboard.plan.unlimited'|trans }}
-                        </p>
-                    {% else %}
-                        <p class="text-muted mb-3" style="font-size: 0.875rem;">{{ 'dashboard.plan.limited'|trans }}</p>
-                    {% endif %}
+                <div class="card-body p-4 d-flex flex-column">
+                    <div class="flex-grow-1">
+                        <h2 class="mb-2" style="font-size: 2rem; font-weight: 700; color: #212529;">{{ planType.getDisplayName()|trans }}</h2>
+                        {% if isUnlimited %}
+                            <p class="text-muted mb-3" style="font-size: 0.875rem;">
+                                <i class="fas fa-infinity me-1"></i>{{ 'dashboard.plan.unlimited'|trans }}
+                            </p>
+                        {% else %}
+                            <p class="text-muted mb-3" style="font-size: 0.875rem;">{{ 'dashboard.plan.limited'|trans }}</p>
+                        {% endif %}
+                    </div>
                     <a href="{{ path('app_account_my_plan') }}" class="btn btn-sm btn-outline-primary w-100" style="border-radius: 8px; font-weight: 500;">
                         <i class="fas fa-info-circle me-1"></i>{{ 'account.view_plan_details'|trans }}
                     </a>
@@ -73,58 +75,39 @@
             </div>
         </div>
 
-        {# Quick Actions Card #}
-        <div class="col-md-6 col-12 mb-3">
-            <div class="card shadow-sm h-100 border-0" style="border-radius: 12px; background: white;">
-                <div class="card-header" style="background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%); border-radius: 12px 12px 0 0;">
-                    <h5 class="card-title mb-0 text-white" style="font-size: 1rem; font-weight: 600;">
-                        <i class="fas fa-bolt me-2"></i>{{ 'dashboard.quick_actions.title'|trans }}
-                    </h5>
-                </div>
-                <div class="card-body p-4">
-                    <div class="d-grid gap-2">
-                        <a href="{{ path('app_card_create') }}" class="btn btn-primary btn-sm" style="border-radius: 8px; font-weight: 500;">
-                            <i class="fas fa-plus me-1"></i>{{ 'card.create.button'|trans }}
-                        </a>
-                        <a href="{{ path('app_account_index') }}" class="btn btn-outline-secondary btn-sm" style="border-radius: 8px; font-weight: 500;">
-                            <i class="fas fa-user-circle me-1"></i>{{ 'nav.account'|trans }}
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-
         {# Card Usage Card #}
-        <div class="col-md-6 col-12 mb-3">
+        <div class="col-md-3 col-12 mb-3">
             <div class="card shadow-sm h-100 border-0" style="border-radius: 12px; background: white;">
                 <div class="card-header" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 12px 12px 0 0;">
                     <h5 class="card-title mb-0 text-white" style="font-size: 1rem; font-weight: 600;">
                         <i class="fas fa-id-card me-2"></i>{{ 'dashboard.usage.title'|trans }}
                     </h5>
                 </div>
-                <div class="card-body p-4">
-                    <h2 class="mb-2" style="font-size: 2rem; font-weight: 700; color: #212529;">
-                        {{ currentUsage }} / {{ quotaLimit ?? '∞' }}
-                    </h2>
-                    {% if usagePercentage is not null %}
-                        <div class="progress mb-2" style="height: 24px; border-radius: 12px;">
-                            <div class="progress-bar
-                                {% if usagePercentage >= 100 %}bg-danger
-                                {% elseif usagePercentage >= 80 %}bg-warning
-                                {% else %}bg-success
-                                {% endif %}"
-                                role="progressbar"
-                                style="width: {{ usagePercentage }}%; border-radius: 12px;"
-                                aria-valuenow="{{ usagePercentage }}"
-                                aria-valuemin="0"
-                                aria-valuemax="100">
-                                <strong>{{ usagePercentage|round }}%</strong>
+                <div class="card-body p-4 d-flex flex-column">
+                    <div class="flex-grow-1">
+                        <h2 class="mb-2" style="font-size: 2rem; font-weight: 700; color: #212529;">
+                            {{ currentUsage }} / {{ quotaLimit ?? '∞' }}
+                        </h2>
+                        {% if usagePercentage is not null %}
+                            <div class="progress mb-2" style="height: 24px; border-radius: 12px;">
+                                <div class="progress-bar
+                                    {% if usagePercentage >= 100 %}bg-danger
+                                    {% elseif usagePercentage >= 80 %}bg-warning
+                                    {% else %}bg-success
+                                    {% endif %}"
+                                    role="progressbar"
+                                    style="width: {{ usagePercentage }}%; border-radius: 12px;"
+                                    aria-valuenow="{{ usagePercentage }}"
+                                    aria-valuemin="0"
+                                    aria-valuemax="100">
+                                    <strong>{{ usagePercentage|round }}%</strong>
+                                </div>
                             </div>
-                        </div>
-                        <small class="text-muted d-block mb-3" style="font-size: 0.875rem;">{{ 'account.quota.used'|trans }}</small>
-                    {% else %}
-                        <p class="text-muted mb-3" style="font-size: 0.875rem;">{{ 'account.quota.unlimited'|trans }}</p>
-                    {% endif %}
+                            <small class="text-muted d-block mb-3" style="font-size: 0.875rem;">{{ 'account.quota.used'|trans }}</small>
+                        {% else %}
+                            <p class="text-muted mb-3" style="font-size: 0.875rem;">{{ 'account.quota.unlimited'|trans }}</p>
+                        {% endif %}
+                    </div>
                     <a href="{{ path('app_card_index') }}" class="btn btn-sm btn-outline-primary w-100" style="border-radius: 8px; font-weight: 500;">
                         <i class="fas fa-list me-1"></i>{{ 'nav.my_cards'|trans }}
                     </a>
@@ -133,21 +116,44 @@
         </div>
 
         {# Total Cards Card #}
-        <div class="col-md-6 col-12 mb-3">
+        <div class="col-md-3 col-12 mb-3">
             <div class="card shadow-sm h-100 border-0" style="border-radius: 12px; background: white;">
                 <div class="card-header" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); border-radius: 12px 12px 0 0;">
                     <h5 class="card-title mb-0 text-white" style="font-size: 1rem; font-weight: 600;">
                         <i class="fas fa-layer-group me-2"></i>{{ 'dashboard.total_cards'|trans|default('Total Cards') }}
                     </h5>
                 </div>
-                <div class="card-body p-4">
-                    <h2 class="mb-2" style="font-size: 2rem; font-weight: 700; color: #212529;">{{ totalCards }}</h2>
-                    <p class="text-muted mb-3" style="font-size: 0.875rem;">
-                        <i class="fas fa-check-circle text-success me-1"></i>{{ activeCards }} {{ 'dashboard.active'|trans|default('active') }}
-                    </p>
+                <div class="card-body p-4 d-flex flex-column">
+                    <div class="flex-grow-1">
+                        <h2 class="mb-2" style="font-size: 2rem; font-weight: 700; color: #212529;">{{ totalCards }}</h2>
+                        <p class="text-muted mb-3" style="font-size: 0.875rem;">
+                            <i class="fas fa-check-circle text-success me-1"></i>{{ activeCards }} {{ 'dashboard.active'|trans|default('active') }}
+                        </p>
+                    </div>
                     <a href="{{ path('app_card_index') }}" class="btn btn-sm btn-outline-info w-100" style="border-radius: 8px; font-weight: 500;">
                         <i class="fas fa-eye me-1"></i>{{ 'dashboard.view_all'|trans|default('View All') }}
                     </a>
+                </div>
+            </div>
+        </div>
+
+        {# Quick Actions Card #}
+        <div class="col-md-3 col-12 mb-3">
+            <div class="card shadow-sm h-100 border-0" style="border-radius: 12px; background: white;">
+                <div class="card-header" style="background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%); border-radius: 12px 12px 0 0;">
+                    <h5 class="card-title mb-0 text-white" style="font-size: 1rem; font-weight: 600;">
+                        <i class="fas fa-bolt me-2"></i>{{ 'dashboard.quick_actions.title'|trans }}
+                    </h5>
+                </div>
+                <div class="card-body p-4 d-flex flex-column justify-content-center">
+                    <div class="d-grid gap-2 w-100">
+                        <a href="{{ path('app_card_create') }}" class="btn btn-primary btn-sm" style="border-radius: 8px; font-weight: 500;">
+                            <i class="fas fa-plus me-1"></i>{{ 'card.create.button'|trans }}
+                        </a>
+                        <a href="{{ path('app_account_index') }}" class="btn btn-outline-secondary btn-sm" style="border-radius: 8px; font-weight: 500;">
+                            <i class="fas fa-user-circle me-1"></i>{{ 'nav.account'|trans }}
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -195,7 +201,9 @@
                     {# Scans Per Day Chart #}
                     <div class="mb-4">
                         <h6 class="mb-3" style="font-size: 1rem; font-weight: 600; color: #212529;">{{ 'dashboard.analytics.scans_per_day'|trans|default('Scans Per Day (Last 30 Days)') }}</h6>
-                        <canvas id="scansPerDayChart" style="max-height: 300px;"></canvas>
+                        <div style="position: relative; height: 300px; width: 100%;">
+                            <canvas id="scansPerDayChart"></canvas>
+                        </div>
                     </div>
 
                     {# Top Cards Table #}
@@ -243,11 +251,185 @@
         </div>
     </div>
 
-    {# Chart.js Data #}
+    {# Chart.js Data and Initialization #}
     <script>
         window.analyticsData = {
             scansPerDay: {{ analytics.scansPerDay|json_encode|raw }}
         };
+
+        // Initialize Chart.js graph
+        (function() {
+            function initScansPerDayChart() {
+                const chartCanvas = document.getElementById('scansPerDayChart');
+                
+                if (!chartCanvas || !window.analyticsData || !window.Chart) {
+                    // Retry if Chart.js or data not ready
+                    if (window.Chart && window.analyticsData) {
+                        setTimeout(initScansPerDayChart, 100);
+                    }
+                    return;
+                }
+
+                const scansPerDay = window.analyticsData.scansPerDay;
+                
+                if (!scansPerDay || Object.keys(scansPerDay).length === 0) {
+                    return;
+                }
+                
+                // Prepare data for Chart.js
+                const dates = Object.keys(scansPerDay).sort();
+                const counts = dates.map(date => scansPerDay[date]);
+
+                // Format dates for display (MM/DD)
+                const labels = dates.map(date => {
+                    const d = new Date(date);
+                    return `${d.getMonth() + 1}/${d.getDate()}`;
+                });
+
+                // Create the chart with SmartAdmin styling
+                const ctx = chartCanvas.getContext('2d');
+                
+                // Destroy existing chart if it exists
+                if (chartCanvas.chart) {
+                    chartCanvas.chart.destroy();
+                }
+                
+                chartCanvas.chart = new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            label: '{{ 'dashboard.analytics.scans'|trans|default('Scans') }}',
+                            data: counts,
+                            borderColor: 'rgb(102, 126, 234)',
+                            backgroundColor: 'rgba(102, 126, 234, 0.1)',
+                            tension: 0.4,
+                            fill: true,
+                            pointRadius: 4,
+                            pointHoverRadius: 6,
+                            pointBackgroundColor: 'rgb(102, 126, 234)',
+                            pointBorderColor: '#fff',
+                            pointBorderWidth: 2,
+                            pointHoverBackgroundColor: 'rgb(102, 126, 234)',
+                            pointHoverBorderColor: '#fff',
+                            pointHoverBorderWidth: 3,
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                display: false
+                            },
+                            tooltip: {
+                                mode: 'index',
+                                intersect: false,
+                                backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                                padding: 12,
+                                titleFont: {
+                                    size: 14,
+                                    weight: 'bold'
+                                },
+                                bodyFont: {
+                                    size: 13
+                                },
+                                callbacks: {
+                                    title: function(tooltipItems) {
+                                        const index = tooltipItems[0].dataIndex;
+                                        const date = new Date(dates[index]);
+                                        return date.toLocaleDateString('fr-FR', { 
+                                            weekday: 'long', 
+                                            year: 'numeric', 
+                                            month: 'long', 
+                                            day: 'numeric' 
+                                        });
+                                    },
+                                    label: function(context) {
+                                        return '{{ 'dashboard.analytics.scans'|trans|default('Scans') }}: ' + context.parsed.y;
+                                    }
+                                }
+                            }
+                        },
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                ticks: {
+                                    stepSize: 1,
+                                    precision: 0,
+                                    color: '#6c757d',
+                                    font: {
+                                        size: 12
+                                    }
+                                },
+                                grid: {
+                                    color: 'rgba(0, 0, 0, 0.05)',
+                                    drawBorder: false
+                                }
+                            },
+                            x: {
+                                ticks: {
+                                    color: '#6c757d',
+                                    font: {
+                                        size: 11
+                                    },
+                                    maxRotation: 45,
+                                    minRotation: 45
+                                },
+                                grid: {
+                                    display: false,
+                                    drawBorder: false
+                                }
+                            }
+                        },
+                        interaction: {
+                            mode: 'nearest',
+                            axis: 'x',
+                            intersect: false
+                        },
+                        elements: {
+                            line: {
+                                borderWidth: 2
+                            }
+                        }
+                    }
+                });
+            }
+
+            // Initialize when DOM is ready
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', function() {
+                    // Wait for Chart.js to be available
+                    if (window.Chart) {
+                        initScansPerDayChart();
+                    } else {
+                        // Wait for Chart.js to load
+                        let attempts = 0;
+                        const checkChart = setInterval(function() {
+                            attempts++;
+                            if (window.Chart) {
+                                clearInterval(checkChart);
+                                initScansPerDayChart();
+                            } else if (attempts > 50) {
+                                clearInterval(checkChart);
+                                console.warn('Chart.js not loaded after 5 seconds');
+                            }
+                        }, 100);
+                    }
+                });
+            } else {
+                // DOM already loaded
+                if (window.Chart) {
+                    initScansPerDayChart();
+                } else {
+                    setTimeout(function() {
+                        if (window.Chart) {
+                            initScansPerDayChart();
+                        }
+                    }, 100);
+                }
+            }
+        })();
     </script>
     {% endif %}
 

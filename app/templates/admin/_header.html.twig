@@ -1,61 +1,67 @@
-<header class="admin-header">
-    <div class="admin-header-content d-flex align-items-center justify-content-between">
-        <div class="d-flex align-items-center">
-            <button class="sidebar-toggle d-lg-none me-3 btn btn-link p-2" 
-                    type="button" 
-                    data-bs-toggle="offcanvas" 
-                    data-bs-target="#adminSidebar"
-                    aria-controls="adminSidebar"
-                    aria-label="{{ 'nav.toggle'|trans|default('Toggle navigation') }}">
-                <i class="fas fa-bars"></i>
-            </button>
-            <h1 class="admin-page-title mb-0 h5">{% block page_title %}{% endblock %}</h1>
-        </div>
-        <div class="admin-header-actions d-flex align-items-center gap-3">
-            {# Language Selector #}
-            <div class="dropdown">
-                <a class="btn btn-link dropdown-toggle text-decoration-none" href="#" id="languageDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    <i class="fas fa-globe"></i>
-                    {% if app.request.locale == 'fr' %}
-                        Français
+<header class="app-header">
+    <!-- Collapse icon -->
+    <div class="d-flex flex-grow-1 w-100 me-auto align-items-center">
+
+        <!-- App logo -->
+        <a href="{{ path('app_dashboard') }}" class="app-logo flex-shrink-0" data-prefix="{% if app.user and app.user.account %}{{ app.user.account.planType.getDisplayName() }}{% else %}Hermio{% endif %}">
+            <svg class="custom-logo" viewBox="0 0 180 32" xmlns="http://www.w3.org/2000/svg">
+                <text x="0" y="24" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif" font-size="22" font-weight="700" fill="currentColor" letter-spacing="0.5">Hermio</text>
+            </svg>
+        </a>
+
+        <button class="mobile-menu-icon me-2 d-flex d-sm-flex d-md-flex d-lg-none flex-shrink-0" data-action="toggle-swap" data-toggleclass="app-mobile-menu-open" aria-label="{{ 'nav.toggle_mobile_menu'|trans|default('Toggle Mobile Menu') }}">
+            <svg class="sa-icon">
+                <use href="{{ asset('smartadmin/icons/sprite.svg#menu') }}"></use>
+            </svg>
+        </button>
+
+        <!-- Collapse icon -->
+        <button type="button" class="collapse-icon me-3 d-none d-lg-inline-flex d-xl-inline-flex d-xxl-inline-flex" data-action="toggle" data-class="set-nav-minified" aria-label="{{ 'nav.toggle_navigation_size'|trans|default('Toggle Navigation Size') }}">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 5 8">
+                <polygon fill="#878787" points="4.5,1 3.8,0.2 0,4 3.8,7.8 4.5,7 1.5,4" />
+            </svg>
+        </button>
+    </div>
+
+    <!-- Profile -->
+    <div class="dropdown">
+        <button type="button" data-bs-toggle="dropdown" title="{{ app.user.email }}" class="btn-system bg-transparent d-flex flex-shrink-0 align-items-center justify-content-center" aria-label="{{ 'nav.open_profile'|trans|default('Open Profile Dropdown') }}" aria-expanded="false">
+                <i class="fas fa-user"></i>
+        </button>
+
+        <!-- Profile dropdown -->
+        <div class="dropdown-menu dropdown-menu-animated dropdown-menu-end">
+            <div class="notification-header rounded-top mb-2">
+                <div class="d-flex flex-row align-items-center mt-1 mb-1 color-white">
+                    {% if app.user and app.user.account and app.user.account.branding and app.user.account.branding.logoFilename %}
+                        <span class="status status-success d-inline-block me-2">
+                            <img src="{{ asset('/uploads/branding/logos/' ~ app.user.account.branding.logoFilename) }}" class="profile-image rounded-circle" alt="{{ app.user.email }}">
+                        </span>
                     {% else %}
-                        English
+                        <span class="status status-success d-inline-block me-2">
+                            <div class="profile-image rounded-circle bg-primary d-flex align-items-center justify-content-center text-white">
+                                {{ app.user.email|first|upper }}
+                            </div>
+                        </span>
                     {% endif %}
-                </a>
-                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="languageDropdown">
-                    <li>
-                        <a class="dropdown-item {% if app.request.locale == 'en' %}active{% endif %}" href="{{ path('app_change_locale', {'_locale': 'en'}) }}">
-                            🇬🇧 English
-                        </a>
-                    </li>
-                    <li>
-                        <a class="dropdown-item {% if app.request.locale == 'fr' %}active{% endif %}" href="{{ path('app_change_locale', {'_locale': 'fr'}) }}">
-                            🇫🇷 Français
-                        </a>
-                    </li>
-                </ul>
+                    <div class="info-card-text">
+                        <div class="fs-lg text-truncate text-truncate-lg">{{ app.user.email }}</div>
+                        <span class="text-truncate text-truncate-md opacity-80 fs-sm">{{ app.user.createdAt|date('d/m/Y') }}</span>
+                    </div>
+                </div>
             </div>
-            {# User Menu #}
-            <div class="dropdown">
-                <button class="btn btn-link dropdown-toggle text-decoration-none" type="button" id="userMenu" data-bs-toggle="dropdown" aria-expanded="false">
-                    <i class="fas fa-user me-2"></i>
-                    {{ app.user.email }}
-                </button>
-                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userMenu">
-                    <li>
-                        <a class="dropdown-item" href="{{ path('app_profile') }}">
-                            <i class="fas fa-user me-2"></i>{{ 'header.user_menu.profile'|trans }}
-                        </a>
-                    </li>
-                    <li><hr class="dropdown-divider"></li>
-                    <li>
-                        <a class="dropdown-item" href="{{ path('app_logout') }}">
-                            <i class="fas fa-sign-out-alt me-2"></i>{{ 'header.user_menu.logout'|trans }}
-                        </a>
-                    </li>
-                </ul>
-            </div>
+
+            <div class="dropdown-divider m-0"></div>
+
+            <a href="{{ path('app_profile') }}" class="dropdown-item">
+                <span>{{ 'header.user_menu.profile'|trans|default('Profile') }}</span>
+            </a>
+
+            <div class="dropdown-divider m-0"></div>
+
+            <a href="{{ path('app_logout') }}" class="dropdown-item py-3 fw-500 d-flex justify-content-between">
+                <span class="text-danger">{{ 'header.user_menu.logout'|trans|default('Logout') }}</span>
+            </a>
         </div>
     </div>
 </header>
-

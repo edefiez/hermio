@@ -5,97 +5,128 @@
 {% block page_title %}{{ 'admin.account.details'|trans }}{% endblock %}
 
 {% block admin_content %}
-<div class="profile-container">
-    <h1>{{ 'admin.account.details'|trans }}</h1>
-
-    <div class="profile-card">
-        <h2>{{ 'admin.account.user_info'|trans }}</h2>
-        <div class="profile-info">
-            <dl>
-                <dt>{{ 'account.email'|trans }}</dt>
-                <dd>{{ user.email }}</dd>
-                
-                <dt>{{ 'admin.account.user_id'|trans }}</dt>
-                <dd>{{ user.id }}</dd>
-                
-                <dt>{{ 'admin.account.user_status'|trans }}</dt>
-                <dd>
-                    <span class="badge badge-{{ user.status == 'active' ? 'success' : 'warning' }}">
-                        {{ user.status|upper }}
-                    </span>
-                </dd>
-            </dl>
+<div class="cards-dashboard-container" style="padding: 2rem; background: #f8f9fa; min-height: 100vh;">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div class="d-flex align-items-center">
+            <i class="fas fa-user-circle me-2" style="font-size: 1.5rem; color: #007bff;"></i>
+            <h1 class="mb-0" style="font-size: 1.75rem; font-weight: 600;">{{ 'admin.account.details'|trans }}</h1>
         </div>
+        <a href="{{ path('app_admin_account_index') }}" class="btn btn-secondary" style="padding: 0.5rem 1.5rem; font-weight: 500; border-radius: 8px;">
+            <i class="fas fa-arrow-left me-2"></i>{{ 'admin.account.back_to_list'|trans }}
+        </a>
     </div>
 
-    <div class="profile-card">
-        <h2>{{ 'admin.account.current_plan'|trans }}</h2>
-        <div class="profile-info">
-            <dl>
-                <dt>{{ 'account.plan.type'|trans }}</dt>
-                <dd>
-                    <strong>{{ planType.getDisplayName() }}</strong>
-                    <span class="badge badge-{{ planType == constant('App\\Enum\\PlanType::FREE') ? 'warning' : (planType == constant('App\\Enum\\PlanType::PRO') ? 'success' : 'primary') }}">
-                        {{ planType.value }}
-                    </span>
-                </dd>
-                
-                <dt>{{ 'account.quota.limit'|trans }}</dt>
-                <dd>
-                    {% if quotaLimit is null %}
-                        {{ 'account.quota.unlimited'|trans }}
-                    {% else %}
-                        {{ quotaLimit }} {{ 'account.quota.cards'|trans }}
-                    {% endif %}
-                </dd>
-                
-                <dt>{{ 'account.quota.usage'|trans }}</dt>
-                <dd><strong>{{ currentUsage }}</strong> {{ 'account.quota.cards'|trans }}</dd>
-                
-                <dt>{{ 'account.plan.activated'|trans }}</dt>
-                <dd>{{ account.createdAt|date('Y-m-d H:i:s') }}</dd>
-                
-                {% if account.updatedAt %}
-                <dt>{{ 'account.plan.last_modified'|trans }}</dt>
-                <dd>{{ account.updatedAt|date('Y-m-d H:i:s') }}</dd>
-                {% endif %}
-                
-                {% if account.updatedBy %}
-                <dt>{{ 'admin.account.modified_by'|trans }}</dt>
-                <dd>{{ account.updatedBy }}</dd>
-                {% endif %}
-            </dl>
+    <div class="row mb-4">
+        <div class="col-md-6 col-12 mb-3">
+            <div class="card shadow-sm border-0" style="border-radius: 12px; background: white;">
+                <div class="card-body p-4">
+                    <h3 class="mb-3" style="font-size: 1.25rem; font-weight: 600;">{{ 'admin.account.user_info'|trans }}</h3>
+                    <div class="row">
+                        <div class="col-12 mb-3">
+                            <p class="text-muted mb-1" style="font-size: 0.875rem; font-weight: 500;">{{ 'account.email'|trans }}</p>
+                            <p class="mb-0" style="font-size: 1rem; font-weight: 500;">{{ user.email }}</p>
+                        </div>
+                        <div class="col-12 mb-3">
+                            <p class="text-muted mb-1" style="font-size: 0.875rem; font-weight: 500;">{{ 'admin.account.user_id'|trans }}</p>
+                            <p class="mb-0" style="font-size: 1rem;">{{ user.id }}</p>
+                        </div>
+                        <div class="col-12 mb-3">
+                            <p class="text-muted mb-1" style="font-size: 0.875rem; font-weight: 500;">{{ 'admin.account.user_status'|trans }}</p>
+                            <p class="mb-0">
+                                <span class="badge badge-{{ user.status == 'active' ? 'success' : 'warning' }}">
+                                    {{ user.status|upper }}
+                                </span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-12 mb-3">
+            <div class="card shadow-sm border-0" style="border-radius: 12px; background: white;">
+                <div class="card-body p-4">
+                    <h3 class="mb-3" style="font-size: 1.25rem; font-weight: 600;">{{ 'admin.account.current_plan'|trans }}</h3>
+                    <div class="row">
+                        <div class="col-12 mb-3">
+                            <p class="text-muted mb-1" style="font-size: 0.875rem; font-weight: 500;">{{ 'account.plan.type'|trans }}</p>
+                            <p class="mb-0">
+                                <strong>{{ planType.getDisplayName() }}</strong>
+                                <span class="badge badge-{{ planType == constant('App\\Enum\\PlanType::FREE') ? 'warning' : (planType == constant('App\\Enum\\PlanType::PRO') ? 'success' : 'primary') }}" style="margin-left: 0.5rem;">
+                                    {{ planType.value }}
+                                </span>
+                            </p>
+                        </div>
+                        <div class="col-12 mb-3">
+                            <p class="text-muted mb-1" style="font-size: 0.875rem; font-weight: 500;">{{ 'account.quota.limit'|trans }}</p>
+                            <p class="mb-0" style="font-size: 1rem;">
+                                {% if quotaLimit is null %}
+                                    {{ 'account.quota.unlimited'|trans }}
+                                {% else %}
+                                    {{ quotaLimit }} {{ 'account.quota.cards'|trans }}
+                                {% endif %}
+                            </p>
+                        </div>
+                        <div class="col-12 mb-3">
+                            <p class="text-muted mb-1" style="font-size: 0.875rem; font-weight: 500;">{{ 'account.quota.usage'|trans }}</p>
+                            <p class="mb-0" style="font-size: 1rem;"><strong>{{ currentUsage }}</strong> {{ 'account.quota.cards'|trans }}</p>
+                        </div>
+                        <div class="col-12 mb-3">
+                            <p class="text-muted mb-1" style="font-size: 0.875rem; font-weight: 500;">{{ 'account.plan.activated'|trans }}</p>
+                            <p class="mb-0" style="font-size: 1rem;">{{ account.createdAt|date('Y-m-d H:i:s') }}</p>
+                        </div>
+                        {% if account.updatedAt %}
+                        <div class="col-12 mb-3">
+                            <p class="text-muted mb-1" style="font-size: 0.875rem; font-weight: 500;">{{ 'account.plan.last_modified'|trans }}</p>
+                            <p class="mb-0" style="font-size: 1rem;">{{ account.updatedAt|date('Y-m-d H:i:s') }}</p>
+                        </div>
+                        {% endif %}
+                        {% if account.updatedBy %}
+                        <div class="col-12 mb-3">
+                            <p class="text-muted mb-1" style="font-size: 0.875rem; font-weight: 500;">{{ 'admin.account.modified_by'|trans }}</p>
+                            <p class="mb-0" style="font-size: 1rem;">{{ account.updatedBy }}</p>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
     {% if downgradeWarning %}
-    <div class="alert alert-warning">
+    <div class="alert alert-warning mb-4" style="border-radius: 12px;">
         <strong>{{ 'admin.account.warning'|trans }}</strong><br>
         {{ downgradeWarning }}
     </div>
     {% endif %}
 
-    <div class="profile-card">
-        <h2>{{ 'admin.account.change_plan'|trans }}</h2>
-        {{ form_start(form, {'attr': {'class': 'plan-change-form'}}) }}
-            {{ form_row(form.planType) }}
-            
-            {% if not canDowngrade and downgradeWarning %}
-            <div class="alert alert-warning" style="margin: 15px 0;">
-                {{ 'account.downgrade.warning'|trans({
-                    'count': currentUsage,
-                    'limit': quotaLimit,
-                    'new': form.planType.vars.choices[form.planType.vars.value]|default('')
-                }) }}
-                {{ form_row(form.confirmDowngrade) }}
-            </div>
-            {% endif %}
-            
-            <div style="margin-top: 20px;">
-                <button type="submit" class="btn btn-primary">{{ 'account.save'|trans }}</button>
-                <a href="{{ path('app_admin_account_index') }}" class="btn btn-secondary">{{ 'admin.account.back_to_list'|trans }}</a>
-            </div>
-        {{ form_end(form) }}
+    <div class="card shadow-sm border-0" style="border-radius: 12px; background: white;">
+        <div class="card-body p-4">
+            <h3 class="mb-4" style="font-size: 1.25rem; font-weight: 600;">{{ 'admin.account.change_plan'|trans }}</h3>
+            {{ form_start(form, {'attr': {'class': 'plan-change-form'}}) }}
+                {{ form_row(form.planType) }}
+
+                {% if not canDowngrade and downgradeWarning %}
+                <div class="alert alert-warning mt-3 mb-3" style="border-radius: 8px;">
+                    {{ 'account.downgrade.warning'|trans({
+                        'count': currentUsage,
+                        'limit': quotaLimit,
+                        'new': form.planType.vars.choices[form.planType.vars.value]|default('')
+                    }) }}
+                    {{ form_row(form.confirmDowngrade) }}
+                </div>
+                {% endif %}
+
+                <div class="d-flex gap-2 mt-4">
+                    <button type="submit" class="btn btn-primary" style="padding: 0.5rem 1.5rem; font-weight: 500; border-radius: 8px;">
+                        <i class="fas fa-save me-2"></i>{{ 'account.save'|trans }}
+                    </button>
+                    <a href="{{ path('app_admin_account_index') }}" class="btn btn-secondary" style="padding: 0.5rem 1.5rem; font-weight: 500; border-radius: 8px;">
+                        {{ 'admin.account.back_to_list'|trans }}
+                    </a>
+                </div>
+            {{ form_end(form) }}
+        </div>
     </div>
 </div>
 {% endblock %}

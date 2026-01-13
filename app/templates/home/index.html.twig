@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% set currentLocale = app.request.locale %}
+{% set currentLocale = app.request.locale|default('fr') %}
 
 {% block title %}{{ 'home.meta.title'|trans }}{% endblock %}
 
@@ -12,7 +12,7 @@
     <meta property="og:description" content="{{ 'home.meta.description'|trans }}">
     <meta property="og:type" content="website">
     <meta property="og:url" content="{{ url('app_home') }}">
-    <meta property="og:locale" content="{{ currentLocale == 'fr' ? 'fr_FR' : 'en_US' }}">
+        <meta property="og:locale" content="fr_FR">
 
     {# JSON-LD Structured Data #}
     <script type="application/ld+json">
@@ -357,49 +357,6 @@
             </div>
         </div>
     </section>
-
-    {# Footer Section #}
-    <footer class="footer-section" id="footer">
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-column">
-                    <h4>Hermio</h4>
-                    <p>{{ 'home.footer.about_description'|trans }}</p>
-{#                    <div class="social-links">#}
-{#                        <a href="#" aria-label="Facebook">📘</a>#}
-{#                        <a href="#" aria-label="Twitter">🐦</a>#}
-{#                        <a href="#" aria-label="LinkedIn">💼</a>#}
-{#                        <a href="#" aria-label="Instagram">📷</a>#}
-{#                    </div>#}
-                </div>
-                <div class="footer-column">
-                    <h4>{{ 'home.footer.product'|trans }}</h4>
-                    <ul>
-                        <li><a href="#features">{{ 'home.footer.features'|trans }}</a></li>
-                        <li><a href="#pricing">{{ 'home.footer.pricing'|trans }}</a></li>
-                        <li><a href="#faq">FAQ</a></li>
-                    </ul>
-                </div>
-                <div class="footer-column">
-                    <h4>{{ 'home.footer.support'|trans }}</h4>
-                    <ul>
-                        <li><a href="#">{{ 'home.footer.help'|trans }}</a></li>
-                        <li><a href="#">{{ 'home.footer.contact'|trans }}</a></li>
-                    </ul>
-                </div>
-                <div class="footer-column">
-                    <h4>{{ 'home.footer.legal'|trans }}</h4>
-                    <ul>
-                        <li><a href="#">{{ 'home.footer.privacy'|trans }}</a></li>
-                        <li><a href="{{ path('app_terms') }}">{{ 'home.footer.terms'|trans }}</a></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="footer-bottom">
-                <p>{{ 'home.footer.copyright'|trans({'%year%': 'now'|date('Y')}) }}</p>
-            </div>
-        </div>
-    </footer>
 </div>
 {% endblock %}
 </main>

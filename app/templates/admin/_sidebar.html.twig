@@ -1,68 +1,108 @@
-<nav class="admin-sidebar offcanvas offcanvas-start" id="adminSidebar" tabindex="-1" aria-labelledby="adminSidebarLabel" aria-label="Hermio" role="navigation">
-    <div class="offcanvas-header d-lg-none">
-        <h5 class="offcanvas-title" id="adminSidebarLabel" style="font-size: 1rem; font-weight: 600;">Hermio</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-    </div>
-    <div class="sidebar-header d-none d-lg-block p-3 border-bottom d-flex align-items-center justify-content-between">
-        <h5 class="mb-0" style="font-size: 1rem; font-weight: 600; color: #212529;">Hermio</h5>
-{#        <button type="button" class="btn btn-link text-muted sidebar-collapse-btn p-0" aria-label="{{ 'nav.collapse'|trans|default('Collapse') }}" title="{{ 'nav.collapse'|trans|default('Collapse') }}">#}
-{#            <i class="fas fa-chevron-left"></i>#}
-{#        </button>#}
-    </div>
-    <div class="offcanvas-body p-0 mt-3">
-        <ul class="nav flex-column">
+<aside class="app-sidebar d-flex flex-column">
+
+    <a href="{{ path('app_dashboard') }}" class="app-logo flex-shrink-0" data-prefix="{% if app.user and app.user.account %}{{ app.user.account.planType.getDisplayName() }}{% else %}Hermio{% endif %}">
+        <svg class="custom-logo" viewBox="0 0 180 32" xmlns="http://www.w3.org/2000/svg">
+            <text x="0" y="24" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif" font-size="22" font-weight="700" fill="currentColor" letter-spacing="0.5">Hermio</text>
+        </svg>
+
+        <!-- Card Illustration -->
+        <div class="logo-backdrop">
+            <img src="{{ asset('build/images/auth-illustration.svg') }}" 
+                 alt="" 
+                 class="sidebar-card-illustration"
+                 role="presentation">
+        </div>
+    </a>
+
+    <nav id="js-primary-nav" class="primary-nav flex-grow-1 custom-scroll">
+        <ul id="js-nav-menu" class="nav-menu">
             <li class="nav-item">
-                <a class="nav-link {% if app.request.attributes.get('_route') == 'app_dashboard' %}active{% endif %}"
-                   href="{{ path('app_dashboard') }}"
-                   {% if app.request.attributes.get('_route') == 'app_dashboard' %}aria-current="page"{% endif %}>
-                    <i class="fas fa-home me-2" aria-hidden="true"></i>
-                    <span>{{ 'nav.dashboard'|trans }}</span>
+                <a href="{{ path('app_dashboard') }}" 
+                   title="{{ 'nav.dashboard'|trans }}" 
+                   data-filter-tags="dashboard home"
+                   {% if app.request.attributes.get('_route') == 'app_dashboard' %}class="active"{% endif %}>
+                    <i class="fas fa-home sa-icon"></i>
+                    <span class="nav-link-text">{{ 'nav.dashboard'|trans }}</span>
                 </a>
             </li>
+
             <li class="nav-item">
-                <a class="nav-link {% if app.request.attributes.get('_route') starts with 'app_card' %}active{% endif %}"
-                   href="{{ path('app_card_index') }}"
-                   {% if app.request.attributes.get('_route') starts with 'app_card' %}aria-current="page"{% endif %}>
-                    <i class="fas fa-id-card me-2" aria-hidden="true"></i>
-                    <span>{{ 'nav.my_cards'|trans }}</span>
+                <a href="{{ path('app_card_index') }}" 
+                   title="{{ 'nav.my_cards'|trans }}" 
+                   data-filter-tags="cards"
+                   {% if app.request.attributes.get('_route') starts with 'app_card' %}class="active"{% endif %}>
+                    <i class="fas fa-id-card sa-icon"></i>
+                    <span class="nav-link-text">{{ 'nav.my_cards'|trans }}</span>
                 </a>
             </li>
+
             <li class="nav-item">
-                <a class="nav-link {% if app.request.attributes.get('_route') starts with 'app_account' %}active{% endif %}"
-                   href="{{ path('app_account_index') }}"
-                   {% if app.request.attributes.get('_route') starts with 'app_account' %}aria-current="page"{% endif %}>
-                    <i class="fas fa-user-circle me-2" aria-hidden="true"></i>
-                    <span>{{ 'nav.account'|trans }}</span>
+                <a href="{{ path('app_account_index') }}" 
+                   title="{{ 'nav.account'|trans }}" 
+                   data-filter-tags="account"
+                   {% if app.request.attributes.get('_route') starts with 'app_account' %}class="active"{% endif %}>
+                    <i class="fas fa-user-circle sa-icon"></i>
+                    <span class="nav-link-text">{{ 'nav.account'|trans }}</span>
                 </a>
             </li>
+
             <li class="nav-item">
-                <a class="nav-link {% if app.request.attributes.get('_route') == 'app_profile' %}active{% endif %}"
-                   href="{{ path('app_profile') }}"
-                   {% if app.request.attributes.get('_route') == 'app_profile' %}aria-current="page"{% endif %}>
-                    <i class="fas fa-user me-2" aria-hidden="true"></i>
-                    <span>{{ 'nav.profile'|trans }}</span>
+                <a href="{{ path('app_profile') }}" 
+                   title="{{ 'nav.profile'|trans }}" 
+                   data-filter-tags="profile"
+                   {% if app.request.attributes.get('_route') == 'app_profile' %}class="active"{% endif %}>
+                    <i class="fas fa-user sa-icon"></i>
+                    <span class="nav-link-text">{{ 'nav.profile'|trans }}</span>
                 </a>
             </li>
+
             {% if app.user and app.user.account %}
                 {% set planType = app.user.account.planType %}
                 {% if planType.value == 'pro' or planType.value == 'enterprise' %}
                     <li class="nav-item">
-                        <a class="nav-link {% if app.request.attributes.get('_route') starts with 'app_branding' %}active{% endif %}"
-                           href="{{ path('app_branding_configure') }}"
-                           {% if app.request.attributes.get('_route') starts with 'app_branding' %}aria-current="page"{% endif %}>
-                            <i class="fas fa-palette me-2" aria-hidden="true"></i>
-                            <span>{{ 'nav.branding'|trans }}</span>
+                        <a href="{{ path('app_branding_configure') }}" 
+                           title="{{ 'nav.branding'|trans }}" 
+                           data-filter-tags="branding theme"
+                           {% if app.request.attributes.get('_route') starts with 'app_branding' %}class="active"{% endif %}>
+                            <i class="fas fa-palette sa-icon"></i>
+                            <span class="nav-link-text">{{ 'nav.branding'|trans }}</span>
                         </a>
                     </li>
                 {% endif %}
             {% endif %}
-        </ul>
-{#        <div class="sidebar-footer p-3 border-top d-none d-lg-block">#}
-{#            <button type="button" class="btn btn-link text-muted sidebar-collapse-btn w-100 text-start" aria-label="{{ 'nav.collapse'|trans|default('Collapse') }}" data-collapse-text="{{ 'nav.collapse'|trans|default('Collapse') }}" data-expand-text="{{ 'nav.expand'|trans|default('Expand') }}">#}
-{#                <i class="fas fa-chevron-left me-2"></i>#}
-{#                <span class="collapse-text">{{ 'nav.collapse'|trans|default('Collapse') }}</span>#}
-{#            </button>#}
-{#        </div>#}
-    </div>
-</nav>
 
+            {% if is_granted('ROLE_ADMIN') %}
+                <li class="nav-title"><span>{{ 'nav.admin'|trans|default('Admin') }}</span></li>
+                <li class="nav-item">
+                    <a href="{{ path('app_admin_account_index') }}" 
+                       title="{{ 'admin.account.list'|trans }}" 
+                       data-filter-tags="admin accounts"
+                       {% if app.request.attributes.get('_route') starts with 'app_admin_account' %}class="active"{% endif %}>
+                        <i class="fas fa-users sa-icon"></i>
+                        <span class="nav-link-text">{{ 'admin.account.list'|trans }}</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ path('app_admin_webhook_index') }}" 
+                       title="{{ 'admin.webhook.title'|trans }}" 
+                       data-filter-tags="admin webhooks"
+                       {% if app.request.attributes.get('_route') starts with 'app_admin_webhook' %}class="active"{% endif %}>
+                        <i class="fas fa-plug sa-icon"></i>
+                        <span class="nav-link-text">{{ 'admin.webhook.title'|trans }}</span>
+                    </a>
+                </li>
+            {% endif %}
+        </ul>
+
+        <div class="no-results-msg pt-3 info-container">
+            <h6 class="mb-1">{{ 'nav.no_results'|trans|default('No menu items found.') }}</h6>
+            <p class="fs-sm">{{ 'nav.try_different_keywords'|trans|default('Try searching with different keywords.') }}</p>
+        </div>
+    </nav>
+
+    <div class="nav-footer">
+        <svg class="sa-icon sa-thin">
+            <use href="{{ asset('smartadmin/icons/sprite.svg#wifi') }}"></use>
+        </svg>
+    </div>
+</aside>

@@ -9,7 +9,7 @@
 
     {# Registration Form #}
     {{ form_start(registrationForm, {'attr': {'class': 'auth-form', 'novalidate': 'novalidate'}}) }}
-        
+
         {# Email Field #}
         <div class="mb-3">
             {{ form_label(registrationForm.email, 'auth.register.email_label'|trans, {'label_attr': {'class': 'form-label'}}) }}
@@ -90,6 +90,10 @@
             <i class="fas fa-user-plus me-2"></i>
             {{ 'auth.register.submit'|trans }}
         </button>
+    <div class="mt-5 mb-3 text-center">
+        <a href="{{ path('app_terms') }}">{{ 'home.footer.terms'|trans }}</a>
+    </div>
+
     {{ form_end(registrationForm) }}
 
     {# Footer Links #}
