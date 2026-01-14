@@ -8,6 +8,7 @@ use App\Service\CardService;
 use App\Service\ScanTrackingService;
 use App\Service\TemplateResolverService;
 use App\Service\VCardService;
+use App\Service\CustomVCardService;
 use App\Service\ViewTrackingService;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -23,6 +24,7 @@ class PublicCardController extends AbstractController
         private BrandingService $brandingService,
         private TemplateResolverService $templateResolverService,
         private VCardService $vcardService,
+        private CustomVCardService $customVcardService,
         private LoggerInterface $logger,
         private CardService $cardService,
         private ScanTrackingService $scanTrackingService,
@@ -110,46 +112,55 @@ class PublicCardController extends AbstractController
                 throw $this->createNotFoundException('Card not found');
             }
 
-            // Generate vCard content
-            $vcardContent = $this->vcardService->generate($card);
+            // Use custom vCard service for better mobile compatibility and debugging
+            $vcardContent = $this->customVcardService->generate($card);
 
             // Generate filename
-            $filename = $this->vcardService->generateFilename($card);
-
-            // Normalize line endings to CRLF for iOS compatibility
-            $vcardContent = str_replace(["\r\n", "\n", "\r"], "\r\n", $vcardContent);
+            $filename = $this->customVcardService->generateFilename($card);
 
             // Create response with vCard content
             $response = new Response($vcardContent);
 
-            // Set headers for vCard download (iOS compatible)
-            // Use text/x-vcard which is better supported by iOS than text/vcard
-            $response->headers->set('Content-Type', 'text/x-vcard; charset=utf-8');
+            // Set headers for vCard download (optimized for iOS and Android)
+            // Use text/vcard (RFC 6350) which is more standard than text/x-vcard
+            $response->headers->set('Content-Type', 'text/vcard; charset=utf-8');
             
-            // Use attachment disposition with proper encoding for iOS compatibility
-            // iOS requires the filename to be properly encoded
-            $encodedFilename = rawurlencode($filename);
+            // Content-Disposition: Use simple format for better mobile compatibility
+            // Some mobile browsers have issues with filename* encoding
             $response->headers->set('Content-Disposition', sprintf(
-                'attachment; filename="%s"; filename*=UTF-8\'\'%s',
-                addslashes($filename),
-                $encodedFilename
+                'attachment; filename="%s"',
+                addslashes($filename)
             ));
             
-            // Additional headers for iOS compatibility
-            $response->headers->set('Content-Transfer-Encoding', 'binary');
-            $response->headers->set('Cache-Control', 'no-cache, must-revalidate');
+            // Additional headers for mobile compatibility
+            $response->headers->set('Content-Length', (string) strlen($vcardContent));
+            $response->headers->set('Cache-Control', 'no-cache, no-store, must-revalidate');
             $response->headers->set('Pragma', 'no-cache');
             $response->headers->set('Expires', '0');
+            
+            // X-Content-Type-Options for security
+            $response->headers->set('X-Content-Type-Options', 'nosniff');
+
+            // Log successful generation for debugging
+            $this->logger->info('vCard generated successfully', [
+                'slug' => $slug,
+                'card_id' => $card->getId(),
+                'filename' => $filename,
+                'content_length' => strlen($vcardContent),
+            ]);
 
             return $response;
         } catch (NotFoundHttpException $e) {
             // Re-throw 404 exceptions
             throw $e;
         } catch (\Exception $e) {
-            // Log the error
+            // Log the error with full context
             $this->logger->error('Failed to generate vCard for download', [
                 'slug' => $slug,
                 'error' => $e->getMessage(),
+                'error_code' => $e->getCode(),
+                'file' => $e->getFile(),
+                'line' => $e->getLine(),
                 'trace' => $e->getTraceAsString(),
             ]);
 

@@ -1,0 +1,64 @@
+<?php
+
+namespace App\Service;
+
+use App\Entity\Card;
+use App\Entity\CardView;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\Request;
+
+class ViewTrackingService
+{
+    public function __construct(
+        private EntityManagerInterface $entityManager
+    ) {
+    }
+
+    /**
+     * Track a card view
+     */
+    public function trackView(Card $card, ?Request $request = null): void
+    {
+        $view = new CardView();
+        $view->setCard($card);
+
+        if ($request) {
+            // Anonymize IP address (store only first 3 octets for IPv4, first 4 groups for IPv6)
+            $ipAddress = $request->getClientIp();
+            if ($ipAddress) {
+                $view->setIpAddress($this->anonymizeIp($ipAddress));
+            }
+
+            // Store user agent
+            $userAgent = $request->headers->get('User-Agent');
+            if ($userAgent) {
+                $view->setUserAgent(substr($userAgent, 0, 255));
+            }
+        }
+
+        $this->entityManager->persist($view);
+        $this->entityManager->flush();
+    }
+
+    /**
+     * Anonymize IP address for privacy
+     */
+    private function anonymizeIp(string $ip): string
+    {
+        // Check if IPv6
+        if (str_contains($ip, ':')) {
+            // Keep first 4 groups of IPv6
+            $parts = explode(':', $ip);
+            return implode(':', array_slice($parts, 0, 4)) . '::';
+        }
+
+        // IPv4: Keep first 3 octets
+        $parts = explode('.', $ip);
+        if (count($parts) === 4) {
+            return implode('.', array_slice($parts, 0, 3)) . '.0';
+        }
+
+        return $ip;
+    }
+}
+
