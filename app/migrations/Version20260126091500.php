@@ -20,16 +20,16 @@ final class Version20260126091500 extends AbstractMigration
     public function up(Schema $schema): void
     {
         // Add second logo fields
-        $this->addSql('ALTER TABLE account_branding ADD second_logo_filename VARCHAR(255) DEFAULT NULL AFTER logo_size');
-        $this->addSql('ALTER TABLE account_branding ADD second_logo_position VARCHAR(20) DEFAULT NULL AFTER second_logo_filename');
-        $this->addSql('ALTER TABLE account_branding ADD second_logo_size VARCHAR(20) DEFAULT NULL AFTER second_logo_position');
+        $this->addSql('ALTER TABLE account_branding ADD second_logo_filename VARCHAR(255) DEFAULT NULL');
+        $this->addSql('ALTER TABLE account_branding ADD second_logo_position VARCHAR(20) DEFAULT NULL');
+        $this->addSql('ALTER TABLE account_branding ADD second_logo_size VARCHAR(20) DEFAULT NULL');
         
         // Add font fields
-        $this->addSql('ALTER TABLE account_branding ADD font_family VARCHAR(255) DEFAULT NULL AFTER second_logo_size');
-        $this->addSql('ALTER TABLE account_branding ADD custom_font_filename VARCHAR(255) DEFAULT NULL AFTER font_family');
+        $this->addSql('ALTER TABLE account_branding ADD font_family VARCHAR(255) DEFAULT NULL');
+        $this->addSql('ALTER TABLE account_branding ADD custom_font_filename VARCHAR(255) DEFAULT NULL');
         
         // Add card template field
-        $this->addSql('ALTER TABLE account_branding ADD card_template VARCHAR(50) DEFAULT NULL AFTER custom_font_filename');
+        $this->addSql('ALTER TABLE account_branding ADD card_template VARCHAR(50) DEFAULT NULL');
     }
 
     public function down(Schema $schema): void

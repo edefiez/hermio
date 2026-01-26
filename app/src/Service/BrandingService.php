@@ -309,11 +309,13 @@ class BrandingService
         }
         
         // TTF files start with specific magic bytes (0x00010000 or 'true' or 'OTTO')
+        // Note: 'OTTO' is for OpenType fonts with CFF data, which are accepted here
+        // as they provide additional flexibility and are commonly used alongside TTF
         $header = substr($content, 0, 4);
         $validHeaders = [
             "\x00\x01\x00\x00", // TrueType 1.0
             "true",              // TrueType (Mac)
-            "OTTO",              // OpenType with CFF
+            "OTTO",              // OpenType with CFF (accepted for flexibility)
         ];
         
         $isValid = false;

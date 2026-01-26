@@ -603,10 +603,14 @@ branding:
     dangerous_function: "Le template contient des fonctions dangereuses"
     access_denied: "La personnalisation des templates est uniquement disponible pour les plans Entreprise"
     choice: "Modèle de Carte"
-    default: "Par Défaut - Classique et professionnel"
-    modern: "Moderne - Design épuré et contemporain"
-    elegant: "Élégant - Sophistiqué avec typographie raffinée"
-    minimal: "Minimal - Simplicité et espace blanc"
+    default: "Par Défaut"
+    default_desc: "Classique et professionnel"
+    modern: "Moderne"
+    modern_desc: "Design épuré et contemporain"
+    elegant: "Élégant"
+    elegant_desc: "Sophistiqué avec typographie raffinée"
+    minimal: "Minimal"
+    minimal_desc: "Simplicité et espace blanc"
     invalid: "Modèle de carte invalide"
 
 team:

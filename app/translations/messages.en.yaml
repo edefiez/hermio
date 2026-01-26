@@ -602,10 +602,14 @@ branding:
     dangerous_function: "Template contains dangerous functions"
     access_denied: "Template customization is only available for Enterprise plans"
     choice: "Card Template"
-    default: "Default - Classic and professional"
-    modern: "Modern - Clean and contemporary design"
-    elegant: "Elegant - Sophisticated with refined typography"
-    minimal: "Minimal - Simplicity and whitespace"
+    default: "Default"
+    default_desc: "Classic and professional"
+    modern: "Modern"
+    modern_desc: "Clean and contemporary design"
+    elegant: "Elegant"
+    elegant_desc: "Sophisticated with refined typography"
+    minimal: "Minimal"
+    minimal_desc: "Simplicity and whitespace"
     invalid: "Invalid card template"
 
 team:
