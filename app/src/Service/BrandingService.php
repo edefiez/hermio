@@ -152,7 +152,12 @@ class BrandingService
 
         // Handle font selection
         if (isset($data['fontFamily'])) {
-            $branding->setFontFamily($data['fontFamily'] ?: null);
+            $fontFamily = $data['fontFamily'];
+            // Validate that the font family is from the allowed Google Fonts list
+            if ($fontFamily && !in_array($fontFamily, self::GOOGLE_FONTS, true)) {
+                throw new \InvalidArgumentException('branding.font.invalid_selection');
+            }
+            $branding->setFontFamily($fontFamily ?: null);
         }
 
         // Handle custom font upload
@@ -313,13 +318,14 @@ class BrandingService
         }
         
         // TTF/OpenType files start with specific magic bytes
-        // Note: Accepts both TrueType (.ttf) and OpenType with CFF (.otf) fonts
-        // This provides flexibility for users while maintaining security
+        // Note: While we only accept .ttf extension, we also validate OTTO headers
+        // OTTO indicates OpenType with CFF outlines - these fonts often use .ttf extension
+        // in the wild and are compatible with @font-face, so we accept them for flexibility
         $header = substr($content, 0, 4);
         $validHeaders = [
             "\x00\x01\x00\x00", // TrueType 1.0
             "true",              // TrueType (Mac)
-            "OTTO",              // OpenType with CFF (technically .otf but commonly used)
+            "OTTO",              // OpenType with CFF (commonly distributed as .ttf)
         ];
         
         $isValid = false;

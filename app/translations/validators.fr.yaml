@@ -27,3 +27,4 @@
 "branding.template.invalid": "Modèle de carte invalide"
 "branding.font.invalid_type": "La police doit être un fichier TTF valide"
 "branding.font.too_large": "La taille du fichier de police ne doit pas dépasser 5MB"
+"branding.font.invalid_selection": "La police sélectionnée n'est pas dans la liste autorisée"
