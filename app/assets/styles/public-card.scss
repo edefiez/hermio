@@ -731,3 +731,274 @@
     page-break-inside: avoid;
   }
 }
+
+/* ========================================
+   Second Logo Styles
+   ======================================== */
+
+.brand-logo-second {
+  /* Same positioning as main logo, but ensure they can coexist */
+  
+  &.brand-logo-top-left,
+  &.brand-logo-top-right,
+  &.brand-logo-bottom-left,
+  &.brand-logo-bottom-right {
+    position: absolute;
+  }
+  
+  &.brand-logo-top-center,
+  &.brand-logo-bottom-center {
+    /* Centers still use relative positioning */
+    position: relative;
+  }
+}
+
+/* Position second logo on opposite sides when both logos exist */
+.brand-logo-top-left ~ .brand-logo-second.brand-logo-top-right,
+.brand-logo-top-right ~ .brand-logo-second.brand-logo-top-left {
+  top: 1rem;
+}
+
+.brand-logo-bottom-left ~ .brand-logo-second.brand-logo-bottom-right,
+.brand-logo-bottom-right ~ .brand-logo-second.brand-logo-bottom-left {
+  bottom: 1rem;
+}
+
+/* When both logos are on the same side, stack them vertically */
+.brand-logo-top-left ~ .brand-logo-second.brand-logo-top-left,
+.brand-logo-top-right ~ .brand-logo-second.brand-logo-top-right,
+.brand-logo-bottom-left ~ .brand-logo-second.brand-logo-bottom-left,
+.brand-logo-bottom-right ~ .brand-logo-second.brand-logo-bottom-right {
+  margin-top: 0.5rem;
+}
+
+/* ========================================
+   Card Template Variations
+   ======================================== */
+
+/* Modern Template - Clean and contemporary */
+.public-card-modern {
+  border-top-width: 0;
+  border-left: 6px solid var(--card-primary-color);
+  border-radius: 0 var(--card-radius) var(--card-radius) 0;
+  
+  .card-header-section {
+    border-bottom-width: 1px;
+    border-bottom-style: solid;
+    border-image: linear-gradient(to right, var(--card-primary-color), var(--card-secondary-color)) 1;
+  }
+  
+  .card-name {
+    font-weight: 800;
+    letter-spacing: -0.02em;
+  }
+  
+  .contact-actions {
+    gap: 0.5rem;
+  }
+  
+  .btn-action {
+    border-radius: 24px;
+  }
+  
+  .social-link {
+    border-radius: 50%;
+    min-width: 56px;
+    min-height: 56px;
+    padding: 0;
+    
+    span {
+      /* Hide text visually but keep it for screen readers */
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+    
+    i, svg {
+      margin: 0;
+    }
+  }
+}
+
+/* Elegant Template - Sophisticated with refined typography */
+.public-card-elegant {
+  background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+  border-top-width: 0;
+  border: 1px solid #e0e0e0;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+  
+  .card-header-section {
+    border-bottom: 1px solid var(--card-primary-color);
+    background: linear-gradient(to bottom, rgba(0,0,0,0.01), transparent);
+  }
+  
+  .card-name {
+    font-weight: 300;
+    letter-spacing: 0.05em;
+    font-size: 2.25rem;
+    text-transform: uppercase;
+  }
+  
+  .card-title {
+    font-style: italic;
+    font-weight: 400;
+    letter-spacing: 0.02em;
+  }
+  
+  .contact-info-item {
+    padding: 1.25rem 0;
+  }
+  
+  .contact-label {
+    font-size: 0.75rem;
+    letter-spacing: 0.15em;
+  }
+  
+  .btn-action {
+    border-radius: 2px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-size: 0.95rem;
+  }
+  
+  .social-link {
+    border-radius: 2px;
+    border: 1px solid rgba(0,0,0,0.1);
+  }
+}
+
+/* Minimal Template - Simplicity and whitespace */
+.public-card-minimal {
+  border: none;
+  box-shadow: none;
+  background: transparent;
+  padding: 2rem 1rem;
+  
+  .card-header-section {
+    border-bottom: 2px solid #000;
+    margin-bottom: 2rem;
+  }
+  
+  .card-name {
+    font-weight: 600;
+    color: #000;
+    font-size: 2.5rem;
+  }
+  
+  .card-title,
+  .card-company {
+    color: #666;
+  }
+  
+  .contact-actions {
+    margin: 2rem 0;
+  }
+  
+  .btn-action {
+    background-color: #000;
+    border: 2px solid #000;
+    border-radius: 0;
+    
+    &:hover {
+      background-color: white;
+      color: #000;
+      filter: none;
+    }
+  }
+  
+  .btn-email {
+    background-color: white;
+    border: 2px solid #000;
+    color: #000;
+    
+    &:hover {
+      background-color: #000;
+      color: white;
+    }
+  }
+  
+  .contact-info-item {
+    border-bottom: 1px solid #eee;
+  }
+  
+  .contact-label {
+    color: #999;
+    text-transform: none;
+    letter-spacing: 0;
+    font-weight: 400;
+  }
+  
+  .card-bio {
+    background: #f5f5f5;
+    color: #333;
+    border-radius: 0;
+    border-left: 4px solid #000;
+    
+    h2 {
+      color: #000;
+    }
+    
+    p {
+      color: #333;
+    }
+  }
+  
+  .social-link {
+    background: white;
+    border: 2px solid #000;
+    border-radius: 0;
+    color: #000 !important;
+    
+    i, svg {
+      color: #000 !important;
+    }
+    
+    span {
+      color: #000 !important;
+    }
+    
+    &:hover {
+      background: #000;
+      color: white !important;
+      
+      i, svg, span {
+        color: white !important;
+      }
+    }
+  }
+}
+
+/* ========================================
+   Template Selector in Branding Form
+   ======================================== */
+
+.template-card {
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.template-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 4px 12px rgba(0, 123, 255, 0.2);
+}
+
+.btn-check:checked + .template-card {
+  background-color: var(--bs-primary);
+  color: white;
+  border-color: var(--bs-primary);
+}
+
+.btn-check:checked + .template-card .text-muted {
+  color: rgba(255, 255, 255, 0.8) !important;
+}
+

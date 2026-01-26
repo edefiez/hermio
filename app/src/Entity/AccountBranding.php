@@ -53,6 +53,36 @@ class AccountBranding
     )]
     private ?string $logoSize = 'medium';
 
+    #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
+    private ?string $secondLogoFilename = null;
+
+    #[ORM\Column(type: Types::STRING, length: 20, nullable: true)]
+    #[Assert\Choice(
+        choices: ['top-left', 'top-center', 'top-right', 'center', 'bottom-left', 'bottom-center', 'bottom-right'],
+        message: 'branding.logo.position.invalid'
+    )]
+    private ?string $secondLogoPosition = 'top-right';
+
+    #[ORM\Column(type: Types::STRING, length: 20, nullable: true)]
+    #[Assert\Choice(
+        choices: ['small', 'medium', 'large'],
+        message: 'branding.logo.size.invalid'
+    )]
+    private ?string $secondLogoSize = 'medium';
+
+    #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
+    private ?string $fontFamily = null;
+
+    #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
+    private ?string $customFontFilename = null;
+
+    #[ORM\Column(type: Types::STRING, length: 50, nullable: true)]
+    #[Assert\Choice(
+        choices: ['default', 'modern', 'elegant', 'minimal'],
+        message: 'branding.template.invalid'
+    )]
+    private ?string $cardTemplate = 'default';
+
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $customTemplate = null;
 
@@ -176,6 +206,72 @@ class AccountBranding
     public function setUpdatedAt(\DateTimeInterface $updatedAt): static
     {
         $this->updatedAt = $updatedAt;
+        return $this;
+    }
+
+    public function getSecondLogoFilename(): ?string
+    {
+        return $this->secondLogoFilename;
+    }
+
+    public function setSecondLogoFilename(?string $secondLogoFilename): static
+    {
+        $this->secondLogoFilename = $secondLogoFilename;
+        return $this;
+    }
+
+    public function getSecondLogoPosition(): ?string
+    {
+        return $this->secondLogoPosition;
+    }
+
+    public function setSecondLogoPosition(?string $secondLogoPosition): static
+    {
+        $this->secondLogoPosition = $secondLogoPosition;
+        return $this;
+    }
+
+    public function getSecondLogoSize(): ?string
+    {
+        return $this->secondLogoSize;
+    }
+
+    public function setSecondLogoSize(?string $secondLogoSize): static
+    {
+        $this->secondLogoSize = $secondLogoSize;
+        return $this;
+    }
+
+    public function getFontFamily(): ?string
+    {
+        return $this->fontFamily;
+    }
+
+    public function setFontFamily(?string $fontFamily): static
+    {
+        $this->fontFamily = $fontFamily;
+        return $this;
+    }
+
+    public function getCustomFontFilename(): ?string
+    {
+        return $this->customFontFilename;
+    }
+
+    public function setCustomFontFilename(?string $customFontFilename): static
+    {
+        $this->customFontFilename = $customFontFilename;
+        return $this;
+    }
+
+    public function getCardTemplate(): ?string
+    {
+        return $this->cardTemplate;
+    }
+
+    public function setCardTemplate(?string $cardTemplate): static
+    {
+        $this->cardTemplate = $cardTemplate;
         return $this;
     }
 }

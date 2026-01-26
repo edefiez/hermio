@@ -13,6 +13,28 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 class BrandingService
 {
     private string $logoStoragePath;
+    private string $fontStoragePath;
+
+    // Top 50 Google Fonts (popular choices for business cards)
+    public const GOOGLE_FONTS = [
+        'Roboto', 'Open Sans', 'Lato', 'Montserrat', 'Oswald',
+        'Source Sans Pro', 'Raleway', 'PT Sans', 'Merriweather', 'Ubuntu',
+        'Playfair Display', 'Poppins', 'Nunito', 'Roboto Condensed', 'Noto Sans',
+        'Roboto Slab', 'Mukta', 'Work Sans', 'PT Serif', 'Rubik',
+        'Titillium Web', 'Hind', 'Quicksand', 'Karla', 'Arimo',
+        'Barlow', 'Heebo', 'Fira Sans', 'Libre Franklin', 'Libre Baskerville',
+        'Crimson Text', 'Cabin', 'Oxygen', 'Dosis', 'Josefin Sans',
+        'Bitter', 'Noto Serif', 'Anton', 'Bebas Neue', 'Lobster',
+        'Dancing Script', 'Pacifico', 'Indie Flower', 'Righteous', 'Comfortaa',
+        'Abril Fatface', 'Archivo', 'Caveat', 'Fredoka', 'Permanent Marker'
+    ];
+
+    public const CARD_TEMPLATES = [
+        'default' => 'Default',
+        'modern' => 'Modern',
+        'elegant' => 'Elegant',
+        'minimal' => 'Minimal'
+    ];
 
     public function __construct(
         private AccountBrandingRepository $accountBrandingRepository,
@@ -21,6 +43,7 @@ class BrandingService
         string $projectDir
     ) {
         $this->logoStoragePath = $projectDir . '/public/uploads/branding/logos';
+        $this->fontStoragePath = $projectDir . '/public/uploads/branding/fonts';
     }
 
     public function canConfigureBranding(Account $account): bool
@@ -106,6 +129,55 @@ class BrandingService
             $branding->setLogoSize($data['logoSize'] ?: null);
         }
 
+        // Handle second logo upload
+        if (isset($data['secondLogoFile']) && $data['secondLogoFile'] instanceof UploadedFile) {
+            $this->validateLogoFile($data['secondLogoFile']);
+            $oldSecondLogo = $branding->getSecondLogoFilename();
+            $newSecondLogo = $this->uploadLogo($data['secondLogoFile']);
+            $branding->setSecondLogoFilename($newSecondLogo);
+            
+            // Delete old second logo
+            if ($oldSecondLogo) {
+                $this->deleteLogoFile($oldSecondLogo);
+            }
+        }
+
+        // Update second logo position and size
+        if (isset($data['secondLogoPosition'])) {
+            $branding->setSecondLogoPosition($data['secondLogoPosition'] ?: null);
+        }
+        if (isset($data['secondLogoSize'])) {
+            $branding->setSecondLogoSize($data['secondLogoSize'] ?: null);
+        }
+
+        // Handle font selection
+        if (isset($data['fontFamily'])) {
+            $fontFamily = $data['fontFamily'];
+            // Validate that the font family is from the allowed Google Fonts list
+            if ($fontFamily && !in_array($fontFamily, self::GOOGLE_FONTS, true)) {
+                throw new \InvalidArgumentException('branding.font.invalid_selection');
+            }
+            $branding->setFontFamily($fontFamily ?: null);
+        }
+
+        // Handle custom font upload
+        if (isset($data['customFontFile']) && $data['customFontFile'] instanceof UploadedFile) {
+            $this->validateFontFile($data['customFontFile']);
+            $oldFont = $branding->getCustomFontFilename();
+            $newFont = $this->uploadFont($data['customFontFile']);
+            $branding->setCustomFontFilename($newFont);
+            
+            // Delete old font
+            if ($oldFont) {
+                $this->deleteFontFile($oldFont);
+            }
+        }
+
+        // Handle card template selection
+        if (isset($data['cardTemplate'])) {
+            $branding->setCardTemplate($data['cardTemplate'] ?: 'default');
+        }
+
         $this->entityManager->persist($branding);
         $this->entityManager->flush();
 
@@ -119,6 +191,28 @@ class BrandingService
         if ($branding && $branding->getLogoFilename()) {
             $this->deleteLogoFile($branding->getLogoFilename());
             $branding->setLogoFilename(null);
+            $this->entityManager->flush();
+        }
+    }
+
+    public function removeSecondLogo(Account $account): void
+    {
+        $branding = $this->accountBrandingRepository->findOneByAccount($account);
+        
+        if ($branding && $branding->getSecondLogoFilename()) {
+            $this->deleteLogoFile($branding->getSecondLogoFilename());
+            $branding->setSecondLogoFilename(null);
+            $this->entityManager->flush();
+        }
+    }
+
+    public function removeCustomFont(Account $account): void
+    {
+        $branding = $this->accountBrandingRepository->findOneByAccount($account);
+        
+        if ($branding && $branding->getCustomFontFilename()) {
+            $this->deleteFontFile($branding->getCustomFontFilename());
+            $branding->setCustomFontFilename(null);
             $this->entityManager->flush();
         }
     }
@@ -154,6 +248,96 @@ class BrandingService
         $filePath = $this->logoStoragePath . '/' . $filename;
         if ($this->filesystem->exists($filePath)) {
             $this->filesystem->remove($filePath);
+        }
+    }
+
+    private function uploadFont(UploadedFile $file): string
+    {
+        // File must already be validated by validateFontFile()
+        $extension = strtolower($file->getClientOriginalExtension());
+        
+        // Ensure extension is .ttf (validation should have already checked this)
+        if ($extension !== 'ttf') {
+            throw new \InvalidArgumentException('branding.font.invalid_type');
+        }
+        
+        // Generate unique filename with random hash
+        $filename = bin2hex(random_bytes(16)) . '.ttf';
+        $filePath = $this->fontStoragePath . '/' . $filename;
+        
+        // Ensure font storage directory exists
+        if (!$this->filesystem->exists($this->fontStoragePath)) {
+            $this->filesystem->mkdir($this->fontStoragePath);
+        }
+        
+        // Move file to storage directory
+        $file->move($this->fontStoragePath, $filename);
+        
+        // Additional security: verify file was moved successfully
+        if (!$this->filesystem->exists($filePath)) {
+            throw new \RuntimeException('Failed to upload font file');
+        }
+        
+        return $filename;
+    }
+
+    private function deleteFontFile(string $filename): void
+    {
+        $filePath = $this->fontStoragePath . '/' . $filename;
+        if ($this->filesystem->exists($filePath)) {
+            $this->filesystem->remove($filePath);
+        }
+    }
+
+    private function validateFontFile(UploadedFile $file): void
+    {
+        $allowedTypes = ['font/ttf', 'application/x-font-ttf', 'application/x-font-truetype', 'font/sfnt'];
+        $maxSize = 5 * 1024 * 1024; // 5MB
+
+        // Validate file extension
+        $extension = strtolower($file->getClientOriginalExtension());
+        if ($extension !== 'ttf') {
+            throw new \InvalidArgumentException('branding.font.invalid_type');
+        }
+
+        // Validate MIME type
+        $mimeType = $file->getMimeType();
+        if (!in_array($mimeType, $allowedTypes)) {
+            throw new \InvalidArgumentException('branding.font.invalid_type');
+        }
+
+        // Validate file size
+        if ($file->getSize() > $maxSize) {
+            throw new \InvalidArgumentException('branding.font.too_large');
+        }
+
+        // Additional validation: check if it's a valid TTF/OpenType file by reading the header
+        $content = file_get_contents($file->getPathname());
+        if (strlen($content) < 4) {
+            throw new \InvalidArgumentException('branding.font.invalid_type');
+        }
+        
+        // TTF/OpenType files start with specific magic bytes
+        // Note: While we only accept .ttf extension, we also validate OTTO headers
+        // OTTO indicates OpenType with CFF outlines - these fonts often use .ttf extension
+        // in the wild and are compatible with @font-face, so we accept them for flexibility
+        $header = substr($content, 0, 4);
+        $validHeaders = [
+            "\x00\x01\x00\x00", // TrueType 1.0
+            "true",              // TrueType (Mac)
+            "OTTO",              // OpenType with CFF (commonly distributed as .ttf)
+        ];
+        
+        $isValid = false;
+        foreach ($validHeaders as $validHeader) {
+            if (substr($header, 0, strlen($validHeader)) === $validHeader) {
+                $isValid = true;
+                break;
+            }
+        }
+        
+        if (!$isValid) {
+            throw new \InvalidArgumentException('branding.font.invalid_type');
         }
     }
 
@@ -297,6 +481,16 @@ class BrandingService
                 $this->deleteLogoFile($branding->getLogoFilename());
             }
             
+            // Delete second logo file if exists
+            if ($branding->getSecondLogoFilename()) {
+                $this->deleteLogoFile($branding->getSecondLogoFilename());
+            }
+            
+            // Delete custom font file if exists
+            if ($branding->getCustomFontFilename()) {
+                $this->deleteFontFile($branding->getCustomFontFilename());
+            }
+            
             // Remove branding entity
             $this->entityManager->remove($branding);
             $this->entityManager->flush();
@@ -334,8 +528,16 @@ class BrandingService
     {
         $branding = $this->accountBrandingRepository->findOneByAccount($account);
         
-        if ($branding && $branding->getLogoFilename()) {
-            $this->deleteLogoFile($branding->getLogoFilename());
+        if ($branding) {
+            if ($branding->getLogoFilename()) {
+                $this->deleteLogoFile($branding->getLogoFilename());
+            }
+            if ($branding->getSecondLogoFilename()) {
+                $this->deleteLogoFile($branding->getSecondLogoFilename());
+            }
+            if ($branding->getCustomFontFilename()) {
+                $this->deleteFontFile($branding->getCustomFontFilename());
+            }
         }
     }
 
