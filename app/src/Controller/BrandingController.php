@@ -47,6 +47,8 @@ class BrandingController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
             $logoFile = $form->get('logo')->getData();
+            $secondLogoFile = $form->get('secondLogo')->getData();
+            $customFontFile = $form->get('customFont')->getData();
             
             // Check color accessibility and add warnings if needed
             $accessibilityWarnings = $this->brandingService->validateColorAccessibility(
@@ -73,6 +75,12 @@ class BrandingController extends AbstractController
                 'secondaryColor' => $data->getSecondaryColor(),
                 'logoPosition' => $data->getLogoPosition(),
                 'logoSize' => $data->getLogoSize(),
+                'secondLogoFile' => $secondLogoFile,
+                'secondLogoPosition' => $data->getSecondLogoPosition(),
+                'secondLogoSize' => $data->getSecondLogoSize(),
+                'fontFamily' => $data->getFontFamily(),
+                'customFontFile' => $customFontFile,
+                'cardTemplate' => $data->getCardTemplate(),
             ], $logoFile);
 
             $this->addFlash('success', 'branding.save.success');
@@ -148,6 +156,50 @@ class BrandingController extends AbstractController
 
         $this->brandingService->removeLogo($account);
         $this->addFlash('success', 'branding.logo.remove.success');
+        
+        return $this->redirectToRoute('app_branding_configure');
+    }
+
+    #[Route('/second-logo/remove', name: 'app_branding_remove_second_logo', methods: ['POST'])]
+    public function removeSecondLogo(Request $request): Response
+    {
+        /** @var \App\Entity\User $user */
+        $user = $this->getUser();
+        
+        // Ensure user has an account
+        $account = $user->getAccount();
+        if (!$account) {
+            $account = $this->accountService->createDefaultAccount($user);
+        }
+
+        if (!$this->isCsrfTokenValid('remove_second_logo', $request->request->get('_token'))) {
+            throw $this->createAccessDeniedException('Invalid CSRF token');
+        }
+
+        $this->brandingService->removeSecondLogo($account);
+        $this->addFlash('success', 'branding.second_logo.remove.success');
+        
+        return $this->redirectToRoute('app_branding_configure');
+    }
+
+    #[Route('/font/remove', name: 'app_branding_remove_font', methods: ['POST'])]
+    public function removeCustomFont(Request $request): Response
+    {
+        /** @var \App\Entity\User $user */
+        $user = $this->getUser();
+        
+        // Ensure user has an account
+        $account = $user->getAccount();
+        if (!$account) {
+            $account = $this->accountService->createDefaultAccount($user);
+        }
+
+        if (!$this->isCsrfTokenValid('remove_font', $request->request->get('_token'))) {
+            throw $this->createAccessDeniedException('Invalid CSRF token');
+        }
+
+        $this->brandingService->removeCustomFont($account);
+        $this->addFlash('success', 'branding.font.remove.success');
         
         return $this->redirectToRoute('app_branding_configure');
     }
