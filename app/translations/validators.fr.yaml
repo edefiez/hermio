@@ -24,3 +24,7 @@
 "branding.logo.position.invalid": "Position du logo invalide"
 "branding.logo.size.invalid": "Taille du logo invalide"
 "branding.template.too_large": "Le contenu du template ne doit pas dépasser 50KB"
+"branding.template.invalid": "Modèle de carte invalide"
+"branding.font.invalid_type": "La police doit être un fichier TTF valide"
+"branding.font.too_large": "La taille du fichier de police ne doit pas dépasser 5MB"
+

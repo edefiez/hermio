@@ -1,8 +1,37 @@
 {# Shared card content template - used in both public card and branding preview #}
 {% set primaryColor = branding and branding.primaryColor ? branding.primaryColor : '#007bff' %}
 {% set secondaryColor = branding and branding.secondaryColor ? branding.secondaryColor : '#6c757d' %}
+{% set cardTemplate = branding and branding.cardTemplate ? branding.cardTemplate : 'default' %}
 
-<div class="public-card" style="--card-primary-color: {{ primaryColor }}; --card-secondary-color: {{ secondaryColor }}; border-top: 4px solid {{ primaryColor }};">
+{# Font family selection - custom font takes priority over Google Fonts #}
+{% set fontFamily = 'system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif' %}
+{% if branding and branding.customFontFilename %}
+    {% set fontFamily = '"CustomBrandFont", ' ~ fontFamily %}
+{% elseif branding and branding.fontFamily %}
+    {% set fontFamily = '"' ~ branding.fontFamily ~ '", ' ~ fontFamily %}
+{% endif %}
+
+{# Load Google Font if specified #}
+{% if branding and branding.fontFamily and not branding.customFontFilename %}
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family={{ branding.fontFamily|replace({' ': '+'}) }}:wght@300;400;600;700&display=swap" rel="stylesheet">
+{% endif %}
+
+{# Load custom font if uploaded #}
+{% if branding and branding.customFontFilename %}
+    <style>
+        @font-face {
+            font-family: 'CustomBrandFont';
+            src: url('{{ asset('uploads/branding/fonts/' ~ branding.customFontFilename) }}') format('truetype');
+            font-weight: 100 900;
+            font-display: swap;
+        }
+    </style>
+{% endif %}
+
+<div class="public-card public-card-{{ cardTemplate }}" 
+     style="--card-primary-color: {{ primaryColor }}; --card-secondary-color: {{ secondaryColor }}; --card-font-family: {{ fontFamily }}; border-top: 4px solid {{ primaryColor }}; font-family: {{ fontFamily }};">
     {# Card Header Section #}
     <div class="card-header-section" style="border-bottom: 2px solid {{ primaryColor }}; position: relative;">
         {# Logo (if branded) - Top positions: above card-name #}
@@ -13,6 +42,17 @@
                 {# Top positions: displayed above card-name #}
                 <div class="brand-logo brand-logo-{{ logoPosition }} brand-logo-{{ logoSize }}">
                     <img src="{{ asset('uploads/branding/logos/' ~ branding.logoFilename) }}?v={{ 'now'|date('U') }}" alt="Brand Logo">
+                </div>
+            {% endif %}
+        {% endif %}
+
+        {# Second Logo - Top positions #}
+        {% if branding and branding.secondLogoFilename %}
+            {% set secondLogoPosition = branding.secondLogoPosition|default('top-right') %}
+            {% set secondLogoSize = branding.secondLogoSize|default('medium') %}
+            {% if secondLogoPosition starts with 'top-' %}
+                <div class="brand-logo brand-logo-second brand-logo-{{ secondLogoPosition }} brand-logo-{{ secondLogoSize }}">
+                    <img src="{{ asset('uploads/branding/logos/' ~ branding.secondLogoFilename) }}?v={{ 'now'|date('U') }}" alt="Second Brand Logo">
                 </div>
             {% endif %}
         {% endif %}
@@ -35,6 +75,17 @@
                 {# Bottom positions: displayed below card-company #}
                 <div class="brand-logo brand-logo-{{ logoPosition }} brand-logo-{{ logoSize }}">
                     <img src="{{ asset('uploads/branding/logos/' ~ branding.logoFilename) }}?v={{ 'now'|date('U') }}" alt="Brand Logo">
+                </div>
+            {% endif %}
+        {% endif %}
+
+        {# Second Logo - Bottom positions #}
+        {% if branding and branding.secondLogoFilename %}
+            {% set secondLogoPosition = branding.secondLogoPosition|default('top-right') %}
+            {% set secondLogoSize = branding.secondLogoSize|default('medium') %}
+            {% if secondLogoPosition starts with 'bottom-' %}
+                <div class="brand-logo brand-logo-second brand-logo-{{ secondLogoPosition }} brand-logo-{{ secondLogoSize }}">
+                    <img src="{{ asset('uploads/branding/logos/' ~ branding.secondLogoFilename) }}?v={{ 'now'|date('U') }}" alt="Second Brand Logo">
                 </div>
             {% endif %}
         {% endif %}

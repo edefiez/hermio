@@ -261,6 +261,227 @@
                                 </div>
                             </div>
 
+                            {# Second Logo Section #}
+                            <div class="card mb-4">
+                                <div class="card-body">
+                                    <h5 class="card-title fw-bold mb-3">
+                                        <i class="fas fa-image me-2"></i>{{ 'branding.second_logo.title'|trans }}
+                                    </h5>
+                                    
+                                    {# Separate form for second logo removal - MUST be outside main form to avoid CSRF conflicts #}
+                                    {% if branding and branding.secondLogoFilename %}
+                                        <form method="post" action="{{ path('app_branding_remove_second_logo') }}" id="removeSecondLogoForm" style="display: none;">
+                                            <input type="hidden" name="_token" value="{{ csrf_token('remove_second_logo') }}">
+                                        </form>
+                                        
+                                        <div class="mb-4 p-3 bg-light rounded">
+                                            <div class="d-flex align-items-center gap-3 mb-3">
+                                                <img src="{{ asset('uploads/branding/logos/' ~ branding.secondLogoFilename) }}"
+                                                     alt="Second Logo"
+                                                     class="img-thumbnail"
+                                                     style="max-width: 200px; max-height: 200px;">
+                                                <div>
+                                                    <p class="mb-2"><strong>{{ 'branding.second_logo.current'|trans }}</strong></p>
+                                                    <button type="button"
+                                                            class="btn btn-danger btn-sm"
+                                                            onclick="if(confirm('{{ 'branding.second_logo.remove.confirm'|trans }}')) { document.getElementById('removeSecondLogoForm').submit(); }">
+                                                        <i class="fas fa-trash me-1"></i>{{ 'branding.second_logo.remove'|trans }}
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    {% endif %}
+
+                                    <div class="mb-3">
+                                        {{ form_label(form.secondLogo, null, {'label_attr': {'class': 'form-label fw-bold'}}) }}
+                                        {{ form_widget(form.secondLogo, {
+                                            'attr': {
+                                                'class': 'form-control' ~ (form.secondLogo.vars.errors|length > 0 ? ' is-invalid' : ''),
+                                                'accept': 'image/png,image/jpeg,image/jpg,image/svg+xml',
+                                                'aria-describedby': 'secondLogoHelp'
+                                            }
+                                        }) }}
+                                        {% if form.secondLogo.vars.errors|length > 0 %}
+                                            <div class="invalid-feedback">
+                                                {{ form_errors(form.secondLogo) }}
+                                            </div>
+                                        {% endif %}
+                                        <small id="secondLogoHelp" class="form-text text-muted">
+                                            {{ 'branding.second_logo.help'|trans }}
+                                        </small>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            {{ form_label(form.secondLogoPosition, null, {'label_attr': {'class': 'form-label fw-bold'}}) }}
+                                            {{ form_widget(form.secondLogoPosition, {
+                                                'attr': {
+                                                    'class': 'form-select' ~ (form.secondLogoPosition.vars.errors|length > 0 ? ' is-invalid' : '')
+                                                }
+                                            }) }}
+                                            {% if form.secondLogoPosition.vars.errors|length > 0 %}
+                                                <div class="invalid-feedback">
+                                                    {{ form_errors(form.secondLogoPosition) }}
+                                                </div>
+                                            {% endif %}
+                                        </div>
+
+                                        <div class="col-md-6 mb-3">
+                                            {{ form_label(form.secondLogoSize, null, {'label_attr': {'class': 'form-label fw-bold'}}) }}
+                                            {{ form_widget(form.secondLogoSize, {
+                                                'attr': {
+                                                    'class': 'form-select' ~ (form.secondLogoSize.vars.errors|length > 0 ? ' is-invalid' : '')
+                                                }
+                                            }) }}
+                                            {% if form.secondLogoSize.vars.errors|length > 0 %}
+                                                <div class="invalid-feedback">
+                                                    {{ form_errors(form.secondLogoSize) }}
+                                                </div>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {# Font Selection Section #}
+                            <div class="card mb-4">
+                                <div class="card-body">
+                                    <h5 class="card-title fw-bold mb-3">
+                                        <i class="fas fa-font me-2"></i>{{ 'branding.font.title'|trans }}
+                                    </h5>
+
+                                    {# Separate form for custom font removal #}
+                                    {% if branding and branding.customFontFilename %}
+                                        <form method="post" action="{{ path('app_branding_remove_font') }}" id="removeCustomFontForm" style="display: none;">
+                                            <input type="hidden" name="_token" value="{{ csrf_token('remove_font') }}">
+                                        </form>
+                                        
+                                        <div class="mb-4 p-3 bg-light rounded">
+                                            <div class="d-flex align-items-center justify-content-between">
+                                                <div>
+                                                    <p class="mb-1"><strong>{{ 'branding.font.current_custom'|trans }}</strong></p>
+                                                    <p class="mb-0 text-muted small">{{ branding.customFontFilename }}</p>
+                                                </div>
+                                                <button type="button"
+                                                        class="btn btn-danger btn-sm"
+                                                        onclick="if(confirm('{{ 'branding.font.remove.confirm'|trans }}')) { document.getElementById('removeCustomFontForm').submit(); }">
+                                                    <i class="fas fa-trash me-1"></i>{{ 'branding.font.remove'|trans }}
+                                                </button>
+                                            </div>
+                                        </div>
+                                    {% endif %}
+
+                                    {% if branding and branding.fontFamily and not branding.customFontFilename %}
+                                        <div class="mb-3 p-3 bg-light rounded">
+                                            <p class="mb-1"><strong>{{ 'branding.font.current_google'|trans }}</strong></p>
+                                            <p class="mb-0 text-muted">{{ branding.fontFamily }}</p>
+                                        </div>
+                                    {% endif %}
+
+                                    <div class="mb-3">
+                                        {{ form_label(form.fontFamily, null, {'label_attr': {'class': 'form-label fw-bold'}}) }}
+                                        {{ form_widget(form.fontFamily, {
+                                            'attr': {
+                                                'class': 'form-select' ~ (form.fontFamily.vars.errors|length > 0 ? ' is-invalid' : ''),
+                                                'aria-describedby': 'fontFamilyHelp'
+                                            }
+                                        }) }}
+                                        {% if form.fontFamily.vars.errors|length > 0 %}
+                                            <div class="invalid-feedback">
+                                                {{ form_errors(form.fontFamily) }}
+                                            </div>
+                                        {% endif %}
+                                    </div>
+
+                                    <div class="mb-3">
+                                        {{ form_label(form.customFont, null, {'label_attr': {'class': 'form-label fw-bold'}}) }}
+                                        {{ form_widget(form.customFont, {
+                                            'attr': {
+                                                'class': 'form-control' ~ (form.customFont.vars.errors|length > 0 ? ' is-invalid' : ''),
+                                                'accept': '.ttf,font/ttf',
+                                                'aria-describedby': 'customFontHelp'
+                                            }
+                                        }) }}
+                                        {% if form.customFont.vars.errors|length > 0 %}
+                                            <div class="invalid-feedback">
+                                                {{ form_errors(form.customFont) }}
+                                            </div>
+                                        {% endif %}
+                                        <small id="customFontHelp" class="form-text text-muted">
+                                            {{ 'branding.font.help'|trans }}
+                                        </small>
+                                    </div>
+
+                                    {% if branding and (branding.fontFamily or branding.customFontFilename) %}
+                                        <div class="alert alert-info" role="alert">
+                                            <i class="fas fa-info-circle me-2"></i>
+                                            {{ 'branding.font.note'|trans }}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+
+                            {# Card Template Selection Section #}
+                            <div class="card mb-4">
+                                <div class="card-body">
+                                    <h5 class="card-title fw-bold mb-3">
+                                        <i class="fas fa-th-large me-2"></i>{{ 'branding.template.choice'|trans }}
+                                    </h5>
+
+                                    <div class="mb-3">
+                                        {{ form_label(form.cardTemplate, null, {'label_attr': {'class': 'form-label fw-bold'}}) }}
+                                        
+                                        {# Custom template selector with visual previews #}
+                                        <div class="row g-3 mt-2">
+                                            {% set templates = {
+                                                'default': {
+                                                    'name': 'branding.template.default'|trans,
+                                                    'icon': 'fas fa-id-card',
+                                                    'description': 'Classique et professionnel'
+                                                },
+                                                'modern': {
+                                                    'name': 'branding.template.modern'|trans,
+                                                    'icon': 'fas fa-bolt',
+                                                    'description': 'Design épuré et contemporain'
+                                                },
+                                                'elegant': {
+                                                    'name': 'branding.template.elegant'|trans,
+                                                    'icon': 'fas fa-gem',
+                                                    'description': 'Sophistiqué avec typographie raffinée'
+                                                },
+                                                'minimal': {
+                                                    'name': 'branding.template.minimal'|trans,
+                                                    'icon': 'fas fa-minus',
+                                                    'description': 'Simplicité et espace blanc'
+                                                }
+                                            } %}
+
+                                            {% for templateKey, templateInfo in templates %}
+                                                <div class="col-6 col-md-3">
+                                                    <input type="radio" 
+                                                           class="btn-check" 
+                                                           name="{{ form.cardTemplate.vars.full_name }}" 
+                                                           id="template_{{ templateKey }}" 
+                                                           value="{{ templateKey }}"
+                                                           {% if (branding and branding.cardTemplate == templateKey) or (not branding and templateKey == 'default') %}checked{% endif %}>
+                                                    <label class="btn btn-outline-primary w-100 h-100 p-3 text-center template-card" for="template_{{ templateKey }}" style="min-height: 120px;">
+                                                        <i class="{{ templateInfo.icon }} fa-2x mb-2 d-block"></i>
+                                                        <strong class="d-block mb-1">{{ templateInfo.name }}</strong>
+                                                        <small class="text-muted" style="font-size: 0.75rem;">{{ templateInfo.description }}</small>
+                                                    </label>
+                                                </div>
+                                            {% endfor %}
+                                        </div>
+
+                                        {% if form.cardTemplate.vars.errors|length > 0 %}
+                                            <div class="invalid-feedback d-block">
+                                                {{ form_errors(form.cardTemplate) }}
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+
                             {# Form Actions - Must be inside the main form #}
                             <div class="card mb-4 shadow-sm">
                                 <div class="card-body">
