@@ -248,16 +248,16 @@ class BrandingService
 
     private function uploadFont(UploadedFile $file): string
     {
-        // Generate secure filename: random hash + sanitized extension
+        // File must already be validated by validateFontFile()
         $extension = strtolower($file->getClientOriginalExtension());
         
-        // Ensure extension is safe
+        // Ensure extension is .ttf (validation should have already checked this)
         if ($extension !== 'ttf') {
-            $extension = 'ttf';
+            throw new \InvalidArgumentException('branding.font.invalid_type');
         }
         
         // Generate unique filename with random hash
-        $filename = bin2hex(random_bytes(16)) . '.' . $extension;
+        $filename = bin2hex(random_bytes(16)) . '.ttf';
         $filePath = $this->fontStoragePath . '/' . $filename;
         
         // Ensure font storage directory exists
@@ -289,11 +289,15 @@ class BrandingService
         $allowedTypes = ['font/ttf', 'application/x-font-ttf', 'application/x-font-truetype', 'font/sfnt'];
         $maxSize = 5 * 1024 * 1024; // 5MB
 
-        // Validate MIME type (TTF can have different MIME types)
-        $mimeType = $file->getMimeType();
+        // Validate file extension
         $extension = strtolower($file->getClientOriginalExtension());
-        
-        if ($extension !== 'ttf' && !in_array($mimeType, $allowedTypes)) {
+        if ($extension !== 'ttf') {
+            throw new \InvalidArgumentException('branding.font.invalid_type');
+        }
+
+        // Validate MIME type
+        $mimeType = $file->getMimeType();
+        if (!in_array($mimeType, $allowedTypes)) {
             throw new \InvalidArgumentException('branding.font.invalid_type');
         }
 
@@ -302,20 +306,20 @@ class BrandingService
             throw new \InvalidArgumentException('branding.font.too_large');
         }
 
-        // Additional validation: check if it's a valid TTF file by reading the header
+        // Additional validation: check if it's a valid TTF/OpenType file by reading the header
         $content = file_get_contents($file->getPathname());
         if (strlen($content) < 4) {
             throw new \InvalidArgumentException('branding.font.invalid_type');
         }
         
-        // TTF files start with specific magic bytes (0x00010000 or 'true' or 'OTTO')
-        // Note: 'OTTO' is for OpenType fonts with CFF data, which are accepted here
-        // as they provide additional flexibility and are commonly used alongside TTF
+        // TTF/OpenType files start with specific magic bytes
+        // Note: Accepts both TrueType (.ttf) and OpenType with CFF (.otf) fonts
+        // This provides flexibility for users while maintaining security
         $header = substr($content, 0, 4);
         $validHeaders = [
             "\x00\x01\x00\x00", // TrueType 1.0
             "true",              // TrueType (Mac)
-            "OTTO",              // OpenType with CFF (accepted for flexibility)
+            "OTTO",              // OpenType with CFF (technically .otf but commonly used)
         ];
         
         $isValid = false;

@@ -458,12 +458,13 @@
 
                                             {% for templateKey, templateInfo in templates %}
                                                 <div class="col-6 col-md-3">
+                                                    {% set isChecked = (branding and branding.cardTemplate == templateKey) or (templateKey == 'default' and (not branding or not branding.cardTemplate)) %}
                                                     <input type="radio" 
                                                            class="btn-check" 
                                                            name="{{ form.cardTemplate.vars.full_name }}" 
                                                            id="template_{{ templateKey }}" 
                                                            value="{{ templateKey }}"
-                                                           {% if (branding and branding.cardTemplate == templateKey) or (not branding and templateKey == 'default') %}checked{% endif %}>
+                                                           {% if isChecked %}checked{% endif %}>
                                                     <label class="btn btn-outline-primary w-100 h-100 p-3 text-center template-card" for="template_{{ templateKey }}" style="min-height: 120px;">
                                                         <i class="{{ templateInfo.icon }} fa-2x mb-2 d-block"></i>
                                                         <strong class="d-block mb-1">{{ templateInfo.name }}</strong>

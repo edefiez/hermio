@@ -26,5 +26,4 @@
 "branding.template.invalid": "Invalid card template"
 "branding.font.invalid_type": "Font must be a valid TTF file"
 "branding.font.too_large": "Font file size must not exceed 5MB"
-
 "branding.template.too_large": "Template content must not exceed 50KB"
